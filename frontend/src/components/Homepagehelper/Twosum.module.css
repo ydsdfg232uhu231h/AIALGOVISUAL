@@ -1,0 +1,95 @@
+.container {
+  background-color: #141210;
+  color: #ffffff;
+  border-radius: 10px;
+  /* font-family: system-ui, sans-serif; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: 100%;
+}
+
+.title {
+  margin: 0 0 10px 0;
+  color: white;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.target {
+  color: white;
+  font-weight: bold;
+}
+
+.arrayContainer {
+  display: flex;
+  gap: 15px;
+  position: relative;
+  padding-bottom: 90px;
+  margin-top: 40px;
+}
+
+.element {
+  width: 70px;
+  height: 70px;
+  border: 2px solid #334155;
+  background-color: #1e293b;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Modifier class applied when indices match the target */
+.elementSuccess {
+  background-color: #065f46 !important;
+  border-color: #10b981 !important;
+  transform: scale(1.05);
+}
+
+.indexLabel {
+  position: absolute;
+  top: -25px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.pointer {
+  position: absolute;
+  bottom: 15px;
+  width: 70px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.leftPointer {
+  color: #38bdf8;
+}
+
+.rightPointer {
+  color: #fb923c;
+}
+
+.ticker {
+  margin-top: 20px;
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #e2e8f0;
+  text-align: center;
+  max-width: 500px;
+}

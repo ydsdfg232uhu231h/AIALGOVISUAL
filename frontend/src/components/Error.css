@@ -1,0 +1,12 @@
+.errorarea{
+    background-color: rgba(240, 68, 68, 0.342);
+    color: rgb(255, 255, 255);
+    padding: 20px;
+    width: 32vw;
+    font-weight: 40px;
+    height: fit-content;
+    border: 5px solid rgb(255, 112, 112);
+    border-radius: 20px;
+    font-size: 16px;
+    margin-top: 20px;
+}

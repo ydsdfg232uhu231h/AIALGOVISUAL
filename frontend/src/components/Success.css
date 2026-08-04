@@ -1,0 +1,26 @@
+#success {
+    background-color: rgb(44, 206, 152);
+    border: 4px solid white;
+    color: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    /* flex-direction: column; */
+    justify-content: center;
+    padding: 10px;
+    position: fixed;
+    top: 70px;
+    right: 5px;
+    z-index: 500;
+}
+#success button{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    padding-bottom: 15px;
+    color: white;
+    
+
+}
