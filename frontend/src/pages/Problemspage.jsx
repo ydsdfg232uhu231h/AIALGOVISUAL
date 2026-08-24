@@ -1,16 +1,18 @@
-import { useLoaderData } from "react-router"
-
+import { useRouteLoaderData,Link } from "react-router"
+import style from "./Problemspage.module.css";
 
  function Problemspage() {
-  const problemdata = useLoaderData();
+  const problemdata = useRouteLoaderData("problems");
   const probdata = problemdata.data;
-  console.log(probdata)
+  
   return (
     <>
+        <h1>DSA Problem</h1>
          <ul>
           {
             probdata.map((mydata, index)=> (
-              <li style={{color: "white", backgroundColor: "transparent"}}  key={mydata.id}>Q{index + 1}. <a href={mydata.url}>{mydata.title}</a> </li>
+              <li id={style.problemques} key={mydata.id}><Link to={`/problems/${mydata.id}`}>Q{index + 1} {mydata.title}</Link></li>
+              
             ))
           }
          </ul>

@@ -4,6 +4,10 @@
     "title": "Two Sum",
     "difficulty": "Easy",
     "topic": "Array & Hash Table",
+    "algorithm": "Hash Table Mapping",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find two array indices whose elements sum up to a target value.",
     "url": "https://leetcode.com/problems/two-sum/"
   },
   {
@@ -11,6 +15,10 @@
     "title": "Add Two Numbers",
     "difficulty": "Medium",
     "topic": "Linked List",
+    "algorithm": "Elementary Addition with Carry",
+    "timeComplexity": "O(max(n, m))",
+    "spaceComplexity": "O(max(n, m))",
+    "oneLinerQuestion": "Add two numbers represented by reversed linked lists and return the sum as a linked list.",
     "url": "https://leetcode.com/problems/add-two-numbers/"
   },
   {
@@ -18,6 +26,10 @@
     "title": "Longest Substring Without Repeating Characters",
     "difficulty": "Medium",
     "topic": "Sliding Window",
+    "algorithm": "Variable Size Sliding Window & Hash Map",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(min(m, n))",
+    "oneLinerQuestion": "Find the length of the longest substring containing no duplicate characters.",
     "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
   },
   {
@@ -25,6 +37,10 @@
     "title": "Median of Two Sorted Arrays",
     "difficulty": "Hard",
     "topic": "Binary Search",
+    "algorithm": "Binary Search on Partition",
+    "timeComplexity": "O(log(min(n, m)))",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the median of two sorted arrays in logarithmic time complexity.",
     "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/"
   },
   {
@@ -32,6 +48,10 @@
     "title": "Longest Palindromic Substring",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "Expand Around Center / DP",
+    "timeComplexity": "O(n^2)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the longest substring in a given string that reads the same backward as forward.",
     "url": "https://leetcode.com/problems/longest-palindromic-substring/"
   },
   {
@@ -39,6 +59,10 @@
     "title": "Container With Most Water",
     "difficulty": "Medium",
     "topic": "Two Pointers",
+    "algorithm": "Two Pointers (Shrinking Window)",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find two vertical lines that together with the x-axis form a container holding maximum water.",
     "url": "https://leetcode.com/problems/container-with-most-water/"
   },
   {
@@ -46,6 +70,10 @@
     "title": "3Sum",
     "difficulty": "Medium",
     "topic": "Two Pointers",
+    "algorithm": "Sorting & Two Pointers",
+    "timeComplexity": "O(n^2)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find all unique triplets in an array that sum to zero.",
     "url": "https://leetcode.com/problems/3sum/"
   },
   {
@@ -53,6 +81,10 @@
     "title": "Letter Combinations of a Phone Number",
     "difficulty": "Medium",
     "topic": "Backtracking",
+    "algorithm": "Backtracking (DFS Tree)",
+    "timeComplexity": "O(4^n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Return all possible letter combinations that a digit string could represent on a phone keypad.",
     "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/"
   },
   {
@@ -60,6 +92,10 @@
     "title": "Remove Nth Node From End of List",
     "difficulty": "Medium",
     "topic": "Linked List",
+    "algorithm": "Fast & Slow Two Pointers",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Remove the nth node from the end of a singly linked list in a single pass.",
     "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/"
   },
   {
@@ -67,6 +103,10 @@
     "title": "Valid Parentheses",
     "difficulty": "Easy",
     "topic": "Stack",
+    "algorithm": "Monotonic Stack / Stack Matching",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Determine if an input string of brackets has correct opening and closing order.",
     "url": "https://leetcode.com/problems/valid-parentheses/"
   },
   {
@@ -74,6 +114,10 @@
     "title": "Merge Two Sorted Lists",
     "difficulty": "Easy",
     "topic": "Linked List",
+    "algorithm": "Iterative Two Pointers / Recursion",
+    "timeComplexity": "O(n + m)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Merge two sorted linked lists into one single sorted list.",
     "url": "https://leetcode.com/problems/merge-two-sorted-lists/"
   },
   {
@@ -81,6 +125,10 @@
     "title": "Generate Parentheses",
     "difficulty": "Medium",
     "topic": "Backtracking",
+    "algorithm": "Constrained Backtracking",
+    "timeComplexity": "O(4^n / sqrt(n))",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Generate all combinations of n pairs of well-formed parentheses.",
     "url": "https://leetcode.com/problems/generate-parentheses/"
   },
   {
@@ -88,6 +136,10 @@
     "title": "Merge k Sorted Lists",
     "difficulty": "Hard",
     "topic": "Heap / Priority Queue",
+    "algorithm": "Min-Heap / Divide and Conquer",
+    "timeComplexity": "O(N log k)",
+    "spaceComplexity": "O(k)",
+    "oneLinerQuestion": "Merge k sorted linked lists into one sorted linked list efficiently.",
     "url": "https://leetcode.com/problems/merge-k-sorted-lists/"
   },
   {
@@ -95,6 +147,10 @@
     "title": "Search in Rotated Sorted Array",
     "difficulty": "Medium",
     "topic": "Binary Search",
+    "algorithm": "Modified Binary Search",
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Search for a target value in a sorted array that has been rotated at an unknown pivot.",
     "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
   },
   {
@@ -102,6 +158,10 @@
     "title": "Find First and Last Position of Element in Sorted Array",
     "difficulty": "Medium",
     "topic": "Binary Search",
+    "algorithm": "Double Binary Search",
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the starting and ending index of a given target value in a sorted array.",
     "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"
   },
   {
@@ -109,6 +169,10 @@
     "title": "Combination Sum",
     "difficulty": "Medium",
     "topic": "Backtracking",
+    "algorithm": "Backtracking (Decision Tree)",
+    "timeComplexity": "O(2^t)",
+    "spaceComplexity": "O(t)",
+    "oneLinerQuestion": "Find all unique combinations of candidate numbers that sum up to a target with unlimited reuse allowed.",
     "url": "https://leetcode.com/problems/combination-sum/"
   },
   {
@@ -116,6 +180,10 @@
     "title": "Trapping Rain Water",
     "difficulty": "Hard",
     "topic": "Two Pointers / Stack",
+    "algorithm": "Two Pointers / Monotonic Stack",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Calculate how much rainwater an elevation map can trap after raining.",
     "url": "https://leetcode.com/problems/trapping-rain-water/"
   },
   {
@@ -123,6 +191,10 @@
     "title": "Permutations",
     "difficulty": "Medium",
     "topic": "Backtracking",
+    "algorithm": "Backtracking & Swapping",
+    "timeComplexity": "O(n * n!)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Return all possible permutations of an array of distinct integers.",
     "url": "https://leetcode.com/problems/permutations/"
   },
   {
@@ -130,6 +202,10 @@
     "title": "Rotate Image",
     "difficulty": "Medium",
     "topic": "Matrix",
+    "algorithm": "Transpose and Reverse Matrix",
+    "timeComplexity": "O(n^2)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Rotate an n x n 2D matrix by 90 degrees clockwise in-place.",
     "url": "https://leetcode.com/problems/rotate-image/"
   },
   {
@@ -137,6 +213,10 @@
     "title": "Group Anagrams",
     "difficulty": "Medium",
     "topic": "Hash Table",
+    "algorithm": "Categorization by Frequency/Sorted Keys",
+    "timeComplexity": "O(n * k log k)",
+    "spaceComplexity": "O(n * k)",
+    "oneLinerQuestion": "Group an array of strings together if they are anagrams of each other.",
     "url": "https://leetcode.com/problems/group-anagrams/"
   },
   {
@@ -144,6 +224,10 @@
     "title": "N-Queens",
     "difficulty": "Hard",
     "topic": "Backtracking",
+    "algorithm": "Backtracking with Diagonal/Column Validation",
+    "timeComplexity": "O(n!)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Place n queens on an n x n chessboard so that no two queens attack each other.",
     "url": "https://leetcode.com/problems/n-queens/"
   },
   {
@@ -151,6 +235,10 @@
     "title": "Maximum Subarray",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "Kadane's Algorithm",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the contiguous subarray with the largest sum.",
     "url": "https://leetcode.com/problems/maximum-subarray/"
   },
   {
@@ -158,6 +246,10 @@
     "title": "Spiral Matrix",
     "difficulty": "Medium",
     "topic": "Matrix",
+    "algorithm": "4-Boundary Traversal",
+    "timeComplexity": "O(m * n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Return all elements of an m x n matrix in spiral order.",
     "url": "https://leetcode.com/problems/spiral-matrix/"
   },
   {
@@ -165,6 +257,10 @@
     "title": "Jump Game",
     "difficulty": "Medium",
     "topic": "Greedy",
+    "algorithm": "Greedy Max Reach Tracking",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Determine if you can reach the last index of an array given maximum jump lengths.",
     "url": "https://leetcode.com/problems/jump-game/"
   },
   {
@@ -172,6 +268,10 @@
     "title": "Merge Intervals",
     "difficulty": "Medium",
     "topic": "Intervals",
+    "algorithm": "Sorting & Linear Sweep",
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Merge all overlapping intervals in an array.",
     "url": "https://leetcode.com/problems/merge-intervals/"
   },
   {
@@ -179,6 +279,10 @@
     "title": "Insert Interval",
     "difficulty": "Medium",
     "topic": "Intervals",
+    "algorithm": "Linear Partition Sweep",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Insert a new interval into a sorted non-overlapping list and merge if necessary.",
     "url": "https://leetcode.com/problems/insert-interval/"
   },
   {
@@ -186,6 +290,10 @@
     "title": "Unique Paths",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "2D Grid DP / Combinatorics",
+    "timeComplexity": "O(m * n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find the number of unique paths from top-left to bottom-right in an m x n grid.",
     "url": "https://leetcode.com/problems/unique-paths/"
   },
   {
@@ -193,6 +301,10 @@
     "title": "Climbing Stairs",
     "difficulty": "Easy",
     "topic": "Dynamic Programming",
+    "algorithm": "Fibonacci Sequence DP",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Count how many distinct ways you can climb n steps taking 1 or 2 steps at a time.",
     "url": "https://leetcode.com/problems/climbing-stairs/"
   },
   {
@@ -200,6 +312,10 @@
     "title": "Edit Distance",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "2D DP (Levenshtein Distance)",
+    "timeComplexity": "O(m * n)",
+    "spaceComplexity": "O(m * n)",
+    "oneLinerQuestion": "Find minimum insertion, deletion, or replacement operations to convert word1 to word2.",
     "url": "https://leetcode.com/problems/edit-distance/"
   },
   {
@@ -207,6 +323,10 @@
     "title": "Search a 2D Matrix",
     "difficulty": "Medium",
     "topic": "Binary Search",
+    "algorithm": "Virtual 1D Binary Search",
+    "timeComplexity": "O(log(m * n))",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Search for a target value in a row-and-column-sorted matrix.",
     "url": "https://leetcode.com/problems/search-a-2d-matrix/"
   },
   {
@@ -214,6 +334,10 @@
     "title": "Minimum Window Substring",
     "difficulty": "Hard",
     "topic": "Sliding Window",
+    "algorithm": "Sliding Window with Character Counts",
+    "timeComplexity": "O(n + m)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the minimum substring in s that contains all characters of string t.",
     "url": "https://leetcode.com/problems/minimum-window-substring/"
   },
   {
@@ -221,6 +345,10 @@
     "title": "Subsets",
     "difficulty": "Medium",
     "topic": "Backtracking",
+    "algorithm": "Cascading / Backtracking / Bitmask",
+    "timeComplexity": "O(n * 2^n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Return the power set (all subsets) of a set of unique elements.",
     "url": "https://leetcode.com/problems/subsets/"
   },
   {
@@ -228,6 +356,10 @@
     "title": "Word Search",
     "difficulty": "Medium",
     "topic": "Backtracking",
+    "algorithm": "2D Grid DFS / Backtracking",
+    "timeComplexity": "O(m * n * 4^L)",
+    "spaceComplexity": "O(L)",
+    "oneLinerQuestion": "Check if a target word exists by connecting adjacent letter cells in a 2D board.",
     "url": "https://leetcode.com/problems/word-search/"
   },
   {
@@ -235,6 +367,10 @@
     "title": "Largest Rectangle in Histogram",
     "difficulty": "Hard",
     "topic": "Stack",
+    "algorithm": "Monotonic Increasing Stack",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find the area of the largest rectangle that can be formed within a histogram.",
     "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/"
   },
   {
@@ -242,6 +378,10 @@
     "title": "Decode Ways",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "1D Linear DP",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Calculate the total number of ways to decode an encoded digit string to letters.",
     "url": "https://leetcode.com/problems/decode-ways/"
   },
   {
@@ -249,6 +389,10 @@
     "title": "Validate Binary Search Tree",
     "difficulty": "Medium",
     "topic": "Tree",
+    "algorithm": "DFS with (Min, Max) Bounds / Inorder",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Determine if a binary tree is a valid Binary Search Tree.",
     "url": "https://leetcode.com/problems/validate-binary-search-tree/"
   },
   {
@@ -256,6 +400,10 @@
     "title": "Same Tree",
     "difficulty": "Easy",
     "topic": "Tree",
+    "algorithm": "Recursive DFS Traversal",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Check if two binary trees are structurally identical with equal node values.",
     "url": "https://leetcode.com/problems/same-tree/"
   },
   {
@@ -263,6 +411,10 @@
     "title": "Binary Tree Level Order Traversal",
     "difficulty": "Medium",
     "topic": "Tree / BFS",
+    "algorithm": "Queue-based BFS Traversal",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(w)",
+    "oneLinerQuestion": "Traverse a binary tree level by level from left to right.",
     "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
   },
   {
@@ -270,6 +422,10 @@
     "title": "Maximum Depth of Binary Tree",
     "difficulty": "Easy",
     "topic": "Tree",
+    "algorithm": "Recursive Bottom-Up DFS",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Find the maximum depth or path height from the root to the farthest leaf node.",
     "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/"
   },
   {
@@ -277,6 +433,10 @@
     "title": "Construct Binary Tree from Preorder and Inorder Traversal",
     "difficulty": "Medium",
     "topic": "Tree",
+    "algorithm": "Divide & Conquer + Hash Map",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Reconstruct a binary tree using its preorder and inorder traversal arrays.",
     "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"
   },
   {
@@ -284,6 +444,10 @@
     "title": "Balanced Binary Tree",
     "difficulty": "Easy",
     "topic": "Tree",
+    "algorithm": "Bottom-Up Height Checking DFS",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Check if the left and right subtrees of every node differ in height by at most 1.",
     "url": "https://leetcode.com/problems/balanced-binary-tree/"
   },
   {
@@ -291,6 +455,10 @@
     "title": "Best Time to Buy and Sell Stock",
     "difficulty": "Easy",
     "topic": "Array / Sliding Window",
+    "algorithm": "Single Pass Track Minimum",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Maximize profit by choosing a single day to buy a stock and a future day to sell it.",
     "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"
   },
   {
@@ -298,6 +466,10 @@
     "title": "Binary Tree Maximum Path Sum",
     "difficulty": "Hard",
     "topic": "Tree / DFS",
+    "algorithm": "Post-Order Recursive Path Sum DFS",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Find the maximum sum of any non-empty path between two nodes in a binary tree.",
     "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/"
   },
   {
@@ -305,6 +477,10 @@
     "title": "Valid Palindrome",
     "difficulty": "Easy",
     "topic": "Two Pointers",
+    "algorithm": "Two Pointers inward scan",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Check if a string is a palindrome after converting to lowercase and removing non-alphanumeric characters.",
     "url": "https://leetcode.com/problems/valid-palindrome/"
   },
   {
@@ -312,6 +488,10 @@
     "title": "Longest Consecutive Sequence",
     "difficulty": "Medium",
     "topic": "Hash Table / Union Find",
+    "algorithm": "Hash Set Sequence Building",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find the length of the longest sequence of consecutive numbers in an unsorted array.",
     "url": "https://leetcode.com/problems/longest-consecutive-sequence/"
   },
   {
@@ -319,6 +499,10 @@
     "title": "Clone Graph",
     "difficulty": "Medium",
     "topic": "Graph / BFS / DFS",
+    "algorithm": "DFS / BFS with Node Hash Map",
+    "timeComplexity": "O(V + E)",
+    "spaceComplexity": "O(V)",
+    "oneLinerQuestion": "Create a deep copy of a connected, undirected graph.",
     "url": "https://leetcode.com/problems/clone-graph/"
   },
   {
@@ -326,6 +510,10 @@
     "title": "Copy List with Random Pointer",
     "difficulty": "Medium",
     "topic": "Linked List",
+    "algorithm": "Interleaved Nodes / Hash Map Lookup",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Deep copy a linked list where each node has a next pointer and a random pointer.",
     "url": "https://leetcode.com/problems/copy-list-with-random-pointer/"
   },
   {
@@ -333,6 +521,10 @@
     "title": "Word Break",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "1D DP / Trie + BFS",
+    "timeComplexity": "O(n^2 * m)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Determine if a string can be segmented into a space-separated sequence of dictionary words.",
     "url": "https://leetcode.com/problems/word-break/"
   },
   {
@@ -340,6 +532,10 @@
     "title": "Linked List Cycle",
     "difficulty": "Easy",
     "topic": "Linked List / Two Pointers",
+    "algorithm": "Floyd's Tortoise and Hare",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Determine if a linked list contains a cycle using two pointer technique.",
     "url": "https://leetcode.com/problems/linked-list-cycle/"
   },
   {
@@ -347,6 +543,10 @@
     "title": "Reorder List",
     "difficulty": "Medium",
     "topic": "Linked List",
+    "algorithm": "Find Mid + Reverse + Merge",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Reorder a linked list to interleave nodes from the start and the end.",
     "url": "https://leetcode.com/problems/reorder-list/"
   },
   {
@@ -354,6 +554,10 @@
     "title": "LRU Cache",
     "difficulty": "Medium",
     "topic": "Design / Hash Table / Doubly Linked List",
+    "algorithm": "Hash Map + Doubly Linked List",
+    "timeComplexity": "O(1) for both get and put",
+    "spaceComplexity": "O(capacity)",
+    "oneLinerQuestion": "Design a Least Recently Used (LRU) cache with O(1) time operations.",
     "url": "https://leetcode.com/problems/lru-cache/"
   },
   {
@@ -361,6 +565,10 @@
     "title": "Evaluate Reverse Polish Notation",
     "difficulty": "Medium",
     "topic": "Stack",
+    "algorithm": "Operand Stack Evaluation",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Evaluate the value of an arithmetic expression written in Reverse Polish Notation (postfix).",
     "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/"
   },
   {
@@ -368,6 +576,10 @@
     "title": "Maximum Product Subarray",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "Track Max and Min Product DP",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find a contiguous non-empty subarray that has the largest product.",
     "url": "https://leetcode.com/problems/maximum-product-subarray/"
   },
   {
@@ -375,6 +587,10 @@
     "title": "Find Minimum in Rotated Sorted Array",
     "difficulty": "Medium",
     "topic": "Binary Search",
+    "algorithm": "Binary Search Pivot Detection",
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the minimum element in a sorted array that has been rotated.",
     "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
   },
   {
@@ -382,6 +598,10 @@
     "title": "Min Stack",
     "difficulty": "Medium",
     "topic": "Stack / Design",
+    "algorithm": "Auxiliary Min Stack Pair",
+    "timeComplexity": "O(1) for all operations",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Design a stack that retrieves the minimum element in O(1) time.",
     "url": "https://leetcode.com/problems/min-stack/"
   },
   {
@@ -389,6 +609,10 @@
     "title": "House Robber",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "1D State Selection DP",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Maximize total stolen amount along a row of houses without robbing two adjacent ones.",
     "url": "https://leetcode.com/problems/house-robber/"
   },
   {
@@ -396,6 +620,10 @@
     "title": "Number of Islands",
     "difficulty": "Medium",
     "topic": "Graph / BFS / DFS",
+    "algorithm": "Grid Flood Fill DFS / BFS",
+    "timeComplexity": "O(m * n)",
+    "spaceComplexity": "O(m * n)",
+    "oneLinerQuestion": "Count the number of 4-directionally connected land islands in a 2D grid.",
     "url": "https://leetcode.com/problems/number-of-islands/"
   },
   {
@@ -403,6 +631,10 @@
     "title": "Reverse Linked List",
     "difficulty": "Easy",
     "topic": "Linked List",
+    "algorithm": "Iterative Three-Pointer Swap",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Reverse a singly linked list iteratively or recursively.",
     "url": "https://leetcode.com/problems/reverse-linked-list/"
   },
   {
@@ -410,6 +642,10 @@
     "title": "Course Schedule",
     "difficulty": "Medium",
     "topic": "Graph / Topological Sort",
+    "algorithm": "Kahn's Algorithm (BFS) / DFS Cycle Detection",
+    "timeComplexity": "O(V + E)",
+    "spaceComplexity": "O(V + E)",
+    "oneLinerQuestion": "Determine if it is possible to finish all courses given their prerequisite dependencies.",
     "url": "https://leetcode.com/problems/course-schedule/"
   },
   {
@@ -417,6 +653,10 @@
     "title": "Implement Trie (Prefix Tree)",
     "difficulty": "Medium",
     "topic": "Trie",
+    "algorithm": "N-ary Tree / Trie Data Structure",
+    "timeComplexity": "O(w) per insert/search",
+    "spaceComplexity": "O(N * w)",
+    "oneLinerQuestion": "Implement a trie supporting insert, search, and startsWith methods.",
     "url": "https://leetcode.com/problems/implement-trie-prefix-tree/"
   },
   {
@@ -424,6 +664,10 @@
     "title": "Course Schedule II",
     "difficulty": "Medium",
     "topic": "Graph / Topological Sort",
+    "algorithm": "Topological Sort (Kahn's / Indegree)",
+    "timeComplexity": "O(V + E)",
+    "spaceComplexity": "O(V + E)",
+    "oneLinerQuestion": "Return the ordering of courses you should take to finish all prerequisite courses.",
     "url": "https://leetcode.com/problems/course-schedule-ii/"
   },
   {
@@ -431,6 +675,10 @@
     "title": "Design Add and Search Words Data Structure",
     "difficulty": "Medium",
     "topic": "Trie",
+    "algorithm": "Trie with Backtracking for Wildcard '.'",
+    "timeComplexity": "O(w) or O(26^w) with wildcards",
+    "spaceComplexity": "O(N * w)",
+    "oneLinerQuestion": "Build a structure that supports adding words and searching with wildcard dots.",
     "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure/"
   },
   {
@@ -438,6 +686,10 @@
     "title": "Word Search II",
     "difficulty": "Hard",
     "topic": "Trie / Backtracking",
+    "algorithm": "Trie + Grid DFS Backtracking",
+    "timeComplexity": "O(m * n * 4^L)",
+    "spaceComplexity": "O(sum of words lengths)",
+    "oneLinerQuestion": "Find all dictionary words that can be constructed on a 2D character board.",
     "url": "https://leetcode.com/problems/word-search-ii/"
   },
   {
@@ -445,6 +697,10 @@
     "title": "House Robber II",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "Dual Pass House Robber (Circular DP)",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Maximize stolen amount in a circular arrangement of houses where first and last are connected.",
     "url": "https://leetcode.com/problems/house-robber-ii/"
   },
   {
@@ -452,6 +708,10 @@
     "title": "Kth Largest Element in an Array",
     "difficulty": "Medium",
     "topic": "Heap / Quickselect",
+    "algorithm": "Quickselect / Min-Heap",
+    "timeComplexity": "O(n) average, O(n log k) Heap",
+    "spaceComplexity": "O(k)",
+    "oneLinerQuestion": "Find the kth largest element in an unsorted array without sorting completely.",
     "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/"
   },
   {
@@ -459,6 +719,10 @@
     "title": "Contains Duplicate",
     "difficulty": "Easy",
     "topic": "Array / Hash Table",
+    "algorithm": "Hash Set Lookup",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Check if any value appears at least twice in an integer array.",
     "url": "https://leetcode.com/problems/contains-duplicate/"
   },
   {
@@ -466,6 +730,10 @@
     "title": "Invert Binary Tree",
     "difficulty": "Easy",
     "topic": "Tree",
+    "algorithm": "Recursive Preorder / Postorder Swap",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Invert a binary tree so that left and right children are swapped recursively.",
     "url": "https://leetcode.com/problems/invert-binary-tree/"
   },
   {
@@ -473,6 +741,10 @@
     "title": "Kth Smallest Element in a BST",
     "difficulty": "Medium",
     "topic": "Tree",
+    "algorithm": "Iterative / Recursive Inorder DFS",
+    "timeComplexity": "O(h + k)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Find the kth smallest value in a Binary Search Tree using inorder property.",
     "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/"
   },
   {
@@ -480,6 +752,10 @@
     "title": "Lowest Common Ancestor of a Binary Search Tree",
     "difficulty": "Medium",
     "topic": "Tree",
+    "algorithm": "BST Range Pointer Traversal",
+    "timeComplexity": "O(h)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the lowest common ancestor node of two given nodes in a BST.",
     "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/"
   },
   {
@@ -487,6 +763,10 @@
     "title": "Product of Array Except Self",
     "difficulty": "Medium",
     "topic": "Array",
+    "algorithm": "Prefix & Suffix Array Accumulation",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Construct an output array where each index equals the product of all array elements except itself.",
     "url": "https://leetcode.com/problems/product-of-array-except-self/"
   },
   {
@@ -494,6 +774,10 @@
     "title": "Sliding Window Maximum",
     "difficulty": "Hard",
     "topic": "Sliding Window / Monotonic Queue",
+    "algorithm": "Monotonic Decreasing Deque",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(k)",
+    "oneLinerQuestion": "Find the maximum element within every sliding window of size k moving across an array.",
     "url": "https://leetcode.com/problems/sliding-window-maximum/"
   },
   {
@@ -501,6 +785,10 @@
     "title": "Valid Anagram",
     "difficulty": "Easy",
     "topic": "Hash Table / String",
+    "algorithm": "Character Frequency Counting Array",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Check if string t is a rearrangement of all the characters of string s.",
     "url": "https://leetcode.com/problems/valid-anagram/"
   },
   {
@@ -508,6 +796,10 @@
     "title": "Missing Number",
     "difficulty": "Easy",
     "topic": "Bit Manipulation / Math",
+    "algorithm": "Gauss Formula / XOR Operation",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the single missing number in an array containing n distinct numbers in range [0, n].",
     "url": "https://leetcode.com/problems/missing-number/"
   },
   {
@@ -515,6 +807,10 @@
     "title": "Find Median from Data Stream",
     "difficulty": "Hard",
     "topic": "Heap / Priority Queue",
+    "algorithm": "Two Heaps (Max-Heap & Min-Heap Balance)",
+    "timeComplexity": "O(log n) insert, O(1) median",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Continuously calculate the median of a stream of incoming data numbers.",
     "url": "https://leetcode.com/problems/find-median-from-data-stream/"
   },
   {
@@ -522,6 +818,10 @@
     "title": "Serialize and Deserialize Binary Tree",
     "difficulty": "Hard",
     "topic": "Tree / Design",
+    "algorithm": "Preorder Traversal String Formatting",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Design an algorithm to convert a binary tree to a string and convert that string back to the tree.",
     "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"
   },
   {
@@ -529,6 +829,10 @@
     "title": "Longest Increasing Subsequence",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "Patience Sorting / Binary Search + DP",
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find the length of the longest strictly increasing subsequence in an array.",
     "url": "https://leetcode.com/problems/longest-increasing-subsequence/"
   },
   {
@@ -536,6 +840,10 @@
     "title": "Coin Change",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "Unbounded Knapsack / Bottom-Up 1D DP",
+    "timeComplexity": "O(amount * n)",
+    "spaceComplexity": "O(amount)",
+    "oneLinerQuestion": "Calculate the fewest coins needed to make up a target amount of money.",
     "url": "https://leetcode.com/problems/coin-change/"
   },
   {
@@ -543,6 +851,10 @@
     "title": "Reconstruct Itinerary",
     "difficulty": "Hard",
     "topic": "Graph / Eulerian Path",
+    "algorithm": "Hierholzer's Algorithm (Post-Order DFS)",
+    "timeComplexity": "O(E log E)",
+    "spaceComplexity": "O(V + E)",
+    "oneLinerQuestion": "Reconstruct a valid flight itinerary that uses all tickets using Eulerian path rules.",
     "url": "https://leetcode.com/problems/reconstruct-itinerary/"
   },
   {
@@ -550,6 +862,10 @@
     "title": "Counting Bits",
     "difficulty": "Easy",
     "topic": "Bit Manipulation / DP",
+    "algorithm": "Bitwise DP Pattern (i >> 1)",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Count set bits (1s) in binary representations for every number from 0 to n.",
     "url": "https://leetcode.com/problems/counting-bits/"
   },
   {
@@ -557,6 +873,10 @@
     "title": "Top K Frequent Elements",
     "difficulty": "Medium",
     "topic": "Heap / Hash Table",
+    "algorithm": "Bucket Sort / Min-Heap",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find the k most frequent elements in an array.",
     "url": "https://leetcode.com/problems/top-k-frequent-elements/"
   },
   {
@@ -564,6 +884,10 @@
     "title": "Design Twitter",
     "difficulty": "Medium",
     "topic": "Design / Heap / Hash Table",
+    "algorithm": "Hash Maps + Priority Queue Merging",
+    "timeComplexity": "O(k log n) feed retrieval",
+    "spaceComplexity": "O(U + T)",
+    "oneLinerQuestion": "Design a simplified social feed allowing users to post tweets, follow/unfollow, and fetch recent feed.",
     "url": "https://leetcode.com/problems/design-twitter/"
   },
   {
@@ -571,6 +895,10 @@
     "title": "Sum of Two Integers",
     "difficulty": "Medium",
     "topic": "Bit Manipulation",
+    "algorithm": "Bitwise XOR Addition & AND Carry",
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Calculate the sum of two integers without using + or - operators.",
     "url": "https://leetcode.com/problems/sum-of-two-integers/"
   },
   {
@@ -578,6 +906,10 @@
     "title": "Partition Equal Subset Sum",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "0/1 Knapsack DP Subset Sum",
+    "timeComplexity": "O(n * target)",
+    "spaceComplexity": "O(target)",
+    "oneLinerQuestion": "Determine if an array can be partitioned into two subsets with equal element sums.",
     "url": "https://leetcode.com/problems/partition-equal-subset-sum/"
   },
   {
@@ -585,6 +917,10 @@
     "title": "Pacific Atlantic Water Flow",
     "difficulty": "Medium",
     "topic": "Graph / BFS / DFS",
+    "algorithm": "Multi-Source Reverse Ocean DFS/BFS",
+    "timeComplexity": "O(m * n)",
+    "spaceComplexity": "O(m * n)",
+    "oneLinerQuestion": "Find all grid cells where water can flow to both Pacific and Atlantic oceans.",
     "url": "https://leetcode.com/problems/pacific-atlantic-water-flow/"
   },
   {
@@ -592,6 +928,10 @@
     "title": "Longest Repeating Character Replacement",
     "difficulty": "Medium",
     "topic": "Sliding Window",
+    "algorithm": "Sliding Window Max Frequency Track",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the length of the longest substring containing the same character after replacing at most k letters.",
     "url": "https://leetcode.com/problems/longest-repeating-character-replacement/"
   },
   {
@@ -599,6 +939,10 @@
     "title": "Non-overlapping Intervals",
     "difficulty": "Medium",
     "topic": "Intervals / Greedy",
+    "algorithm": "Greedy Earliest End Time Selection",
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the minimum number of intervals to remove to make the rest non-overlapping.",
     "url": "https://leetcode.com/problems/non-overlapping-intervals/"
   },
   {
@@ -606,6 +950,10 @@
     "title": "Diameter of Binary Tree",
     "difficulty": "Easy",
     "topic": "Tree",
+    "algorithm": "Post-order Depth-First Traversal",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Calculate the length of the longest path between any two nodes in a binary tree.",
     "url": "https://leetcode.com/problems/diameter-of-binary-tree/"
   },
   {
@@ -613,6 +961,10 @@
     "title": "Permutation in String",
     "difficulty": "Medium",
     "topic": "Sliding Window",
+    "algorithm": "Fixed Size Window Frequency Match",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Check if one string contains a permutation of another string as a substring.",
     "url": "https://leetcode.com/problems/permutation-in-string/"
   },
   {
@@ -620,6 +972,10 @@
     "title": "Subtree of Another Tree",
     "difficulty": "Easy",
     "topic": "Tree",
+    "algorithm": "Recursive Tree Matching / DFS",
+    "timeComplexity": "O(n * m)",
+    "spaceComplexity": "O(h)",
+    "oneLinerQuestion": "Determine if a binary tree is structurally and value-wise identical to a subtree of another.",
     "url": "https://leetcode.com/problems/subtree-of-another-tree/"
   },
   {
@@ -627,6 +983,10 @@
     "title": "Task Scheduler",
     "difficulty": "Medium",
     "topic": "Greedy / Heap",
+    "algorithm": "Max Frequency Math / Max-Heap",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Calculate minimum CPU units required to finish tasks with compulsory cooldown gaps.",
     "url": "https://leetcode.com/problems/task-scheduler/"
   },
   {
@@ -634,6 +994,10 @@
     "title": "Palindromic Substrings",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "Expand Around Center Count",
+    "timeComplexity": "O(n^2)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Count how many total palindromic substrings exist in a given string.",
     "url": "https://leetcode.com/problems/palindromic-substrings/"
   },
   {
@@ -641,6 +1005,10 @@
     "title": "Redundant Connection",
     "difficulty": "Medium",
     "topic": "Graph / Union Find",
+    "algorithm": "Disjoint Set Union (DSU)",
+    "timeComplexity": "O(n * alpha(n))",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find an edge that can be removed to turn a graph back into an unrooted tree.",
     "url": "https://leetcode.com/problems/redundant-connection/"
   },
   {
@@ -648,6 +1016,10 @@
     "title": "Kth Largest Element in a Stream",
     "difficulty": "Easy",
     "topic": "Heap / Priority Queue",
+    "algorithm": "Min-Heap of Fixed Size K",
+    "timeComplexity": "O(log k) per insertion",
+    "spaceComplexity": "O(k)",
+    "oneLinerQuestion": "Design a class that processes stream numbers and continuously maintains the kth largest element.",
     "url": "https://leetcode.com/problems/kth-largest-element-in-a-stream/"
   },
   {
@@ -655,6 +1027,10 @@
     "title": "Binary Search",
     "difficulty": "Easy",
     "topic": "Binary Search",
+    "algorithm": "Classic Iterative Binary Search",
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Search for a target value in a sorted array with logarithmic runtime.",
     "url": "https://leetcode.com/problems/binary-search/"
   },
   {
@@ -662,6 +1038,10 @@
     "title": "Daily Temperatures",
     "difficulty": "Medium",
     "topic": "Monotonic Stack",
+    "algorithm": "Monotonic Decreasing Index Stack",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find how many days you have to wait for a warmer temperature for each day in an array.",
     "url": "https://leetcode.com/problems/daily-temperatures/"
   },
   {
@@ -669,6 +1049,10 @@
     "title": "Min Cost Climbing Stairs",
     "difficulty": "Easy",
     "topic": "Dynamic Programming",
+    "algorithm": "1D State Progression DP",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the minimum cost to reach the top of a staircase taking 1 or 2 steps per turn.",
     "url": "https://leetcode.com/problems/min-cost-climbing-stairs/"
   },
   {
@@ -676,6 +1060,10 @@
     "title": "Swim in Rising Water",
     "difficulty": "Hard",
     "topic": "Graph / Dijkstra / Heap",
+    "algorithm": "Dijkstra's Shortest Path / Min-Heap",
+    "timeComplexity": "O(n^2 log n)",
+    "spaceComplexity": "O(n^2)",
+    "oneLinerQuestion": "Find the minimum water height/time needed to travel from top-left to bottom-right of a grid.",
     "url": "https://leetcode.com/problems/swim-in-rising-water/"
   },
   {
@@ -683,6 +1071,10 @@
     "title": "Cheapest Flights Within K Stops",
     "difficulty": "Medium",
     "topic": "Graph / Bellman-Ford / BFS",
+    "algorithm": "Modified Bellman-Ford / BFS Queue",
+    "timeComplexity": "O(K * E)",
+    "spaceComplexity": "O(V)",
+    "oneLinerQuestion": "Find the cheapest price from a source to destination city with at most K flight stops.",
     "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/"
   },
   {
@@ -690,6 +1082,10 @@
     "title": "Car Fleet",
     "difficulty": "Medium",
     "topic": "Stack",
+    "algorithm": "Sort by Position + Stack Arrival Times",
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Determine how many car fleets will arrive at a target destination.",
     "url": "https://leetcode.com/problems/car-fleet/"
   },
   {
@@ -697,6 +1093,10 @@
     "title": "Koko Eating Bananas",
     "difficulty": "Medium",
     "topic": "Binary Search",
+    "algorithm": "Binary Search on Solution Space",
+    "timeComplexity": "O(n log(max(P)))",
+    "spaceComplexity": "O(1)",
+    "oneLinerQuestion": "Find the minimum integer eating speed k to eat all bananas within h hours.",
     "url": "https://leetcode.com/problems/koko-eating-bananas/"
   },
   {
@@ -704,6 +1104,10 @@
     "title": "K Closest Points to Origin",
     "difficulty": "Medium",
     "topic": "Heap / Geometry",
+    "algorithm": "Max-Heap / Quickselect",
+    "timeComplexity": "O(n log k)",
+    "spaceComplexity": "O(k)",
+    "oneLinerQuestion": "Find the k closest 2D coordinate points to the origin (0,0).",
     "url": "https://leetcode.com/problems/k-closest-points-to-origin/"
   },
   {
@@ -711,6 +1115,10 @@
     "title": "Time Based Key-Value Store",
     "difficulty": "Medium",
     "topic": "Binary Search / Hash Table",
+    "algorithm": "Hash Map + Binary Search on Timestamps",
+    "timeComplexity": "O(log n) for get, O(1) for set",
+    "spaceComplexity": "O(N)",
+    "oneLinerQuestion": "Design a key-value data structure that stores values at specific timestamps and retrieves them efficiently.",
     "url": "https://leetcode.com/problems/time-based-key-value-store/"
   },
   {
@@ -718,6 +1126,10 @@
     "title": "Rotting Oranges",
     "difficulty": "Medium",
     "topic": "Graph / BFS",
+    "algorithm": "Multi-Source BFS Grid Traversal",
+    "timeComplexity": "O(m * n)",
+    "spaceComplexity": "O(m * n)",
+    "oneLinerQuestion": "Find the minimum minutes required until no rotten orange is adjacent to a fresh one.",
     "url": "https://leetcode.com/problems/rotting-oranges/"
   },
   {
@@ -725,6 +1137,10 @@
     "title": "Last Stone Weight",
     "difficulty": "Easy",
     "topic": "Heap / Priority Queue",
+    "algorithm": "Max-Heap Collision Simulation",
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Simulate smashing the two heaviest stones together repeatedly until at most 1 stone remains.",
     "url": "https://leetcode.com/problems/last-stone-weight/"
   },
   {
@@ -732,6 +1148,10 @@
     "title": "Longest Common Subsequence",
     "difficulty": "Medium",
     "topic": "Dynamic Programming",
+    "algorithm": "2D Matrix Grid DP",
+    "timeComplexity": "O(m * n)",
+    "spaceComplexity": "O(m * n)",
+    "oneLinerQuestion": "Find the length of the longest sub-sequence shared between two strings.",
     "url": "https://leetcode.com/problems/longest-common-subsequence/"
   },
   {
@@ -739,6 +1159,10 @@
     "title": "Min Cost to Connect All Points",
     "difficulty": "Medium",
     "topic": "Graph / Minimum Spanning Tree",
+    "algorithm": "Prim's / Kruskal's MST Algorithm",
+    "timeComplexity": "O(n^2)",
+    "spaceComplexity": "O(n)",
+    "oneLinerQuestion": "Find the minimum total cost to connect all 2D points into a single connected component.",
     "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/"
   }
 ]

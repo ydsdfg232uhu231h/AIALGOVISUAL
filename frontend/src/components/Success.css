@@ -24,3 +24,29 @@
     
 
 }
+#poperror{
+    background-color: rgb(206, 49, 44);
+    border: 4px solid white;
+    color: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    /* flex-direction: column; */
+    justify-content: center;
+    padding: 10px;
+    position: fixed;
+    top: 70px;
+    right: 5px;
+    z-index: 500;
+}
+#poperror button{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    padding-bottom: 15px;
+    color: white;
+    
+
+}

@@ -1,27 +1,42 @@
 import './Success.css';
-import { useEffect, useState } from 'react';
-import Modal from './Modal';
+import { useState } from 'react';
+import Modal from './Modal.jsx';
+import Loading from './Loading';
 export default function Success({message}){
-    const [showsuccess,setshowsuccess] = useState(false);
-    
-    useEffect(()=>{
-        function Mysuccess(){
-            setshowsuccess(true);
+    const [showsuccess,setshowsuccess] = useState(true);
 
-        }
-        Mysuccess();
-      
-    },[showsuccess]);
     function handleshow(){
-        setshowsuccess(false);
+        setshowsuccess(!showsuccess);
     }
     return (
     <>
     <Modal>
-        {showsuccess && <div id='success'>
+        {showsuccess ? <div id='success'>
             <h1>{message}</h1>
             <button onClick={handleshow}>x</button> 
-        </div>}
+        </div>: <div>
+            <Loading/>
+            </div>}
+    </Modal>
+    
+    </>
+    );
+}
+export function PopError({message}){
+    const [showerror,setshowerror] = useState(true);
+
+    function handleshow(){
+        setshowerror(!showerror);
+    }
+    return (
+    <>
+    <Modal>
+        {showerror ? <div id='poperror'>
+            <h1>{message}</h1>
+            <button onClick={handleshow}>x</button> 
+        </div>: <div>
+            <Loading/>
+            </div>}
     </Modal>
     
     </>

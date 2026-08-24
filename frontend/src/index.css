@@ -27,6 +27,7 @@ main {
   width: 100vw;
   height: 100vh;
   margin: 0px 15px;
+  padding-right: 35px; 
   overflow: hidden;
   overflow-y: scroll;
   /* overflow-x: hidden;  */
@@ -270,173 +271,21 @@ header#mylayout nav ul li:first-child {
     flex-direction: column;
   }
 }
-#probdis{
-  display: flex;
-  width: 100%;
-  height: 90%;
-}
-
-#probques{
-  /* background-color: aqua; */
-  width: 15vw;
-  border-right: 2px solid white;
-  height: auto;
-  color: white;
-}
-#probques .myarrow{
-  display: flex;
-  align-items: center;
-  word-spacing: 12px;
-  letter-spacing: 1px;
-}
-#probques .myarrow h4{
-  padding-right: 5px;
-}
-#probques #quesinput{
-  width: 200px;
-  border: 2px solid white;
-  background-color: transparent;
-  color: white;
-  border-radius: 10px;
-  
-  height: 40px;
-}
-#probques div#quesinput{
-  border-color: aliceblue;
-}
-#probques div#quesinput h1{
-  display: flex;
-  align-items: center;
-  align-items: center;
-}
-#probques div#quesinput h1 svg{
-  margin-bottom: 6px;
-  margin-right: 10px;
- 
-}
-#probques div#quesinput h1 svg#searchmenu{
-  margin-bottom: 6px;
-  margin-left: 40px;
- 
-}
-#probans{
-  width: 85vw;
-  height: auto;
-}
-#probans .box1{
-  background-color: aliceblue;
-  color: black;
-  height: 60px;
-  width: 90%;
-  margin: 20px;
-  margin-top: 25px;
-  border-radius: 10px;
-  border-right: 5px solid green;
-  border-bottom: 5px solid green;
-}
-#probans .box1.b1{
-  height: 100px;
-  margin-top: 60px;
-}
-
-#probans .box2{
-  background-color: aliceblue;
-  color: black;
-  margin-left: auto;
-  margin-right: 100px;
-  margin-top: 90px;
-  height: 330px;
-  width: 30%;
-  border-radius: 10px;
-  border-right: 5px solid green;
-  border-bottom: 5px solid green;
-}
-#probans .box2.b2{
-  height: 140px;
-  margin-top: 15px;
- 
-}
-#probans .box2 .box22{
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  padding-top: 10px;
-}
-#probans .box2 .box22 h2#ma{
-  margin: 2px;
-  margin-left: auto;
-  
-}
-#probans .box2 .box22 h2{
-  border: 2px solid black;
-  padding: 5px;
-  border-radius: 10px;
-  margin-right: 10px;
-  /* display: flex;
-  align-items: center; */
-}
-#probans .box3{
-  width: 350px;
-  height: 50px;
-  border-radius: 10px;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-top: -835px;
-  margin-left: auto;
-  margin-right: 100px;
-  border-right: 5px solid green;
-  border-bottom: 5px solid green;
-  background-color: white;
-}
-
-#probans .box4{
-  width: 600px;
-  height: 100px;
-  margin-top: -50px;
-  margin-left: 30px;  
-  color: white;
-}
 
 
-#probans .box4 .box44{
-  border-radius: 10px;
-  border-right: 5px solid green;
-  border-bottom: 5px solid green;
-  background-color: aliceblue;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-  width: 600px;
-}
-#probans .box5{
-  background-color: transparent;
-  color: white;
-  width: 45vw;
-  height: 430px;
-  margin-top: 80px;
-  margin-left: 30px;
-  border: 2px solid white;
-}
 
-/* 1. Global Box Constraints & Wrapper */
 .editor-wrapper {
   position: relative;
   background-color: #1e1e1e;
   border-radius: 6px;
-  height: 265px; /* Locked to your requested 265px box height */
+  height: 265px;
   overflow: hidden;
-  
-  /* Reset values applied to children via inherit */
   font-family: 'Courier New', Courier, monospace !important;
   font-size: 14px !important;
-  line-height: 25px !important; /* Locked to match your 25px line height constraint */
+  line-height: 25px !important;
 }
 
-/* 2. Standardize Both Layers */
+
 .code-container,
 .code-input {
   margin: 0 !important;
@@ -449,11 +298,10 @@ header#mylayout nav ul li:first-child {
   white-space: pre !important;
 }
 
-/* 3. CodeBlock Display Layer Styles */
 .code-container {
   padding: 16px 0;
   counter-reset: line;
-  pointer-events: none; /* Let text clicks bypass layout to hit textarea below */
+  pointer-events: none; 
   height: 265px;
   background-color: #141210;
   overflow-x: auto;
@@ -466,7 +314,7 @@ header#mylayout nav ul li:first-child {
 .code-line {
   counter-increment: line;
   display: flex;
-  height: 25px; /* Locked to your requested 25px height per line */
+  height: 25px; 
 }
 
 .code-line::before {
@@ -483,7 +331,7 @@ header#mylayout nav ul li:first-child {
   color: white;
 }
 
-/* 4. Interactive Input Textarea Layer Styles */
+
 .code-input {
   position: absolute;
   top: 0;
@@ -491,18 +339,17 @@ header#mylayout nav ul li:first-child {
   width: 100%;
   height: 100%;
   
-  /* Critical Offset: 16px Top/Bottom to match container padding. 
-     66px Left clears the 50px line number container width + 16px right padding */
+  
   padding: 16px 0px 16px 66px !important; 
   
   background: transparent;
-  color: transparent; /* Hides native string values to avoid double-text layouts */
-  caret-color: #ffffff; /* Preserves flashing layout text cursor */
+  color: transparent; 
+  caret-color: #ffffff; 
   resize: none;
   overflow: auto;
 }
 
-/* 5. Scrollbar Cleanup overrides */
+
 .code-input::-webkit-scrollbar {
   display: none !important;
 }

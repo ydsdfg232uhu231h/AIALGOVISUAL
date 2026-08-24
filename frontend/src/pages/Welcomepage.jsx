@@ -2,7 +2,11 @@
 
 function Welcomepage() {
   return (
-    <div>Welcomepage</div>
+    <>
+    <div>
+     <h1>Welcome user</h1>
+    </div>
+    </>
   )
 }
 

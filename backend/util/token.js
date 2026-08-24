@@ -10,19 +10,16 @@ export const createToken = (id, email, expiresIn) => {
 }
 
 export const verifyToken = async (req, res, next) => {
-    const token = req.signedCookies[COOKIES_NAME];
-    console.log("mytoken",token)
+    const token = req.signedCookies[`${COOKIES_NAME}`];
+    
     if (!token || token.trim() === "") {
         return res.status(401).json({ message: "Token not Resived" });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, success) => {
+     jwt.verify(token, process.env.JWT_SECRET, (err, success) => {
         if (err) {
-            return res.status(401).json({ message: "Token Expired" });
+            return res.status(401).json({ message: `Token Expired ${err}` });
         }
-
-        console.log("Token Verification Successful");
-        
         res.locals.jwtData = success;
         next();
 

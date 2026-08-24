@@ -1,8 +1,20 @@
   import TwoSumVisualizer from "../components/Homepagehelper/Twosumpage.jsx";
   import TwoSumComplexityVisualizer from "../components/Homepagehelper/Cases.jsx";
-
+import {useNavigate} from "react-router";
 
 function Homepage() {
+
+  const navigate = useNavigate();
+  function handleDSAClick({a}){
+    if (a== "DSA") {
+      navigate("/problems");
+    }else if(a== "Problem"){
+      navigate("/problems/1");
+    }
+  }
+
+
+
   return (
     <>
       <div className="myhome">
@@ -10,7 +22,7 @@ function Homepage() {
             <h5>watch algorithm</h5>
             <h1>Algorithm You can see.</h1>
             <p>Every pattern, stepped through one frame at a time — pointers gliding, trees recursing, DP tables filling in. Press play and watch the idea unfold.</p>
-            <button>Start with DSA →</button>
+            <button onClick={()=>handleDSAClick({a: "DSA"})}>Start with DSA →</button>
         </div>
         <div className="b2">
           <TwoSumVisualizer/>
@@ -24,7 +36,7 @@ function Homepage() {
 
             <h1>watch analyzation of Your Problems.</h1>
             <p> Master algorithmic efficiency with our interactive visualizer. Our platform maps best-case, worst-case, and average-case time and space complexities in real time, transforming abstract Big O notation into clear, actionable visual insights for developers and engineers.</p>
-            <button id="btn2">See it on real problem →</button>
+            <button id="btn2" onClick={()=>handleDSAClick({a: "Problem"})}>See it on real problem →</button>
         </div>
         </div>        
     </>

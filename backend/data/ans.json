@@ -1,0 +1,744 @@
+[
+  {
+    "id": 1,
+    "title": "Two Sum",
+    "question": "Find two array indices whose elements sum up to a target value.",
+    "explanation": "We iterate through the array while maintaining a hash map of numbers seen so far and their indices. For each number, we check if target - current number exists in the map. If found, we return both indices. This resolves the problem in a single pass with O(n) time and O(n) space.",
+    "pseudoCode": "FUNCTION twoSum(nums, target):\n    map = EMPTY_HASH_MAP()\n    FOR i FROM 0 TO LENGTH(nums) - 1 DO:\n        complement = target - nums[i]\n        IF complement IN map THEN RETURN [map[complement], i]\n        map[nums[i]] = i\n    END FOR\n    RETURN []\nEND FUNCTION"
+  },
+  {
+    "id": 2,
+    "title": "Add Two Numbers",
+    "question": "Add two numbers represented by reversed linked lists and return the sum as a linked list.",
+    "explanation": "We traverse both linked lists node by node, summing corresponding digits along with any carry from the previous position. We create new nodes for the ones digit of each sum and propagate the carry to the next iteration, effectively simulating column-by-column addition in O(max(N, M)) time.",
+    "pseudoCode": "FUNCTION addTwoNumbers(l1, l2):\n    dummy = NEW Node(0), curr = dummy, carry = 0\n    WHILE l1 OR l2 OR carry DO:\n        val1 = l1 ? l1.val : 0\n        val2 = l2 ? l2.val : 0\n        sum = val1 + val2 + carry\n        carry = sum / 10\n        curr.next = NEW Node(sum % 10)\n        curr = curr.next\n        IF l1 THEN l1 = l1.next\n        IF l2 THEN l2 = l2.next\n    END WHILE\n    RETURN dummy.next\nEND FUNCTION"
+  },
+  {
+    "id": 3,
+    "title": "Longest Substring Without Repeating Characters",
+    "question": "Find the length of the longest substring containing no duplicate characters.",
+    "explanation": "We use a sliding window approach maintained by two pointers (left and right) along with a set of visited characters. As the right pointer expands the window, if a duplicate is found, the left pointer shrinks the window from the left until all characters inside the window are unique again.",
+    "pseudoCode": "FUNCTION lengthOfLongestSubstring(s):\n    charSet = EMPTY_SET(), left = 0, maxLength = 0\n    FOR right FROM 0 TO LENGTH(s) - 1 DO:\n        WHILE s[right] IN charSet DO:\n            REMOVE s[left] FROM charSet\n            left = left + 1\n        END WHILE\n        ADD s[right] TO charSet\n        maxLength = MAX(maxLength, right - left + 1)\n    END FOR\n    RETURN maxLength\nEND FUNCTION"
+  },
+  {
+    "id": 4,
+    "title": "Median of Two Sorted Arrays",
+    "question": "Find the median of two sorted arrays in logarithmic time complexity.",
+    "explanation": "We apply binary search on the smaller of the two sorted arrays to partition both arrays into equal left and right halves. We adjust the binary search range until all elements in the left partition are less than or equal to all elements in the right partition, yielding O(log(min(m, n))) time.",
+    "pseudoCode": "FUNCTION findMedianSortedArrays(nums1, nums2):\n    IF LENGTH(nums1) > LENGTH(nums2) THEN RETURN findMedianSortedArrays(nums2, nums1)\n    m = LENGTH(nums1), n = LENGTH(nums2), low = 0, high = m\n    WHILE low <= high DO:\n        i = (low + high) / 2, j = (m + n + 1) / 2 - i\n        maxLeft1 = (i == 0) ? -INF : nums1[i-1]\n        minRight1 = (i == m) ? INF : nums1[i]\n        maxLeft2 = (j == 0) ? -INF : nums2[j-1]\n        minRight2 = (j == n) ? INF : nums2[j]\n        IF maxLeft1 <= minRight2 AND maxLeft2 <= minRight1 THEN:\n            IF (m + n) % 2 == 0 THEN RETURN (MAX(maxLeft1, maxLeft2) + MIN(minRight1, minRight2)) / 2.0\n            ELSE RETURN MAX(maxLeft1, maxLeft2)\n        ELSE IF maxLeft1 > minRight2 THEN high = i - 1\n        ELSE low = i + 1\n    END WHILE\nEND FUNCTION"
+  },
+  {
+    "id": 5,
+    "title": "Longest Palindromic Substring",
+    "question": "Find the longest substring in a given string that reads the same backward as forward.",
+    "explanation": "Every palindrome centers around either a single character (odd length) or two adjacent equal characters (even length). We iterate through each index of the string, treating it as the center, and expand outward as long as the surrounding characters match.",
+    "pseudoCode": "FUNCTION longestPalindrome(s):\n    res = ''\n    FOR i FROM 0 TO LENGTH(s) - 1 DO:\n        p1 = expandAroundCenter(s, i, i)\n        p2 = expandAroundCenter(s, i, i + 1)\n        IF LENGTH(p1) > LENGTH(res) THEN res = p1\n        IF LENGTH(p2) > LENGTH(res) THEN res = p2\n    END FOR\n    RETURN res\nEND FUNCTION\n\nFUNCTION expandAroundCenter(s, l, r):\n    WHILE l >= 0 AND r < LENGTH(s) AND s[l] == s[r] DO:\n        l = l - 1, r = r + 1\n    END WHILE\n    RETURN SUBSTRING(s, l + 1, r)\nEND FUNCTION"
+  },
+  {
+    "id": 11,
+    "title": "Container With Most Water",
+    "question": "Find two vertical lines that together with the x-axis form a container holding maximum water.",
+    "explanation": "We place pointers at both ends of the array. The area is constrained by the shorter line, so at each step we calculate the current container volume and then move the pointer pointing to the shorter height inward, attempting to find a taller boundary.",
+    "pseudoCode": "FUNCTION maxArea(height):\n    left = 0, right = LENGTH(height) - 1, maxW = 0\n    WHILE left < right DO:\n        area = (right - left) * MIN(height[left], height[right])\n        maxW = MAX(maxW, area)\n        IF height[left] < height[right] THEN left = left + 1\n        ELSE right = right - 1\n    END WHILE\n    RETURN maxW\nEND FUNCTION"
+  },
+  {
+    "id": 15,
+    "title": "3Sum",
+    "question": "Find all unique triplets in an array that sum to zero.",
+    "explanation": "First sort the array to handle duplicates easily. Iterate through each element as a fixed target, then use a two-pointer approach on the remaining right portion of the array to find pairs that sum to the negated target value.",
+    "pseudoCode": "FUNCTION threeSum(nums):\n    SORT(nums), res = []\n    FOR i FROM 0 TO LENGTH(nums) - 3 DO:\n        IF i > 0 AND nums[i] == nums[i-1] THEN CONTINUE\n        l = i + 1, r = LENGTH(nums) - 1\n        WHILE l < r DO:\n            sum = nums[i] + nums[l] + nums[r]\n            IF sum == 0 THEN:\n                APPEND [nums[i], nums[l], nums[r]] TO res\n                WHILE l < r AND nums[l] == nums[l+1] DO l = l + 1\n                WHILE l < r AND nums[r] == nums[r-1] DO r = r - 1\n                l = l + 1, r = r - 1\n            ELSE IF sum < 0 THEN l = l + 1\n            ELSE r = r - 1\n        END WHILE\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 17,
+    "title": "Letter Combinations of a Phone Number",
+    "question": "Return all possible letter combinations that a digit string could represent on a phone keypad.",
+    "explanation": "Using backtracking (depth-first search), we process the string digit by digit. For each digit, we loop through all corresponding characters mapped on a phone keypad and recurse to construct all valid decision path combinations.",
+    "pseudoCode": "FUNCTION letterCombinations(digits):\n    IF digits IS EMPTY THEN RETURN []\n    map = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl', '6':'mno', '7':'pqrs', '8':'tuv', '9':'wxyz'}\n    res = []\n    FUNCTION backtrack(index, currentStr):\n        IF index == LENGTH(digits) THEN APPEND currentStr TO res; RETURN\n        FOR char IN map[digits[index]] DO:\n            backtrack(index + 1, currentStr + char)\n        END FOR\n    END FUNCTION\n    backtrack(0, '')\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 19,
+    "title": "Remove Nth Node From End of List",
+    "question": "Remove the nth node from the end of a singly linked list in a single pass.",
+    "explanation": "We use two pointers separated by n steps. When the fast pointer reaches the end of the list, the slow pointer will be positioned right before the target node, allowing us to bypass it in O(1) extra space and O(N) time.",
+    "pseudoCode": "FUNCTION removeNthFromEnd(head, n):\n    dummy = NEW Node(0, head), fast = dummy, slow = dummy\n    FOR i FROM 0 TO n DO fast = fast.next\n    WHILE fast IS NOT NULL DO:\n        fast = fast.next, slow = slow.next\n    END WHILE\n    slow.next = slow.next.next\n    RETURN dummy.next\nEND FUNCTION"
+  },
+  {
+    "id": 20,
+    "title": "Valid Parentheses",
+    "question": "Determine if an input string of brackets has correct opening and closing order.",
+    "explanation": "We push opening brackets onto a stack. When encountering a closing bracket, we check if it matches the top element of the stack. If it matches, we pop it; otherwise, or if the stack is empty, the string is invalid.",
+    "pseudoCode": "FUNCTION isValid(s):\n    stack = EMPTY_STACK()\n    bracketMap = {')': '(', '}': '{', ']': '['}\n    FOR char IN s DO:\n        IF char IN bracketMap.values() THEN PUSH char TO stack\n        ELSE IF char IN bracketMap.keys() THEN:\n            IF stack IS EMPTY OR TOP(stack) != bracketMap[char] THEN RETURN False\n            POP stack\n        END IF\n    END FOR\n    RETURN IS_EMPTY(stack)\nEND FUNCTION"
+  },
+  {
+    "id": 21,
+    "title": "Merge Two Sorted Lists",
+    "question": "Merge two sorted linked lists into one single sorted list.",
+    "explanation": "We compare the current nodes of both lists using a dummy starting node. We attach the smaller node to the merged list and advance its pointer until one list is exhausted, then append the remaining nodes.",
+    "pseudoCode": "FUNCTION mergeTwoLists(l1, l2):\n    dummy = NEW Node(0), curr = dummy\n    WHILE l1 IS NOT NULL AND l2 IS NOT NULL DO:\n        IF l1.val <= l2.val THEN curr.next = l1; l1 = l1.next\n        ELSE curr.next = l2; l2 = l2.next\n        curr = curr.next\n    END WHILE\n    curr.next = l1 ? l1 : l2\n    RETURN dummy.next\nEND FUNCTION"
+  },
+  {
+    "id": 22,
+    "title": "Generate Parentheses",
+    "question": "Generate all combinations of n pairs of well-formed parentheses.",
+    "explanation": "We build valid strings recursively using backtracking. An open parenthesis can be added if the count is under n, and a closing parenthesis can only be added if it does not exceed the count of currently open parentheses.",
+    "pseudoCode": "FUNCTION generateParenthesis(n):\n    res = []\n    FUNCTION backtrack(openCount, closeCount, current):\n        IF LENGTH(current) == 2 * n THEN APPEND current TO res; RETURN\n        IF openCount < n THEN backtrack(openCount + 1, closeCount, current + '(')\n        IF closeCount < openCount THEN backtrack(openCount, closeCount + 1, current + ')')\n    END FUNCTION\n    backtrack(0, 0, '')\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 23,
+    "title": "Merge k Sorted Lists",
+    "question": "Merge k sorted linked lists into one sorted linked list efficiently.",
+    "pseudoCode": "FUNCTION mergeKLists(lists):\n    minHeap = NEW MinHeap()\n    FOR EACH list IN lists DO:\n        IF list IS NOT NULL THEN minHeap.PUSH(list)\n    END FOR\n    dummy = NEW Node(0), curr = dummy\n    WHILE minHeap IS NOT EMPTY DO:\n        node = minHeap.POP()\n        curr.next = node\n        curr = curr.next\n        IF node.next IS NOT NULL THEN minHeap.PUSH(node.next)\n    END WHILE\n    RETURN dummy.next\nEND FUNCTION",
+    "explanation": "We insert the head node of each of the k linked lists into a min-heap. We repeatedly extract the smallest node from the min-heap, append it to our result list, and push its next node into the heap, achieving O(N log k) time."
+  },
+  {
+    "id": 33,
+    "title": "Search in Rotated Sorted Array",
+    "question": "Search for a target value in a sorted array that has been rotated at an unknown pivot.",
+    "explanation": "In a rotated sorted array, at least one half (left or right) is guaranteed to be strictly sorted at any step. Using modified binary search, we determine which half is sorted and check if the target falls within its range to eliminate half the search space.",
+    "pseudoCode": "FUNCTION search(nums, target):\n    low = 0, high = LENGTH(nums) - 1\n    WHILE low <= high DO:\n        mid = (low + high) / 2\n        IF nums[mid] == target THEN RETURN mid\n        IF nums[low] <= nums[mid] THEN:\n            IF nums[low] <= target AND target < nums[mid] THEN high = mid - 1\n            ELSE low = mid + 1\n        ELSE:\n            IF nums[mid] < target AND target <= nums[high] THEN low = mid + 1\n            ELSE high = mid - 1\n    END WHILE\n    RETURN -1\nEND FUNCTION"
+  },
+  {
+    "id": 34,
+    "title": "Find First and Last Position of Element in Sorted Array",
+    "question": "Find the starting and ending index of a given target value in a sorted array.",
+    "explanation": "We execute binary search twice: once configured to continue searching left upon finding target to record the leftmost index, and once configured to continue searching right to record the rightmost index.",
+    "pseudoCode": "FUNCTION searchRange(nums, target):\n    first = findBound(nums, target, True)\n    IF first == -1 THEN RETURN [-1, -1]\n    last = findBound(nums, target, False)\n    RETURN [first, last]\nEND FUNCTION\n\nFUNCTION findBound(nums, target, isFirst):\n    low = 0, high = LENGTH(nums) - 1, idx = -1\n    WHILE low <= high DO:\n        mid = (low + high) / 2\n        IF nums[mid] == target THEN:\n            idx = mid\n            IF isFirst THEN high = mid - 1 ELSE low = mid + 1\n        ELSE IF nums[mid] < target THEN low = mid + 1\n        ELSE high = mid - 1\n    END WHILE\n    RETURN idx\nEND FUNCTION"
+  },
+  {
+    "id": 39,
+    "title": "Combination Sum",
+    "question": "Find all unique combinations of candidate numbers that sum up to a target with unlimited reuse allowed.",
+    "explanation": "Using depth-first search with backtracking, we explore paths where each candidate can be reused repeatedly until the current running sum equals or exceeds the target.",
+    "pseudoCode": "FUNCTION combinationSum(candidates, target):\n    res = []\n    FUNCTION backtrack(idx, current, sum):\n        IF sum == target THEN APPEND COPY(current) TO res; RETURN\n        IF sum > target OR idx >= LENGTH(candidates) THEN RETURN\n        APPEND candidates[idx] TO current\n        backtrack(idx, current, sum + candidates[idx])\n        POP current\n        backtrack(idx + 1, current, sum)\n    END FUNCTION\n    backtrack(0, [], 0)\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 42,
+    "title": "Trapping Rain Water",
+    "question": "Calculate how much rainwater an elevation map can trap after raining.",
+    "explanation": "We maintain two pointers (left and right) and track leftMax and rightMax values. The trapped water over any bar is dictated by min(leftMax, rightMax) - height[i], allowing us to calculate total trapped water in O(n) time and O(1) auxiliary space.",
+    "pseudoCode": "FUNCTION trap(height):\n    l = 0, r = LENGTH(height) - 1, leftMax = 0, rightMax = 0, water = 0\n    WHILE l < r DO:\n        IF height[l] < height[r] THEN:\n            IF height[l] >= leftMax THEN leftMax = height[l]\n            ELSE water = water + (leftMax - height[l])\n            l = l + 1\n        ELSE:\n            IF height[r] >= rightMax THEN rightMax = height[r]\n            ELSE water = water + (rightMax - height[r])\n            r = r - 1\n    END WHILE\n    RETURN water\nEND FUNCTION"
+  },
+  {
+    "id": 46,
+    "title": "Permutations",
+    "question": "Return all possible permutations of an array of distinct integers.",
+    "explanation": "Using backtracking, we iteratively swap the current element with all subsequent positions to systematically construct every distinct arrangement of elements in O(N!) time.",
+    "pseudoCode": "FUNCTION permute(nums):\n    res = []\n    FUNCTION backtrack(start):\n        IF start == LENGTH(nums) THEN APPEND COPY(nums) TO res; RETURN\n        FOR i FROM start TO LENGTH(nums) - 1 DO:\n            SWAP(nums[start], nums[i])\n            backtrack(start + 1)\n            SWAP(nums[start], nums[i])\n        END FOR\n    END FUNCTION\n    backtrack(0)\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 48,
+    "title": "Rotate Image",
+    "question": "Rotate an n x n 2D matrix by 90 degrees clockwise in-place.",
+    "explanation": "A 90-degree clockwise rotation is mathematically equivalent to transposing the matrix (swapping rows with columns across the main diagonal) and then reversing every individual row.",
+    "pseudoCode": "FUNCTION rotate(matrix):\n    n = LENGTH(matrix)\n    FOR i FROM 0 TO n - 1 DO:\n        FOR j FROM i TO n - 1 DO:\n            SWAP(matrix[i][j], matrix[j][i])\n        END FOR\n    END FOR\n    FOR i FROM 0 TO n - 1 DO:\n        REVERSE(matrix[i])\n    END FOR\nEND FUNCTION"
+  },
+  {
+    "id": 49,
+    "title": "Group Anagrams",
+    "question": "Group an array of strings together if they are anagrams of each other.",
+    "explanation": "Since anagrams have identical character counts, sorting the string alphabetically yields a canonical key. We map this sorted key to a list of original words in a hash map.",
+    "pseudoCode": "FUNCTION groupAnagrams(strs):\n    map = EMPTY_HASH_MAP()\n    FOR str IN strs DO:\n        key = SORT_CHARACTERS(str)\n        IF key NOT IN map THEN map[key] = []\n        APPEND str TO map[key]\n    END FOR\n    RETURN VALUES(map)\nEND FUNCTION"
+  },
+  {
+    "id": 51,
+    "title": "N-Queens",
+    "question": "Place n queens on an n x n chessboard so that no two queens attack each other.",
+    "explanation": "We place queens row by row using backtracking while tracking occupied columns and positive/negative diagonals using hash sets to prevent conflicting placements.",
+    "pseudoCode": "FUNCTION solveNQueens(n):\n    res = [], cols = SET(), posDiag = SET(), negDiag = SET(), board = MATRIX(n, n, '.')\n    FUNCTION backtrack(r):\n        IF r == n THEN APPEND FORMAT(board) TO res; RETURN\n        FOR c FROM 0 TO n - 1 DO:\n            IF c IN cols OR (r+c) IN posDiag OR (r-c) IN negDiag THEN CONTINUE\n            ADD c TO cols, ADD r+c TO posDiag, ADD r-c TO negDiag\n            board[r][c] = 'Q'\n            backtrack(r + 1)\n            REMOVE c FROM cols, REMOVE r+c FROM posDiag, REMOVE r-c FROM negDiag\n            board[r][c] = '.'\n        END FOR\n    END FUNCTION\n    backtrack(0)\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 53,
+    "title": "Maximum Subarray",
+    "question": "Find the contiguous subarray with the largest sum.",
+    "explanation": "Using Kadane's algorithm, we iterate through the array maintaining a running maximum sum. If the sum drops below zero, we reset it to zero since a negative sum cannot contribute to a larger future subarray.",
+    "pseudoCode": "FUNCTION maxSubArray(nums):\n    maxSum = nums[0], currSum = nums[0]\n    FOR i FROM 1 TO LENGTH(nums) - 1 DO:\n        currSum = MAX(nums[i], currSum + nums[i])\n        maxSum = MAX(maxSum, currSum)\n    END FOR\n    RETURN maxSum\nEND FUNCTION"
+  },
+  {
+    "id": 54,
+    "title": "Spiral Matrix",
+    "question": "Return all elements of an m x n matrix in spiral order.",
+    "explanation": "We maintain four boundaries: top, bottom, left, and right. We traverse along the top boundary, right boundary, bottom boundary, and left boundary sequentially while shrinking boundaries inward until all elements are collected.",
+    "pseudoCode": "FUNCTION spiralOrder(matrix):\n    top = 0, bottom = LENGTH(matrix) - 1, left = 0, right = LENGTH(matrix[0]) - 1, res = []\n    WHILE top <= bottom AND left <= right DO:\n        FOR i FROM left TO right DO APPEND matrix[top][i] TO res\n        top = top + 1\n        FOR i FROM top TO bottom DO APPEND matrix[i][right] TO res\n        right = right - 1\n        IF top <= bottom THEN\n            FOR i FROM right DOWN TO left DO APPEND matrix[bottom][i] TO res\n            bottom = bottom - 1\n        END IF\n        IF left <= right THEN\n            FOR i FROM bottom DOWN TO top DO APPEND matrix[i][left] TO res\n            left = left + 1\n        END IF\n    END WHILE\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 55,
+    "title": "Jump Game",
+    "question": "Determine if you can reach the last index of an array given maximum jump lengths.",
+    "explanation": "Using a greedy approach, we track the furthest reachable index as we traverse the array. If our current index ever exceeds this maximum reachable index, reaching the end is impossible.",
+    "pseudoCode": "FUNCTION canJump(nums):\n    maxReach = 0\n    FOR i FROM 0 TO LENGTH(nums) - 1 DO:\n        IF i > maxReach THEN RETURN False\n        maxReach = MAX(maxReach, i + nums[i])\n    END FOR\n    RETURN True\nEND FUNCTION"
+  },
+  {
+    "id": 56,
+    "title": "Merge Intervals",
+    "question": "Merge all overlapping intervals in an array.",
+    "explanation": "Sort intervals by their start times. Iterate through them, merging adjacent intervals whenever the current interval's start time is less than or equal to the previous interval's end time.",
+    "pseudoCode": "FUNCTION merge(intervals):\n    SORT(intervals BY start_time), merged = []\n    FOR interval IN intervals DO:\n        IF merged IS EMPTY OR LAST(merged).end < interval.start THEN APPEND interval TO merged\n        ELSE LAST(merged).end = MAX(LAST(merged).end, interval.end)\n    END FOR\n    RETURN merged\nEND FUNCTION"
+  },
+  {
+    "id": 57,
+    "title": "Insert Interval",
+    "question": "Insert a new interval into a sorted non-overlapping list and merge if necessary.",
+    "explanation": "Iterate through the sorted intervals in three steps: push all intervals that end before the new interval starts, merge all overlapping intervals into the new interval, then push remaining intervals.",
+    "pseudoCode": "FUNCTION insert(intervals, newInterval):\n    res = [], i = 0, n = LENGTH(intervals)\n    WHILE i < n AND intervals[i].end < newInterval.start DO:\n        APPEND intervals[i] TO res; i = i + 1\n    END WHILE\n    WHILE i < n AND intervals[i].start <= newInterval.end DO:\n        newInterval.start = MIN(newInterval.start, intervals[i].start)\n        newInterval.end = MAX(newInterval.end, intervals[i].end)\n        i = i + 1\n    END WHILE\n    APPEND newInterval TO res\n    WHILE i < n DO APPEND intervals[i] TO res; i = i + 1\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 62,
+    "title": "Unique Paths",
+    "question": "Find the number of unique paths from top-left to bottom-right in an m x n grid.",
+    "explanation": "Since movement is restricted to moving down or right, the number of paths to reach cell (i, j) is the sum of paths to (i-1, j) and (i, j-1). We solve this dynamically using a 1D DP array.",
+    "pseudoCode": "FUNCTION uniquePaths(m, n):\n    row = ARRAY_OF_SIZE(n, INITIAL_VALUE = 1)\n    FOR i FROM 1 TO m - 1 DO:\n        newRow = ARRAY_OF_SIZE(n, INITIAL_VALUE = 1)\n        FOR j FROM 1 TO n - 1 DO:\n            newRow[j] = newRow[j - 1] + row[j]\n        END FOR\n        row = newRow\n    END FOR\n    RETURN row[n - 1]\nEND FUNCTION"
+  },
+  {
+    "id": 70,
+    "title": "Climbing Stairs",
+    "question": "Count how many distinct ways you can climb n steps taking 1 or 2 steps at a time.",
+    "explanation": "This follows the Fibonacci sequence pattern: the number of ways to reach step n is the sum of ways to reach step n-1 and step n-2. We track the last two results with O(1) memory.",
+    "pseudoCode": "FUNCTION climbStairs(n):\n    IF n <= 2 THEN RETURN n\n    one = 1, two = 2\n    FOR i FROM 3 TO n DO:\n        temp = one + two\n        one = two\n        two = temp\n    END FOR\n    RETURN two\nEND FUNCTION"
+  },
+  {
+    "id": 72,
+    "title": "Edit Distance",
+    "question": "Find minimum insertion, deletion, or replacement operations to convert word1 to word2.",
+    "explanation": "We fill a 2D dynamic programming table where dp[i][j] represents the minimum ops to convert prefix word1[0..i] to word2[0..j]. If characters match, no action is needed; otherwise take 1 + min of insert, delete, replace.",
+    "pseudoCode": "FUNCTION minDistance(word1, word2):\n    m = LENGTH(word1), n = LENGTH(word2), dp = MATRIX(m + 1, n + 1, 0)\n    FOR i FROM 0 TO m DO dp[i][0] = i\n    FOR j FROM 0 TO n DO dp[0][j] = j\n    FOR i FROM 1 TO m DO:\n        FOR j FROM 1 TO n DO:\n            IF word1[i-1] == word2[j-1] THEN dp[i][j] = dp[i-1][j-1]\n            ELSE dp[i][j] = 1 + MIN(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])\n        END FOR\n    END FOR\n    RETURN dp[m][n]\nEND FUNCTION"
+  },
+  {
+    "id": 74,
+    "title": "Search a 2D Matrix",
+    "question": "Search for a target value in a row-and-column-sorted matrix.",
+    "explanation": "Treat the m x n matrix as a single 1D flattened array of size m * n. Standard binary search is applied by translating index `mid` to matrix position `matrix[mid / n][mid % n]`.",
+    "pseudoCode": "FUNCTION searchMatrix(matrix, target):\n    m = LENGTH(matrix), n = LENGTH(matrix[0]), low = 0, high = m * n - 1\n    WHILE low <= high DO:\n        mid = (low + high) / 2\n        val = matrix[mid / n][mid % n]\n        IF val == target THEN RETURN True\n        ELSE IF val < target THEN low = mid + 1\n        ELSE high = mid - 1\n    END WHILE\n    RETURN False\nEND FUNCTION"
+  },
+  {
+    "id": 76,
+    "title": "Minimum Window Substring",
+    "question": "Find the minimum substring in s that contains all characters of string t.",
+    "explanation": "We use a sliding window. We expand the right pointer to include characters until all required frequency requirements for string t are satisfied, then contract the left pointer to find the minimal valid window size.",
+    "pseudoCode": "FUNCTION minWindow(s, t):\n    IF t IS EMPTY THEN RETURN ''\n    countT = FREQ_MAP(t), window = EMPTY_MAP(), have = 0, need = LENGTH(countT)\n    res = [-1, -1], resLen = INF, l = 0\n    FOR r FROM 0 TO LENGTH(s) - 1 DO:\n        c = s[r]; window[c] = window[c] + 1\n        IF c IN countT AND window[c] == countT[c] THEN have = have + 1\n        WHILE have == need DO:\n            IF (r - l + 1) < resLen THEN res = [l, r]; resLen = r - l + 1\n            window[s[l]] = window[s[l]] - 1\n            IF s[l] IN countT AND window[s[l]] < countT[s[l]] THEN have = have - 1\n            l = l + 1\n        END WHILE\n    END FOR\n    RETURN resLen != INF ? SUBSTRING(s, res[0], res[1] + 1) : ''\nEND FUNCTION"
+  },
+  {
+    "id": 78,
+    "title": "Subsets",
+    "question": "Return the power set (all subsets) of a set of unique elements.",
+    "explanation": "At each element index during depth-first traversal, we branch into two choices: either include the current number in the subset or exclude it, yielding all 2^N total subsets.",
+    "pseudoCode": "FUNCTION subsets(nums):\n    res = []\n    FUNCTION backtrack(i, curr):\n        IF i == LENGTH(nums) THEN APPEND COPY(curr) TO res; RETURN\n        APPEND nums[i] TO curr\n        backtrack(i + 1, curr)\n        POP curr\n        backtrack(i + 1, curr)\n    END FUNCTION\n    backtrack(0, [])\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 79,
+    "title": "Word Search",
+    "question": "Check if a target word exists by connecting adjacent letter cells in a 2D board.",
+    "explanation": "Perform depth-first search from every cell matching the first letter of the target word. Recursively explore adjacent 4-directional cells, marking visited paths temporally to prevent duplicate character usage.",
+    "pseudoCode": "FUNCTION exist(board, word):\n    ROWS = LENGTH(board), COLS = LENGTH(board[0])\n    FUNCTION dfs(r, c, i):\n        IF i == LENGTH(word) THEN RETURN True\n        IF r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR board[r][c] != word[i] THEN RETURN False\n        temp = board[r][c]; board[r][c] = '#'\n        found = dfs(r+1,c,i+1) OR dfs(r-1,c,i+1) OR dfs(r,c+1,i+1) OR dfs(r,c-1,i+1)\n        board[r][c] = temp\n        RETURN found\n    END FUNCTION\n    FOR r FROM 0 TO ROWS - 1 DO:\n        FOR c FROM 0 TO COLS - 1 DO:\n            IF dfs(r, c, 0) THEN RETURN True\n        END FOR\n    END FOR\n    RETURN False\nEND FUNCTION"
+  },
+  {
+    "id": 84,
+    "title": "Largest Rectangle in Histogram",
+    "question": "Find the area of the largest rectangle that can be formed within a histogram.",
+    "explanation": "We use a monotonic increasing stack storing bar indices. When encountering a shorter bar, we pop taller bars from the stack, calculating the area rectangle bounded by the height of each popped bar.",
+    "pseudoCode": "FUNCTION largestRectangleArea(heights):\n    stack = EMPTY_STACK(), maxArea = 0, n = LENGTH(heights)\n    FOR i FROM 0 TO n DO:\n        h = (i == n) ? 0 : heights[i]\n        WHILE NOT IS_EMPTY(stack) AND heights[TOP(stack)] > h DO:\n            height = heights[POP(stack)]\n            width = IS_EMPTY(stack) ? i : i - TOP(stack) - 1\n            maxArea = MAX(maxArea, height * width)\n        END WHILE\n        PUSH i TO stack\n    END FOR\n    RETURN maxArea\nEND FUNCTION"
+  },
+  {
+    "id": 91,
+    "title": "Decode Ways",
+    "question": "Calculate the total number of ways to decode an encoded digit string to letters.",
+    "explanation": "Using 1D dynamic programming, dp[i] represents decoding possibilities up to index i. Single-digit decodings (1-9) add dp[i-1], while double-digit combinations (10-26) add dp[i-2].",
+    "pseudoCode": "FUNCTION numDecodings(s):\n    IF s[0] == '0' THEN RETURN 0\n    dp = ARRAY_OF_SIZE(LENGTH(s) + 1, INITIAL_VALUE = 0)\n    dp[0] = 1, dp[1] = 1\n    FOR i FROM 2 TO LENGTH(s) DO:\n        one = INT(SUBSTRING(s, i-1, i))\n        two = INT(SUBSTRING(s, i-2, i))\n        IF one >= 1 THEN dp[i] = dp[i] + dp[i-1]\n        IF two >= 10 AND two <= 26 THEN dp[i] = dp[i] + dp[i-2]\n    END FOR\n    RETURN dp[LENGTH(s)]\nEND FUNCTION"
+  },
+  {
+    "id": 98,
+    "title": "Validate Binary Search Tree",
+    "question": "Determine if a binary tree is a valid Binary Search Tree.",
+    "explanation": "Recursively validate the tree by passing down allowable min and max boundary values for each node. Every node's value must strictly lie within its active (min, max) range.",
+    "pseudoCode": "FUNCTION isValidBST(root):\n    FUNCTION validate(node, minVal, maxVal):\n        IF node IS NULL THEN RETURN True\n        IF node.val <= minVal OR node.val >= maxVal THEN RETURN False\n        RETURN validate(node.left, minVal, node.val) AND validate(node.right, node.val, maxVal)\n    END FUNCTION\n    RETURN validate(root, -INFINITY, INFINITY)\nEND FUNCTION"
+  },
+  {
+    "id": 100,
+    "title": "Same Tree",
+    "question": "Check if two binary trees are structurally identical with equal node values.",
+    "explanation": "Traverse both trees simultaneously using depth-first search. At each node, check if both are NULL (true), one is NULL (false), or their values differ (false), then recurse left and right.",
+    "pseudoCode": "FUNCTION isSameTree(p, q):\n    IF p IS NULL AND q IS NULL THEN RETURN True\n    IF p IS NULL OR q IS NULL OR p.val != q.val THEN RETURN False\n    RETURN isSameTree(p.left, q.left) AND isSameTree(p.right, q.right)\nEND FUNCTION"
+  },
+  {
+    "id": 102,
+    "title": "Binary Tree Level Order Traversal",
+    "question": "Traverse a binary tree level by level from left to right.",
+    "explanation": "We use a queue to perform Breadth-First Search (BFS). In each iteration, we snapshot queue size to process all nodes belonging to the current level before moving to child nodes.",
+    "pseudoCode": "FUNCTION levelOrder(root):\n    IF root IS NULL THEN RETURN []\n    queue = [root], res = []\n    WHILE queue IS NOT EMPTY DO:\n        levelSize = LENGTH(queue), currentLevel = []\n        FOR i FROM 1 TO levelSize DO:\n            node = DEQUEUE(queue)\n            APPEND node.val TO currentLevel\n            IF node.left THEN ENQUEUE(queue, node.left)\n            IF node.right THEN ENQUEUE(queue, node.right)\n        END FOR\n        APPEND currentLevel TO res\n    END WHILE\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 104,
+    "title": "Maximum Depth of Binary Tree",
+    "question": "Find the maximum depth or path height from the root to the farthest leaf node.",
+    "explanation": "Using depth-first search recursion, the maximum depth of a binary tree node is 1 + maximum depth among its left and right subtrees.",
+    "pseudoCode": "FUNCTION maxDepth(root):\n    IF root IS NULL THEN RETURN 0\n    RETURN 1 + MAX(maxDepth(root.left), maxDepth(root.right))\nEND FUNCTION"
+  },
+  {
+    "id": 105,
+    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "question": "Reconstruct a binary tree using its preorder and inorder traversal arrays.",
+    "explanation": "The first element in the preorder traversal gives the root. Finding this value in the inorder traversal splits the tree into distinct left and right subtrees, allowing recursive reconstruction.",
+    "pseudoCode": "FUNCTION buildTree(preorder, inorder):\n    IF preorder IS EMPTY OR inorder IS EMPTY THEN RETURN NULL\n    root = NEW Node(preorder[0])\n    mid = INDEX_OF(inorder, preorder[0])\n    root.left = buildTree(preorder[1 TO mid+1], inorder[0 TO mid])\n    root.right = buildTree(preorder[mid+1 TO END], inorder[mid+1 TO END])\n    RETURN root\nEND FUNCTION"
+  },
+  {
+    "id": 110,
+    "title": "Balanced Binary Tree",
+    "question": "Check if the left and right subtrees of every node differ in height by at most 1.",
+    "explanation": "Perform a bottom-up depth-first traversal returning height. If any subtree is unbalanced (height difference > 1), propagate -1 upward to short-circuit calculation to O(N) time.",
+    "pseudoCode": "FUNCTION isBalanced(root):\n    FUNCTION checkHeight(node):\n        IF node IS NULL THEN RETURN 0\n        leftH = checkHeight(node.left)\n        rightH = checkHeight(node.right)\n        IF leftH == -1 OR rightH == -1 OR ABS(leftH - rightH) > 1 THEN RETURN -1\n        RETURN 1 + MAX(leftH, rightH)\n    END FUNCTION\n    RETURN checkHeight(root) != -1\nEND FUNCTION"
+  },
+  {
+    "id": 121,
+    "title": "Best Time to Buy and Sell Stock",
+    "question": "Maximize profit by choosing a single day to buy a stock and a future day to sell it.",
+    "explanation": "Traverse prices keeping track of the minimum price observed so far. At each step, calculate potential profit if sold today and update the global maximum profit.",
+    "pseudoCode": "FUNCTION maxProfit(prices):\n    minPrice = INFINITY, maxProf = 0\n    FOR price IN prices DO:\n        IF price < minPrice THEN minPrice = price\n        ELSE IF price - minPrice > maxProf THEN maxProf = price - minPrice\n    END FOR\n    RETURN maxProf\nEND FUNCTION"
+  },
+  {
+    "id": 124,
+    "title": "Binary Tree Maximum Path Sum",
+    "question": "Find the maximum sum of any non-empty path between two nodes in a binary tree.",
+    "explanation": "For each node, compute max gains from left and right children (ignoring negative gains). The maximum path centered at this node is node.val + leftGain + rightGain; update global max.",
+    "pseudoCode": "FUNCTION maxPathSum(root):\n    maxSum = -INFINITY\n    FUNCTION getMaxGain(node):\n        IF node IS NULL THEN RETURN 0\n        leftGain = MAX(getMaxGain(node.left), 0)\n        rightGain = MAX(getMaxGain(node.right), 0)\n        maxSum = MAX(maxSum, node.val + leftGain + rightGain)\n        RETURN node.val + MAX(leftGain, rightGain)\n    END FUNCTION\n    getMaxGain(root)\n    RETURN maxSum\nEND FUNCTION"
+  },
+  {
+    "id": 125,
+    "title": "Valid Palindrome",
+    "question": "Check if a string is a palindrome after converting to lowercase and removing non-alphanumeric characters.",
+    "explanation": "Use two pointers starting at left and right boundaries. Skip non-alphanumeric characters and compare lowercase equivalents until pointers meet.",
+    "pseudoCode": "FUNCTION isPalindrome(s):\n    l = 0, r = LENGTH(s) - 1\n    WHILE l < r DO:\n        WHILE l < r AND NOT IS_ALPHANUMERIC(s[l]) DO l = l + 1\n        WHILE l < r AND NOT IS_ALPHANUMERIC(s[r]) DO r = r - 1\n        IF LOWERCASE(s[l]) != LOWERCASE(s[r]) THEN RETURN False\n        l = l + 1, r = r - 1\n    END WHILE\n    RETURN True\nEND FUNCTION"
+  },
+  {
+    "id": 128,
+    "title": "Longest Consecutive Sequence",
+    "question": "Find the length of the longest sequence of consecutive numbers in an unsorted array.",
+    "explanation": "Store elements in a Hash Set. Only start counting a consecutive sequence if `(num - 1)` is absent in the set, ensuring each number sequence is traversed only once in O(N) time.",
+    "pseudoCode": "FUNCTION longestConsecutive(nums):\n    numSet = SET(nums), longest = 0\n    FOR num IN numSet DO:\n        IF (num - 1) NOT IN numSet THEN:\n            length = 1\n            WHILE (num + length) IN numSet DO length = length + 1\n            longest = MAX(longest, length)\n        END IF\n    END FOR\n    RETURN longest\nEND FUNCTION"
+  },
+  {
+    "id": 133,
+    "title": "Clone Graph",
+    "question": "Create a deep copy of a connected, undirected graph.",
+    "explanation": "Use Depth First Search (DFS) along with a hash map mapping original nodes to cloned nodes. Clone original nodes on first visit and recursively attach cloned neighbor connections.",
+    "pseudoCode": "FUNCTION cloneGraph(node):\n    IF node IS NULL THEN RETURN NULL\n    visited = EMPTY_HASH_MAP()\n    FUNCTION dfs(n):\n        IF n IN visited THEN RETURN visited[n]\n        copy = NEW Node(n.val)\n        visited[n] = copy\n        FOR neighbor IN n.neighbors DO:\n            APPEND dfs(neighbor) TO copy.neighbors\n        END FOR\n        RETURN copy\n    END FUNCTION\n    RETURN dfs(node)\nEND FUNCTION"
+  },
+  {
+    "id": 138,
+    "title": "Copy List with Random Pointer",
+    "question": "Deep copy a linked list where each node has a next pointer and a random pointer.",
+    "explanation": "Pass 1: Traverse original list and populate a hash map mapping each original node to its new cloned node copy. Pass 2: Link the cloned nodes' `next` and `random` pointers using the hash map.",
+    "pseudoCode": "FUNCTION copyRandomList(head):\n    IF head IS NULL THEN RETURN NULL\n    oldToNew = EMPTY_HASH_MAP(), curr = head\n    WHILE curr IS NOT NULL DO:\n        oldToNew[curr] = NEW Node(curr.val)\n        curr = curr.next\n    END WHILE\n    curr = head\n    WHILE curr IS NOT NULL DO:\n        oldToNew[curr].next = oldToNew[curr.next]\n        oldToNew[curr].random = oldToNew[curr.random]\n        curr = curr.next\n    END WHILE\n    RETURN oldToNew[head]\nEND FUNCTION"
+  },
+  {
+    "id": 139,
+    "title": "Word Break",
+    "question": "Determine if a string can be segmented into a space-separated sequence of dictionary words.",
+    "explanation": "Work backward using a dynamic programming array dp[i] indicating whether substring s[i..n] can be segmented. If s[i..i+len] matches a dictionary word, set dp[i] = dp[i + len].",
+    "pseudoCode": "FUNCTION wordBreak(s, wordDict):\n    dp = ARRAY_OF_SIZE(LENGTH(s) + 1, INITIAL_VALUE = False)\n    dp[LENGTH(s)] = True\n    FOR i FROM LENGTH(s) - 1 DOWN TO 0 DO:\n        FOR w IN wordDict DO:\n            IF (i + LENGTH(w)) <= LENGTH(s) AND SUBSTRING(s, i, i + LENGTH(w)) == w THEN:\n                dp[i] = dp[i + LENGTH(w)]\n            IF dp[i] THEN BREAK\n        END FOR\n    END FOR\n    RETURN dp[0]\nEND FUNCTION"
+  },
+  {
+    "id": 141,
+    "title": "Linked List Cycle",
+    "question": "Determine if a linked list contains a cycle using two pointer technique.",
+    "explanation": "Floyd's Cycle-Finding Algorithm uses two pointers moving at different speeds (slow moves 1 step, fast moves 2 steps). If a cycle exists, the fast pointer will eventually overlap the slow pointer.",
+    "pseudoCode": "FUNCTION hasCycle(head):\n    slow = head, fast = head\n    WHILE fast IS NOT NULL AND fast.next IS NOT NULL DO:\n        slow = slow.next\n        fast = fast.next.next\n        IF slow == fast THEN RETURN True\n    END WHILE\n    RETURN False\nEND FUNCTION"
+  },
+  {
+    "id": 143,
+    "title": "Reorder List",
+    "question": "Reorder a linked list to interleave nodes from the start and the end.",
+    "explanation": "1. Find middle node using fast/slow pointers. 2. Reverse second half of linked list in-place. 3. Merge first half and reversed second half alternately.",
+    "pseudoCode": "FUNCTION reorderList(head):\n    slow = head, fast = head.next\n    WHILE fast AND fast.next DO slow = slow.next; fast = fast.next.next\n    second = slow.next; slow.next = NULL; prev = NULL\n    WHILE second DO temp = second.next; second.next = prev; prev = second; second = temp\n    first = head; second = prev\n    WHILE second DO\n        t1 = first.next, t2 = second.next\n        first.next = second; second.next = t1\n        first = t1; second = t2\n    END WHILE\nEND FUNCTION"
+  },
+  {
+    "id": 146,
+    "title": "LRU Cache",
+    "question": "Design a Least Recently Used (LRU) cache with O(1) time operations.",
+    "explanation": "Combine a Hash Map with a Doubly Linked List. Map stores keys pointing directly to list nodes for O(1) lookups, while list tracks usage ordering (MRU at head, LRU at tail).",
+    "pseudoCode": "CLASS LRUCache:\n    CONSTRUCTOR(capacity):\n        cap = capacity, cache = HASH_MAP(), left = Node(0,0), right = Node(0,0)\n        left.next = right; right.prev = left\n    FUNCTION get(key):\n        IF key IN cache THEN REMOVE(cache[key]); INSERT(cache[key]); RETURN cache[key].val\n        RETURN -1\n    FUNCTION put(key, value):\n        IF key IN cache THEN REMOVE(cache[key])\n        cache[key] = NEW Node(key, value); INSERT(cache[key])\n        IF LENGTH(cache) > cap THEN:\n            lru = left.next; REMOVE(lru); DELETE cache[lru.key]\nEND CLASS"
+  },
+  {
+    "id": 150,
+    "title": "Evaluate Reverse Polish Notation",
+    "question": "Evaluate the value of an arithmetic expression written in Reverse Polish Notation (postfix).",
+    "explanation": "Push numbers onto stack. When an operator is encountered, pop two numbers, perform operation (second pop OP first pop), and push result back onto stack.",
+    "pseudoCode": "FUNCTION evalRPN(tokens):\n    stack = EMPTY_STACK()\n    FOR t IN tokens DO:\n        IF t IS OPERATOR THEN:\n            b = POP(stack), a = POP(stack)\n            PUSH APPLY_OP(a, b, t) TO stack\n        ELSE PUSH INT(t) TO stack\n    END FOR\n    RETURN POP(stack)\nEND FUNCTION"
+  },
+  {
+    "id": 152,
+    "title": "Maximum Product Subarray",
+    "question": "Find a contiguous non-empty subarray that has the largest product.",
+    "explanation": "Track both running current max product and current min product (because multiplying two negative numbers creates a large positive product). Swap min/max whenever a negative number is encountered.",
+    "pseudoCode": "FUNCTION maxProduct(nums):\n    res = MAX(nums), curMin = 1, curMax = 1\n    FOR n IN nums DO:\n        temp = curMax * n\n        curMax = MAX(n, temp, curMin * n)\n        curMin = MIN(n, temp, curMin * n)\n        res = MAX(res, curMax)\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 153,
+    "title": "Find Minimum in Rotated Sorted Array",
+    "question": "Find the minimum element in a sorted array that has been rotated.",
+    "explanation": "Apply binary search: if mid element is greater than or equal to left element, pivot/minimum lies in right half; otherwise it lies in left half.",
+    "pseudoCode": "FUNCTION findMin(nums):\n    l = 0, r = LENGTH(nums) - 1, res = nums[0]\n    WHILE l <= r DO:\n        IF nums[l] < nums[r] THEN res = MIN(res, nums[l]); BREAK\n        m = (l + r) / 2\n        res = MIN(res, nums[m])\n        IF nums[m] >= nums[l] THEN l = m + 1\n        ELSE r = m - 1\n    END WHILE\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 155,
+    "title": "Min Stack",
+    "question": "Design a stack that retrieves the minimum element in O(1) time.",
+    "explanation": "Maintain an auxiliary minStack parallel to the main stack. At each push step, append min(val, top of minStack) onto minStack so current minimum is always stored at top.",
+    "pseudoCode": "CLASS MinStack:\n    CONSTRUCTOR(): stack = [], minStack = []\n    FUNCTION push(val):\n        PUSH val TO stack\n        val = MIN(val, IS_EMPTY(minStack) ? val : TOP(minStack))\n        PUSH val TO minStack\n    FUNCTION pop(): POP stack; POP minStack\n    FUNCTION top(): RETURN TOP(stack)\n    FUNCTION getMin(): RETURN TOP(minStack)\nEND CLASS"
+  },
+  {
+    "id": 198,
+    "title": "House Robber",
+    "question": "Maximize total stolen amount along a row of houses without robbing two adjacent ones.",
+    "explanation": "At house i, maximum profit is max(nums[i] + rob1, rob2), where rob1 is max profit 2 houses back and rob2 is max profit 1 house back.",
+    "pseudoCode": "FUNCTION rob(nums):\n    rob1 = 0, rob2 = 0\n    FOR n IN nums DO:\n        temp = MAX(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    END FOR\n    RETURN rob2\nEND FUNCTION"
+  },
+  {
+    "id": 200,
+    "title": "Number of Islands",
+    "question": "Count the number of 4-directionally connected land islands in a 2D grid.",
+    "explanation": "Iterate through matrix. When seeing '1', increment island count and fire BFS/DFS to sink all connected land ('1' -> '0') to prevent double counting.",
+    "pseudoCode": "FUNCTION numIslands(grid):\n    IF grid IS EMPTY THEN RETURN 0\n    count = 0, ROWS = LENGTH(grid), COLS = LENGTH(grid[0])\n    FUNCTION dfs(r, c):\n        IF r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR grid[r][c] == '0' THEN RETURN\n        grid[r][c] = '0'\n        dfs(r+1, c); dfs(r-1, c); dfs(r, c+1); dfs(r, c-1)\n    END FUNCTION\n    FOR r FROM 0 TO ROWS - 1 DO:\n        FOR c FROM 0 TO COLS - 1 DO:\n            IF grid[r][c] == '1' THEN count = count + 1; dfs(r, c)\n        END FOR\n    END FOR\n    RETURN count\nEND FUNCTION"
+  },
+  {
+    "id": 206,
+    "title": "Reverse Linked List",
+    "question": "Reverse a singly linked list iteratively or recursively.",
+    "explanation": "Maintain `prev` (NULL) and `curr` (head). Save `curr.next`, redirect `curr.next = prev`, shift `prev = curr` and `curr = next` until traversal finishes.",
+    "pseudoCode": "FUNCTION reverseList(head):\n    prev = NULL, curr = head\n    WHILE curr IS NOT NULL DO:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    END WHILE\n    RETURN prev\nEND FUNCTION"
+  },
+  {
+    "id": 207,
+    "title": "Course Schedule",
+    "question": "Determine if it is possible to finish all courses given their prerequisite dependencies.",
+    "explanation": "Detect cycle in directed graph using DFS or Kahn's topological sort (BFS in-degree). If a cycle exists, completing all courses is impossible.",
+    "pseudoCode": "FUNCTION canFinish(numCourses, prerequisites):\n    preMap = HASH_MAP_OF_LISTS(), visited = SET()\n    FOR req IN prerequisites DO APPEND req[1] TO preMap[req[0]]\n    FUNCTION dfs(crs):\n        IF crs IN visited THEN RETURN False\n        IF preMap[crs] IS EMPTY THEN RETURN True\n        ADD crs TO visited\n        FOR pre IN preMap[crs] DO:\n            IF NOT dfs(pre) THEN RETURN False\n        END FOR\n        REMOVE crs FROM visited; preMap[crs] = []\n        RETURN True\n    END FUNCTION\n    FOR c FROM 0 TO numCourses - 1 DO:\n        IF NOT dfs(c) THEN RETURN False\n    END FOR\n    RETURN True\nEND FUNCTION"
+  },
+  {
+    "id": 208,
+    "title": "Implement Trie (Prefix Tree)",
+    "question": "Implement a trie supporting insert, search, and startsWith methods.",
+    "explanation": "A tree where each node represents a character mapping to nested dynamic children objects and an `isWord` boolean flag marking full word completions.",
+    "pseudoCode": "CLASS Trie:\n    CONSTRUCTOR(): root = NEW TrieNode()\n    FUNCTION insert(word):\n        curr = root\n        FOR c IN word DO:\n            IF c NOT IN curr.children THEN curr.children[c] = NEW TrieNode()\n            curr = curr.children[c]\n        END FOR\n        curr.isWord = True\n    FUNCTION search(word):\n        node = findNode(word)\n        RETURN node IS NOT NULL AND node.isWord\n    FUNCTION startsWith(prefix):\n        RETURN findNode(prefix) IS NOT NULL\nEND CLASS"
+  },
+  {
+    "id": 210,
+    "title": "Course Schedule II",
+    "question": "Return the ordering of courses you should take to finish all prerequisite courses.",
+    "explanation": "Perform Topological Sort via BFS (Kahn's Algorithm). Track in-degree count of each course node; process nodes with 0 in-degree and reduce dependencies of adjacent nodes.",
+    "pseudoCode": "FUNCTION findOrder(numCourses, prerequisites):\n    adj = HASH_MAP_OF_LISTS(), inDegree = ARRAY_OF_SIZE(numCourses, 0)\n    FOR p IN prerequisites DO APPEND p[0] TO adj[p[1]]; inDegree[p[0]] = inDegree[p[0]] + 1\n    queue = [c FOR c IN 0..numCourses-1 IF inDegree[c] == 0], res = []\n    WHILE queue IS NOT EMPTY DO:\n        c = DEQUEUE(queue); APPEND c TO res\n        FOR nxt IN adj[c] DO:\n            inDegree[nxt] = inDegree[nxt] - 1\n            IF inDegree[nxt] == 0 THEN ENQUEUE(queue, nxt)\n        END FOR\n    END WHILE\n    RETURN LENGTH(res) == numCourses ? res : []\nEND FUNCTION"
+  },
+  {
+    "id": 211,
+    "title": "Design Add and Search Words Data Structure",
+    "question": "Build a structure that supports adding words and searching with wildcard dots.",
+    "explanation": "Store words in Trie. For normal characters traverse children directly. For wildcard '.' character, recursively check all child branches at current node level.",
+    "pseudoCode": "CLASS WordDictionary:\n    CONSTRUCTOR(): root = NEW TrieNode()\n    FUNCTION addWord(word):\n        curr = root\n        FOR c IN word DO:\n            IF c NOT IN curr.children THEN curr.children[c] = NEW TrieNode()\n            curr = curr.children[c]\n        END FOR\n        curr.isWord = True\n    FUNCTION search(word):\n        FUNCTION dfs(j, root):\n            curr = root\n            FOR i FROM j TO LENGTH(word) - 1 DO:\n                c = word[i]\n                IF c == '.' THEN:\n                    FOR child IN curr.children.values() DO:\n                        IF dfs(i + 1, child) THEN RETURN True\n                    END FOR\n                    RETURN False\n                ELSE:\n                    IF c NOT IN curr.children THEN RETURN False\n                    curr = curr.children[c]\n            END FOR\n            RETURN curr.isWord\n        END FUNCTION\n        RETURN dfs(0, root)\nEND CLASS"
+  },
+  {
+    "id": 212,
+    "title": "Word Search II",
+    "question": "Find all dictionary words that can be constructed on a 2D character board.",
+    "explanation": "Insert target words into a Trie structure. Run DFS from each board cell, stepping through both the 2D grid and matching Trie nodes concurrently to prune invalid search paths.",
+    "pseudoCode": "FUNCTION findWords(board, words):\n    trie = BUILD_TRIE(words), res = SET(), visited = SET()\n    ROWS = LENGTH(board), COLS = LENGTH(board[0])\n    FUNCTION dfs(r, c, node, word):\n        IF r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR (r,c) IN visited OR board[r][c] NOT IN node.children THEN RETURN\n        ADD (r,c) TO visited; node = node.children[board[r][c]]; word = word + board[r][c]\n        IF node.isWord THEN ADD word TO res\n        dfs(r+1,c,node,word); dfs(r-1,c,node,word); dfs(r,c+1,node,word); dfs(r,c-1,node,word)\n        REMOVE (r,c) FROM visited\n    END FUNCTION\n    FOR r FROM 0 TO ROWS - 1 DO:\n        FOR c FROM 0 TO COLS - 1 DO dfs(r, c, trie.root, '')\n    END FOR\n    RETURN ARRAY(res)\nEND FUNCTION"
+  },
+  {
+    "id": 213,
+    "title": "House Robber II",
+    "question": "Maximize stolen amount in a circular arrangement of houses where first and last are connected.",
+    "explanation": "Since house 1 and house N are adjacent, run standard House Robber twice: once on subarray range [0..N-2] and once on range [1..N-1], returning max of both results.",
+    "pseudoCode": "FUNCTION rob(nums):\n    IF LENGTH(nums) == 1 THEN RETURN nums[0]\n    RETURN MAX(robRange(nums, 0, LENGTH(nums)-2), robRange(nums, 1, LENGTH(nums)-1))\nEND FUNCTION\n\nFUNCTION robRange(nums, start, end):\n    r1 = 0, r2 = 0\n    FOR i FROM start TO end DO:\n        temp = MAX(nums[i] + r1, r2); r1 = r2; r2 = temp\n    END FOR\n    RETURN r2\nEND FUNCTION"
+  },
+  {
+    "id": 215,
+    "title": "Kth Largest Element in an Array",
+    "question": "Find the kth largest element in an unsorted array without sorting completely.",
+    "explanation": "Maintain a Min-Heap of size k. Push elements into heap; whenever heap size exceeds k, pop minimum element. Root of heap will hold kth largest element in O(N log k) time.",
+    "pseudoCode": "FUNCTION findKthLargest(nums, k):\n    minHeap = NEW MinHeap()\n    FOR num IN nums DO:\n        minHeap.PUSH(num)\n        IF minHeap.SIZE() > k THEN minHeap.POP()\n    END FOR\n    RETURN minHeap.TOP()\nEND FUNCTION"
+  },
+  {
+    "id": 217,
+    "title": "Contains Duplicate",
+    "question": "Check if any value appears at least twice in an integer array.",
+    "explanation": "Iterate through array while adding numbers to a Hash Set. If current number is already present in set, immediately return True.",
+    "pseudoCode": "FUNCTION containsDuplicate(nums):\n    seen = EMPTY_SET()\n    FOR n IN nums DO:\n        IF n IN seen THEN RETURN True\n        ADD n TO seen\n    END FOR\n    RETURN False\nEND FUNCTION"
+  },
+  {
+    "id": 226,
+    "title": "Invert Binary Tree",
+    "question": "Invert a binary tree so that left and right children are swapped recursively.",
+    "explanation": "Recursively swap the left and right subtrees for every node in the tree.",
+    "pseudoCode": "FUNCTION invertTree(root):\n    IF root IS NULL THEN RETURN NULL\n    temp = root.left\n    root.left = invertTree(root.right)\n    root.right = invertTree(temp)\n    RETURN root\nEND FUNCTION"
+  },
+  {
+    "id": 230,
+    "title": "Kth Smallest Element in a BST",
+    "question": "Find the kth smallest value in a Binary Search Tree using inorder property.",
+    "explanation": "In-order traversal of BST yields nodes in strictly sorted ascending order. Perform iterative in-order traversal using stack and return the kth visited element.",
+    "pseudoCode": "FUNCTION kthSmallest(root, k):\n    stack = EMPTY_STACK(), curr = root, n = 0\n    WHILE curr IS NOT NULL OR NOT IS_EMPTY(stack) DO:\n        WHILE curr IS NOT NULL DO PUSH curr TO stack; curr = curr.left\n        curr = POP(stack); n = n + 1\n        IF n == k THEN RETURN curr.val\n        curr = curr.right\n    END WHILE\nEND FUNCTION"
+  },
+  {
+    "id": 235,
+    "title": "Lowest Common Ancestor of a Binary Search Tree",
+    "question": "Find the lowest common ancestor node of two given nodes in a BST.",
+    "explanation": "Traverse BST starting at root: if both p and q values are larger than curr.val, move right; if both are smaller, move left; otherwise current node is split point / LCA.",
+    "pseudoCode": "FUNCTION lowestCommonAncestor(root, p, q):\n    curr = root\n    WHILE curr DO:\n        IF p.val > curr.val AND q.val > curr.val THEN curr = curr.right\n        ELSE IF p.val < curr.val AND q.val < curr.val THEN curr = curr.left\n        ELSE RETURN curr\n    END WHILE\nEND FUNCTION"
+  },
+  {
+    "id": 238,
+    "title": "Product of Array Except Self",
+    "question": "Construct an output array where each index equals the product of all array elements except itself.",
+    "explanation": "Build prefix products array left to right, then multiply each position by running postfix product from right to left in O(N) time without using division.",
+    "pseudoCode": "FUNCTION productExceptSelf(nums):\n    res = ARRAY_OF_SIZE(LENGTH(nums), INITIAL_VALUE = 1)\n    prefix = 1\n    FOR i FROM 0 TO LENGTH(nums) - 1 DO:\n        res[i] = prefix; prefix = prefix * nums[i]\n    END FOR\n    postfix = 1\n    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:\n        res[i] = res[i] * postfix; postfix = postfix * nums[i]\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 239,
+    "title": "Sliding Window Maximum",
+    "question": "Find the maximum element within every sliding window of size k moving across an array.",
+    "explanation": "Maintain a monotonic decreasing Deque storing indices. Deque front always stores maximum index for active window of size k in O(N) time.",
+    "pseudoCode": "FUNCTION maxSlidingWindow(nums, k):\n    output = [], q = NEW Deque(), l = 0\n    FOR r FROM 0 TO LENGTH(nums) - 1 DO:\n        WHILE NOT IS_EMPTY(q) AND nums[LAST(q)] < nums[r] DO POP_BACK(q)\n        PUSH_BACK(r) TO q\n        IF l > FIRST(q) THEN POP_FRONT(q)\n        IF (r + 1) >= k THEN:\n            APPEND nums[FIRST(q)] TO output\n            l = l + 1\n        END IF\n    END FOR\n    RETURN output\nEND FUNCTION"
+  },
+  {
+    "id": 242,
+    "title": "Valid Anagram",
+    "question": "Check if string t is a rearrangement of all the characters of string s.",
+    "explanation": "Count character frequencies for both strings using dynamic hash maps or fixed array of size 26 and return whether count comparisons match identical numbers.",
+    "pseudoCode": "FUNCTION isAnagram(s, t):\n    IF LENGTH(s) != LENGTH(t) THEN RETURN False\n    countS = EMPTY_MAP(), countT = EMPTY_MAP()\n    FOR i FROM 0 TO LENGTH(s) - 1 DO:\n        countS[s[i]] = countS[s[i]] + 1\n        countT[t[i]] = countT[t[i]] + 1\n    END FOR\n    RETURN countS == countT\nEND FUNCTION"
+  },
+  {
+    "id": 268,
+    "title": "Missing Number",
+    "question": "Find the single missing number in an array containing n distinct numbers in range [0, n].",
+    "explanation": "Use bitwise XOR operation across all numbers from 0 to N and all values present in array. Equal matching numbers negate out via `x ^ x = 0`, leaving only missing number.",
+    "pseudoCode": "FUNCTION missingNumber(nums):\n    res = LENGTH(nums)\n    FOR i FROM 0 TO LENGTH(nums) - 1 DO:\n        res = res ^ i ^ nums[i]\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 295,
+    "title": "Find Median from Data Stream",
+    "question": "Continuously calculate the median of a stream of incoming data numbers.",
+    "explanation": "Maintain two heaps: Max-Heap storing lower numerical half and Min-Heap storing higher numerical half. Rebalance sizes so top elements yield median instantly in O(1) time.",
+    "pseudoCode": "CLASS MedianFinder:\n    CONSTRUCTOR(): small = MaxHeap(), large = MinHeap()\n    FUNCTION addNum(num):\n        PUSH num TO small\n        IF small AND large AND TOP(small) > TOP(large) THEN PUSH POP(small) TO large\n        IF SIZE(small) > SIZE(large) + 1 THEN PUSH POP(small) TO large\n        IF SIZE(large) > SIZE(small) + 1 THEN PUSH POP(large) TO small\n    FUNCTION findMedian():\n        IF SIZE(small) > SIZE(large) THEN RETURN TOP(small)\n        IF SIZE(large) > SIZE(small) THEN RETURN TOP(large)\n        RETURN (TOP(small) + TOP(large)) / 2.0\nEND CLASS"
+  },
+  {
+    "id": 297,
+    "title": "Serialize and Deserialize Binary Tree",
+    "question": "Design an algorithm to convert a binary tree to a string and convert that string back to the tree.",
+    "explanation": "Use preorder DFS traversal. Represent missing null leaf pointers with special marker character 'N' during string joining, and reconstruct nodes iteratively via recursive split array tokens.",
+    "pseudoCode": "FUNCTION serialize(root):\n    res = []\n    FUNCTION dfs(node):\n        IF node IS NULL THEN APPEND 'N' TO res; RETURN\n        APPEND STR(node.val) TO res; dfs(node.left); dfs(node.right)\n    END FUNCTION\n    dfs(root); RETURN JOIN(res, ',')\nEND FUNCTION\n\nFUNCTION deserialize(data):\n    vals = SPLIT(data, ','), i = 0\n    FUNCTION dfs():\n        IF vals[i] == 'N' THEN i = i + 1; RETURN NULL\n        node = NEW Node(INT(vals[i])); i = i + 1\n        node.left = dfs(); node.right = dfs()\n        RETURN node\n    END FUNCTION\n    RETURN dfs()\nEND FUNCTION"
+  },
+  {
+    "id": 300,
+    "title": "Longest Increasing Subsequence",
+    "question": "Find the length of the longest strictly increasing subsequence in an array.",
+    "explanation": "Using dynamic programming, dp[i] stores length of longest increasing subsequence ending at index i by comparing with preceding elements j < i where nums[j] < nums[i].",
+    "pseudoCode": "FUNCTION lengthOfLIS(nums):\n    LIS = ARRAY_OF_SIZE(LENGTH(nums), INITIAL_VALUE = 1)\n    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:\n        FOR j FROM i + 1 TO LENGTH(nums) - 1 DO:\n            IF nums[i] < nums[j] THEN LIS[i] = MAX(LIS[i], 1 + LIS[j])\n        END FOR\n    END FOR\n    RETURN MAX(LIS)\nEND FUNCTION"
+  },
+  {
+    "id": 322,
+    "title": "Coin Change",
+    "question": "Calculate the fewest coins needed to make up a target amount of money.",
+    "explanation": "Build 1D dynamic array `dp` from 0 up to target `amount`. For each amount x, iterate through available coins `c` to calculate min transition: `dp[x] = min(dp[x], 1 + dp[x - c])`.",
+    "pseudoCode": "FUNCTION coinChange(coins, amount):\n    dp = ARRAY_OF_SIZE(amount + 1, INITIAL_VALUE = INFINITY)\n    dp[0] = 0\n    FOR a FROM 1 TO amount DO:\n        FOR c IN coins DO:\n            IF a - c >= 0 THEN dp[a] = MIN(dp[a], 1 + dp[a - c])\n        END FOR\n    END FOR\n    RETURN dp[amount] != INFINITY ? dp[amount] : -1\nEND FUNCTION"
+  },
+  {
+    "id": 332,
+    "title": "Reconstruct Itinerary",
+    "question": "Reconstruct a valid flight itinerary that uses all tickets using Eulerian path rules.",
+    "explanation": "Construct directed graph with lexical sorted destinations. Hierholzer's Algorithm (DFS) finds Eulerian path; post-order backtrack build creates correct topological flight order.",
+    "pseudoCode": "FUNCTION findItinerary(tickets):\n    adj = SORTED_HASH_MAP_OF_LISTS(), res = []\n    FOR t IN tickets DO APPEND t[1] TO adj[t[0]]\n    FUNCTION dfs(src):\n        WHILE adj[src] IS NOT EMPTY DO:\n            dst = POP_FIRST(adj[src])\n            dfs(dst)\n        END WHILE\n        PREPEND src TO res\n    END FUNCTION\n    dfs('JFK')\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 338,
+    "title": "Counting Bits",
+    "question": "Count set bits (1s) in binary representations for every number from 0 to n.",
+    "explanation": "Utilize Dynamic Programming with bit shifting: number of set bits for i equals `dp[i >> 1] + (i & 1)` or using power of 2 offset difference in O(N) linear time.",
+    "pseudoCode": "FUNCTION countBits(n):\n    dp = ARRAY_OF_SIZE(n + 1, INITIAL_VALUE = 0)\n    offset = 1\n    FOR i FROM 1 TO n DO:\n        IF offset * 2 == i THEN offset = i\n        dp[i] = 1 + dp[i - offset]\n    END FOR\n    RETURN dp\nEND FUNCTION"
+  },
+  {
+    "id": 347,
+    "title": "Top K Frequent Elements",
+    "question": "Find the k most frequent elements in an array.",
+    "explanation": "Count occurrences using Hash Map, then place elements into bucket array indexed by frequency counts. Traverse buckets backward from max frequency to collect top k numbers in O(N) time.",
+    "pseudoCode": "FUNCTION topKFrequent(nums, k):\n    count = FREQ_MAP(nums), bucket = ARRAY_OF_LISTS(LENGTH(nums) + 1)\n    FOR num, freq IN count DO APPEND num TO bucket[freq]\n    res = []\n    FOR i FROM LENGTH(bucket) - 1 DOWN TO 0 DO:\n        FOR num IN bucket[i] DO:\n            APPEND num TO res\n            IF LENGTH(res) == k THEN RETURN res\n        END FOR\n    END FOR\nEND FUNCTION"
+  },
+  {
+    "id": 355,
+    "title": "Design Twitter",
+    "question": "Design a simplified social feed allowing users to post tweets, follow/unfollow, and fetch recent feed.",
+    "explanation": "Maintain user follow relationships in sets and tweet lists with global increment timestamps. Fetching feeds uses Max-Heap to merge top 10 most recent tweets across followed accounts.",
+    "pseudoCode": "CLASS Twitter:\n    CONSTRUCTOR(): count = 0, tweetMap = HASH_MAP(), followMap = HASH_MAP()\n    FUNCTION postTweet(userId, tweetId):\n        APPEND [count, tweetId] TO tweetMap[userId]; count = count - 1\n    FUNCTION getNewsFeed(userId):\n        res = [], minHeap = MaxHeap()\n        ADD userId TO followMap[userId]\n        FOR followeeId IN followMap[userId] DO:\n            IF followeeId IN tweetMap THEN PUSH LAST(tweetMap[followeeId]) TO minHeap\n        WHILE minHeap AND LENGTH(res) < 10 DO:\n            [cnt, tweetId, followeeId, idx] = POP(minHeap)\n            APPEND tweetId TO res\n            IF idx > 0 THEN PUSH tweetMap[followeeId][idx - 1] TO minHeap\n        END WHILE\n        RETURN res\n    FUNCTION follow(followerId, followeeId): ADD followeeId TO followMap[followerId]\n    FUNCTION unfollow(followerId, followeeId): REMOVE followeeId FROM followMap[followerId]\nEND CLASS"
+  },
+  {
+    "id": 371,
+    "title": "Sum of Two Integers",
+    "question": "Calculate the sum of two integers without using + or - operators.",
+    "explanation": "Bitwise XOR `a ^ b` computes addition without carry bits, while Bitwise AND shifted left `(a & b) << 1` computes carry bits. Repeat until carry equals 0.",
+    "pseudoCode": "FUNCTION getSum(a, b):\n    WHILE b != 0 DO:\n        carry = (a & b) << 1\n        a = a ^ b\n        b = carry\n    END WHILE\n    RETURN a\nEND FUNCTION"
+  },
+  {
+    "id": 416,
+    "title": "Partition Equal Subset Sum",
+    "question": "Determine if an array can be partitioned into two subsets with equal element sums.",
+    "explanation": "Problem reduces to 0/1 Knapsack: check if subset sum equals totalSum / 2. Dynamic programming set iteratively stores achievable sub-sums.",
+    "pseudoCode": "FUNCTION canPartition(nums):\n    IF SUM(nums) % 2 != 0 THEN RETURN False\n    target = SUM(nums) / 2, dp = SET([0])\n    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:\n        nextDP = COPY(dp)\n        FOR t IN dp DO:\n            IF t + nums[i] == target THEN RETURN True\n            ADD (t + nums[i]) TO nextDP\n        END FOR\n        dp = nextDP\n    END FOR\n    RETURN target IN dp\nEND FUNCTION"
+  },
+  {
+    "id": 417,
+    "title": "Pacific Atlantic Water Flow",
+    "question": "Find all grid cells where water can flow to both Pacific and Atlantic oceans.",
+    "explanation": "Run DFS/BFS backward from Ocean boundaries inward (Pacific top/left edges, Atlantic bottom/right edges) tracking reached cells. Final answer is intersection of reachable sets.",
+    "pseudoCode": "FUNCTION pacificAtlantic(heights):\n    ROWS = LENGTH(heights), COLS = LENGTH(heights[0]), pac = SET(), atl = SET()\n    FUNCTION dfs(r, c, visit, prevHeight):\n        IF (r,c) IN visit OR r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR heights[r][c] < prevHeight THEN RETURN\n        ADD (r,c) TO visit\n        dfs(r+1, c, visit, heights[r][c]); dfs(r-1, c, visit, heights[r][c])\n        dfs(r, c+1, visit, heights[r][c]); dfs(r, c-1, visit, heights[r][c])\n    END FUNCTION\n    FOR c FROM 0 TO COLS-1 DO dfs(0, c, pac, heights[0][c]); dfs(ROWS-1, c, atl, heights[ROWS-1][c])\n    FOR r FROM 0 TO ROWS-1 DO dfs(r, 0, pac, heights[r][0]); dfs(r, COLS-1, atl, heights[r][COLS-1])\n    RETURN INTERSECTION(pac, atl)\nEND FUNCTION"
+  },
+  {
+    "id": 424,
+    "title": "Longest Repeating Character Replacement",
+    "question": "Find the length of the longest substring containing the same character after replacing at most k letters.",
+    "explanation": "Sliding window technique maintaining character counts and max character frequency `maxF`. Shrink left window boundary whenever `(windowLen - maxF) > k`.",
+    "pseudoCode": "FUNCTION characterReplacement(s, k):\n    count = EMPTY_MAP(), l = 0, maxF = 0, res = 0\n    FOR r FROM 0 TO LENGTH(s) - 1 DO:\n        count[s[r]] = count[s[r]] + 1\n        maxF = MAX(maxF, count[s[r]])\n        WHILE (r - l + 1) - maxF > k DO:\n            count[s[l]] = count[s[l]] - 1; l = l + 1\n        END WHILE\n        res = MAX(res, r - l + 1)\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 435,
+    "title": "Non-overlapping Intervals",
+    "question": "Find the minimum number of intervals to remove to make the rest non-overlapping.",
+    "explanation": "Greedy strategy: sort intervals by start time. When two intervals overlap, increment deletion counter and retain interval with smaller end time to minimize future collisions.",
+    "pseudoCode": "FUNCTION eraseOverlapIntervals(intervals):\n    SORT(intervals BY start_time), res = 0, prevEnd = intervals[0].end\n    FOR i FROM 1 TO LENGTH(intervals) - 1 DO:\n        IF intervals[i].start >= prevEnd THEN prevEnd = intervals[i].end\n        ELSE res = res + 1; prevEnd = MIN(intervals[i].end, prevEnd)\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 543,
+    "title": "Diameter of Binary Tree",
+    "question": "Calculate the length of the longest path between any two nodes in a binary tree.",
+    "explanation": "Run recursive DFS computing max depth of left and right subtrees for every node. Path distance through current node is `leftDepth + rightDepth`; update global maximum diameter.",
+    "pseudoCode": "FUNCTION diameterOfBinaryTree(root):\n    res = 0\n    FUNCTION dfs(curr):\n        IF curr IS NULL THEN RETURN 0\n        left = dfs(curr.left), right = dfs(curr.right)\n        res = MAX(res, left + right)\n        RETURN 1 + MAX(left, right)\n    END FUNCTION\n    dfs(root)\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 567,
+    "title": "Permutation in String",
+    "question": "Check if one string contains a permutation of another string as a substring.",
+    "explanation": "Fixed-length sliding window of size `len(s1)` moving over `s2`. Compare character frequency maps between window slice and target string s1.",
+    "pseudoCode": "FUNCTION checkInclusion(s1, s2):\n    IF LENGTH(s1) > LENGTH(s2) THEN RETURN False\n    c1 = FREQ_MAP(s1), c2 = EMPTY_MAP(), l = 0\n    FOR r FROM 0 TO LENGTH(s2) - 1 DO:\n        c2[s2[r]] = c2[s2[r]] + 1\n        IF (r - l + 1) == LENGTH(s1) THEN:\n            IF c1 == c2 THEN RETURN True\n            c2[s2[l]] = c2[s2[l]] - 1\n            IF c2[s2[l]] == 0 THEN DELETE c2[s2[l]]\n            l = l + 1\n        END IF\n    END FOR\n    RETURN False\nEND FUNCTION"
+  },
+  {
+    "id": 572,
+    "title": "Subtree of Another Tree",
+    "question": "Determine if a binary tree is structurally and value-wise identical to a subtree of another.",
+    "explanation": "For every node in tree `root`, check if tree rooted at this node is identical to `subRoot` using helper tree equality comparison function.",
+    "pseudoCode": "FUNCTION isSubtree(root, subRoot):\n    IF subRoot IS NULL THEN RETURN True\n    IF root IS NULL THEN RETURN False\n    IF isSameTree(root, subRoot) THEN RETURN True\n    RETURN isSubtree(root.left, subRoot) OR isSubtree(root.right, subRoot)\nEND FUNCTION"
+  },
+  {
+    "id": 621,
+    "title": "Task Scheduler",
+    "question": "Calculate minimum CPU units required to finish tasks with compulsory cooldown gaps.",
+    "explanation": "Greedy approach using Max-Heap to schedule most frequent tasks first, paired with a waiting Queue tracking task frequency and availability timestamps based on cooldown gap n.",
+    "pseudoCode": "FUNCTION leastInterval(tasks, n):\n    count = FREQ_MAP(tasks), maxHeap = MaxHeap(VALUES(count)), q = Queue()\n    time = 0\n    WHILE maxHeap OR q DO:\n        time = time + 1\n        IF maxHeap THEN:\n            cnt = POP(maxHeap) - 1\n            IF cnt != 0 THEN ENQUEUE(q, [cnt, time + n])\n        END IF\n        IF q AND FIRST(q)[1] == time THEN PUSH(maxHeap, DEQUEUE(q)[0])\n    END WHILE\n    RETURN time\nEND FUNCTION"
+  },
+  {
+    "id": 647,
+    "title": "Palindromic Substrings",
+    "question": "Count how many total palindromic substrings exist in a given string.",
+    "explanation": "Expand outward from all candidate centers (i, i) for odd length palindromes and (i, i+1) for even length palindromes, incrementing total palindrome counter for matched boundaries.",
+    "pseudoCode": "FUNCTION countSubstrings(s):\n    res = 0\n    FOR i FROM 0 TO LENGTH(s) - 1 DO:\n        res = res + countPalindromes(s, i, i)\n        res = res + countPalindromes(s, i, i + 1)\n    END FOR\n    RETURN res\nEND FUNCTION\n\nFUNCTION countPalindromes(s, l, r):\n    count = 0\n    WHILE l >= 0 AND r < LENGTH(s) AND s[l] == s[r] DO:\n        count = count + 1; l = l - 1; r = r + 1\n    END WHILE\n    RETURN count\nEND FUNCTION"
+  },
+  {
+    "id": 684,
+    "title": "Redundant Connection",
+    "question": "Find an edge that can be removed to turn a graph back into an unrooted tree.",
+    "explanation": "Use Union-Find (Disjoint Set Union). Iterate through edges: if both vertices share same parent representative, this edge creates cycle and is returned as redundant.",
+    "pseudoCode": "FUNCTION findRedundantConnection(edges):\n    parent = [i FOR i FROM 0 TO LENGTH(edges)]\n    FUNCTION find(n):\n        p = parent[n]\n        WHILE p != parent[p] DO parent[p] = parent[parent[p]]; p = parent[p]\n        RETURN p\n    END FUNCTION\n    FUNCTION union(n1, n2):\n        p1, p2 = find(n1), find(n2)\n        IF p1 == p2 THEN RETURN False\n        parent[p1] = p2; RETURN True\n    END FUNCTION\n    FOR n1, n2 IN edges DO:\n        IF NOT union(n1, n2) THEN RETURN [n1, n2]\n    END FOR\nEND FUNCTION"
+  },
+  {
+    "id": 703,
+    "title": "Kth Largest Element in a Stream",
+    "question": "Design a class that processes stream numbers and continuously maintains the kth largest element.",
+    "explanation": "Maintain a Min-Heap capped strictly at size k. When adding a new value, push it to heap and pop excess elements; top of Min-Heap holds current kth largest number.",
+    "pseudoCode": "CLASS KthLargest:\n    CONSTRUCTOR(k, nums):\n        minHeap = MinHeap(nums), kVal = k\n        WHILE SIZE(minHeap) > kVal DO POP(minHeap)\n    FUNCTION add(val):\n        PUSH val TO minHeap\n        IF SIZE(minHeap) > kVal THEN POP(minHeap)\n        RETURN TOP(minHeap)\nEND CLASS"
+  },
+  {
+    "id": 704,
+    "title": "Binary Search",
+    "question": "Search for a target value in a sorted array with logarithmic runtime.",
+    "explanation": "Divide search space in half repeatedly by comparing target against mid index element in a sorted array in O(log N) runtime.",
+    "pseudoCode": "FUNCTION search(nums, target):\n    l = 0, r = LENGTH(nums) - 1\n    WHILE l <= r DO:\n        m = l + (r - l) / 2\n        IF nums[m] == target THEN RETURN m\n        ELSE IF nums[m] < target THEN l = m + 1\n        ELSE r = m - 1\n    END WHILE\n    RETURN -1\nEND FUNCTION"
+  },
+  {
+    "id": 739,
+    "title": "Daily Temperatures",
+    "question": "Find how many days you have to wait for a warmer temperature for each day in an array.",
+    "explanation": "Use a monotonic decreasing stack storing indices. When encountering a warmer temperature, pop smaller indices and calculate difference in index position.",
+    "pseudoCode": "FUNCTION dailyTemperatures(temperatures):\n    res = ARRAY_OF_SIZE(LENGTH(temperatures), 0), stack = EMPTY_STACK()\n    FOR i, t IN ENUMERATE(temperatures) DO:\n        WHILE stack AND t > TOP(stack).temp DO:\n            [stackT, stackInd] = POP(stack)\n            res[stackInd] = i - stackInd\n        END WHILE\n        PUSH [t, i] TO stack\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 746,
+    "title": "Min Cost Climbing Stairs",
+    "question": "Find the minimum cost to reach the top of a staircase taking 1 or 2 steps per turn.",
+    "explanation": "Dynamic programming working backward: `cost[i] = cost[i] + min(cost[i+1], cost[i+2])`. Final result is `min(cost[0], cost[1])`.",
+    "pseudoCode": "FUNCTION minCostClimbingStairs(cost):\n    FOR i FROM LENGTH(cost) - 3 DOWN TO 0 DO:\n        cost[i] = cost[i] + MIN(cost[i + 1], cost[i + 2])\n    END FOR\n    RETURN MIN(cost[0], cost[1])\nEND FUNCTION"
+  },
+  {
+    "id": 778,
+    "title": "Swim in Rising Water",
+    "question": "Find the minimum water height/time needed to travel from top-left to bottom-right of a grid.",
+    "explanation": "Dijkstra's Algorithm using Min-Heap: track path max grid height. Always explore adjacent neighbor cell with minimal elevation time requirement.",
+    "pseudoCode": "FUNCTION swimInWater(grid):\n    N = LENGTH(grid), minHeap = MinHeap([[grid[0][0], 0, 0]]), visit = SET([(0,0)])\n    WHILE minHeap DO:\n        [t, r, c] = POP(minHeap)\n        IF r == N - 1 AND c == N - 1 THEN RETURN t\n        FOR dr, dc IN [[1,0], [-1,0], [0,1], [0,-1]] DO:\n            nr, nc = r + dr, c + dc\n            IF nr >= 0 AND nc >= 0 AND nr < N AND nc < N AND (nr,nc) NOT IN visit THEN:\n                ADD (nr,nc) TO visit\n                PUSH [MAX(t, grid[nr][nc]), nr, nc] TO minHeap\n            END IF\n        END FOR\n    END WHILE\nEND FUNCTION"
+  },
+  {
+    "id": 787,
+    "title": "Cheapest Flights Within K Stops",
+    "question": "Find the cheapest price from a source to destination city with at most K flight stops.",
+    "explanation": "Bellman-Ford Algorithm executed for k + 1 iterations. Update shortest distances array copying previous iteration state to respect stop constraints.",
+    "pseudoCode": "FUNCTION findCheapestPrice(n, flights, src, dst, k):\n    prices = ARRAY_OF_SIZE(n, INFINITY)\n    prices[src] = 0\n    FOR i FROM 0 TO k DO:\n        tmpPrices = COPY(prices)\n        FOR s, d, p IN flights DO:\n            IF prices[s] == INFINITY THEN CONTINUE\n            IF prices[s] + p < tmpPrices[d] THEN tmpPrices[d] = prices[s] + p\n        END FOR\n        prices = tmpPrices\n    END FOR\n    RETURN prices[dst] != INFINITY ? prices[dst] : -1\nEND FUNCTION"
+  },
+  {
+    "id": 853,
+    "title": "Car Fleet",
+    "question": "Determine how many car fleets will arrive at a target destination.",
+    "explanation": "Sort cars by starting position descending. Calculate time to reach target `(target - pos) / speed`. Use monotonic stack; if trailing car takes less time, it merges into preceding fleet.",
+    "pseudoCode": "FUNCTION carFleet(target, position, speed):\n    pair = [[p, s] FOR p, s IN ZIP(position, speed)]\n    SORT(pair BY position DESCENDING)\n    stack = EMPTY_STACK()\n    FOR p, s IN pair DO:\n        PUSH (target - p) / s TO stack\n        IF LENGTH(stack) >= 2 AND TOP(stack) <= SECOND_TOP(stack) THEN POP(stack)\n    END FOR\n    RETURN LENGTH(stack)\nEND FUNCTION"
+  },
+  {
+    "id": 875,
+    "title": "Koko Eating Bananas",
+    "question": "Find the minimum integer eating speed k to eat all bananas within h hours.",
+    "explanation": "Binary search speed k within range `[1, max(piles)]`. Calculate total hours needed for speed k; adjust range to find minimum valid speed.",
+    "pseudoCode": "FUNCTION minEatingSpeed(piles, h):\n    l = 1, r = MAX(piles), res = r\n    WHILE l <= r DO:\n        k = (l + r) / 2\n        hours = SUM(CEIL(p / k) FOR p IN piles)\n        IF hours <= h THEN res = k; r = k - 1\n        ELSE l = k + 1\n    END WHILE\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 973,
+    "title": "K Closest Points to Origin",
+    "question": "Find the k closest 2D coordinate points to the origin (0,0).",
+    "explanation": "Calculate Euclidean distance `x^2 + y^2` for each point and insert into Min-Heap. Pop k closest elements from heap in O(k log N) time.",
+    "pseudoCode": "FUNCTION kClosest(points, k):\n    minHeap = []\n    FOR x, y IN points DO:\n        dist = x^2 + y^2\n        PUSH [dist, x, y] TO minHeap\n    END FOR\n    BUILD_HEAP(minHeap), res = []\n    FOR i FROM 1 TO k DO:\n        [dist, x, y] = POP(minHeap)\n        APPEND [x, y] TO res\n    END FOR\n    RETURN res\nEND FUNCTION"
+  },
+  {
+    "id": 981,
+    "title": "Time Based Key-Value Store",
+    "question": "Design a key-value data structure that stores values at specific timestamps and retrieves them efficiently.",
+    "explanation": "Store key mapping to list of `[value, timestamp]` pairs. Since timestamps are strictly increasing, use binary search to locate highest timestamp `<= targetTimestamp`.",
+    "pseudoCode": "CLASS TimeMap:\n    CONSTRUCTOR(): store = HASH_MAP()\n    FUNCTION set(key, value, timestamp):\n        IF key NOT IN store THEN store[key] = []\n        APPEND [value, timestamp] TO store[key]\n    FUNCTION get(key, timestamp):\n        res = '', values = store[key] OR []\n        l = 0, r = LENGTH(values) - 1\n        WHILE l <= r DO:\n            m = (l + r) / 2\n            IF values[m][1] <= timestamp THEN res = values[m][0]; l = m + 1\n            ELSE r = m - 1\n        END WHILE\n        RETURN res\nEND CLASS"
+  },
+  {
+    "id": 994,
+    "title": "Rotting Oranges",
+    "question": "Find the minimum minutes required until no rotten orange is adjacent to a fresh one.",
+    "explanation": "Multi-source Breadth-First Search (BFS): enqueue all initial rotten orange positions simultaneously, spreading rot step-by-step per minute level to adjacent fresh oranges.",
+    "pseudoCode": "FUNCTION orangesRotting(grid):\n    q = Queue(), fresh = 0, time = 0\n    ROWS = LENGTH(grid), COLS = LENGTH(grid[0])\n    FOR r FROM 0 TO ROWS-1 DO:\n        FOR c FROM 0 TO COLS-1 DO:\n            IF grid[r][c] == 1 THEN fresh = fresh + 1\n            IF grid[r][c] == 2 THEN ENQUEUE(q, [r, c])\n        END FOR\n    END FOR\n    WHILE q AND fresh > 0 DO:\n        FOR i FROM 1 TO LENGTH(q) DO:\n            [r, c] = DEQUEUE(q)\n            FOR dr, dc IN [[1,0],[-1,0],[0,1],[0,-1]] DO:\n                row, col = r + dr, c + dc\n                IF row >= 0 AND row < ROWS AND col >= 0 AND col < COLS AND grid[row][col] == 1 THEN:\n                    grid[row][col] = 2; ENQUEUE(q, [row, col]); fresh = fresh - 1\n                END IF\n            END FOR\n        END FOR\n        time = time + 1\n    END WHILE\n    RETURN fresh == 0 ? time : -1\nEND FUNCTION"
+  },
+  {
+    "id": 1046,
+    "title": "Last Stone Weight",
+    "question": "Simulate smashing the two heaviest stones together repeatedly until at most 1 stone remains.",
+    "explanation": "Use Max-Heap to efficiently pop top 2 heaviest stones in O(log N). If weights differ, push absolute weight difference back into Max-Heap until <= 1 stone left.",
+    "pseudoCode": "FUNCTION lastStoneWeight(stones):\n    maxHeap = MaxHeap(stones)\n    WHILE SIZE(maxHeap) > 1 DO:\n        first = POP(maxHeap)\n        second = POP(maxHeap)\n        IF first != second THEN PUSH(maxHeap, first - second)\n    END WHILE\n    RETURN SIZE(maxHeap) == 1 ? TOP(maxHeap) : 0\nEND FUNCTION"
+  },
+  {
+    "id": 1143,
+    "title": "Longest Common Subsequence",
+    "question": "Find the length of the longest sub-sequence shared between two strings.",
+    "explanation": "2D Dynamic Programming matrix dp[i][j]: if `text1[i] == text2[j]`, `dp[i][j] = 1 + dp[i+1][j+1]`; otherwise `dp[i][j] = max(dp[i+1][j], dp[i][j+1])`.",
+    "pseudoCode": "FUNCTION longestCommonSubsequence(text1, text2):\n    dp = MATRIX(LENGTH(text1) + 1, LENGTH(text2) + 1, 0)\n    FOR i FROM LENGTH(text1) - 1 DOWN TO 0 DO:\n        FOR j FROM LENGTH(text2) - 1 DOWN TO 0 DO:\n            IF text1[i] == text2[j] THEN dp[i][j] = 1 + dp[i + 1][j + 1]\n            ELSE dp[i][j] = MAX(dp[i + 1][j], dp[i][j + 1])\n        END FOR\n    END FOR\n    RETURN dp[0][0]\nEND FUNCTION"
+  },
+  {
+    "id": 1584,
+    "title": "Min Cost to Connect All Points",
+    "question": "Find the minimum total cost to connect all 2D points into a single connected component.",
+    "explanation": "Prim's Algorithm for Minimum Spanning Tree (MST): calculate Manhattan distances between point pairs, dynamically expanding spanning tree using Min-Heap.",
+    "pseudoCode": "FUNCTION minCostConnectPoints(points):\n    N = LENGTH(points), adj = HASH_MAP_OF_LISTS()\n    FOR i FROM 0 TO N - 1 DO:\n        FOR j FROM i + 1 TO N - 1 DO:\n            dist = ABS(points[i][0] - points[j][0]) + ABS(points[i][1] - points[j][1])\n            APPEND [dist, j] TO adj[i]; APPEND [dist, i] TO adj[j]\n        END FOR\n    END FOR\n    res = 0, visit = SET(), minHeap = MinHeap([[0, 0]])\n    WHILE LENGTH(visit) < N DO:\n        [cost, i] = POP(minHeap)\n        IF i IN visit THEN CONTINUE\n        res = res + cost; ADD i TO visit\n        FOR neiCost, nei IN adj[i] DO:\n            IF nei NOT IN visit THEN PUSH [neiCost, nei] TO minHeap\n        END FOR\n    END WHILE\n    RETURN res\nEND FUNCTION"
+  }
+]

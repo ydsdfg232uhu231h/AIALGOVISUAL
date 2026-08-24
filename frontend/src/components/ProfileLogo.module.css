@@ -1,0 +1,11 @@
+#mylogo{
+    width: 70px;
+    height: 50px;
+    background-color: orange;
+    letter-spacing: 4px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}

@@ -16,7 +16,6 @@ export const handleLogin = async (req, res) => {
             });
         }
         
-
         const isPasswordCorrect = await compare(password, user.password);
 
         if (!isPasswordCorrect) {
@@ -47,9 +46,9 @@ export const handleLogin = async (req, res) => {
 
         return res.status(200).json({
             message: `Login Successfull`,
-            user: {
-                message: `Hello ${user.name}`,
-            },
+            email: user.email,
+            name: user.name,
+            
         });
 
     } catch (error) {
@@ -72,7 +71,7 @@ export const handleSignup = async (req, res) => {
                 message: "User already exists",
             });
         }
-
+        
         const hashedPassword = await hash(password, 10);
 
         const user = await User.create({
@@ -111,12 +110,15 @@ export const handleSignup = async (req, res) => {
     }
 };
 
-export const handleuserdetail= (req,res)=>{
-    return res.status(200).json({
-        user: {
-            id: user._id,
-            email: user.email,
-            name: user.name,
+export async function handleLogout(req, res){
+    const { email } = req.body;
+
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            res.clearCookie(COOKIES_NAME);
+            return res.status(200).json({
+                message: "User Successfully logout",
+            });
         }
-    });
 }
