@@ -1,0 +1,97 @@
+{
+  "id": 338,
+  "title": "Counting Bits",
+  "difficulty": "Easy",
+  "topic": "Bit Manipulation / DP",
+  "algorithm": "Bitwise DP Pattern (i >> 1)",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Count set bits (1s) in binary representations for every number from 0 to n.",
+  "url": "https://leetcode.com/problems/counting-bits/",
+  "explanation": "Utilize Dynamic Programming with bit shifting: number of set bits for i equals dp[i >> 1] + (i & 1) or using power of 2 offset difference in O(N) linear time.",
+  "pseudoCode": "FUNCTION countBits(n):\n    dp = ARRAY_OF_SIZE(n + 1, INITIAL_VALUE = 0)\n    offset = 1\n    FOR i FROM 1 TO n DO:\n        IF offset * 2 == i THEN offset = i\n        dp[i] = 1 + dp[i - offset]\n    END FOR\n    RETURN dp\nEND FUNCTION",
+  "renderType": "bit_count_dp",
+  "initialData": {
+    "n": 5
+  },
+  "codeLines": [
+    "FUNCTION countBits(n):",
+    "    dp = ARRAY_OF_SIZE(n + 1, INITIAL_VALUE = 0)",
+    "    offset = 1",
+    "    FOR i FROM 1 TO n DO:",
+    "        IF offset * 2 == i THEN offset = i",
+    "        dp[i] = 1 + dp[i - offset]",
+    "    END FOR",
+    "    RETURN dp",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: n = 5. Allocate dp array of size 6 initialized to 0. Set offset = 1.",
+      "state": { "n": 5, "offset": 1, "dp": "[0, 0, 0, 0, 0, 0]" },
+      "dp": [0, 0, 0, 0, 0, 0],
+      "currentI": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 5,
+      "narration": "Line 6: i = 1: offset stays 1. dp[1] = 1 + dp[1 - 1] = 1 + dp[0] = 1 + 0 = 1.",
+      "state": { "i": 1, "offset": 1, "dp[1]": 1 },
+      "dp": [0, 1, 0, 0, 0, 0],
+      "currentI": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: i = 2: offset * 2 == 2 -> offset updates to 2. dp[2] = 1 + dp[2 - 2] = 1 + dp[0] = 1.",
+      "state": { "i": 2, "offset": 2, "dp[2]": 1 },
+      "dp": [0, 1, 1, 0, 0, 0],
+      "currentI": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: i = 3: offset stays 2. dp[3] = 1 + dp[3 - 2] = 1 + dp[1] = 1 + 1 = 2.",
+      "state": { "i": 3, "offset": 2, "dp[3]": 2 },
+      "dp": [0, 1, 1, 2, 0, 0],
+      "currentI": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: i = 4: offset * 2 == 4 -> offset updates to 4. dp[4] = 1 + dp[4 - 4] = 1 + dp[0] = 1.",
+      "state": { "i": 4, "offset": 4, "dp[4]": 1 },
+      "dp": [0, 1, 1, 2, 1, 0],
+      "currentI": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: i = 5: offset stays 4. dp[5] = 1 + dp[5 - 4] = 1 + dp[1] = 1 + 1 = 2.",
+      "state": { "i": 5, "offset": 4, "dp[5]": 2 },
+      "dp": [0, 1, 1, 2, 1, 2],
+      "currentI": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 7,
+      "narration": "Line 8: Loop complete. RETURN dp = [0, 1, 1, 2, 1, 2].",
+      "state": { "status": "COMPLETED", "result": "[0, 1, 1, 2, 1, 2]" },
+      "dp": [0, 1, 1, 2, 1, 2],
+      "currentI": null,
+      "output": {
+        "label": "Bit Counts Result",
+        "value": "[0, 1, 1, 2, 1, 2]",
+        "detail": "Counts of 1 bits for numbers 0 through 5 computed via bitwise dynamic programming in O(N) time."
+      }
+    }
+  ]
+}

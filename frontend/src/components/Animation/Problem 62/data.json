@@ -1,0 +1,159 @@
+{
+  "id": 62,
+  "title": "Unique Paths",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "2D Grid DP / Combinatorics",
+  "timeComplexity": "O(m * n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Find the number of unique paths from top-left to bottom-right in an m x n grid.",
+  "url": "https://leetcode.com/problems/unique-paths/",
+  "explanation": "Since movement is restricted to moving down or right, the number of paths to reach cell (i, j) is the sum of paths to (i-1, j) and (i, j-1). We solve this dynamically using a 1D DP array.",
+  "pseudoCode": "FUNCTION uniquePaths(m, n):\n    row = ARRAY_OF_SIZE(n, INITIAL_VALUE = 1)\n    FOR i FROM 1 TO m - 1 DO:\n        newRow = ARRAY_OF_SIZE(n, INITIAL_VALUE = 1)\n        FOR j FROM 1 TO n - 1 DO:\n            newRow[j] = newRow[j - 1] + row[j]\n        END FOR\n        row = newRow\n    END FOR\n    RETURN row[n - 1]\nEND FUNCTION",
+  "renderType": "grid_paths",
+  "initialData": {
+    "m": 3,
+    "n": 3
+  },
+  "codeLines": [
+    "FUNCTION uniquePaths(m, n):",
+    "    row = ARRAY_OF_SIZE(n, INITIAL_VALUE = 1)",
+    "    FOR i FROM 1 TO m - 1 DO:",
+    "        newRow = ARRAY_OF_SIZE(n, INITIAL_VALUE = 1)",
+    "        FOR j FROM 1 TO n - 1 DO:",
+    "            newRow[j] = newRow[j - 1] + row[j]",
+    "        END FOR",
+    "        row = newRow",
+    "    END FOR",
+    "    RETURN row[n - 1]",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Base case: top row cells can only be reached by moving right. row = [1, 1, 1].",
+      "state": {
+        "row": "[1, 1, 1]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [0, 0, 0],
+        [0, 0, 0]
+      ],
+      "currentRow": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Row 1 start: cell [1][0] can only be reached from above. newRow[0] = 1.",
+      "state": {
+        "row": "[1, 1, 1]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [1, 0, 0],
+        [0, 0, 0]
+      ],
+      "currentRow": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: Cell [1][1] = left ([1][0]=1) + top ([0][1]=1) = 2 unique paths.",
+      "state": {
+        "row": "[1, 2, 1]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [1, 2, 0],
+        [0, 0, 0]
+      ],
+      "currentRow": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: Cell [1][2] = left ([1][1]=2) + top ([0][2]=1) = 3 unique paths. Row 1 complete.",
+      "state": {
+        "row": "[1, 2, 3]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [1, 2, 3],
+        [0, 0, 0]
+      ],
+      "currentRow": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: Row 2 start: cell [2][0] can only be reached from above. newRow[0] = 1.",
+      "state": {
+        "row": "[1, 2, 3]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [1, 2, 3],
+        [1, 0, 0]
+      ],
+      "currentRow": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: Cell [2][1] = left ([2][0]=1) + top ([1][1]=2) = 3 unique paths.",
+      "state": {
+        "row": "[1, 3, 3]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [1, 2, 3],
+        [1, 3, 0]
+      ],
+      "currentRow": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6: Target cell [2][2] = left ([2][1]=3) + top ([1][2]=3) = 6 unique paths.",
+      "state": {
+        "row": "[1, 3, 6]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [1, 2, 3],
+        [1, 3, 6]
+      ],
+      "currentRow": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 9,
+      "narration": "Line 10: Destination reached. RETURN row[n - 1] = 6.",
+      "state": {
+        "status": "COMPLETED",
+        "uniquePaths": 6,
+        "row": "[1, 3, 6]"
+      },
+      "grid": [
+        [1, 1, 1],
+        [1, 2, 3],
+        [1, 3, 6]
+      ],
+      "currentRow": 2,
+      "output": {
+        "label": "Unique Paths",
+        "value": "6 paths",
+        "detail": "Total ways to traverse a 3x3 grid from (0, 0) to (2, 2)."
+      }
+    }
+  ]
+}

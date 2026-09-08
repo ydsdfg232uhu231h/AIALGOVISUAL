@@ -1,0 +1,341 @@
+{
+  "id": 424,
+  "title": "Longest Repeating Character Replacement",
+  "difficulty": "Medium",
+  "topic": "Sliding Window",
+  "algorithm": "Sliding Window Max Frequency Track",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the length of the longest substring containing the same character after replacing at most k letters.",
+  "url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+  "explanation": "Sliding window technique maintaining character counts and max character frequency maxF. Shrink left window boundary whenever (windowLen - maxF) > k.",
+  "pseudoCode": "FUNCTION characterReplacement(s, k):\n    count = EMPTY_MAP(), l = 0, maxF = 0, res = 0\n    FOR r FROM 0 TO LENGTH(s) - 1 DO:\n        count[s[r]] = count[s[r]] + 1\n        maxF = MAX(maxF, count[s[r]])\n        WHILE (r - l + 1) - maxF > k DO:\n            count[s[l]] = count[s[l]] - 1; l = l + 1\n        END WHILE\n        res = MAX(res, r - l + 1)\n    END FOR\n    RETURN res\nEND FUNCTION",
+  "renderType": "char_replace_window",
+  "initialData": {
+    "s": "AABABBA",
+    "k": 1
+  },
+  "codeLines": [
+    "FUNCTION characterReplacement(s, k):",
+    "    count = EMPTY_MAP(), l = 0, maxF = 0, res = 0",
+    "    FOR r FROM 0 TO LENGTH(s) - 1 DO:",
+    "        count[s[r]] = count[s[r]] + 1",
+    "        maxF = MAX(maxF, count[s[r]])",
+    "        WHILE (r - l + 1) - maxF > k DO:",
+    "            count[s[l]] = count[s[l]] - 1; l = l + 1",
+    "        END WHILE",
+    "        res = MAX(res, r - l + 1)",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize count = {}, l = 0, maxF = 0, res = 0. Target k = 1.",
+      "state": {
+        "l": 0,
+        "r": 0,
+        "maxF": 0,
+        "res": 0,
+        "window": ""
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4-5: r = 0 (s[0] = 'A'). count['A'] = 1, maxF = 1. Window 'A': len(1) - maxF(1) = 0 <= k(1).",
+      "state": {
+        "l": 0,
+        "r": 0,
+        "maxF": 1,
+        "res": 0,
+        "window": "A"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 8,
+      "narration": "Line 9: res = MAX(0, 0 - 0 + 1) = 1.",
+      "state": {
+        "l": 0,
+        "r": 0,
+        "maxF": 1,
+        "res": 1,
+        "window": "A"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4-5: r = 1 (s[1] = 'A'). count['A'] = 2, maxF = 2. Window 'AA': len(2) - maxF(2) = 0 <= k(1).",
+      "state": {
+        "l": 0,
+        "r": 1,
+        "maxF": 2,
+        "res": 1,
+        "window": "AA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 8,
+      "narration": "Line 9: res = MAX(1, 1 - 0 + 1) = 2.",
+      "state": {
+        "l": 0,
+        "r": 1,
+        "maxF": 2,
+        "res": 2,
+        "window": "AA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4-5: r = 2 (s[2] = 'B'). count['B'] = 1, maxF = 2. Window 'AAB': len(3) - maxF(2) = 1 <= k(1).",
+      "state": {
+        "l": 0,
+        "r": 2,
+        "maxF": 2,
+        "res": 2,
+        "window": "AAB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: res = MAX(2, 2 - 0 + 1) = 3.",
+      "state": {
+        "l": 0,
+        "r": 2,
+        "maxF": 2,
+        "res": 3,
+        "window": "AAB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4-5: r = 3 (s[3] = 'A'). count['A'] = 3, maxF = 3. Window 'AABA': len(4) - maxF(3) = 1 <= k(1).",
+      "state": {
+        "l": 0,
+        "r": 3,
+        "maxF": 3,
+        "res": 3,
+        "window": "AABA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 8,
+      "narration": "Line 9: res = MAX(3, 3 - 0 + 1) = 4.",
+      "state": {
+        "l": 0,
+        "r": 3,
+        "maxF": 3,
+        "res": 4,
+        "window": "AABA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 5,
+      "narration": "Line 6: r = 4 (s[4] = 'B'). count['B'] = 2, maxF = 3. Window 'AABAB': len(5) - maxF(3) = 2 > k(1). Violation! Must shrink window.",
+      "state": {
+        "l": 0,
+        "r": 4,
+        "maxF": 3,
+        "res": 4,
+        "window": "AABAB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 6,
+      "narration": "Line 7: Decrement count[s[0]] ('A') to 2. Increment l to 1. Window is now 'ABAB': len(4) - maxF(3) = 1 <= k(1).",
+      "state": {
+        "l": 1,
+        "r": 4,
+        "maxF": 3,
+        "res": 4,
+        "window": "ABAB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 1,
+      "right": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 8,
+      "narration": "Line 9: res = MAX(4, 4 - 1 + 1) = 4.",
+      "state": {
+        "l": 1,
+        "r": 4,
+        "maxF": 3,
+        "res": 4,
+        "window": "ABAB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 1,
+      "right": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 5,
+      "narration": "Line 6: r = 5 (s[5] = 'B'). count['B'] = 3, maxF = 3. Window 'ABABB': len(5) - maxF(3) = 2 > k(1). Violation! Must shrink window.",
+      "state": {
+        "l": 1,
+        "r": 5,
+        "maxF": 3,
+        "res": 4,
+        "window": "ABABB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 1,
+      "right": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 6,
+      "narration": "Line 7: Decrement count[s[1]] ('A') to 1. Increment l to 2. Window is now 'BABB': len(4) - maxF(3) = 1 <= k(1).",
+      "state": {
+        "l": 2,
+        "r": 5,
+        "maxF": 3,
+        "res": 4,
+        "window": "BABB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 2,
+      "right": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 8,
+      "narration": "Line 9: res = MAX(4, 5 - 2 + 1) = 4.",
+      "state": {
+        "l": 2,
+        "r": 5,
+        "maxF": 3,
+        "res": 4,
+        "window": "BABB"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 2,
+      "right": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 5,
+      "narration": "Line 6: r = 6 (s[6] = 'A'). count['A'] = 2, maxF = 3. Window 'BABBA': len(5) - maxF(3) = 2 > k(1). Violation! Must shrink window.",
+      "state": {
+        "l": 2,
+        "r": 6,
+        "maxF": 3,
+        "res": 4,
+        "window": "BABBA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 2,
+      "right": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 6,
+      "narration": "Line 7: Decrement count[s[2]] ('B') to 2. Increment l to 3. Window is now 'ABBA': len(4) - maxF(3) = 1 <= k(1).",
+      "state": {
+        "l": 3,
+        "r": 6,
+        "maxF": 3,
+        "res": 4,
+        "window": "ABBA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 3,
+      "right": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 17,
+      "activeLine": 8,
+      "narration": "Line 9: res = MAX(4, 6 - 3 + 1) = 4.",
+      "state": {
+        "l": 3,
+        "r": 6,
+        "maxF": 3,
+        "res": 4,
+        "window": "ABBA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 3,
+      "right": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 18,
+      "activeLine": 10,
+      "narration": "Line 11: Traversal complete. Max repeating window length achievable with 1 replacement is 4. RETURN 4.",
+      "state": {
+        "status": "COMPLETED",
+        "maxLen": 4,
+        "res": 4,
+        "window": "AABA"
+      },
+      "chars": ["A", "A", "B", "A", "B", "B", "A"],
+      "left": 0,
+      "right": 3,
+      "output": {
+        "label": "Max Length",
+        "value": "4",
+        "detail": "Replacing 'B' at index 2 in 'AABA' gives 'AAAA'."
+      }
+    }
+  ]
+}

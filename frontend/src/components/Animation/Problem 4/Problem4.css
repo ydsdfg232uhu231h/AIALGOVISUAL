@@ -1,0 +1,253 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#partition-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+  gap: 22px;
+  box-sizing: border-box;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  padding: 16px;
+}
+
+/* ============================================================
+   METRICS BANNER
+   ============================================================ */
+#metrics-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+[id^="metric-chip-"] {
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+[id^="metric-chip-"] b {
+  color: #fff;
+  font-family: ui-monospace, monospace;
+}
+
+#metric-chip-range b {
+  color: #38bdf8;
+}
+
+#metric-chip-bounds-1 b,
+#metric-chip-bounds-2 b {
+  color: #ff7324;
+}
+
+/* ============================================================
+   ARRAYS CONTAINER & ROWS
+   ============================================================ */
+#arrays-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 650px;
+}
+
+[id^="array-row-"] {
+  display: flex;
+  align-items: center;
+  background: #121214;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  padding: 12px 18px;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+[id^="array-label-box-"] {
+  display: flex;
+  flex-direction: column;
+  width: 130px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #a1a1aa;
+  flex-shrink: 0;
+}
+
+[id^="cut-indicator-"] {
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+  color: #38bdf8;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   PARTITION TRACK & HALVES
+   ============================================================ */
+[id^="partition-track-"] {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+}
+
+[id^="partition-half-left-"] {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 70px;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+[id^="partition-half-right-"] {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 70px;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+/* Number Boxes */
+[id^="number-box-"] {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: ui-monospace, monospace;
+  color: #fff;
+  border: 2px solid;
+  position: relative;
+  box-sizing: border-box;
+}
+
+[id^="number-box-left-"] {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+[id^="number-box-right-"] {
+  border-color: #ff7324;
+  background: rgba(255, 115, 36, 0.12);
+}
+
+[id^="box-idx-"] {
+  font-size: 9px;
+  color: #71717a;
+  position: absolute;
+  bottom: 2px;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="empty-slot-"] {
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+  color: #52525b;
+}
+
+/* Partition Divider Line */
+[id^="partition-line-"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+[id^="line-bar-top-"],
+[id^="line-bar-bottom-"] {
+  width: 2px;
+  height: 12px;
+  background: #ef4444;
+}
+
+[id^="cut-tag-"] {
+  font-size: 9px;
+  font-weight: 800;
+  color: #ef4444;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   CONDITION INDICATOR
+   ============================================================ */
+#condition-indicator-card {
+  font-size: 13px;
+  color: #71717a;
+  background: #121218;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  padding: 6px 14px;
+}
+
+#condition-prefix-label {
+  font-weight: 600;
+}
+
+#condition-check-valid {
+  color: #22c55e;
+  font-family: ui-monospace, monospace;
+}
+
+#condition-check-invalid {
+  color: #ef4444;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: absolute;
+  bottom: 12px;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+#callout-header-text {
+  font-size: 11px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #9ca3af;
+}

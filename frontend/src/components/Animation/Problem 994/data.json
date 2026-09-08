@@ -1,0 +1,307 @@
+{
+  "id": 994,
+  "title": "Rotting Oranges",
+  "difficulty": "Medium",
+  "topic": "Graph / BFS",
+  "algorithm": "Multi-Source BFS Grid Traversal",
+  "timeComplexity": "O(m * n)",
+  "spaceComplexity": "O(m * n)",
+  "oneLinerQuestion": "Find the minimum minutes required until no rotten orange is adjacent to a fresh one.",
+  "url": "https://leetcode.com/problems/rotting-oranges/",
+  "explanation": "Multi-source Breadth-First Search (BFS): enqueue all initial rotten orange positions simultaneously, spreading rot step-by-step per minute level to adjacent fresh oranges.",
+  "pseudoCode": "FUNCTION orangesRotting(grid):\n    q = Queue(), fresh = 0, time = 0\n    ROWS = LENGTH(grid), COLS = LENGTH(grid[0])\n    FOR r FROM 0 TO ROWS-1 DO:\n        FOR c FROM 0 TO COLS-1 DO:\n            IF grid[r][c] == 1 THEN fresh = fresh + 1\n            IF grid[r][c] == 2 THEN ENQUEUE(q, [r, c])\n        END FOR\n    END FOR\n    WHILE q AND fresh > 0 DO:\n        FOR i FROM 1 TO LENGTH(q) DO:\n            [r, c] = DEQUEUE(q)\n            FOR dr, dc IN [[1,0],[-1,0],[0,1],[0,-1]] DO:\n                row, col = r + dr, c + dc\n                IF row >= 0 AND row < ROWS AND col >= 0 AND col < COLS AND grid[row][col] == 1 THEN:\n                    grid[row][col] = 2; ENQUEUE(q, [row, col]); fresh = fresh - 1\n                END IF\n            END FOR\n        END FOR\n        time = time + 1\n    END WHILE\n    RETURN fresh == 0 ? time : -1\nEND FUNCTION",
+  "renderType": "rotting_oranges_grid",
+  "initialData": [
+    [2, 1, 1, 1, 1],
+    [1, 1, 1, 0, 1],
+    [1, 1, 1, 1, 1],
+    [1, 0, 1, 1, 1],
+    [1, 1, 1, 1, 2]
+  ],
+  "codeLines": [
+    "FUNCTION orangesRotting(grid):",
+    "    q = Queue(), fresh = 0, time = 0",
+    "    ROWS = LENGTH(grid), COLS = LENGTH(grid[0])",
+    "    FOR r FROM 0 TO ROWS-1 DO:",
+    "        FOR c FROM 0 TO COLS-1 DO:",
+    "            IF grid[r][c] == 1 THEN fresh = fresh + 1",
+    "            IF grid[r][c] == 2 THEN ENQUEUE(q, [r, c])",
+    "        END FOR",
+    "    END FOR",
+    "    WHILE q AND fresh > 0 DO:",
+    "        FOR i FROM 1 TO LENGTH(q) DO:",
+    "            [r, c] = DEQUEUE(q)",
+    "            FOR dr, dc IN [[1,0],[-1,0],[0,1],[0,-1]] DO:",
+    "                row, col = r + dr, c + dc",
+    "                IF row >= 0 AND row < ROWS AND col >= 0 AND col < COLS AND grid[row][col] == 1 THEN:",
+    "                    grid[row][col] = 2; ENQUEUE(q, [row, col]); fresh = fresh - 1",
+    "                END IF",
+    "            END FOR",
+    "        END FOR",
+    "        time = time + 1",
+    "    END WHILE",
+    "    RETURN fresh == 0 ? time : -1",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Scan 5x5 board. Enqueue initial rotten oranges at (0, 0) and (4, 4). Fresh oranges = 21, time = 0.",
+      "state": { "fresh": 21, "time": 0, "q": "[[0, 0], [4, 4]]" },
+      "grid": [
+        [2, 1, 1, 1, 1],
+        [1, 1, 1, 0, 1],
+        [1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 1],
+        [1, 1, 1, 1, 2]
+      ],
+      "minutes": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 11,
+      "narration": "Line 12: Dequeue frontier [(0, 0), (4, 4)] to check 4-directional neighbors (up, down, left, right).",
+      "state": { "fresh": 21, "time": 0, "q": "[[0, 0], [4, 4]]" },
+      "grid": [
+        [2, 1, 1, 1, 1],
+        [1, 1, 1, 0, 1],
+        [1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 1],
+        [1, 1, 1, 1, 2]
+      ],
+      "minutes": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 15,
+      "narration": "Line 16: (0, 0) infects (0, 1) and (1, 0). (4, 4) infects (4, 3) and (3, 4). 4 oranges rot.",
+      "state": { "fresh": 17, "time": 0, "q": "[[0, 1], [1, 0], [4, 3], [3, 4]]" },
+      "grid": [
+        [2, 2, 1, 1, 1],
+        [2, 1, 1, 0, 1],
+        [1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 2],
+        [1, 1, 1, 2, 2]
+      ],
+      "minutes": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 19,
+      "narration": "Line 20: Round complete. Increment clock: time = 1 minute. Fresh remaining = 17.",
+      "state": { "fresh": 17, "time": 1, "q": "[[0, 1], [1, 0], [4, 3], [3, 4]]" },
+      "grid": [
+        [2, 2, 1, 1, 1],
+        [2, 1, 1, 0, 1],
+        [1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 2],
+        [1, 1, 1, 2, 2]
+      ],
+      "minutes": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 11,
+      "narration": "Line 12: Dequeue 4 frontier cells [(0, 1), (1, 0), (4, 3), (3, 4)] to radiate rot outwards.",
+      "state": { "fresh": 17, "time": 1, "q": "[[0, 1], [1, 0], [4, 3], [3, 4]]" },
+      "grid": [
+        [2, 2, 1, 1, 1],
+        [2, 1, 1, 0, 1],
+        [1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 2],
+        [1, 1, 1, 2, 2]
+      ],
+      "minutes": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 15,
+      "narration": "Line 16: Infecting adjacent cells: (0, 2), (1, 1), (2, 0), (4, 2), (3, 3), (2, 4) all rot. Note (1, 3) is empty.",
+      "state": { "fresh": 11, "time": 1, "q": "[[0, 2], [1, 1], [2, 0], [4, 2], [3, 3], [2, 4]]" },
+      "grid": [
+        [2, 2, 2, 1, 1],
+        [2, 2, 1, 0, 1],
+        [2, 1, 1, 1, 2],
+        [1, 0, 1, 2, 2],
+        [1, 1, 2, 2, 2]
+      ],
+      "minutes": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 19,
+      "narration": "Line 20: Round complete. Increment clock: time = 2 minutes. Fresh remaining = 11.",
+      "state": { "fresh": 11, "time": 2, "q": "[[0, 2], [1, 1], [2, 0], [4, 2], [3, 3], [2, 4]]" },
+      "grid": [
+        [2, 2, 2, 1, 1],
+        [2, 2, 1, 0, 1],
+        [2, 1, 1, 1, 2],
+        [1, 0, 1, 2, 2],
+        [1, 1, 2, 2, 2]
+      ],
+      "minutes": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 11,
+      "narration": "Line 12: Dequeue 6 active cells from queue: [(0, 2), (1, 1), (2, 0), (4, 2), (3, 3), (2, 4)].",
+      "state": { "fresh": 11, "time": 2, "q": "[[0, 2], [1, 1], [2, 0], [4, 2], [3, 3], [2, 4]]" },
+      "grid": [
+        [2, 2, 2, 1, 1],
+        [2, 2, 1, 0, 1],
+        [2, 1, 1, 1, 2],
+        [1, 0, 1, 2, 2],
+        [1, 1, 2, 2, 2]
+      ],
+      "minutes": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 15,
+      "narration": "Line 16: Spreading rot: (1, 2), (2, 1), (3, 0), (4, 1), (3, 2), (2, 3), and (1, 4) rot. 7 oranges infected.",
+      "state": { "fresh": 4, "time": 2, "q": "[[1, 2], [2, 1], [3, 0], [4, 1], [3, 2], [2, 3], [1, 4]]" },
+      "grid": [
+        [2, 2, 2, 1, 1],
+        [2, 2, 2, 0, 2],
+        [2, 2, 1, 2, 2],
+        [2, 0, 2, 2, 2],
+        [1, 2, 2, 2, 2]
+      ],
+      "minutes": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 19,
+      "narration": "Line 20: Round complete. Increment clock: time = 3 minutes. Fresh remaining = 4.",
+      "state": { "fresh": 4, "time": 3, "q": "[[1, 2], [2, 1], [3, 0], [4, 1], [3, 2], [2, 3], [1, 4]]" },
+      "grid": [
+        [2, 2, 2, 1, 1],
+        [2, 2, 2, 0, 2],
+        [2, 2, 1, 2, 2],
+        [2, 0, 2, 2, 2],
+        [1, 2, 2, 2, 2]
+      ],
+      "minutes": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 11,
+      "narration": "Line 12: Dequeue 7 cells from queue: [(1, 2), (2, 1), (3, 0), (4, 1), (3, 2), (2, 3), (1, 4)].",
+      "state": { "fresh": 4, "time": 3, "q": "[[1, 2], [2, 1], [3, 0], [4, 1], [3, 2], [2, 3], [1, 4]]" },
+      "grid": [
+        [2, 2, 2, 1, 1],
+        [2, 2, 2, 0, 2],
+        [2, 2, 1, 2, 2],
+        [2, 0, 2, 2, 2],
+        [1, 2, 2, 2, 2]
+      ],
+      "minutes": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 15,
+      "narration": "Line 16: Spreading rot: (4, 0), (2, 2), and (0, 3) turn rotten. Only 1 fresh orange remains at (0, 4)!",
+      "state": { "fresh": 1, "time": 3, "q": "[[4, 0], [2, 2], [0, 3]]" },
+      "grid": [
+        [2, 2, 2, 2, 1],
+        [2, 2, 2, 0, 2],
+        [2, 2, 2, 2, 2],
+        [2, 0, 2, 2, 2],
+        [2, 2, 2, 2, 2]
+      ],
+      "minutes": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 19,
+      "narration": "Line 20: Round complete. Increment clock: time = 4 minutes. Fresh remaining = 1.",
+      "state": { "fresh": 1, "time": 4, "q": "[[4, 0], [2, 2], [0, 3]]" },
+      "grid": [
+        [2, 2, 2, 2, 1],
+        [2, 2, 2, 0, 2],
+        [2, 2, 2, 2, 2],
+        [2, 0, 2, 2, 2],
+        [2, 2, 2, 2, 2]
+      ],
+      "minutes": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 11,
+      "narration": "Line 12: Dequeue frontier cells [(4, 0), (2, 2), (0, 3)] to process final infection wave.",
+      "state": { "fresh": 1, "time": 4, "q": "[[4, 0], [2, 2], [0, 3]]" },
+      "grid": [
+        [2, 2, 2, 2, 1],
+        [2, 2, 2, 0, 2],
+        [2, 2, 2, 2, 2],
+        [2, 0, 2, 2, 2],
+        [2, 2, 2, 2, 2]
+      ],
+      "minutes": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 15,
+      "narration": "Line 16: (0, 3) infects its right neighbor (0, 4). Fresh oranges drops to 0!",
+      "state": { "fresh": 0, "time": 4, "q": "[[0, 4]]" },
+      "grid": [
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 0, 2],
+        [2, 2, 2, 2, 2],
+        [2, 0, 2, 2, 2],
+        [2, 2, 2, 2, 2]
+      ],
+      "minutes": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 19,
+      "narration": "Line 20: Final minute recorded. Increment clock: time = 5 minutes.",
+      "state": { "fresh": 0, "time": 5, "q": "[[0, 4]]" },
+      "grid": [
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 0, 2],
+        [2, 2, 2, 2, 2],
+        [2, 0, 2, 2, 2],
+        [2, 2, 2, 2, 2]
+      ],
+      "minutes": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 21,
+      "narration": "Line 22: fresh == 0. No fresh oranges remain uninfected. RETURN time = 5 minutes.",
+      "state": { "status": "COMPLETED", "minutesRequired": 5, "fresh": 0 },
+      "grid": [
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 0, 2],
+        [2, 2, 2, 2, 2],
+        [2, 0, 2, 2, 2],
+        [2, 2, 2, 2, 2]
+      ],
+      "minutes": 5,
+      "output": {
+        "label": "5x5 Grid Completed",
+        "value": "5 minutes",
+        "detail": "All 21 fresh oranges successfully rotted across 5 elapsed minutes."
+      }
+    }
+  ]
+}

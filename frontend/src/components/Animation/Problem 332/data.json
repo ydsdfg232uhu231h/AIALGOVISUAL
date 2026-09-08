@@ -1,0 +1,364 @@
+{
+  "id": 332,
+  "title": "Reconstruct Itinerary",
+  "difficulty": "Hard",
+  "topic": "Graph / Eulerian Path",
+  "algorithm": "Hierholzer's Algorithm (Post-Order DFS)",
+  "timeComplexity": "O(E log E)",
+  "spaceComplexity": "O(V + E)",
+  "oneLinerQuestion": "Reconstruct a valid flight itinerary that uses all tickets using Eulerian path rules.",
+  "url": "https://leetcode.com/problems/reconstruct-itinerary/",
+  "explanation": "Construct directed graph with lexically sorted destinations. Hierholzer's Algorithm (DFS) finds Eulerian path; post-order backtrack build creates correct topological flight order.",
+  "pseudoCode": "FUNCTION findItinerary(tickets):\n    adj = SORTED_HASH_MAP_OF_LISTS(), res = []\n    FOR t IN tickets DO APPEND t[1] TO adj[t[0]]\n    FUNCTION dfs(src):\n        WHILE adj[src] IS NOT EMPTY DO:\n            dst = POP_FIRST(adj[src])\n            dfs(dst)\n        END WHILE\n        PREPEND src TO res\n    END FUNCTION\n    dfs('JFK')\n    RETURN res\nEND FUNCTION",
+  "renderType": "eulerian_flight_path",
+  "initialData": [
+    ["MUC", "LHR"],
+    ["JFK", "MUC"],
+    ["SFO", "SJC"],
+    ["LHR", "SFO"]
+  ],
+  "codeLines": [
+    "FUNCTION findItinerary(tickets):",
+    "    adj = SORTED_HASH_MAP_OF_LISTS(), res = []",
+    "    FOR t IN tickets DO APPEND t[1] TO adj[t[0]]",
+    "    FUNCTION dfs(src):",
+    "        WHILE adj[src] IS NOT EMPTY DO:",
+    "            dst = POP_FIRST(adj[src])",
+    "            dfs(dst)",
+    "        END WHILE",
+    "        PREPEND src TO res",
+    "    END FUNCTION",
+    "    dfs('JFK')",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Sort tickets lexically and populate adjacency list adj: JFK -> [MUC], MUC -> [LHR], LHR -> [SFO], SFO -> [SJC], SJC -> [].",
+      "state": {
+        "callStack": "[]",
+        "currentAirport": "JFK",
+        "res": "[]"
+      },
+      "adj": {
+        "JFK": ["MUC"],
+        "MUC": ["LHR"],
+        "LHR": ["SFO"],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 10,
+      "narration": "Line 11: Call dfs('JFK') to start reconstructing the itinerary from origin.",
+      "state": {
+        "callStack": "['JFK']",
+        "currentAirport": "JFK",
+        "action": "START DFS"
+      },
+      "adj": {
+        "JFK": ["MUC"],
+        "MUC": ["LHR"],
+        "LHR": ["SFO"],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: dfs('JFK'): adj['JFK'] has destination 'MUC'. Enter traversal loop.",
+      "state": {
+        "callStack": "['JFK']",
+        "currentAirport": "JFK",
+        "destinations": "['MUC']"
+      },
+      "adj": {
+        "JFK": ["MUC"],
+        "MUC": ["LHR"],
+        "LHR": ["SFO"],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: At JFK: Pop first destination dst = 'MUC'. Consume ticket JFK -> MUC. Recurse into dfs('MUC').",
+      "state": {
+        "callStack": "['JFK', 'MUC']",
+        "currentAirport": "MUC",
+        "flightTaken": "JFK -> MUC"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": ["LHR"],
+        "LHR": ["SFO"],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: dfs('MUC'): adj['MUC'] has destination 'LHR'. Enter traversal loop.",
+      "state": {
+        "callStack": "['JFK', 'MUC']",
+        "currentAirport": "MUC",
+        "destinations": "['LHR']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": ["LHR"],
+        "LHR": ["SFO"],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: At MUC: Pop dst = 'LHR'. Consume ticket MUC -> LHR. Recurse into dfs('LHR').",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR']",
+        "currentAirport": "LHR",
+        "flightTaken": "MUC -> LHR"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": ["SFO"],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Line 5: dfs('LHR'): adj['LHR'] has destination 'SFO'. Enter traversal loop.",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR']",
+        "currentAirport": "LHR",
+        "destinations": "['SFO']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": ["SFO"],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 5,
+      "narration": "Line 6: At LHR: Pop dst = 'SFO'. Consume ticket LHR -> SFO. Recurse into dfs('SFO').",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR', 'SFO']",
+        "currentAirport": "SFO",
+        "flightTaken": "LHR -> SFO"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5: dfs('SFO'): adj['SFO'] has destination 'SJC'. Enter traversal loop.",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR', 'SFO']",
+        "currentAirport": "SFO",
+        "destinations": "['SJC']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": ["SJC"],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 5,
+      "narration": "Line 6: At SFO: Pop dst = 'SJC'. Consume ticket SFO -> SJC. Recurse into dfs('SJC').",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR', 'SFO', 'SJC']",
+        "currentAirport": "SJC",
+        "flightTaken": "SFO -> SJC"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 4,
+      "narration": "Line 5: dfs('SJC'): adj['SJC'] is empty. While loop does not execute.",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR', 'SFO', 'SJC']",
+        "currentAirport": "SJC",
+        "destinations": "[]"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": [],
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 8,
+      "narration": "Line 9: SJC reached a dead end. Prepend 'SJC' to res. Backtrack to caller 'SFO'.",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR', 'SFO']",
+        "currentAirport": "SFO",
+        "res": "['SJC']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": ["SJC"],
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 8,
+      "narration": "Line 9: Returning to dfs('SFO'): adj['SFO'] is empty. Prepend 'SFO' to res. Backtrack to caller 'LHR'.",
+      "state": {
+        "callStack": "['JFK', 'MUC', 'LHR']",
+        "currentAirport": "LHR",
+        "res": "['SFO', 'SJC']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": ["SFO", "SJC"],
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 8,
+      "narration": "Line 9: Returning to dfs('LHR'): adj['LHR'] is empty. Prepend 'LHR' to res. Backtrack to caller 'MUC'.",
+      "state": {
+        "callStack": "['JFK', 'MUC']",
+        "currentAirport": "MUC",
+        "res": "['LHR', 'SFO', 'SJC']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": ["LHR", "SFO", "SJC"],
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 8,
+      "narration": "Line 9: Returning to dfs('MUC'): adj['MUC'] is empty. Prepend 'MUC' to res. Backtrack to caller 'JFK'.",
+      "state": {
+        "callStack": "['JFK']",
+        "currentAirport": "JFK",
+        "res": "['MUC', 'LHR', 'SFO', 'SJC']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": ["MUC", "LHR", "SFO", "SJC"],
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 8,
+      "narration": "Line 9: Returning to root dfs('JFK'): adj['JFK'] is empty. Prepend 'JFK' to res.",
+      "state": {
+        "callStack": "[]",
+        "currentAirport": "JFK",
+        "res": "['JFK', 'MUC', 'LHR', 'SFO', 'SJC']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": ["JFK", "MUC", "LHR", "SFO", "SJC"],
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 11,
+      "narration": "Line 12: All 4 tickets consumed. Return final reconstructed itinerary res.",
+      "state": {
+        "status": "COMPLETED",
+        "totalStops": 5,
+        "itinerary": "['JFK', 'MUC', 'LHR', 'SFO', 'SJC']"
+      },
+      "adj": {
+        "JFK": [],
+        "MUC": [],
+        "LHR": [],
+        "SFO": [],
+        "SJC": []
+      },
+      "itinerary": ["JFK", "MUC", "LHR", "SFO", "SJC"],
+      "output": {
+        "label": "Final Flight Itinerary",
+        "value": "[\"JFK\",\"MUC\",\"LHR\",\"SFO\",\"SJC\"]",
+        "detail": "Eulerian circuit reconstructed using Hierholzer's post-order DFS backtrack."
+      }
+    }
+  ]
+}

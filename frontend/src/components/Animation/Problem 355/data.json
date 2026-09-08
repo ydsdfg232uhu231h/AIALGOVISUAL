@@ -1,0 +1,280 @@
+{
+  "id": 355,
+  "title": "Design Twitter",
+  "difficulty": "Medium",
+  "topic": "Design / Heap / Hash Table",
+  "algorithm": "Hash Maps + Priority Queue Merging",
+  "timeComplexity": "O(k log n) feed retrieval",
+  "spaceComplexity": "O(U + T)",
+  "oneLinerQuestion": "Design a simplified social feed allowing users to post tweets, follow/unfollow, and fetch recent feed.",
+  "url": "https://leetcode.com/problems/design-twitter/",
+  "explanation": "Maintain user follow relationships in sets and tweet lists with global increment timestamps. Fetching feeds uses Max-Heap to merge top 10 most recent tweets across followed accounts.",
+  "pseudoCode": "CLASS Twitter:\n    CONSTRUCTOR(): count = 0, tweetMap = HASH_MAP(), followMap = HASH_MAP()\n    FUNCTION postTweet(userId, tweetId):\n        APPEND [count, tweetId] TO tweetMap[userId]; count = count - 1\n    FUNCTION getNewsFeed(userId):\n        res = [], minHeap = MaxHeap()\n        ADD userId TO followMap[userId]\n        FOR followeeId IN followMap[userId] DO:\n            IF followeeId IN tweetMap THEN PUSH LAST(tweetMap[followeeId]) TO minHeap\n        WHILE minHeap AND LENGTH(res) < 10 DO:\n            [cnt, tweetId, followeeId, idx] = POP(minHeap)\n            APPEND tweetId TO res\n            IF idx > 0 THEN PUSH tweetMap[followeeId][idx - 1] TO minHeap\n        END WHILE\n        RETURN res\n    FUNCTION follow(followerId, followeeId): ADD followeeId TO followMap[followerId]\n    FUNCTION unfollow(followerId, followeeId): REMOVE followeeId FROM followMap[followerId]\nEND CLASS",
+  "renderType": "feed_merge_heap",
+  "initialData": [
+    "postTweet(1, 101)",
+    "postTweet(2, 201)",
+    "postTweet(3, 301)",
+    "postTweet(4, 401)",
+    "follow(1, 2)",
+    "follow(1, 3)",
+    "follow(1, 4)",
+    "postTweet(2, 202)",
+    "getNewsFeed(1)"
+  ],
+  "codeLines": [
+    "CLASS Twitter:",
+    "    CONSTRUCTOR(): count = 0, tweetMap = HASH_MAP(), followMap = HASH_MAP()",
+    "    FUNCTION postTweet(userId, tweetId):",
+    "        APPEND [count, tweetId] TO tweetMap[userId]; count = count - 1",
+    "    FUNCTION getNewsFeed(userId):",
+    "        res = [], minHeap = MaxHeap()",
+    "        ADD userId TO followMap[userId]",
+    "        FOR followeeId IN followMap[userId] DO:",
+    "            IF followeeId IN tweetMap THEN PUSH LAST(tweetMap[followeeId]) TO minHeap",
+    "        WHILE minHeap AND LENGTH(res) < 10 DO:",
+    "            [cnt, tweetId, followeeId, idx] = POP(minHeap)",
+    "            APPEND tweetId TO res",
+    "            IF idx > 0 THEN PUSH tweetMap[followeeId][idx - 1] TO minHeap",
+    "        END WHILE",
+    "        RETURN res",
+    "    FUNCTION follow(followerId, followeeId): ADD followeeId TO followMap[followerId]",
+    "    FUNCTION unfollow(followerId, followeeId): REMOVE followeeId FROM followMap[followerId]",
+    "END CLASS"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: 4 user accounts initialized. Empty tweet logs and follow maps.",
+      "state": { "users": 4 },
+      "tweetMap": { "1": [], "2": [], "3": [], "4": [] },
+      "followMap": { "1": [], "2": [], "3": [], "4": [] },
+      "heap": [],
+      "feed": [],
+      "focusUser": 1,
+      "activeAction": "INITIALIZE",
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Users post tweets: U1 posts #101 (t=0), U2 posts #201 (t=1), U3 posts #301 (t=2), U4 posts #401 (t=3).",
+      "state": { "totalTweets": 4 },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [{ "id": 201, "time": 1, "userId": 2 }],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [], "2": [], "3": [], "4": [] },
+      "heap": [],
+      "feed": [],
+      "focusUser": 1,
+      "activeAction": "POST TWEETS (1-4)",
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 15,
+      "narration": "Line 16: User 1 follows User 2, User 3, and User 4.",
+      "state": { "followMap[1]": "[2, 3, 4]" },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [{ "id": 201, "time": 1, "userId": 2 }],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [],
+      "feed": [],
+      "focusUser": 1,
+      "activeAction": "FOLLOW(1, 2, 3, 4)",
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: User 2 posts a newer tweet #202 at t = 4.",
+      "state": { "latestTweet": "#202 (t=4)" },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [
+          { "id": 201, "time": 1, "userId": 2 },
+          { "id": 202, "time": 4, "userId": 2 }
+        ],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [],
+      "feed": [],
+      "focusUser": 1,
+      "activeAction": "POST_TWEET(2, 202)",
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 7,
+      "narration": "Line 8: getNewsFeed(1): Push latest tweet from each followed user (U1, U2, U3, U4) into the Max-Heap.",
+      "state": { "heapSize": 4 },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [
+          { "id": 201, "time": 1, "userId": 2 },
+          { "id": 202, "time": 4, "userId": 2 }
+        ],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [
+        { "id": 202, "time": 4, "userId": 2, "idx": 1 },
+        { "id": 401, "time": 3, "userId": 4, "idx": 0 },
+        { "id": 301, "time": 2, "userId": 3, "idx": 0 },
+        { "id": 101, "time": 0, "userId": 1, "idx": 0 }
+      ],
+      "feed": [],
+      "focusUser": 1,
+      "activeAction": "POPULATE HEAP",
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 10,
+      "narration": "Line 11: Pop Max-Heap root: Tweet #202 (t=4 from U2). Enqueue U2's prior tweet #201 (t=1).",
+      "state": { "popped": "#202", "feedLength": 1 },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [
+          { "id": 201, "time": 1, "userId": 2 },
+          { "id": 202, "time": 4, "userId": 2 }
+        ],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [
+        { "id": 401, "time": 3, "userId": 4, "idx": 0 },
+        { "id": 301, "time": 2, "userId": 3, "idx": 0 },
+        { "id": 201, "time": 1, "userId": 2, "idx": 0 },
+        { "id": 101, "time": 0, "userId": 1, "idx": 0 }
+      ],
+      "feed": [{ "id": 202, "userId": 2 }],
+      "focusUser": 1,
+      "activeAction": "EXTRACT #202",
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 10,
+      "narration": "Line 11: Pop Max-Heap root: Tweet #401 (t=3 from U4). Appended to feed. U4 has no prior tweets.",
+      "state": { "popped": "#401", "feedLength": 2 },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [
+          { "id": 201, "time": 1, "userId": 2 },
+          { "id": 202, "time": 4, "userId": 2 }
+        ],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [
+        { "id": 301, "time": 2, "userId": 3, "idx": 0 },
+        { "id": 201, "time": 1, "userId": 2, "idx": 0 },
+        { "id": 101, "time": 0, "userId": 1, "idx": 0 }
+      ],
+      "feed": [{ "id": 202, "userId": 2 }, { "id": 401, "userId": 4 }],
+      "focusUser": 1,
+      "activeAction": "EXTRACT #401",
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 10,
+      "narration": "Line 11: Pop Max-Heap root: Tweet #301 (t=2 from U3). Appended to feed.",
+      "state": { "popped": "#301", "feedLength": 3 },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [
+          { "id": 201, "time": 1, "userId": 2 },
+          { "id": 202, "time": 4, "userId": 2 }
+        ],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [
+        { "id": 201, "time": 1, "userId": 2, "idx": 0 },
+        { "id": 101, "time": 0, "userId": 1, "idx": 0 }
+      ],
+      "feed": [
+        { "id": 202, "userId": 2 },
+        { "id": 401, "userId": 4 },
+        { "id": 301, "userId": 3 }
+      ],
+      "focusUser": 1,
+      "activeAction": "EXTRACT #301",
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 10,
+      "narration": "Line 11: Pop remaining heap items: Tweet #201 (t=1 from U2), then Tweet #101 (t=0 from U1).",
+      "state": { "popped": "#201 & #101", "feedLength": 5 },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [
+          { "id": 201, "time": 1, "userId": 2 },
+          { "id": 202, "time": 4, "userId": 2 }
+        ],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [],
+      "feed": [
+        { "id": 202, "userId": 2 },
+        { "id": 401, "userId": 4 },
+        { "id": 301, "userId": 3 },
+        { "id": 201, "userId": 2 },
+        { "id": 101, "userId": 1 }
+      ],
+      "focusUser": 1,
+      "activeAction": "COMPLETE EXTRACTIONS",
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 14,
+      "narration": "Line 15: All 5 tweets merged in chronological order across 4 users. RETURN feed.",
+      "state": { "status": "COMPLETED", "result": "[202, 401, 301, 201, 101]" },
+      "tweetMap": {
+        "1": [{ "id": 101, "time": 0, "userId": 1 }],
+        "2": [
+          { "id": 201, "time": 1, "userId": 2 },
+          { "id": 202, "time": 4, "userId": 2 }
+        ],
+        "3": [{ "id": 301, "time": 2, "userId": 3 }],
+        "4": [{ "id": 401, "time": 3, "userId": 4 }]
+      },
+      "followMap": { "1": [2, 3, 4], "2": [], "3": [], "4": [] },
+      "heap": [],
+      "feed": [
+        { "id": 202, "userId": 2 },
+        { "id": 401, "userId": 4 },
+        { "id": 301, "userId": 3 },
+        { "id": 201, "userId": 2 },
+        { "id": 101, "userId": 1 }
+      ],
+      "focusUser": 1,
+      "activeAction": "FEED COMPLETED",
+      "output": {
+        "label": "Merged 4-User Feed",
+        "value": "[202, 401, 301, 201, 101]",
+        "detail": "K-way Max-Heap merged recent tweets across 4 distinct accounts by timestamp recency."
+      }
+    }
+  ]
+}

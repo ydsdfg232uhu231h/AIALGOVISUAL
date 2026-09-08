@@ -1,0 +1,248 @@
+.permute-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 460px;
+  position: relative;
+  gap: 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* TOP METRICS */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #141417;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.start-chip b {
+  color: #38bdf8;
+}
+
+.swap-chip {
+  border-color: #facc15;
+  background: rgba(250, 204, 21, 0.12);
+}
+
+.swap-chip b {
+  color: #fde047;
+}
+
+.idle-chip b {
+  color: #a1a1aa;
+}
+
+.count-chip b {
+  color: #4ade80;
+}
+
+/* ARRAY TRACK */
+.permute-track-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at bottom, #18191f 0%, #101014 100%);
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  padding: 34px 28px 20px 28px;
+  max-width: 95%;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.permute-stream {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+.permute-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.ptrs-group {
+  position: absolute;
+  top: -26px;
+  display: flex;
+  gap: 3px;
+  height: 20px;
+  z-index: 2;
+}
+
+.pointer-tag {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.ptr-swapa {
+  background: #facc15;
+  color: #000;
+}
+
+.ptr-swapb {
+  background: #c084fc;
+  color: #000;
+}
+
+.ptr-start {
+  background: #38bdf8;
+  color: #000;
+}
+
+/* NUMBER BOXES */
+.permute-box {
+  width: 54px;
+  height: 58px;
+  border-radius: 10px;
+  background: #18181b;
+  border: 2px solid #27272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.num-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.idx-tag {
+  font-size: 9px;
+  color: #71717a;
+  position: absolute;
+  bottom: 3px;
+}
+
+.box-swapping {
+  border-color: #facc15 !important;
+  background: rgba(250, 204, 21, 0.18) !important;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.4);
+}
+
+.box-swapping .num-val {
+  color: #fef08a;
+}
+
+.box-fixed {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+}
+
+/* RESULTS REEL */
+.results-reel-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 10px 16px;
+  max-width: 95%;
+  width: 440px;
+  box-sizing: border-box;
+}
+
+.reel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reel-title {
+  font-size: 10px;
+  color: #71717a;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.reel-count {
+  font-size: 11px;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+.reel-chips-stream {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 26px;
+}
+
+.reel-empty-text {
+  font-size: 11px;
+  color: #52525b;
+  font-style: italic;
+}
+
+.combo-chip {
+  background: #18181b;
+  border: 1px solid #22c55e;
+  color: #86efac;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+/* RESULT CALLOUT */
+.result-callout {
+  position: absolute;
+  bottom: 8px;
+  background: #0f172a;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 6px 14px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 15px;
+  color: #fff;
+  font-weight: 800;
+  margin: 1px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #94a3b8;
+}

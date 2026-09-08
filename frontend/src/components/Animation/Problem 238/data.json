@@ -1,0 +1,156 @@
+{
+  "id": 238,
+  "title": "Product of Array Except Self",
+  "difficulty": "Medium",
+  "topic": "Array",
+  "algorithm": "Prefix & Suffix Array Accumulation",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Construct an output array where each index equals the product of all array elements except itself.",
+  "url": "https://leetcode.com/problems/product-of-array-except-self/",
+  "explanation": "Build prefix products array left to right, then multiply each position by running postfix product from right to left in O(N) time without using division.",
+  "pseudoCode": "FUNCTION productExceptSelf(nums):\n    res = ARRAY_OF_SIZE(LENGTH(nums), INITIAL_VALUE = 1)\n    prefix = 1\n    FOR i FROM 0 TO LENGTH(nums) - 1 DO:\n        res[i] = prefix; prefix = prefix * nums[i]\n    END FOR\n    postfix = 1\n    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:\n        res[i] = res[i] * postfix; postfix = postfix * nums[i]\n    END FOR\n    RETURN res\nEND FUNCTION",
+  "renderType": "prefix_suffix_array",
+  "initialData": [1, 2, 3, 4],
+  "codeLines": [
+    "FUNCTION productExceptSelf(nums):",
+    "    res = ARRAY_OF_SIZE(LENGTH(nums), INITIAL_VALUE = 1)",
+    "    prefix = 1",
+    "    FOR i FROM 0 TO LENGTH(nums) - 1 DO:",
+    "        res[i] = prefix; prefix = prefix * nums[i]",
+    "    END FOR",
+    "    postfix = 1",
+    "    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:",
+    "        res[i] = res[i] * postfix; postfix = postfix * nums[i]",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2-3: Initialize res = [1, 1, 1, 1] and prefix accumulator = 1. Starting prefix pass.",
+      "state": { "prefix": 1, "res": "[1, 1, 1, 1]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 1, 1],
+      "currentIdx": null,
+      "pass": "prefix",
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: i = 0: res[0] = prefix (1). prefix becomes 1 * nums[0] (1) = 1.",
+      "state": { "i": 0, "prefix": 1, "res": "[1, 1, 1, 1]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 1, 1],
+      "currentIdx": 0,
+      "pass": "prefix",
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: i = 1: res[1] = prefix (1). prefix becomes 1 * nums[1] (2) = 2.",
+      "state": { "i": 1, "prefix": 2, "res": "[1, 1, 1, 1]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 1, 1],
+      "currentIdx": 1,
+      "pass": "prefix",
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: i = 2: res[2] = prefix (2). prefix becomes 2 * nums[2] (3) = 6.",
+      "state": { "i": 2, "prefix": 6, "res": "[1, 1, 2, 1]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 2, 1],
+      "currentIdx": 2,
+      "pass": "prefix",
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: i = 3: res[3] = prefix (6). prefix becomes 6 * nums[3] (4) = 24. Prefix pass complete.",
+      "state": { "i": 3, "prefix": 24, "res": "[1, 1, 2, 6]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 2, 6],
+      "currentIdx": 3,
+      "pass": "prefix",
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7: Start reverse postfix pass: Initialize postfix accumulator = 1.",
+      "state": { "postfix": 1, "res": "[1, 1, 2, 6]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 2, 6],
+      "currentIdx": null,
+      "pass": "postfix",
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: i = 3: res[3] = 6 * postfix(1) = 6. postfix becomes 1 * nums[3](4) = 4.",
+      "state": { "i": 3, "postfix": 4, "res": "[1, 1, 2, 6]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 2, 6],
+      "currentIdx": 3,
+      "pass": "postfix",
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 8,
+      "narration": "Line 9: i = 2: res[2] = 2 * postfix(4) = 8. postfix becomes 4 * nums[2](3) = 12.",
+      "state": { "i": 2, "postfix": 12, "res": "[1, 1, 8, 6]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 1, 8, 6],
+      "currentIdx": 2,
+      "pass": "postfix",
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 8,
+      "narration": "Line 9: i = 1: res[1] = 1 * postfix(12) = 12. postfix becomes 12 * nums[1](2) = 24.",
+      "state": { "i": 1, "postfix": 24, "res": "[1, 12, 8, 6]" },
+      "array": [1, 2, 3, 4],
+      "res": [1, 12, 8, 6],
+      "currentIdx": 1,
+      "pass": "postfix",
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 8,
+      "narration": "Line 9: i = 0: res[0] = 1 * postfix(24) = 24. Both passes complete.",
+      "state": { "i": 0, "postfix": 24, "res": "[24, 12, 8, 6]" },
+      "array": [1, 2, 3, 4],
+      "res": [24, 12, 8, 6],
+      "currentIdx": 0,
+      "pass": "postfix",
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 10,
+      "narration": "Line 11: All elements multiplied by left and right neighbors. RETURN res = [24, 12, 8, 6].",
+      "state": { "status": "COMPLETED", "res": "[24, 12, 8, 6]" },
+      "array": [1, 2, 3, 4],
+      "res": [24, 12, 8, 6],
+      "currentIdx": null,
+      "pass": "done",
+      "output": {
+        "label": "Products Computed",
+        "value": "[24, 12, 8, 6]",
+        "detail": "Calculated via two linear passes using O(1) extra space without division."
+      }
+    }
+  ]
+}

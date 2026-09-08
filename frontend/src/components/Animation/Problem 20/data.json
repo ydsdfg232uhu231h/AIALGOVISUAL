@@ -1,0 +1,157 @@
+{
+  "id": 20,
+  "title": "Valid Parentheses",
+  "difficulty": "Easy",
+  "topic": "Stack",
+  "algorithm": "Monotonic Stack / Stack Matching",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Determine if an input string of brackets has correct opening and closing order.",
+  "url": "https://leetcode.com/problems/valid-parentheses/",
+  "explanation": "We push opening brackets onto a stack. When encountering a closing bracket, we check if it matches the top element of the stack. If it matches, we pop it; otherwise, or if the stack is empty, the string is invalid.",
+  "pseudoCode": "FUNCTION isValid(s):\n    stack = EMPTY_STACK()\n    bracketMap = {')': '(', '}': '{', ']': '['}\n    FOR char IN s DO:\n        IF char IN bracketMap.values() THEN PUSH char TO stack\n        ELSE IF char IN bracketMap.keys() THEN:\n            IF stack IS EMPTY OR TOP(stack) != bracketMap[char] THEN RETURN False\n            POP stack\n        END IF\n    END FOR\n    RETURN IS_EMPTY(stack)\nEND FUNCTION",
+  "renderType": "bracket_stack",
+  "initialData": [
+    "(",
+    "{",
+    "}",
+    ")"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: stack = []. Initializing bracket matcher.",
+      "state": {
+        "stack": "[]",
+        "char": ""
+      },
+      "chars": [
+        "(",
+        "{",
+        "}",
+        ")"
+      ],
+      "activeCharIdx": -1,
+      "stack": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: char = '('. Opening bracket detected, PUSH to stack.",
+      "state": {
+        "char": "(",
+        "stack": "['(']"
+      },
+      "chars": [
+        "(",
+        "{",
+        "}",
+        ")"
+      ],
+      "activeCharIdx": 0,
+      "stack": [
+        "("
+      ],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: char = '{'. Opening bracket detected, PUSH to stack.",
+      "state": {
+        "char": "{",
+        "stack": "['(', '{']"
+      },
+      "chars": [
+        "(",
+        "{",
+        "}",
+        ")"
+      ],
+      "activeCharIdx": 1,
+      "stack": [
+        "(",
+        "{"
+      ],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 7,
+      "narration": "Line 8: char = '}'. Closing bracket matches TOP(stack) '{'. POP stack.",
+      "state": {
+        "char": "}",
+        "matched": "{",
+        "stack": "['(']"
+      },
+      "chars": [
+        "(",
+        "{",
+        "}",
+        ")"
+      ],
+      "activeCharIdx": 2,
+      "stack": [
+        "("
+      ],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 7,
+      "narration": "Line 8: char = ')'. Closing bracket matches TOP(stack) '('. POP stack.",
+      "state": {
+        "char": ")",
+        "matched": "(",
+        "stack": "[]"
+      },
+      "chars": [
+        "(",
+        "{",
+        "}",
+        ")"
+      ],
+      "activeCharIdx": 3,
+      "stack": [],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 10,
+      "narration": "Line 11: End of string. IS_EMPTY(stack) is True. RETURN True.",
+      "state": {
+        "status": "COMPLETED",
+        "return": "True"
+      },
+      "chars": [
+        "(",
+        "{",
+        "}",
+        ")"
+      ],
+      "activeCharIdx": 3,
+      "stack": [],
+      "output": {
+        "label": "Valid Bracket String",
+        "value": "True",
+        "detail": "All brackets matched symmetrically."
+      }
+    }
+  ],
+  "codeLines": [
+    "FUNCTION isValid(s):",
+    "    stack = EMPTY_STACK()",
+    "    bracketMap = {')': '(', '}': '{', ']': '['}",
+    "    FOR char IN s DO:",
+    "        IF char IN bracketMap.values() THEN PUSH char TO stack",
+    "        ELSE IF char IN bracketMap.keys() THEN:",
+    "            IF stack IS EMPTY OR TOP(stack) != bracketMap[char] THEN RETURN False",
+    "            POP stack",
+    "        END IF",
+    "    END FOR",
+    "    RETURN IS_EMPTY(stack)",
+    "END FUNCTION"
+  ]
+}

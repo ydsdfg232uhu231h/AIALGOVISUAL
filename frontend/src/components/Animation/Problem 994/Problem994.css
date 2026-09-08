@@ -1,0 +1,185 @@
+.oranges-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 540px;
+  position: relative;
+  gap: 14px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* TOP METRICS */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #141417;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.time-chip b {
+  color: #facc15;
+}
+
+.fresh-chip b {
+  color: #fb923c;
+}
+
+.chip-cleared {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.chip-cleared b {
+  color: #86efac;
+}
+
+.queue-chip b {
+  color: #38bdf8;
+}
+
+/* 5x5 GRID BOARD */
+.grid-outer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #101014;
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6);
+}
+
+.grid-row {
+  display: flex;
+  gap: 8px;
+}
+
+.orange-cell {
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.25s ease;
+  border: 2px solid #27272a;
+}
+
+.cell-glyph {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cell-state-label {
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.coord-tag {
+  font-size: 7px;
+  color: #71717a;
+  position: absolute;
+  bottom: 2px;
+  font-family: monospace;
+}
+
+/* CELL STATE VARIATIONS */
+.cell-empty {
+  background: #18181b;
+  border-color: #27272a;
+}
+
+.cell-empty .cell-glyph {
+  color: #3f3f46;
+}
+
+.cell-empty .cell-state-label {
+  color: #52525b;
+}
+
+.cell-fresh {
+  background: rgba(251, 146, 60, 0.12);
+  border-color: #fb923c;
+}
+
+.cell-fresh .cell-state-label {
+  color: #fdba74;
+}
+
+.cell-rotten {
+  background: rgba(34, 197, 94, 0.16);
+  border-color: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+}
+
+.cell-rotten .cell-glyph {
+  color: #4ade80;
+  font-weight: 900;
+}
+
+.cell-rotten .cell-state-label {
+  color: #86efac;
+}
+
+.cell-frontier {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.45) !important;
+}
+
+/* RESULT CALLOUT */
+.result-callout {
+  position: absolute;
+  bottom: 8px;
+  background: #0f172a;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 8px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 800;
+  margin: 1px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #94a3b8;
+}

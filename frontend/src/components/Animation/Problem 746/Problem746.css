@@ -1,0 +1,208 @@
+.min-cost-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 420px;
+  position: relative;
+  gap: 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.current-chip b {
+  color: #38bdf8;
+}
+
+.opt1-chip b {
+  color: #facc15;
+}
+
+.opt2-chip b {
+  color: #c084fc;
+}
+
+.result-chip b {
+  color: #4ade80;
+}
+
+.stairs-track {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 32px 6px 8px 6px;
+  min-height: 230px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.stairs-track::-webkit-scrollbar {
+  display: none;
+}
+
+.stair-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ptrs-group {
+  position: absolute;
+  top: -24px;
+  display: flex;
+  gap: 3px;
+  height: 18px;
+  z-index: 2;
+}
+
+.pointer-tag {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ptr-curr {
+  background: #38bdf8;
+  color: #000;
+}
+
+.ptr-jump1 {
+  background: #facc15;
+  color: #000;
+}
+
+.ptr-jump2 {
+  background: #c084fc;
+  color: #000;
+}
+
+.ptr-best {
+  background: #22c55e;
+  color: #000;
+}
+
+.ptr-goal {
+  background: #ec4899;
+  color: #fff;
+}
+
+.stair-node {
+  width: 55px;
+  border-radius: 6px 6px 3px 3px;
+  background: #141416;
+  border: 2px solid #27272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 2px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.stair-cost {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.stair-label {
+  font-size: 8px;
+  color: #71717a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stair-curr {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.18) !important;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
+.stair-option {
+  border-color: #eab308;
+  background: rgba(234, 179, 8, 0.1);
+}
+
+.stair-optimal {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.25) !important;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+}
+
+.stair-optimal .stair-cost {
+  color: #86efac;
+}
+
+.top-node {
+  border-style: dashed;
+  border-color: #ec4899;
+  background: rgba(236, 72, 153, 0.1);
+}
+
+.top-node .stair-cost {
+  color: #f472b6;
+}
+
+.result-callout {
+  position: absolute;
+  bottom: 8px;
+  background: #111827;
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 6px 14px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 15px;
+  color: #fff;
+  font-weight: 800;
+  margin: 1px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #9ca3af;
+}

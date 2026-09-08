@@ -1,0 +1,131 @@
+{
+  "id": 152,
+  "title": "Maximum Product Subarray",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "Track Max and Min Product DP",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find a contiguous non-empty subarray that has the largest product.",
+  "url": "https://leetcode.com/problems/maximum-product-subarray/",
+  "explanation": "Track both running current max product and current min product (because multiplying two negative numbers creates a large positive product). Swap min/max whenever a negative number is encountered.",
+  "pseudoCode": "FUNCTION maxProduct(nums):\n    res = MAX(nums), curMin = 1, curMax = 1\n    FOR n IN nums DO:\n        temp = curMax * n\n        curMax = MAX(n, temp, curMin * n)\n        curMin = MIN(n, temp, curMin * n)\n        res = MAX(res, curMax)\n    END FOR\n    RETURN res\nEND FUNCTION",
+  "renderType": "kadane_product",
+  "initialData": [2, 3, -2, 4, -1],
+  "codeLines": [
+    "FUNCTION maxProduct(nums):",
+    "    res = MAX(nums), curMin = 1, curMax = 1",
+    "    FOR n IN nums DO:",
+    "        temp = curMax * n",
+    "        curMax = MAX(n, temp, curMin * n)",
+    "        curMin = MIN(n, temp, curMin * n)",
+    "        res = MAX(res, curMax)",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize res = MAX(nums) = 4, curMin = 1, curMax = 1. Array = [2, 3, -2, 4, -1].",
+      "state": {
+        "curMin": 1,
+        "curMax": 1,
+        "res": 4,
+        "n": null
+      },
+      "nums": [2, 3, -2, 4, -1],
+      "currentIndex": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5-7: i = 0, n = 2. Candidates: [2, 1*2=2, 1*2=2]. curMax = 2, curMin = 2. res = MAX(4, 2) = 4.",
+      "state": {
+        "n": 2,
+        "curMax": 2,
+        "curMin": 2,
+        "res": 4
+      },
+      "nums": [2, 3, -2, 4, -1],
+      "currentIndex": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5-7: i = 1, n = 3. Candidates: [3, 2*3=6, 2*3=6]. curMax = 6, curMin = 3. res = MAX(4, 6) = 6.",
+      "state": {
+        "n": 3,
+        "curMax": 6,
+        "curMin": 3,
+        "res": 6
+      },
+      "nums": [2, 3, -2, 4, -1],
+      "currentIndex": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5-7: i = 2, n = -2. Candidates: [-2, 6*(-2)=-12, 3*(-2)=-6]. curMax = -2, curMin = -12. res remains 6.",
+      "state": {
+        "n": -2,
+        "curMax": -2,
+        "curMin": -12,
+        "res": 6
+      },
+      "nums": [2, 3, -2, 4, -1],
+      "currentIndex": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5-7: i = 3, n = 4. Candidates: [4, (-2)*4=-8, (-12)*4=-48]. curMax = 4, curMin = -48. res remains 6.",
+      "state": {
+        "n": 4,
+        "curMax": 4,
+        "curMin": -48,
+        "res": 6
+      },
+      "nums": [2, 3, -2, 4, -1],
+      "currentIndex": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Line 5-7: i = 4, n = -1. Candidates: [-1, 4*(-1)=-4, (-48)*(-1)=48]. Two negatives flip! curMax = 48, curMin = -4. res = MAX(6, 48) = 48.",
+      "state": {
+        "n": -1,
+        "curMax": 48,
+        "curMin": -4,
+        "res": 48
+      },
+      "nums": [2, 3, -2, 4, -1],
+      "currentIndex": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: Traversal complete. Subarray [2, 3, -2, 4, -1] multiplies to 48. RETURN res = 48.",
+      "state": {
+        "status": "COMPLETED",
+        "res": 48,
+        "curMax": 48,
+        "curMin": -4
+      },
+      "nums": [2, 3, -2, 4, -1],
+      "currentIndex": 4,
+      "output": {
+        "label": "Max Product Subarray",
+        "value": "48",
+        "detail": "Entire array [2, 3, -2, 4, -1] yields maximum contiguous product 48."
+      }
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "id": 141,
+  "title": "Linked List Cycle",
+  "difficulty": "Easy",
+  "topic": "Linked List / Two Pointers",
+  "algorithm": "Floyd's Tortoise and Hare",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Determine if a linked list contains a cycle using two pointer technique.",
+  "url": "https://leetcode.com/problems/linked-list-cycle/",
+  "explanation": "Floyd's Cycle-Finding Algorithm uses two pointers moving at different speeds (slow moves 1 step, fast moves 2 steps). If a cycle exists, the fast pointer will eventually overlap the slow pointer inside the cycle loop.",
+  "pseudoCode": "FUNCTION hasCycle(head):\n    slow = head, fast = head\n    WHILE fast IS NOT NULL AND fast.next IS NOT NULL DO:\n        slow = slow.next\n        fast = fast.next.next\n        IF slow == fast THEN RETURN True\n    END WHILE\n    RETURN False\nEND FUNCTION",
+  "renderType": "cycle_detect",
+  "initialData": [3, 2, 0, -4],
+  "codeLines": [
+    "FUNCTION hasCycle(head):",
+    "    slow = head, fast = head",
+    "    WHILE fast IS NOT NULL AND fast.next IS NOT NULL DO:",
+    "        slow = slow.next",
+    "        fast = fast.next.next",
+    "        IF slow == fast THEN RETURN True",
+    "    END WHILE",
+    "    RETURN False",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize slow = head (Node 0, val=3) and fast = head (Node 0, val=3).",
+      "state": { "slow": 3, "fast": 3 },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 0,
+      "fastIdx": 0,
+      "currentOp": "init",
+      "collision": false,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: slow advances 1 step: Node[0] (3) -> Node[1] (2).",
+      "state": { "slow": 2, "fast": 3 },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 1,
+      "fastIdx": 0,
+      "currentOp": "slow_step",
+      "collision": false,
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: fast advances 2 steps: Node[0] -> Node[1] -> Node[2] (0).",
+      "state": { "slow": 2, "fast": 0 },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 1,
+      "fastIdx": 2,
+      "currentOp": "fast_step",
+      "collision": false,
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: slow advances 1 step: Node[1] (2) -> Node[2] (0).",
+      "state": { "slow": 0, "fast": 0 },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 2,
+      "fastIdx": 2,
+      "currentOp": "slow_step",
+      "collision": false,
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: fast advances 2 steps: Node[2] -> Node[3] -> wraps around cycle to Node[1] (2).",
+      "state": { "slow": 0, "fast": 2 },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 2,
+      "fastIdx": 1,
+      "currentOp": "fast_cycle_wrap",
+      "collision": false,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: slow advances 1 step: Node[2] (0) -> Node[3] (-4).",
+      "state": { "slow": -4, "fast": 2 },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 3,
+      "fastIdx": 1,
+      "currentOp": "slow_step",
+      "collision": false,
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Line 5: fast advances 2 steps: Node[1] -> Node[2] -> Node[3] (-4).",
+      "state": { "slow": -4, "fast": -4 },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 3,
+      "fastIdx": 3,
+      "currentOp": "fast_step",
+      "collision": true,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 5,
+      "narration": "Line 6: Collision detected! slow == fast at Node[3] (val: -4). Cycle is confirmed. RETURN True.",
+      "state": { "status": "COMPLETED", "cycleDetected": "True" },
+      "nodes": [
+        { "id": "node-0", "val": 3 },
+        { "id": "node-1", "val": 2 },
+        { "id": "node-2", "val": 0 },
+        { "id": "node-3", "val": -4 }
+      ],
+      "cycleEntryIdx": 1,
+      "slowIdx": 3,
+      "fastIdx": 3,
+      "currentOp": "collision",
+      "collision": true,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Cycle Detected",
+        "value": "True",
+        "detail": "Tortoise and Hare collided at Node[3] (-4). The linked list contains an active cycle."
+      }
+    }
+  ]
+}

@@ -1,0 +1,272 @@
+{
+  "id": 146,
+  "title": "LRU Cache",
+  "difficulty": "Medium",
+  "topic": "Design / Hash Table / Doubly Linked List",
+  "algorithm": "Hash Map + Doubly Linked List",
+  "timeComplexity": "O(1) for both get and put",
+  "spaceComplexity": "O(capacity)",
+  "oneLinerQuestion": "Design a Least Recently Used (LRU) cache supporting get and put in O(1) time.",
+  "url": "https://leetcode.com/problems/lru-cache/",
+  "explanation": "Combine a Hash Map with a Doubly Linked List. The Hash Map provides O(1) node access by key. The Doubly Linked List maintains access history in O(1) time by removing and re-inserting accessed nodes at the MRU end (before the right sentinel) and evicting from the LRU end (after the left sentinel).",
+  "pseudoCode": "CLASS LRUCache:\n    CONSTRUCTOR(capacity):\n        cap = capacity, cache = HASH_MAP(), left = Node(0,0), right = Node(0,0)\n        left.next = right; right.prev = left\n    FUNCTION get(key):\n        IF key IN cache THEN REMOVE(cache[key]); INSERT(cache[key]); RETURN cache[key].val\n        RETURN -1\n    FUNCTION put(key, value):\n        IF key IN cache THEN REMOVE(cache[key])\n        cache[key] = NEW Node(key, value); INSERT(cache[key])\n        IF LENGTH(cache) > cap THEN:\n            lru = left.next; REMOVE(lru); DELETE cache[lru.key]\nEND CLASS",
+  "renderType": "lru_cache",
+  "initialData": {
+    "capacity": 3,
+    "operations": [
+      "put(1, 10)",
+      "put(2, 20)",
+      "put(3, 30)",
+      "get(2)",
+      "put(4, 40)",
+      "get(1)",
+      "get(3)",
+      "put(5, 50)"
+    ]
+  },
+  "codeLines": [
+    "CLASS LRUCache:",
+    "    CONSTRUCTOR(capacity):",
+    "        cap = capacity, cache = HASH_MAP(), left = Node(0,0), right = Node(0,0)",
+    "        left.next = right; right.prev = left",
+    "    FUNCTION get(key):",
+    "        IF key IN cache THEN REMOVE(cache[key]); INSERT(cache[key]); RETURN cache[key].val",
+    "        RETURN -1",
+    "    FUNCTION put(key, value):",
+    "        IF key IN cache THEN REMOVE(cache[key])",
+    "        cache[key] = NEW Node(key, value); INSERT(cache[key])",
+    "        IF LENGTH(cache) > cap THEN:",
+    "            lru = left.next; REMOVE(lru); DELETE cache[lru.key]",
+    "END CLASS"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Lines 3-4: Initialize LRUCache with capacity = 3. Connect sentinel nodes LEFT (LRU) and RIGHT (MRU).",
+      "state": { "cap": 3, "size": 0 },
+      "capacity": 3,
+      "currentOp": "init",
+      "activeKey": null,
+      "evictedKey": null,
+      "nodes": [],
+      "map": {},
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 8,
+      "narration": "Lines 9-10: put(1, 10) -> Allocate Node(1, 10) at address 0x1A. Insert right before RIGHT sentinel.",
+      "state": { "op": "put", "key": 1, "val": 10 },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 1,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-1", "key": 1, "val": 10 }
+      ],
+      "map": { "1": 10 },
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 8,
+      "narration": "Lines 9-10: put(2, 20) -> Allocate Node(2, 20) at address 0x2A. Insert at MRU position. List: [1, 2].",
+      "state": { "op": "put", "key": 2, "val": 20 },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 2,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-1", "key": 1, "val": 10 },
+        { "id": "node-2", "key": 2, "val": 20 }
+      ],
+      "map": { "1": 10, "2": 20 },
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 8,
+      "narration": "Lines 9-10: put(3, 30) -> Allocate Node(3, 30) at address 0x3A. Cache is now full (3/3). List: [1 (LRU), 2, 3 (MRU)].",
+      "state": { "op": "put", "key": 3, "val": 30 },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 3,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-1", "key": 1, "val": 10 },
+        { "id": "node-2", "key": 2, "val": 20 },
+        { "id": "node-3", "key": 3, "val": 30 }
+      ],
+      "map": { "1": 10, "2": 20, "3": 30 },
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: get(2) -> Key 2 found in cache. Detach Node(2, 20) from current position in DLL.",
+      "state": { "op": "get", "key": 2, "phase": "detach" },
+      "capacity": 3,
+      "currentOp": "get",
+      "activeKey": 2,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-1", "key": 1, "val": 10 },
+        { "id": "node-3", "key": 3, "val": 30 }
+      ],
+      "map": { "1": 10, "2": 20, "3": 30 },
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: Re-insert Node(2, 20) at MRU position. List is now [1 (LRU), 3, 2 (MRU)]. Returns 20.",
+      "state": { "op": "get", "key": 2, "phase": "insert_mru", "returned": 20 },
+      "capacity": 3,
+      "currentOp": "get",
+      "activeKey": 2,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-1", "key": 1, "val": 10 },
+        { "id": "node-3", "key": 3, "val": 30 },
+        { "id": "node-2", "key": 2, "val": 20 }
+      ],
+      "map": { "1": 10, "2": 20, "3": 30 },
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 11,
+      "narration": "Line 12: put(4, 40) -> Current size (3) == capacity (3). Evict LRU node: left.next is Node(1, 10).",
+      "state": { "op": "evict_check", "lruTarget": 1 },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 4,
+      "evictedKey": 1,
+      "nodes": [
+        { "id": "node-1", "key": 1, "val": 10 },
+        { "id": "node-3", "key": 3, "val": 30 },
+        { "id": "node-2", "key": 2, "val": 20 }
+      ],
+      "map": { "1": 10, "2": 20, "3": 30 },
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 12,
+      "narration": "Line 12: Remove Node(1, 10) from DLL and delete key 1 from cache map.",
+      "state": { "op": "evict_done", "evicted": 1 },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 4,
+      "evictedKey": 1,
+      "nodes": [
+        { "id": "node-3", "key": 3, "val": 30 },
+        { "id": "node-2", "key": 2, "val": 20 }
+      ],
+      "map": { "2": 20, "3": 30 },
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 10,
+      "narration": "Line 10: Insert Node(4, 40) at MRU position. List: [3 (LRU), 2, 4 (MRU)].",
+      "state": { "op": "put", "key": 4, "val": 40 },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 4,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-3", "key": 3, "val": 30 },
+        { "id": "node-2", "key": 2, "val": 20 },
+        { "id": "node-4", "key": 4, "val": 40 }
+      ],
+      "map": { "2": 20, "3": 30, "4": 40 },
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 6,
+      "narration": "Line 7: get(1) -> Key 1 is not in cache (evicted previously). Returns -1 (Cache Miss).",
+      "state": { "op": "get", "key": 1, "hit": false, "returned": -1 },
+      "capacity": 3,
+      "currentOp": "get",
+      "activeKey": 1,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-3", "key": 3, "val": 30 },
+        { "id": "node-2", "key": 2, "val": 20 },
+        { "id": "node-4", "key": 4, "val": 40 }
+      ],
+      "map": { "2": 20, "3": 30, "4": 40 },
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 5,
+      "narration": "Line 6: get(3) -> Key 3 found in cache. Promote Node(3, 30) from LRU to MRU position. List: [2 (LRU), 4, 3 (MRU)]. Returns 30.",
+      "state": { "op": "get", "key": 3, "hit": true, "returned": 30 },
+      "capacity": 3,
+      "currentOp": "get",
+      "activeKey": 3,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-2", "key": 2, "val": 20 },
+        { "id": "node-4", "key": 4, "val": 40 },
+        { "id": "node-3", "key": 3, "val": 30 }
+      ],
+      "map": { "2": 20, "3": 30, "4": 40 },
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 11,
+      "narration": "Line 12: put(5, 50) -> Cache full (3/3). Evict LRU node: left.next is Node(2, 20). Remove key 2.",
+      "state": { "op": "evict_done", "evicted": 2 },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 5,
+      "evictedKey": 2,
+      "nodes": [
+        { "id": "node-4", "key": 4, "val": 40 },
+        { "id": "node-3", "key": 3, "val": 30 }
+      ],
+      "map": { "3": 30, "4": 40 },
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 10,
+      "narration": "Line 10: Insert Node(5, 50) at MRU position. Final list order: [4 (LRU), 3, 5 (MRU)]. Operations completed.",
+      "state": { "status": "COMPLETED", "cache": "{4, 3, 5}" },
+      "capacity": 3,
+      "currentOp": "put",
+      "activeKey": 5,
+      "evictedKey": null,
+      "nodes": [
+        { "id": "node-4", "key": 4, "val": 40 },
+        { "id": "node-3", "key": 3, "val": 30 },
+        { "id": "node-5", "key": 5, "val": 50 }
+      ],
+      "map": { "3": 30, "4": 40, "5": 50 },
+      "dwellMs": 3500,
+      "output": {
+        "label": "Final LRU Cache State",
+        "value": "Active Keys: [4, 3, 5]",
+        "detail": "Node 4 is now LRU, Node 5 is MRU. All lookups, detachments, insertions, and evictions completed in O(1) time."
+      }
+    }
+  ]
+}

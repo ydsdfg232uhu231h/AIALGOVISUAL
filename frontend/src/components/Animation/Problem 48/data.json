@@ -1,0 +1,220 @@
+{
+  "id": 48,
+  "title": "Rotate Image",
+  "difficulty": "Medium",
+  "topic": "Matrix",
+  "algorithm": "Transpose and Reverse Matrix",
+  "timeComplexity": "O(n^2)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Rotate an n x n 2D matrix by 90 degrees clockwise in-place.",
+  "url": "https://leetcode.com/problems/rotate-image/",
+  "explanation": "A 90-degree clockwise rotation is mathematically equivalent to transposing the matrix (swapping rows with columns across the main diagonal) and then reversing every individual row.",
+  "pseudoCode": "FUNCTION rotate(matrix):\n    n = LENGTH(matrix)\n    FOR i FROM 0 TO n - 1 DO:\n        FOR j FROM i TO n - 1 DO:\n            SWAP(matrix[i][j], matrix[j][i])\n        END FOR\n    END FOR\n    FOR i FROM 0 TO n - 1 DO:\n        REVERSE(matrix[i])\n    END FOR\nEND FUNCTION",
+  "renderType": "matrix_grid",
+  "initialData": [
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6
+    ],
+    [
+      7,
+      8,
+      9
+    ]
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initial 3x3 matrix. Phase 1: Transpose across main diagonal.",
+      "state": {
+        "phase": "initial",
+        "n": 3
+      },
+      "matrix": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ],
+        [
+          7,
+          8,
+          9
+        ]
+      ],
+      "activeCells": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: Transpose step: swap matrix[0][1] (2) with matrix[1][0] (4).",
+      "state": {
+        "swapped": "2 <-> 4"
+      },
+      "matrix": [
+        [
+          1,
+          4,
+          3
+        ],
+        [
+          2,
+          5,
+          6
+        ],
+        [
+          7,
+          8,
+          9
+        ]
+      ],
+      "activeCells": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: Transpose completed. Rows are now columns.",
+      "state": {
+        "phase": "transposed"
+      },
+      "matrix": [
+        [
+          1,
+          4,
+          7
+        ],
+        [
+          2,
+          5,
+          8
+        ],
+        [
+          3,
+          6,
+          9
+        ]
+      ],
+      "activeCells": [],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 8,
+      "narration": "Line 9: Phase 2: Reverse each row horizontally.",
+      "state": {
+        "phase": "reversing_rows"
+      },
+      "matrix": [
+        [
+          7,
+          4,
+          1
+        ],
+        [
+          8,
+          5,
+          2
+        ],
+        [
+          9,
+          6,
+          3
+        ]
+      ],
+      "activeCells": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 10,
+      "narration": "Line 11: 90-degree clockwise rotation finished in-place.",
+      "state": {
+        "status": "COMPLETED"
+      },
+      "matrix": [
+        [
+          7,
+          4,
+          1
+        ],
+        [
+          8,
+          5,
+          2
+        ],
+        [
+          9,
+          6,
+          3
+        ]
+      ],
+      "activeCells": [],
+      "output": {
+        "label": "Rotated Matrix",
+        "value": "[[7,4,1],[8,5,2],[9,6,3]]",
+        "detail": "In-place transpose + row reverse complete."
+      }
+    }
+  ],
+  "codeLines": [
+    "FUNCTION rotate(matrix):",
+    "    n = LENGTH(matrix)",
+    "    FOR i FROM 0 TO n - 1 DO:",
+    "        FOR j FROM i TO n - 1 DO:",
+    "            SWAP(matrix[i][j], matrix[j][i])",
+    "        END FOR",
+    "    END FOR",
+    "    FOR i FROM 0 TO n - 1 DO:",
+    "        REVERSE(matrix[i])",
+    "    END FOR",
+    "END FUNCTION"
+  ]
+}

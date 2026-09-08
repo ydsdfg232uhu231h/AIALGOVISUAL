@@ -1,0 +1,200 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#matrix-bs-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 420px;
+  position: relative;
+  gap: 24px;
+  box-sizing: border-box;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  padding: 16px;
+}
+
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+[id^="metric-chip-"] {
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+[id^="metric-chip-"] b {
+  color: #fff;
+  font-family: ui-monospace, monospace;
+}
+
+#metric-chip-target b {
+  color: #facc15;
+}
+
+#metric-chip-range b {
+  color: #ff7324;
+}
+
+#metric-chip-mid b {
+  color: #38bdf8;
+}
+
+#metric-chip-success {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.12) !important;
+}
+
+#metric-chip-success b {
+  color: #4ade80 !important;
+}
+
+/* ============================================================
+   2D MATRIX GRID
+   ============================================================ */
+#matrix-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+[id^="matrix-row-"] {
+  display: flex;
+  gap: 10px;
+}
+
+/* Node Elements Base */
+[id^="matrix-node-"] {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background: #141416;
+  border: 2px solid #27272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+[id*="-node-in-range-"] {
+  border-color: #3f3f46;
+}
+
+[id*="-node-out-range-"] {
+  border-color: #1f1f23;
+  color: #52525b;
+}
+
+[id*="-node-mid-"] {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.18) !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4) !important;
+}
+
+[id*="-node-match-"] {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.25) !important;
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.5) !important;
+}
+
+/* Cell Subscript Indices */
+[id^="cell-indices-"] {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  right: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #71717a;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="flat-idx-"] {
+  color: #eab308;
+}
+
+[id^="node-val-"] {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  margin-top: 6px;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="mid-tag-"] {
+  position: absolute;
+  bottom: -9px;
+  background: #38bdf8;
+  color: #000;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-family: ui-monospace, monospace;
+  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.4);
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: absolute;
+  bottom: 12px;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+#callout-header-text {
+  font-size: 11px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #9ca3af;
+}

@@ -1,0 +1,170 @@
+{
+  "id": 46,
+  "title": "Permutations",
+  "difficulty": "Medium",
+  "topic": "Backtracking",
+  "algorithm": "Backtracking & Swapping",
+  "timeComplexity": "O(n * n!)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Return all possible permutations of an array of distinct integers.",
+  "url": "https://leetcode.com/problems/permutations/",
+  "explanation": "Using backtracking, systematically swap the current element with all subsequent positions to construct every distinct arrangement of elements.",
+  "pseudoCode": "FUNCTION permute(nums):\n    res = []\n    FUNCTION backtrack(start):\n        IF start == LENGTH(nums) THEN APPEND COPY(nums) TO res; RETURN\n        FOR i FROM start TO LENGTH(nums) - 1 DO:\n            SWAP(nums[start], nums[i])\n            backtrack(start + 1)\n            SWAP(nums[start], nums[i])\n        END FOR\n    END FUNCTION\n    backtrack(0)\n    RETURN res\nEND FUNCTION",
+  "renderType": "array_swap",
+  "initialData": [1, 2, 3],
+  "codeLines": [
+    "FUNCTION permute(nums):",
+    "    res = []",
+    "    FUNCTION backtrack(start):",
+    "        IF start == LENGTH(nums) THEN APPEND COPY(nums) TO res; RETURN",
+    "        FOR i FROM start TO LENGTH(nums) - 1 DO:",
+    "            SWAP(nums[start], nums[i])",
+    "            backtrack(start + 1)",
+    "            SWAP(nums[start], nums[i])",
+    "        END FOR",
+    "    END FUNCTION",
+    "    backtrack(0)",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 9,
+      "narration": "Line 10: Initialize backtrack(0) on [1, 2, 3]. res = [].",
+      "state": { "start": 0, "res": "[]" },
+      "currentArray": [1, 2, 3],
+      "swapA": 0,
+      "swapB": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Identity swaps reach start = 3. Record first permutation: [1, 2, 3].",
+      "state": { "start": 3, "res": "[[1, 2, 3]]" },
+      "currentArray": [1, 2, 3],
+      "swapA": -1,
+      "swapB": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: At start = 1, swap index 1 with index 2: [1, 2, 3] becomes [1, 3, 2].",
+      "state": { "start": 1, "res": "[[1, 2, 3]]" },
+      "currentArray": [1, 3, 2],
+      "swapA": 1,
+      "swapB": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: Reach start = 3. Record second permutation: [1, 3, 2].",
+      "state": { "start": 3, "res": "[[1, 2, 3], [1, 3, 2]]" },
+      "currentArray": [1, 3, 2],
+      "swapA": -1,
+      "swapB": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: Backtrack to root. Swap index 0 with index 1: [1, 2, 3] becomes [2, 1, 3].",
+      "state": { "start": 0, "res": "[[1, 2, 3], [1, 3, 2]]" },
+      "currentArray": [2, 1, 3],
+      "swapA": 0,
+      "swapB": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: Reach start = 3. Record third permutation: [2, 1, 3].",
+      "state": { "start": 3, "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3]]" },
+      "currentArray": [2, 1, 3],
+      "swapA": -1,
+      "swapB": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6: At start = 1, swap index 1 with index 2: [2, 1, 3] becomes [2, 3, 1].",
+      "state": { "start": 1, "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3]]" },
+      "currentArray": [2, 3, 1],
+      "swapA": 1,
+      "swapB": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: Reach start = 3. Record fourth permutation: [2, 3, 1].",
+      "state": { "start": 3, "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1]]" },
+      "currentArray": [2, 3, 1],
+      "swapA": -1,
+      "swapB": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 5,
+      "narration": "Line 6: Backtrack to root. Swap index 0 with index 2: [1, 2, 3] becomes [3, 2, 1].",
+      "state": { "start": 0, "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1]]" },
+      "currentArray": [3, 2, 1],
+      "swapA": 0,
+      "swapB": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 3,
+      "narration": "Line 4: Reach start = 3. Record fifth permutation: [3, 2, 1].",
+      "state": { "start": 3, "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1]]" },
+      "currentArray": [3, 2, 1],
+      "swapA": -1,
+      "swapB": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 5,
+      "narration": "Line 6: At start = 1, swap index 1 with index 2: [3, 2, 1] becomes [3, 1, 2].",
+      "state": { "start": 1, "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1]]" },
+      "currentArray": [3, 1, 2],
+      "swapA": 1,
+      "swapB": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 3,
+      "narration": "Line 4: Reach start = 3. Record sixth permutation: [3, 1, 2].",
+      "state": { "start": 3, "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]]" },
+      "currentArray": [3, 1, 2],
+      "swapA": -1,
+      "swapB": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 10,
+      "narration": "Line 11: All 3! = 6 permutations generated. RETURN res.",
+      "state": {
+        "status": "COMPLETED",
+        "count": 6,
+        "res": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]]"
+      },
+      "currentArray": [1, 2, 3],
+      "swapA": -1,
+      "swapB": -1,
+      "output": {
+        "label": "All Permutations",
+        "value": "6 arrays",
+        "detail": "[[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,2,1], [3,1,2]]"
+      }
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "id": 78,
+  "title": "Subsets",
+  "difficulty": "Medium",
+  "topic": "Backtracking",
+  "algorithm": "Cascading / Backtracking / Bitmask",
+  "timeComplexity": "O(n * 2^n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Return the power set (all subsets) of a set of unique elements.",
+  "url": "https://leetcode.com/problems/subsets/",
+  "explanation": "At each element index during depth-first traversal, we branch into two choices: either include the current number in the subset or exclude it, yielding all 2^N total subsets.",
+  "pseudoCode": "FUNCTION subsets(nums):\n    res = []\n    FUNCTION backtrack(i, curr):\n        IF i == LENGTH(nums) THEN APPEND COPY(curr) TO res; RETURN\n        APPEND nums[i] TO curr\n        backtrack(i + 1, curr)\n        POP curr\n        backtrack(i + 1, curr)\n    END FUNCTION\n    backtrack(0, [])\n    RETURN res\nEND FUNCTION",
+  "renderType": "binary_decision_tree",
+  "initialData": [4, 7, 9],
+  "codeLines": [
+    "FUNCTION subsets(nums):",
+    "    res = []",
+    "    FUNCTION backtrack(i, curr):",
+    "        IF i == LENGTH(nums) THEN APPEND COPY(curr) TO res; RETURN",
+    "        APPEND nums[i] TO curr",
+    "        backtrack(i + 1, curr)",
+    "        POP curr",
+    "        backtrack(i + 1, curr)",
+    "    END FUNCTION",
+    "    backtrack(0, [])",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize backtrack(0, []). Input nums = [4, 7, 9]. Target: 2^3 = 8 total subsets.",
+      "state": { "i": 0, "curr": "[]", "res": "[]" },
+      "nums": [4, 7, 9],
+      "currentPath": [],
+      "decision": "root",
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: i = 0: INCLUDE nums[0] (4). Path becomes [4]. Recurse to index 1.",
+      "state": { "i": 1, "curr": "[4]", "res": "[]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4],
+      "decision": "include_4",
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: i = 1: INCLUDE nums[1] (7). Path becomes [4, 7]. Recurse to index 2.",
+      "state": { "i": 2, "curr": "[4, 7]", "res": "[]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4, 7],
+      "decision": "include_7",
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: i = 2: INCLUDE nums[2] (9). Path becomes [4, 7, 9]. Recurse to index 3.",
+      "state": { "i": 3, "curr": "[4, 7, 9]", "res": "[]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4, 7, 9],
+      "decision": "include_9",
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: Leaf reached (i == 3). Append [4, 7, 9] to power set. Backtrack.",
+      "state": { "i": 3, "curr": "[4, 7, 9]", "res": "[[4, 7, 9]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4, 7, 9],
+      "decision": "save_subset",
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7: Backtrack at i = 2: Pop 9. EXCLUDE nums[2] (9). Path becomes [4, 7]. Recurse to index 3.",
+      "state": { "i": 3, "curr": "[4, 7]", "res": "[[4, 7, 9]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4, 7],
+      "decision": "exclude_9",
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 3,
+      "narration": "Line 4: Leaf reached (i == 3). Append [4, 7] to power set. Backtrack to index 1.",
+      "state": { "i": 3, "curr": "[4, 7]", "res": "[[4, 7, 9], [4, 7]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4, 7],
+      "decision": "save_subset",
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 6,
+      "narration": "Line 7: Backtrack at i = 1: Pop 7. EXCLUDE nums[1] (7). Path is [4]. At i = 2, INCLUDE nums[2] (9) -> [4, 9].",
+      "state": { "i": 3, "curr": "[4, 9]", "res": "[[4, 7, 9], [4, 7]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4, 9],
+      "decision": "include_9",
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 3,
+      "narration": "Line 4: Leaf reached (i == 3). Append [4, 9] to power set. Backtrack.",
+      "state": { "i": 3, "curr": "[4, 9]", "res": "[[4, 7, 9], [4, 7], [4, 9]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4, 9],
+      "decision": "save_subset",
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 6,
+      "narration": "Line 7: Backtrack at i = 2: Pop 9. EXCLUDE nums[2] (9). Path is [4]. Leaf reached (i == 3). Append [4].",
+      "state": { "i": 3, "curr": "[4]", "res": "[[4, 7, 9], [4, 7], [4, 9], [4]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [4],
+      "decision": "save_subset",
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 6,
+      "narration": "Line 7: Backtrack to root. EXCLUDE nums[0] (4). Explore branches with nums[1] (7): INCLUDE 7 and 9 -> [7, 9].",
+      "state": { "i": 3, "curr": "[7, 9]", "res": "[[4, 7, 9], [4, 7], [4, 9], [4], [7, 9]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [7, 9],
+      "decision": "include_7_9",
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 6,
+      "narration": "Line 7: Backtrack: pop 9. EXCLUDE 9 -> [7]. Append [7] to power set.",
+      "state": { "i": 3, "curr": "[7]", "res": "[[4, 7, 9], [4, 7], [4, 9], [4], [7, 9], [7]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [7],
+      "decision": "save_subset",
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 6,
+      "narration": "Line 7: Backtrack: pop 7. EXCLUDE 4 and 7. Explore nums[2] (9): INCLUDE 9 -> [9]. Append [9].",
+      "state": { "i": 3, "curr": "[9]", "res": "[[4, 7, 9], [4, 7], [4, 9], [4], [7, 9], [7], [9]]" },
+      "nums": [4, 7, 9],
+      "currentPath": [9],
+      "decision": "save_subset",
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 6,
+      "narration": "Line 7: Backtrack: pop 9. EXCLUDE all elements (4, 7, 9). Leaf reached: append empty set [].",
+      "state": { "i": 3, "curr": "[]", "res": "[[4, 7, 9], [4, 7], [4, 9], [4], [7, 9], [7], [9], []]" },
+      "nums": [4, 7, 9],
+      "currentPath": [],
+      "decision": "empty_set",
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 10,
+      "narration": "Line 11: Binary decision tree complete. All 2^3 = 8 subsets collected. RETURN res.",
+      "state": {
+        "status": "COMPLETED",
+        "res": "[[4, 7, 9], [4, 7], [4, 9], [4], [7, 9], [7], [9], []]"
+      },
+      "nums": [4, 7, 9],
+      "currentPath": [],
+      "decision": "done",
+      "output": {
+        "label": "Power Set",
+        "value": "8 subsets",
+        "detail": "[[], [4], [7], [9], [4, 7], [4, 9], [7, 9], [4, 7, 9]]"
+      }
+    }
+  ]
+}

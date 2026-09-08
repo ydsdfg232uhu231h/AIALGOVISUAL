@@ -1,0 +1,365 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+.lru-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   TOP METRICS ROW
+   ============================================================ */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+.metric-chip {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+.metric-chip b {
+  color: #f4f4f5;
+  font-weight: 800;
+}
+
+.op-put b { color: #38bdf8; }
+.op-get b { color: #4ade80; }
+.op-init b { color: #c084fc; }
+
+.target-chip b { color: #facc15; }
+.cap-chip b { color: #c084fc; }
+
+.evict-chip {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+}
+.evict-chip b { color: #f87171 !important; }
+
+/* ============================================================
+   STAGE & CARDS
+   ============================================================ */
+.lru-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+.track-card {
+  width: 100%;
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.card-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+.card-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #636374;
+  text-transform: none;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ============================================================
+   1. DOUBLY LINKED LIST TRACK
+   ============================================================ */
+.dll-track-viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 4px;
+  min-height: 108px;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+.sentinel-box {
+  width: 66px;
+  height: 68px;
+  background: #181822;
+  border: 1.5px dashed #3a3a4c;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.sentinel-tag {
+  font-size: 7px;
+  font-weight: 800;
+  color: #636374;
+  letter-spacing: 0.5px;
+}
+
+.sentinel-title {
+  font-size: 13px;
+  font-weight: 900;
+  color: #e4e4e7;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.sentinel-sub {
+  font-size: 8px;
+  font-weight: 800;
+  color: #facc15;
+}
+
+.sentinel-left .sentinel-sub { color: #f87171; }
+.sentinel-right .sentinel-sub { color: #4ade80; }
+
+.conduit-arrow-pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+
+.arrow-next {
+  font-size: 14px;
+  color: #5d5d6d;
+  font-weight: 900;
+}
+
+.dll-nodes-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.empty-dll-placeholder {
+  font-size: 11px;
+  color: #5d5d6d;
+  font-style: italic;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  padding: 0 10px;
+}
+
+/* Cache Node Capsule */
+.dll-node-card {
+  width: 108px;
+  height: 68px;
+  background: #181822;
+  border: 1.5px solid #2e2e40;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.node-pos-badge {
+  font-size: 8px;
+  font-weight: 900;
+  color: #717182;
+  letter-spacing: 0.5px;
+}
+
+.node-kv-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.kv-divider {
+  color: #3f3f50;
+  font-size: 12px;
+}
+
+.node-addr-tag {
+  font-size: 8px;
+  font-weight: 600;
+  color: #525262;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Node Dynamic Modifiers */
+.node-active {
+  border-color: #facc15 !important;
+  background: #232219 !important;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.45) !important;
+}
+.node-active .kv-key b,
+.node-active .kv-val b { color: #fef08a; }
+.node-active .node-pos-badge { color: #facc15; }
+
+.node-mru {
+  border-color: #22c55e !important;
+  background: #13241b !important;
+}
+.node-mru .node-pos-badge { color: #4ade80; }
+
+.node-lru {
+  border-color: #ef4444 !important;
+  background: #231719 !important;
+}
+.node-lru .node-pos-badge { color: #f87171; }
+
+/* ============================================================
+   2. HASH MAP CARDS
+   ============================================================ */
+.map-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+@media (max-width: 650px) {
+  .map-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty-map-placeholder {
+  font-size: 11px;
+  color: #5d5d6d;
+  font-style: italic;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.map-token-pill {
+  background: #161620;
+  border: 1.5px solid #252534;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  transition: all 0.2s ease;
+}
+
+.token-key {
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.token-arrow {
+  color: #717182;
+  font-size: 11px;
+}
+
+.token-ptr {
+  font-size: 11px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.map-token-active {
+  border-color: rgba(250, 204, 21, 0.6) !important;
+  background: rgba(250, 204, 21, 0.1) !important;
+}
+.map-token-active .token-ptr { color: #facc15; }
+
+/* ============================================================
+   RESULT CALLOUT MODAL
+   ============================================================ */
+.result-callout {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 14, 20, 0.96);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid #22c55e;
+  border-radius: 12px;
+  padding: 8px 22px;
+  text-align: center;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85);
+  z-index: 100;
+  max-width: 90%;
+}
+
+.callout-header {
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #86efac;
+  letter-spacing: 0.8px;
+}
+
+.callout-val {
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 900;
+  margin: 1px 0;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #a1a1aa;
+  font-weight: 500;
+}
+#mydillcard{
+  height: 200px !important;
+}

@@ -1,0 +1,179 @@
+{
+  "id": 19,
+  "title": "Remove Nth Node From End of List",
+  "difficulty": "Medium",
+  "topic": "Linked List",
+  "algorithm": "Fast & Slow Two Pointers",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Remove the nth node from the end of a singly linked list in a single pass.",
+  "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
+  "explanation": "We use two pointers separated by n steps. When the fast pointer reaches the end of the list, the slow pointer will be positioned right before the target node, allowing us to bypass it in O(1) extra space and O(N) time.",
+  "pseudoCode": "FUNCTION removeNthFromEnd(head, n):\n    dummy = NEW Node(0, head), fast = dummy, slow = dummy\n    FOR i FROM 0 TO n DO fast = fast.next\n    WHILE fast IS NOT NULL DO:\n        fast = fast.next, slow = slow.next\n    END WHILE\n    slow.next = slow.next.next\n    RETURN dummy.next\nEND FUNCTION",
+  "renderType": "linked_list",
+  "initialData": {
+    "list": [1, 2, 3, 4, 5],
+    "n": 2
+  },
+  "codeLines": [
+    "FUNCTION removeNthFromEnd(head, n):",
+    "    dummy = NEW Node(0, head), fast = dummy, slow = dummy",
+    "    FOR i FROM 0 TO n DO fast = fast.next",
+    "    WHILE fast IS NOT NULL DO:",
+    "        fast = fast.next, slow = slow.next",
+    "    END WHILE",
+    "    slow.next = slow.next.next",
+    "    RETURN dummy.next",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize dummy node (0) pointing to head (1). Place both fast and slow at dummy.",
+      "state": {
+        "fast": "dummy",
+        "slow": "dummy",
+        "n": 2,
+        "phase": "INIT"
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 0,
+      "slowIdx": 0,
+      "deletedIdx": null,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 2,
+      "narration": "Line 3: Fast advance step 1 of (n + 1): fast moves from dummy to Node 1.",
+      "state": {
+        "fast": 1,
+        "slow": "dummy",
+        "gap": 1
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 1,
+      "slowIdx": 0,
+      "deletedIdx": null,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 2,
+      "narration": "Line 3: Fast advance step 2 of (n + 1): fast moves to Node 2.",
+      "state": {
+        "fast": 2,
+        "slow": "dummy",
+        "gap": 2
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 2,
+      "slowIdx": 0,
+      "deletedIdx": null,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 2,
+      "narration": "Line 3: Fast advance step 3 of (n + 1): fast moves to Node 3. Desired (n + 1) offset established.",
+      "state": {
+        "fast": 3,
+        "slow": "dummy",
+        "gap": 3
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 3,
+      "slowIdx": 0,
+      "deletedIdx": null,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Lines 4-5: fast is at Node 3 (not NULL). Advance fast to 4 and slow to Node 1.",
+      "state": {
+        "fast": 4,
+        "slow": 1,
+        "phase": "SLIDING"
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 4,
+      "slowIdx": 1,
+      "deletedIdx": null,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Lines 4-5: fast is at Node 4 (not NULL). Advance fast to 5 and slow to Node 2.",
+      "state": {
+        "fast": 5,
+        "slow": 2,
+        "phase": "SLIDING"
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 5,
+      "slowIdx": 2,
+      "deletedIdx": null,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Lines 4-5: fast is at Node 5 (not NULL). Advance fast to NULL and slow to Node 3.",
+      "state": {
+        "fast": "NULL",
+        "slow": 3,
+        "phase": "POINTERS_ALIGNED"
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 6,
+      "slowIdx": 3,
+      "deletedIdx": null,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 6,
+      "narration": "Line 7: fast reached NULL. slow sits right before target (Node 4). Bypass: slow.next = slow.next.next (3 points to 5).",
+      "state": {
+        "slow": 3,
+        "target": 4,
+        "phase": "DELETING"
+      },
+      "nodes": [0, 1, 2, 3, 4, 5],
+      "fastIdx": 6,
+      "slowIdx": 3,
+      "deletedIdx": 4,
+      "dwellMs": 2000,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 7,
+      "narration": "Line 8: Target Node 4 removed. RETURN dummy.next (1 -> 2 -> 3 -> 5).",
+      "state": {
+        "status": "COMPLETED",
+        "deleted": 4
+      },
+      "nodes": [1, 2, 3, 5],
+      "fastIdx": null,
+      "slowIdx": null,
+      "deletedIdx": 4,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Resulting Linked List",
+        "value": "1 -> 2 -> 3 -> 5",
+        "detail": "Successfully removed Node 4 (2nd node from the end) in a single O(N) pass."
+      }
+    }
+  ]
+}

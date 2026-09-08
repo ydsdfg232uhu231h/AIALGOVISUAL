@@ -1,0 +1,192 @@
+{
+  "id": 621,
+  "title": "Task Scheduler",
+  "difficulty": "Medium",
+  "topic": "Greedy / Heap",
+  "algorithm": "Max Frequency Math / Max-Heap",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Calculate minimum CPU units required to finish tasks with compulsory cooldown gaps.",
+  "url": "https://leetcode.com/problems/task-scheduler/",
+  "explanation": "Greedy approach using Max-Heap to schedule most frequent tasks first, paired with a waiting Queue tracking task frequency and availability timestamps based on cooldown gap n.",
+  "pseudoCode": "FUNCTION leastInterval(tasks, n):\n    count = FREQ_MAP(tasks), maxHeap = MaxHeap(VALUES(count)), q = Queue()\n    time = 0\n    WHILE maxHeap OR q DO:\n        time = time + 1\n        IF maxHeap THEN:\n            cnt = POP(maxHeap) - 1\n            IF cnt != 0 THEN ENQUEUE(q, [cnt, time + n])\n        END IF\n        IF q AND FIRST(q)[1] == time THEN PUSH(maxHeap, DEQUEUE(q)[0])\n    END WHILE\n    RETURN time\nEND FUNCTION",
+  "renderType": "task_scheduler",
+  "initialData": {
+    "tasks": ["A", "A", "A", "A", "B", "B", "C", "D"],
+    "n": 2
+  },
+  "codeLines": [
+    "FUNCTION leastInterval(tasks, n):",
+    "    count = FREQ_MAP(tasks), maxHeap = MaxHeap(VALUES(count)), q = Queue()",
+    "    time = 0",
+    "    WHILE maxHeap OR q DO:",
+    "        time = time + 1",
+    "        IF maxHeap THEN:",
+    "            cnt = POP(maxHeap) - 1",
+    "            IF cnt != 0 THEN ENQUEUE(q, [cnt, time + n])",
+    "        END IF",
+    "        IF q AND FIRST(q)[1] == time THEN PUSH(maxHeap, DEQUEUE(q)[0])",
+    "    END WHILE",
+    "    RETURN time",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Frequencies: {A: 4, B: 2, C: 1, D: 1}. Max-Heap initialized with 4 tasks. n = 2 cooldown.",
+      "state": { "time": 0 },
+      "currentTime": 0,
+      "activeTask": null,
+      "heap": [
+        { "task": "A", "cnt": 4 },
+        { "task": "B", "cnt": 2 },
+        { "task": "C", "cnt": 1 },
+        { "task": "D", "cnt": 1 }
+      ],
+      "coolingQueue": [],
+      "scheduledLog": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 5,
+      "narration": "Line 6: t = 1. Execute most frequent Task A (cnt: 4 -> 3). Enqueue to cooldown (ready at 1 + 2 = 3).",
+      "state": { "time": 1 },
+      "currentTime": 1,
+      "activeTask": "A",
+      "heap": [
+        { "task": "B", "cnt": 2 },
+        { "task": "C", "cnt": 1 },
+        { "task": "D", "cnt": 1 }
+      ],
+      "coolingQueue": [{ "task": "A", "cnt": 3, "ready": 3 }],
+      "scheduledLog": ["A"],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: t = 2. Execute Task B (cnt: 2 -> 1). Enqueue to cooldown (ready at 2 + 2 = 4).",
+      "state": { "time": 2 },
+      "currentTime": 2,
+      "activeTask": "B",
+      "heap": [
+        { "task": "C", "cnt": 1 },
+        { "task": "D", "cnt": 1 }
+      ],
+      "coolingQueue": [
+        { "task": "A", "cnt": 3, "ready": 3 },
+        { "task": "B", "cnt": 1, "ready": 4 }
+      ],
+      "scheduledLog": ["A", "B"],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: t = 3. Execute Task C (cnt: 1 -> 0, completed!). Task A reaches cooldown (ready=3) and re-enters heap.",
+      "state": { "time": 3 },
+      "currentTime": 3,
+      "activeTask": "C",
+      "heap": [
+        { "task": "A", "cnt": 3 },
+        { "task": "D", "cnt": 1 }
+      ],
+      "coolingQueue": [{ "task": "B", "cnt": 1, "ready": 4 }],
+      "scheduledLog": ["A", "B", "C"],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: t = 4. Execute Task A (cnt: 3 -> 2). Enqueue A (ready at 4 + 2 = 6). Task B unlocks (ready=4) and re-enters heap.",
+      "state": { "time": 4 },
+      "currentTime": 4,
+      "activeTask": "A",
+      "heap": [
+        { "task": "B", "cnt": 1 },
+        { "task": "D", "cnt": 1 }
+      ],
+      "coolingQueue": [{ "task": "A", "cnt": 2, "ready": 6 }],
+      "scheduledLog": ["A", "B", "C", "A"],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: t = 5. Execute Task B (cnt: 1 -> 0, completed!). Only Task D remains in the heap.",
+      "state": { "time": 5 },
+      "currentTime": 5,
+      "activeTask": "B",
+      "heap": [{ "task": "D", "cnt": 1 }],
+      "coolingQueue": [{ "task": "A", "cnt": 2, "ready": 6 }],
+      "scheduledLog": ["A", "B", "C", "A", "B"],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6: t = 6. Execute Task D (cnt: 1 -> 0, completed!). Task A reaches ready time (ready=6) and re-enters heap.",
+      "state": { "time": 6 },
+      "currentTime": 6,
+      "activeTask": "D",
+      "heap": [{ "task": "A", "cnt": 2 }],
+      "coolingQueue": [],
+      "scheduledLog": ["A", "B", "C", "A", "B", "D"],
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 5,
+      "narration": "Line 6: t = 7. Execute Task A (cnt: 2 -> 1). Enqueue A with ready time 7 + 2 = 9. Heap becomes empty.",
+      "state": { "time": 7 },
+      "currentTime": 7,
+      "activeTask": "A",
+      "heap": [],
+      "coolingQueue": [{ "task": "A", "cnt": 1, "ready": 9 }],
+      "scheduledLog": ["A", "B", "C", "A", "B", "D", "A"],
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 9,
+      "narration": "Line 10: t = 8. Heap is empty; Task A cooldown requires t = 9. CPU is forced to idle for 1 unit.",
+      "state": { "time": 8 },
+      "currentTime": 8,
+      "activeTask": null,
+      "heap": [],
+      "coolingQueue": [{ "task": "A", "cnt": 1, "ready": 9 }],
+      "scheduledLog": ["A", "B", "C", "A", "B", "D", "A", "idle"],
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 5,
+      "narration": "Line 6: t = 9. Task A unlocks (ready=9 == time=9). Execute Task A (cnt: 1 -> 0, completed!).",
+      "state": { "time": 9 },
+      "currentTime": 9,
+      "activeTask": "A",
+      "heap": [],
+      "coolingQueue": [],
+      "scheduledLog": ["A", "B", "C", "A", "B", "D", "A", "idle", "A"],
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 11,
+      "narration": "Line 12: Both heap and cooldown queue are completely empty. Total CPU intervals = 9. RETURN 9.",
+      "state": { "status": "COMPLETED", "minIntervals": 9 },
+      "currentTime": 9,
+      "activeTask": null,
+      "heap": [],
+      "coolingQueue": [],
+      "scheduledLog": ["A", "B", "C", "A", "B", "D", "A", "idle", "A"],
+      "output": {
+        "label": "Optimal CPU Schedule",
+        "value": "9 CPU Intervals",
+        "detail": "Sequence: A -> B -> C -> A -> B -> D -> A -> idle -> A with only 1 forced idle gap."
+      }
+    }
+  ]
+}

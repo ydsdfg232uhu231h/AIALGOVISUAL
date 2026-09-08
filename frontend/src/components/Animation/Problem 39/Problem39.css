@@ -1,0 +1,264 @@
+.combo-sum-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 460px;
+  position: relative;
+  gap: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* TOP METRICS */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #141417;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.target-chip b {
+  color: #facc15;
+}
+
+.sum-chip b {
+  color: #38bdf8;
+}
+
+.chip-match {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.chip-match b {
+  color: #86efac;
+}
+
+.chip-exceeded {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.chip-exceeded b {
+  color: #fca5a5;
+}
+
+.candidate-chip b {
+  color: #c084fc;
+}
+
+/* CANDIDATES SELECTION BAR */
+.candidates-selection-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 8px 16px;
+}
+
+.bar-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #71717a;
+  text-transform: uppercase;
+}
+
+.candidates-list {
+  display: flex;
+  gap: 6px;
+}
+
+.candidate-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #18181b;
+  border: 1.5px solid #27272a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #d4d4d8;
+  transition: all 0.2s ease;
+}
+
+.candidate-active {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+/* CURRENT BAG CONTAINER */
+.current-bag-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 14px;
+  padding: 16px 20px;
+  width: 440px;
+  max-width: 95%;
+  box-sizing: border-box;
+}
+
+.bag-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #71717a;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.bag-equation {
+  color: #a1a1aa;
+  font-family: monospace;
+}
+
+.bag-slots-stream {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 48px;
+  flex-wrap: wrap;
+}
+
+.bag-empty-hint {
+  font-size: 12px;
+  color: #52525b;
+  font-style: italic;
+}
+
+.chosen-chip {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: #18181b;
+  border: 2px solid #38bdf8;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+.chip-success {
+  border-color: #22c55e !important;
+  color: #86efac !important;
+  background: rgba(34, 197, 94, 0.15) !important;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.4) !important;
+}
+
+/* RESULTS REEL */
+.results-reel-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 10px 16px;
+  max-width: 95%;
+  width: 440px;
+  box-sizing: border-box;
+}
+
+.reel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reel-title {
+  font-size: 10px;
+  color: #71717a;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.reel-count {
+  font-size: 11px;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+.reel-chips-stream {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 26px;
+}
+
+.reel-empty-text {
+  font-size: 11px;
+  color: #52525b;
+  font-style: italic;
+}
+
+.combo-chip {
+  background: #18181b;
+  border: 1px solid #22c55e;
+  color: #86efac;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+
+/* RESULT CALLOUT */
+.result-callout {
+  position: absolute;
+  bottom: 8px;
+  background: #0f172a;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 6px 14px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 15px;
+  color: #fff;
+  font-weight: 800;
+  margin: 1px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #94a3b8;
+}

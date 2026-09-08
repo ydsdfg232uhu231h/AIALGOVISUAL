@@ -1,0 +1,152 @@
+{
+  "id": 138,
+  "title": "Copy List with Random Pointer",
+  "difficulty": "Medium",
+  "topic": "Linked List",
+  "algorithm": "Interleaved Nodes / Hash Map Lookup",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Deep copy a linked list where each node has a next pointer and a random pointer.",
+  "url": "https://leetcode.com/problems/copy-list-with-random-pointer/",
+  "explanation": "Pass 1: Traverse original list and populate a hash map mapping each original node to its new cloned node copy. Pass 2: Link the cloned nodes' `next` and `random` pointers using the hash map.",
+  "pseudoCode": "FUNCTION copyRandomList(head):\n    IF head IS NULL THEN RETURN NULL\n    oldToNew = EMPTY_HASH_MAP(), curr = head\n    WHILE curr IS NOT NULL DO:\n        oldToNew[curr] = NEW Node(curr.val)\n        curr = curr.next\n    END WHILE\n    curr = head\n    WHILE curr IS NOT NULL DO:\n        oldToNew[curr].next = oldToNew[curr.next]\n        oldToNew[curr].random = oldToNew[curr.random]\n        curr = curr.next\n    END WHILE\n    RETURN oldToNew[head]\nEND FUNCTION",
+  "renderType": "random_linked_list",
+  "initialData": [
+    [
+      7,
+      null
+    ],
+    [
+      13,
+      0
+    ],
+    [
+      11,
+      4
+    ],
+    [
+      10,
+      2
+    ],
+    [
+      1,
+      0
+    ]
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Initialize oldToNew map. Pass 1: Clone all node copies.",
+      "state": {
+        "pass": 1,
+        "curr": 7
+      },
+      "nodes": [
+        7,
+        13,
+        11,
+        10,
+        1
+      ],
+      "clonedNodes": [],
+      "pass": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: Created cloned nodes: copy(7), copy(13), copy(11), copy(10), copy(1) mapped in oldToNew.",
+      "state": {
+        "clonedCount": 5
+      },
+      "nodes": [
+        7,
+        13,
+        11,
+        10,
+        1
+      ],
+      "clonedNodes": [
+        7,
+        13,
+        11,
+        10,
+        1
+      ],
+      "pass": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 8,
+      "narration": "Line 9-10: Pass 2: Link next and random pointers. copy(13).random = copy(7), copy(11).random = copy(1).",
+      "state": {
+        "pass": 2,
+        "links": "Updating next & random"
+      },
+      "nodes": [
+        7,
+        13,
+        11,
+        10,
+        1
+      ],
+      "clonedNodes": [
+        7,
+        13,
+        11,
+        10,
+        1
+      ],
+      "pass": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 13,
+      "narration": "Line 14: All random pointers wired correctly. RETURN oldToNew[head].",
+      "state": {
+        "status": "COMPLETED",
+        "head": 7
+      },
+      "nodes": [
+        7,
+        13,
+        11,
+        10,
+        1
+      ],
+      "clonedNodes": [
+        7,
+        13,
+        11,
+        10,
+        1
+      ],
+      "pass": 2,
+      "output": {
+        "label": "Random List Cloned",
+        "value": "[[7,null],[13,0],[11,4],[10,2],[1,0]]",
+        "detail": "Deep copy completed preserving both next and random links."
+      }
+    }
+  ],
+  "codeLines": [
+    "FUNCTION copyRandomList(head):",
+    "    IF head IS NULL THEN RETURN NULL",
+    "    oldToNew = EMPTY_HASH_MAP(), curr = head",
+    "    WHILE curr IS NOT NULL DO:",
+    "        oldToNew[curr] = NEW Node(curr.val)",
+    "        curr = curr.next",
+    "    END WHILE",
+    "    curr = head",
+    "    WHILE curr IS NOT NULL DO:",
+    "        oldToNew[curr].next = oldToNew[curr.next]",
+    "        oldToNew[curr].random = oldToNew[curr.random]",
+    "        curr = curr.next",
+    "    END WHILE",
+    "    RETURN oldToNew[head]",
+    "END FUNCTION"
+  ]
+}

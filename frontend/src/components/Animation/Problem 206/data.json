@@ -1,0 +1,264 @@
+{
+  "id": 206,
+  "title": "Reverse Linked List",
+  "difficulty": "Easy",
+  "topic": "Linked List",
+  "algorithm": "Iterative Three-Pointer Swap",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Reverse a singly linked list iteratively or recursively.",
+  "url": "https://leetcode.com/problems/reverse-linked-list/",
+  "explanation": "Maintain `prev` (NULL) and `curr` (head). Save `curr.next`, redirect `curr.next = prev`, shift `prev = curr` and `curr = next` until traversal finishes.",
+  "pseudoCode": "FUNCTION reverseList(head):\n    prev = NULL, curr = head\n    WHILE curr IS NOT NULL DO:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    END WHILE\n    RETURN prev\nEND FUNCTION",
+  "renderType": "reverse_list",
+  "initialData": [1, 2, 3, 4, 5],
+  "codeLines": [
+    "FUNCTION reverseList(head):",
+    "    prev = NULL, curr = head",
+    "    WHILE curr IS NOT NULL DO:",
+    "        nxt = curr.next",
+    "        curr.next = prev",
+    "        prev = curr",
+    "        curr = nxt",
+    "    END WHILE",
+    "    RETURN prev",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize prev = NULL, curr = head (node 1).",
+      "state": {
+        "prev": "NULL",
+        "curr": 1
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [],
+      "currIdx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Save nxt = curr.next (node 2).",
+      "state": {
+        "prev": "NULL",
+        "curr": 1,
+        "nxt": 2
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [],
+      "currIdx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: Redirect curr.next to prev (1 -> NULL).",
+      "state": {
+        "prev": "NULL",
+        "curr": 1,
+        "nxt": 2
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0],
+      "currIdx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Lines 6-7: Shift pointers: prev = 1, curr = nxt (2).",
+      "state": {
+        "prev": 1,
+        "curr": 2
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0],
+      "currIdx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: Save nxt = curr.next (node 3).",
+      "state": {
+        "prev": 1,
+        "curr": 2,
+        "nxt": 3
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0],
+      "currIdx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Line 5: Redirect curr.next to prev (2 -> 1).",
+      "state": {
+        "prev": 1,
+        "curr": 2,
+        "nxt": 3
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1],
+      "currIdx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Lines 6-7: Shift pointers: prev = 2, curr = nxt (3).",
+      "state": {
+        "prev": 2,
+        "curr": 3
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1],
+      "currIdx": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: Save nxt = curr.next (node 4).",
+      "state": {
+        "prev": 2,
+        "curr": 3,
+        "nxt": 4
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1],
+      "currIdx": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5: Redirect curr.next to prev (3 -> 2).",
+      "state": {
+        "prev": 2,
+        "curr": 3,
+        "nxt": 4
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2],
+      "currIdx": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 5,
+      "narration": "Lines 6-7: Shift pointers: prev = 3, curr = nxt (4).",
+      "state": {
+        "prev": 3,
+        "curr": 4
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2],
+      "currIdx": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 3,
+      "narration": "Line 4: Save nxt = curr.next (node 5).",
+      "state": {
+        "prev": 3,
+        "curr": 4,
+        "nxt": 5
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2],
+      "currIdx": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 4,
+      "narration": "Line 5: Redirect curr.next to prev (4 -> 3).",
+      "state": {
+        "prev": 3,
+        "curr": 4,
+        "nxt": 5
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2, 3],
+      "currIdx": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 5,
+      "narration": "Lines 6-7: Shift pointers: prev = 4, curr = nxt (5).",
+      "state": {
+        "prev": 4,
+        "curr": 5
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2, 3],
+      "currIdx": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 3,
+      "narration": "Line 4: Save nxt = curr.next (NULL).",
+      "state": {
+        "prev": 4,
+        "curr": 5,
+        "nxt": "NULL"
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2, 3],
+      "currIdx": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 4,
+      "narration": "Line 5: Redirect curr.next to prev (5 -> 4).",
+      "state": {
+        "prev": 4,
+        "curr": 5,
+        "nxt": "NULL"
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2, 3, 4],
+      "currIdx": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 5,
+      "narration": "Lines 6-7: Shift pointers: prev = 5, curr = nxt (NULL). Loop terminates.",
+      "state": {
+        "prev": 5,
+        "curr": "NULL"
+      },
+      "nodes": [1, 2, 3, 4, 5],
+      "reversedEdges": [0, 1, 2, 3, 4],
+      "currIdx": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 8,
+      "narration": "Line 9: Traversal complete. RETURN prev (node 5) as the new head.",
+      "state": {
+        "status": "COMPLETED",
+        "head": 5
+      },
+      "nodes": [5, 4, 3, 2, 1],
+      "reversedEdges": [0, 1, 2, 3, 4],
+      "currIdx": -1,
+      "output": {
+        "label": "Reversed List",
+        "value": "5 -> 4 -> 3 -> 2 -> 1",
+        "detail": "Reversed all node pointers in-place in O(n) time."
+      }
+    }
+  ]
+}

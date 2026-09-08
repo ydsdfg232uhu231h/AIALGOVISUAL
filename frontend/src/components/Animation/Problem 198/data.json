@@ -1,0 +1,142 @@
+{
+  "id": 198,
+  "title": "House Robber",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "1D State Selection DP",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Maximize total stolen amount along a row of houses without robbing two adjacent ones.",
+  "url": "https://leetcode.com/problems/house-robber/",
+  "explanation": "At house i, maximum profit is max(nums[i] + rob1, rob2), where rob1 is max profit 2 houses back and rob2 is max profit 1 house back.",
+  "pseudoCode": "FUNCTION rob(nums):\n    rob1 = 0, rob2 = 0\n    FOR n IN nums DO:\n        temp = MAX(n + rob1, rob2)\n        rob1 = rob2\n        rob2 = temp\n    END FOR\n    RETURN rob2\nEND FUNCTION",
+  "renderType": "house_robber",
+  "initialData": [2, 7, 9, 3, 1, 5],
+  "codeLines": [
+    "FUNCTION rob(nums):",
+    "    rob1 = 0, rob2 = 0",
+    "    FOR n IN nums DO:",
+    "        temp = MAX(n + rob1, rob2)",
+    "        rob1 = rob2",
+    "        rob2 = temp",
+    "    END FOR",
+    "    RETURN rob2",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Base state: rob1 = 0, rob2 = 0. Street: [2, 7, 9, 3, 1, 5].",
+      "state": {
+        "rob1": 0,
+        "rob2": 0
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": -1,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: House 0 ($2): temp = MAX(2 + 0, 0) = 2. Shift: rob1 = 0, rob2 = 2.",
+      "state": {
+        "house": 0,
+        "val": 2,
+        "rob1": 0,
+        "rob2": 2
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 3,
+      "narration": "Line 4: House 1 ($7): temp = MAX(7 + 0, 2) = 7. Shift: rob1 = 2, rob2 = 7.",
+      "state": {
+        "house": 1,
+        "val": 7,
+        "rob1": 2,
+        "rob2": 7
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: House 2 ($9): temp = MAX(9 + 2, 7) = 11. Shift: rob1 = 7, rob2 = 11.",
+      "state": {
+        "house": 2,
+        "val": 9,
+        "rob1": 7,
+        "rob2": 11
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: House 3 ($3): temp = MAX(3 + 7, 11) = 11. Skip house 3. Shift: rob1 = 11, rob2 = 11.",
+      "state": {
+        "house": 3,
+        "val": 3,
+        "rob1": 11,
+        "rob2": 11
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: House 4 ($1): temp = MAX(1 + 11, 11) = 12. Shift: rob1 = 11, rob2 = 12.",
+      "state": {
+        "house": 4,
+        "val": 1,
+        "rob1": 11,
+        "rob2": 12
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 3,
+      "narration": "Line 4: House 5 ($5): temp = MAX(5 + 11, 12) = 16. Shift: rob1 = 12, rob2 = 16.",
+      "state": {
+        "house": 5,
+        "val": 5,
+        "rob1": 12,
+        "rob2": 16
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 7,
+      "narration": "Line 8: All houses evaluated. Maximum stolen amount is rob2 = $16. RETURN 16.",
+      "state": {
+        "status": "COMPLETED",
+        "maxRobbed": 16,
+        "rob1": 12,
+        "rob2": 16
+      },
+      "houses": [2, 7, 9, 3, 1, 5],
+      "currentHouse": 5,
+      "output": {
+        "label": "Max Amount Stolen",
+        "value": "$16",
+        "detail": "Rob house 0 ($2), house 2 ($9), and house 5 ($5) for total $16."
+      }
+    }
+  ]
+}

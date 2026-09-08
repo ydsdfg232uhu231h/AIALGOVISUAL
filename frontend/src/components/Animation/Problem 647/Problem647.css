@@ -1,0 +1,221 @@
+.palindrome-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 420px;
+  position: relative;
+  gap: 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 4px 11px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.count-chip b {
+  color: #4ade80;
+}
+
+.center-chip b {
+  color: #38bdf8;
+}
+
+.odd-chip b {
+  color: #facc15;
+}
+
+.even-chip b {
+  color: #c084fc;
+}
+
+.match-chip {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.match-chip b {
+  color: #86efac;
+}
+
+.palindrome-track-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 28px 24px 16px 24px;
+  max-width: 95%;
+  box-sizing: border-box;
+}
+
+.chars-track {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.char-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.ptrs-group {
+  position: absolute;
+  top: -24px;
+  display: flex;
+  gap: 2px;
+  height: 18px;
+  z-index: 2;
+}
+
+.pointer-tag {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.ptr-l {
+  background: #facc15;
+  color: #000;
+}
+
+.ptr-r {
+  background: #c084fc;
+  color: #000;
+}
+
+.ptr-lr {
+  background: #38bdf8;
+  color: #000;
+}
+
+.ptr-c {
+  background: #71717a;
+  color: #fff;
+}
+
+.char-tile {
+  width: 46px;
+  height: 48px;
+  border-radius: 8px;
+  background: #18181b;
+  border: 2px solid #27272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.char-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.idx-tag {
+  font-size: 8px;
+  color: #71717a;
+  position: absolute;
+  bottom: 2px;
+}
+
+.tile-center {
+  border-color: #38bdf8;
+}
+
+.tile-in-span {
+  background: rgba(34, 197, 94, 0.18) !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.35);
+}
+
+.found-pool-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  max-width: 90%;
+}
+
+.pool-label {
+  font-size: 11px;
+  color: #71717a;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.found-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.found-chip {
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #86efac;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.result-callout {
+  position: absolute;
+  bottom: 8px;
+  background: #111827;
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 6px 14px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 15px;
+  color: #fff;
+  font-weight: 800;
+  margin: 1px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #9ca3af;
+}

@@ -1,0 +1,165 @@
+.kadane-prod-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 380px;
+  position: relative;
+  gap: 26px;
+  box-sizing: border-box;
+}
+
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.metric-chip {
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.current-chip b {
+  color: #38bdf8;
+}
+
+.max-chip b {
+  color: #4ade80;
+}
+
+.min-chip b {
+  color: #fb923c;
+}
+
+.res-chip b {
+  color: #facc15;
+}
+
+.elements-track {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 24px 8px 8px 8px;
+  min-height: 90px;
+}
+
+.box-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.ptrs-group {
+  position: absolute;
+  top: -24px;
+  display: flex;
+  gap: 4px;
+  height: 18px;
+}
+
+.pointer-tag {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.ptr-curr {
+  background: #38bdf8;
+  color: #000;
+}
+
+.box-node {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background: #141416;
+  border: 2px solid #27272a;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.node-curr {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.18) !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+}
+
+.node-neg {
+  color: #fca5a5;
+}
+
+.node-idle {
+  border-color: #27272a;
+}
+
+.node-active {
+  background: #18181b;
+}
+
+.idx-tag {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #71717a;
+}
+
+.calc-banner {
+  font-size: 12px;
+  color: #a1a1aa;
+  background: #18181b;
+  border: 1px solid #27272a;
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+.calc-banner b {
+  color: #e4e4e7;
+}
+
+.result-callout {
+  position: absolute;
+  bottom: 12px;
+  background: #111827;
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.callout-header {
+  font-size: 11px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.callout-detail {
+  font-size: 12px;
+  color: #9ca3af;
+}

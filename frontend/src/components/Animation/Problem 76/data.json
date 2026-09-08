@@ -1,0 +1,394 @@
+{
+  "id": 76,
+  "title": "Minimum Window Substring",
+  "difficulty": "Hard",
+  "topic": "Sliding Window",
+  "algorithm": "Sliding Window with Character Counts",
+  "timeComplexity": "O(n + m)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the minimum substring in s that contains all characters of string t.",
+  "url": "https://leetcode.com/problems/minimum-window-substring/",
+  "explanation": "We use a sliding window. We expand the right pointer to include characters until all required frequency requirements for string t are satisfied, then contract the left pointer to find the minimal valid window size.",
+  "pseudoCode": "FUNCTION minWindow(s, t):\n    IF t IS EMPTY THEN RETURN ''\n    countT = FREQ_MAP(t), window = EMPTY_MAP(), have = 0, need = LENGTH(countT)\n    res = [-1, -1], resLen = INF, l = 0\n    FOR r FROM 0 TO LENGTH(s) - 1 DO:\n        c = s[r]; window[c] = window[c] + 1\n        IF c IN countT AND window[c] == countT[c] THEN have = have + 1\n        WHILE have == need DO:\n            IF (r - l + 1) < resLen THEN res = [l, r]; resLen = r - l + 1\n            window[s[l]] = window[s[l]] - 1\n            IF s[l] IN countT AND window[s[l]] < countT[s[l]] THEN have = have - 1\n            l = l + 1\n        END WHILE\n    END FOR\n    RETURN resLen != INF ? SUBSTRING(s, res[0], res[1] + 1) : ''\nEND FUNCTION",
+  "renderType": "min_window",
+  "initialData": {
+    "s": "ADOBECODEBANC",
+    "t": "ABC"
+  },
+  "codeLines": [
+    "FUNCTION minWindow(s, t):",
+    "    IF t IS EMPTY THEN RETURN ''",
+    "    countT = FREQ_MAP(t), window = EMPTY_MAP(), have = 0, need = LENGTH(countT)",
+    "    res = [-1, -1], resLen = INF, l = 0",
+    "    FOR r FROM 0 TO LENGTH(s) - 1 DO:",
+    "        c = s[r]; window[c] = window[c] + 1",
+    "        IF c IN countT AND window[c] == countT[c] THEN have = have + 1",
+    "        WHILE have == need DO:",
+    "            IF (r - l + 1) < resLen THEN res = [l, r]; resLen = r - l + 1",
+    "            window[s[l]] = window[s[l]] - 1",
+    "            IF s[l] IN countT AND window[s[l]] < countT[s[l]] THEN have = have - 1",
+    "            l = l + 1",
+    "        END WHILE",
+    "    END FOR",
+    "    RETURN resLen != INF ? SUBSTRING(s, res[0], res[1] + 1) : ''",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Target t = 'ABC'. countT = {A:1, B:1, C:1}. have = 0, need = 3, l = 0.",
+      "state": {
+        "have": 0,
+        "need": 3,
+        "l": 0,
+        "r": 0,
+        "resLen": "INF"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 0,
+      "right": 0,
+      "windowCounts": {},
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 6,
+      "narration": "Line 7: r = 0 (s[0] = 'A'). window['A'] = 1 == countT['A']. have increments to 1 (have=1/3).",
+      "state": {
+        "have": 1,
+        "need": 3,
+        "l": 0,
+        "r": 0,
+        "resLen": "INF"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 0,
+      "right": 0,
+      "windowCounts": { "A": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: r expands through 'D' (idx 1) and 'O' (idx 2). Neither are target characters. have stays 1.",
+      "state": {
+        "have": 1,
+        "need": 3,
+        "l": 0,
+        "r": 2,
+        "resLen": "INF"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 0,
+      "right": 2,
+      "windowCounts": { "A": 1, "D": 1, "O": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7: r = 3 (s[3] = 'B'). window['B'] = 1 == countT['B']. have increments to 2 (have=2/3).",
+      "state": {
+        "have": 2,
+        "need": 3,
+        "l": 0,
+        "r": 3,
+        "resLen": "INF"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 0,
+      "right": 3,
+      "windowCounts": { "A": 1, "D": 1, "O": 1, "B": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: r = 4 (s[4] = 'E'). Non-target character. window['E'] = 1. have remains 2.",
+      "state": {
+        "have": 2,
+        "need": 3,
+        "l": 0,
+        "r": 4,
+        "resLen": "INF"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 0,
+      "right": 4,
+      "windowCounts": { "A": 1, "D": 1, "O": 1, "B": 1, "E": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7: r = 5 (s[5] = 'C'). window['C'] = 1 == countT['C']. have increments to 3. All target characters found!",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 0,
+        "r": 5,
+        "resLen": "INF",
+        "sub": "ADOBEC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 0,
+      "right": 5,
+      "windowCounts": { "A": 1, "D": 1, "O": 1, "B": 1, "E": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: have == need (3 == 3). Window [0..5] ('ADOBEC') has len 6 < INF. Update res = [0, 5], resLen = 6.",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 0,
+        "r": 5,
+        "resLen": 6,
+        "sub": "ADOBEC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 0,
+      "right": 5,
+      "windowCounts": { "A": 1, "D": 1, "O": 1, "B": 1, "E": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 10,
+      "narration": "Line 11: Contract left pointer. Remove s[0] ('A'). window['A'] drops to 0 < countT['A'](1). have drops to 2. l moves to 1.",
+      "state": {
+        "have": 2,
+        "need": 3,
+        "l": 1,
+        "r": 5,
+        "resLen": 6,
+        "sub": "ADOBEC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 1,
+      "right": 5,
+      "windowCounts": { "A": 0, "D": 1, "O": 1, "B": 1, "E": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 5,
+      "narration": "Line 6: have < need. Expand r from 6 to 8 ('ODE'). Target chars still incomplete. have remains 2.",
+      "state": {
+        "have": 2,
+        "need": 3,
+        "l": 1,
+        "r": 8,
+        "resLen": 6,
+        "sub": "ADOBEC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 1,
+      "right": 8,
+      "windowCounts": { "A": 0, "B": 1, "C": 1, "D": 2, "O": 2, "E": 2 },
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 5,
+      "narration": "Line 6: r = 9 (s[9] = 'B'). window['B'] = 2 > countT['B'](1). have remains 2 (duplicate B).",
+      "state": {
+        "have": 2,
+        "need": 3,
+        "l": 1,
+        "r": 9,
+        "resLen": 6,
+        "sub": "ADOBEC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 1,
+      "right": 9,
+      "windowCounts": { "A": 0, "B": 2, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 6,
+      "narration": "Line 7: r = 10 (s[10] = 'A'). window['A'] = 1 == countT['A']. have increments to 3! Valid window formed: 'DOBECODEBA' [1..10].",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 1,
+        "r": 10,
+        "resLen": 6,
+        "sub": "ADOBEC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 1,
+      "right": 10,
+      "windowCounts": { "A": 1, "B": 2, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 10,
+      "narration": "Line 10-12: Contract left pointer: remove non-target chars 'D' (idx 1), 'O' (idx 2). l shifts to 3 ('B'). Window [3..10] still has have == 3.",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 3,
+        "r": 10,
+        "resLen": 6,
+        "sub": "ADOBEC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 3,
+      "right": 10,
+      "windowCounts": { "A": 1, "B": 2, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 10,
+      "narration": "Line 10-12: Contract left past s[3] ('B'). window['B'] decreases from 2 to 1 >= countT['B'](1). have remains 3! l shifts past 'E' to 5 ('C').",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 5,
+        "r": 10,
+        "resLen": 6,
+        "sub": "CODEBA"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 5,
+      "right": 10,
+      "windowCounts": { "A": 1, "B": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 8,
+      "narration": "Line 9: Window [5..10] ('CODEBA') length = 6. Matches best resLen 6. res updated to [5, 10].",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 5,
+        "r": 10,
+        "resLen": 6,
+        "sub": "CODEBA"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 5,
+      "right": 10,
+      "windowCounts": { "A": 1, "B": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 10,
+      "narration": "Line 11: Contract left past s[5] ('C'). window['C'] drops to 0 < 1. have drops to 2. l moves to 6.",
+      "state": {
+        "have": 2,
+        "need": 3,
+        "l": 6,
+        "r": 10,
+        "resLen": 6,
+        "sub": "CODEBA"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 6,
+      "right": 10,
+      "windowCounts": { "A": 1, "B": 1, "C": 0 },
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 5,
+      "narration": "Line 6: r expands through 'N' (idx 11) to 'C' (idx 12). window['C'] = 1 == countT['C']. have returns to 3!",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 6,
+        "r": 12,
+        "resLen": 6,
+        "sub": "CODEBA"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 6,
+      "right": 12,
+      "windowCounts": { "A": 1, "B": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 10,
+      "narration": "Line 10-12: Contract left past non-target 'O', 'D', 'E' (indices 6, 7, 8). l rests at 9 ('B'). Window: 'BANC' [9..12].",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 9,
+        "r": 12,
+        "resLen": 6,
+        "sub": "CODEBA"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 9,
+      "right": 12,
+      "windowCounts": { "A": 1, "B": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 17,
+      "activeLine": 8,
+      "narration": "Line 9: Window [9..12] ('BANC') length is 4 < current best 6! New minimal window found. resLen = 4, res = [9, 12].",
+      "state": {
+        "have": 3,
+        "need": 3,
+        "l": 9,
+        "r": 12,
+        "resLen": 4,
+        "sub": "BANC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 9,
+      "right": 12,
+      "windowCounts": { "A": 1, "B": 1, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 18,
+      "activeLine": 10,
+      "narration": "Line 11: Contract left past s[9] ('B'). window['B'] drops to 0 < 1. have drops to 2. l moves to 10. r is at end of string.",
+      "state": {
+        "have": 2,
+        "need": 3,
+        "l": 10,
+        "r": 12,
+        "resLen": 4,
+        "sub": "BANC"
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 10,
+      "right": 12,
+      "windowCounts": { "A": 1, "B": 0, "C": 1 },
+      "output": null
+    },
+    {
+      "stepIndex": 19,
+      "activeLine": 14,
+      "narration": "Line 15: Loop finished. Minimum window is 'BANC' with length 4. RETURN 'BANC'.",
+      "state": {
+        "status": "COMPLETED",
+        "minWindow": "BANC",
+        "resLen": 4
+      },
+      "s": ["A", "D", "O", "B", "E", "C", "O", "D", "E", "B", "A", "N", "C"],
+      "left": 9,
+      "right": 12,
+      "windowCounts": { "A": 1, "B": 1, "C": 1 },
+      "output": {
+        "label": "Minimum Window",
+        "value": "\"BANC\"",
+        "detail": "Shortest substring containing 'A', 'B', and 'C'."
+      }
+    }
+  ]
+}

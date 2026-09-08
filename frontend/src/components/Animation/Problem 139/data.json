@@ -1,0 +1,177 @@
+{
+  "id": 139,
+  "title": "Word Break",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "1D DP / Trie + BFS",
+  "timeComplexity": "O(n^2 * m)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Determine if a string can be segmented into a space-separated sequence of dictionary words.",
+  "url": "https://leetcode.com/problems/word-break/",
+  "explanation": "Work backward using a dynamic programming array dp[i] indicating whether substring s[i..n] can be segmented. If s[i..i+len] matches a dictionary word, set dp[i] = dp[i + len].",
+  "pseudoCode": "FUNCTION wordBreak(s, wordDict):\n    dp = ARRAY_OF_SIZE(LENGTH(s) + 1, INITIAL_VALUE = False)\n    dp[LENGTH(s)] = True\n    FOR i FROM LENGTH(s) - 1 DOWN TO 0 DO:\n        FOR w IN wordDict DO:\n            IF (i + LENGTH(w)) <= LENGTH(s) AND SUBSTRING(s, i, i + LENGTH(w)) == w THEN:\n                dp[i] = dp[i + LENGTH(w)]\n            IF dp[i] THEN BREAK\n        END FOR\n    END FOR\n    RETURN dp[0]\nEND FUNCTION",
+  "renderType": "word_break_dp",
+  "initialData": {
+    "s": "leetcode",
+    "wordDict": ["leet", "code"]
+  },
+  "codeLines": [
+    "FUNCTION wordBreak(s, wordDict):",
+    "    dp = ARRAY_OF_SIZE(LENGTH(s) + 1, INITIAL_VALUE = False)",
+    "    dp[LENGTH(s)] = True",
+    "    FOR i FROM LENGTH(s) - 1 DOWN TO 0 DO:",
+    "        FOR w IN wordDict DO:",
+    "            IF (i + LENGTH(w)) <= LENGTH(s) AND SUBSTRING(s, i, i + LENGTH(w)) == w THEN:",
+    "                dp[i] = dp[i + LENGTH(w)]",
+    "            IF dp[i] THEN BREAK",
+    "        END FOR",
+    "    END FOR",
+    "    RETURN dp[0]",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Base case: empty suffix at index 8 can always be segmented. dp[8] = True.",
+      "state": {
+        "wordDict": ["leet", "code"],
+        "dp[8]": "True"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, false, false, false, false, true],
+      "currentIdx": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 5,
+      "narration": "Line 6: i = 7 ('e'). Substrings 'e' / 'e...' do not match any dictionary words. dp[7] remains False.",
+      "state": {
+        "i": 7,
+        "wordDict": ["leet", "code"],
+        "checkedWord": "e"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, false, false, false, false, true],
+      "currentIdx": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: i = 6 ('d'). 'de' does not match 'leet' or 'code'. dp[6] remains False.",
+      "state": {
+        "i": 6,
+        "wordDict": ["leet", "code"],
+        "checkedWord": "de"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, false, false, false, false, true],
+      "currentIdx": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: i = 5 ('o'). 'ode' does not match dictionary words. dp[5] remains False.",
+      "state": {
+        "i": 5,
+        "wordDict": ["leet", "code"],
+        "checkedWord": "ode"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, false, false, false, false, true],
+      "currentIdx": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 6,
+      "narration": "Line 6-7: i = 4 ('c'). Substring s[4..8] matches 'code'! dp[4] = dp[4 + 4] = dp[8] = True.",
+      "state": {
+        "i": 4,
+        "wordDict": ["leet", "code"],
+        "matchedWord": "code"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, true, false, false, false, true],
+      "currentIdx": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: i = 3 ('t'). Substring 'tcode' does not match any dictionary word. dp[3] remains False.",
+      "state": {
+        "i": 3,
+        "wordDict": ["leet", "code"],
+        "checkedWord": "t"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, true, false, false, false, true],
+      "currentIdx": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6: i = 2 ('e'). Substring 'etcode' does not match dictionary words. dp[2] remains False.",
+      "state": {
+        "i": 2,
+        "wordDict": ["leet", "code"],
+        "checkedWord": "et"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, true, false, false, false, true],
+      "currentIdx": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 5,
+      "narration": "Line 6: i = 1 ('e'). Substring 'eetcode' does not match dictionary words. dp[1] remains False.",
+      "state": {
+        "i": 1,
+        "wordDict": ["leet", "code"],
+        "checkedWord": "eet"
+      },
+      "s": "leetcode",
+      "dp": [false, false, false, false, true, false, false, false, true],
+      "currentIdx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 6,
+      "narration": "Line 6-7: i = 0 ('l'). Substring s[0..4] matches 'leet'! dp[0] = dp[0 + 4] = dp[4] = True.",
+      "state": {
+        "i": 0,
+        "wordDict": ["leet", "code"],
+        "matchedWord": "leet"
+      },
+      "s": "leetcode",
+      "dp": [true, false, false, false, true, false, false, false, true],
+      "currentIdx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 10,
+      "narration": "Line 11: Traversal complete. dp[0] is True. Entire string can be segmented. RETURN True.",
+      "state": {
+        "status": "COMPLETED",
+        "canSegment": "True",
+        "i": 0
+      },
+      "s": "leetcode",
+      "dp": [true, false, false, false, true, false, false, false, true],
+      "currentIdx": 0,
+      "output": {
+        "label": "Word Break Feasible",
+        "value": "True",
+        "detail": "'leetcode' segments into 'leet' + 'code'."
+      }
+    }
+  ]
+}

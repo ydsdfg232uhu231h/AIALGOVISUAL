@@ -1,0 +1,259 @@
+.paren-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 480px;
+  position: relative;
+  gap: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* METRICS */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #141417;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.target-chip b {
+  color: #facc15;
+}
+
+.open-count b {
+  color: #38bdf8;
+}
+
+.close-count b {
+  color: #c084fc;
+}
+
+/* RULES PANEL */
+.rules-panel {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  max-width: 440px;
+}
+
+.rule-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 12px;
+  transition: all 0.25s ease;
+}
+
+.rule-header {
+  font-size: 11px;
+  color: #71717a;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.rule-equation {
+  font-size: 12px;
+  color: #e4e4e7;
+  font-family: monospace;
+}
+
+.rule-status {
+  font-size: 13px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.rule-valid {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.2);
+}
+
+.rule-valid .rule-status {
+  color: #86efac;
+}
+
+.rule-invalid {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.rule-invalid .rule-status {
+  color: #fca5a5;
+}
+
+/* STRING BUILDER TRACK */
+.builder-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+  margin-top: 4px;
+}
+
+.builder-title {
+  font-size: 11px;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.slots-container {
+  display: flex;
+  gap: 6px;
+}
+
+.string-slot {
+  width: 44px;
+  height: 52px;
+  background: #111215;
+  border: 2px dashed #3f3f46;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #52525b;
+  transition: all 0.2s ease;
+}
+
+.slot-filled {
+  border-style: solid;
+  background: #27272a;
+}
+
+.slot-open {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+}
+
+.slot-close {
+  border-color: #c084fc;
+  color: #c084fc;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.3);
+}
+
+/* ACCUMULATED RESULTS REEL */
+.results-reel-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 12px 16px;
+  max-width: 95%;
+  width: 440px;
+  box-sizing: border-box;
+}
+
+.reel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reel-title {
+  font-size: 10px;
+  color: #71717a;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.reel-count {
+  font-size: 11px;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+.reel-chips-stream {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  min-height: 26px;
+}
+
+.reel-empty-text {
+  font-size: 11px;
+  color: #52525b;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.combo-chip {
+  background: #18181b;
+  border: 1px solid #22c55e;
+  color: #86efac;
+  font-size: 14px;
+  font-family: monospace;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* RESULT CALLOUT */
+.result-callout {
+  position: absolute;
+  bottom: 10px;
+  background: #0f172a;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 8px 18px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 16px rgba(34, 197, 94, 0.25);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.callout-val {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #94a3b8;
+}

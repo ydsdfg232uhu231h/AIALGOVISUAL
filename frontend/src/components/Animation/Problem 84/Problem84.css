@@ -1,0 +1,409 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#histogram-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  box-sizing: border-box;
+  padding: 12px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+#metric-pointer-i,
+#metric-stack-size,
+#metric-current-area,
+#metric-max-area,
+#metric-status-active,
+#metric-status-done {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+#metric-pointer-i b { color: #facc15; font-family: ui-monospace, monospace; }
+#metric-stack-size b { color: #c084fc; font-family: ui-monospace, monospace; }
+#metric-current-area b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#metric-max-area b { color: #4ade80; font-family: ui-monospace, monospace; }
+#metric-status-active b { color: #38bdf8; }
+
+#metric-status-done {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.16) !important;
+}
+#metric-status-done b { color: #4ade80 !important; }
+
+/* ============================================================
+   STAGE LAYOUT
+   ============================================================ */
+#histogram-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+#bars-track-card,
+#stack-chamber-card,
+#area-inspector-card {
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+#middle-stage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 12px;
+}
+
+@media (max-width: 680px) {
+  #middle-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#bars-card-header,
+#stack-card-header,
+#area-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+#bars-header-title,
+#stack-header-title,
+#area-header-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+#bars-header-sub,
+#stack-header-sub,
+#area-header-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   HISTOGRAM BARS VIEWPORT
+   ============================================================ */
+#bars-viewport {
+  width: 100%;
+  min-height: 200px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px 16px 36px 16px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+#bars-track-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+[id^="hist-col-"] {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  position: relative;
+  width: 48px;
+  height: 170px;
+}
+
+/* Pillars */
+[id^="hist-bar-"] {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+[id^="hist-bar-idle-"] {
+  background: #181822;
+  border: 2px solid #2e2e40;
+  border-bottom: none;
+  color: #a1a1aa;
+}
+
+/* In Monotonic Stack */
+[id^="hist-bar-stacked-"] {
+  background: rgba(192, 132, 252, 0.15);
+  border: 2px solid #c084fc;
+  border-bottom: none;
+  color: #d8b4fe;
+}
+
+/* Top of Monotonic Stack */
+[id^="hist-bar-top-"] {
+  background: rgba(250, 204, 21, 0.2) !important;
+  border: 2px solid #facc15 !important;
+  border-bottom: none !important;
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.7);
+}
+
+/* Being Popped */
+[id^="hist-bar-popped-"] {
+  background: rgba(239, 68, 68, 0.25) !important;
+  border: 2px solid #ef4444 !important;
+  border-bottom: none !important;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.7);
+}
+
+/* Active Rectangle Bound Span */
+[id^="hist-bar-rect-"] {
+  background: rgba(56, 189, 248, 0.25) !important;
+  border: 2px solid #38bdf8 !important;
+  border-bottom: none !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+/* Final Max Area Winner */
+[id^="hist-bar-winner-"] {
+  background: rgba(34, 197, 94, 0.3) !important;
+  border: 2.5px solid #22c55e !important;
+  border-bottom: none !important;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.8) !important;
+}
+
+[id^="bar-val-"] {
+  font-size: 13px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  margin-top: 6px;
+}
+
+[id^="idx-tag-"] {
+  position: absolute;
+  top: -18px;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+}
+
+#pointer-tag-i {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 900;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  background: #facc15;
+  color: #0c0c10;
+  box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+  z-index: 5;
+}
+
+/* ============================================================
+   STACK CHAMBER VIEWPORT
+   ============================================================ */
+#stack-chamber-viewport {
+  width: 100%;
+  min-height: 80px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 14px;
+  gap: 10px;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+#stack-empty-text {
+  font-size: 11px;
+  color: #636374;
+  font-style: italic;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="stack-pill-idle-"],
+[id^="stack-pill-top-"] {
+  position: relative;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-sizing: border-box;
+}
+
+[id^="stack-pill-idle-"] {
+  background: #201430;
+  border: 1.5px solid #8b5cf6;
+  color: #d8b4fe;
+}
+
+[id^="stack-pill-top-"] {
+  background: #2b1f0d !important;
+  border: 2px solid #facc15 !important;
+  color: #fef08a !important;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
+}
+
+[id^="stack-pill-idx-"],
+[id^="stack-pill-h-"] {
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+}
+
+#stack-top-badge {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  background: #facc15;
+  color: #0c0c10;
+  font-size: 7.5px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   AREA INSPECTOR
+   ============================================================ */
+#area-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+#area-box-popped,
+#area-box-calc {
+  background: #161620;
+  border: 1px solid #252534;
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#area-title-popped,
+#area-title-calc {
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #717182;
+  text-transform: uppercase;
+}
+
+#area-val-popped {
+  font-size: 12px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  color: #f87171;
+}
+
+#area-val-calc {
+  font-size: 11.5px;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+  color: #38bdf8;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 20, 16, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
+  z-index: 100;
+  max-width: 90%;
+}
+
+#callout-header-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #86efac;
+  letter-spacing: 0.8px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #4ade80;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #dcfce7;
+  font-weight: 500;
+}

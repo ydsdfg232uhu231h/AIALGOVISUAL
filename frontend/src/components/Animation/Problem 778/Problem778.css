@@ -1,0 +1,317 @@
+.swim-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 560px;
+  position: relative;
+  gap: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* TOP METRICS */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #141417;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.water-chip b {
+  color: #38bdf8;
+}
+
+.swimmer-chip b {
+  color: #facc15;
+}
+
+.heap-chip b {
+  color: #c084fc;
+}
+
+.target-chip b {
+  color: #22c55e;
+}
+
+/* MAIN STAGE */
+.swim-stage {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  justify-content: center;
+  max-width: 95%;
+  width: 100%;
+}
+
+/* TERRAIN MATRIX */
+.water-grid-card {
+  flex: 1.4;
+  background: #101014;
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.grid-header-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #71717a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.terrain-grid-5 {
+  display: grid;
+  gap: 8px;
+  width: 310px;
+  height: 310px;
+}
+
+.terrain-cell {
+  position: relative;
+  border-radius: 10px;
+  border: 2px solid #27272a;
+  background: #18181b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+
+.cell-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.elevation-val {
+  font-size: 15px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.cell-coord {
+  font-size: 7px;
+  color: #71717a;
+  margin-top: 2px;
+  font-family: monospace;
+}
+
+/* WATER FILL */
+.water-surface-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.35) 0%, rgba(14, 116, 144, 0.7) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cell-submerged {
+  border-color: #0284c7 !important;
+  box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.3);
+}
+
+.cell-active-swimmer {
+  border-color: #facc15 !important;
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.5) !important;
+}
+
+.cell-target-dest {
+  border-color: #22c55e;
+}
+
+.swimmer-pin {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 12px;
+  z-index: 3;
+}
+
+.dest-tag {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 6px;
+  font-weight: 900;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+  padding: 1px 3px;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.visited-dot {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #38bdf8;
+  z-index: 2;
+}
+
+/* HEAP PANEL */
+.heap-panel {
+  flex: 1;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+.panel-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #71717a;
+  text-transform: uppercase;
+}
+
+.heap-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 180px;
+}
+
+.heap-empty {
+  font-size: 11px;
+  color: #52525b;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.heap-chip-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #18181b;
+  border: 1.5px solid #27272a;
+}
+
+.heap-chip-min {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.14) !important;
+}
+
+.heap-min-tag {
+  font-size: 8px;
+  font-weight: 900;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.heap-coords {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  font-family: monospace;
+}
+
+.heap-time {
+  font-size: 11px;
+  font-weight: 800;
+  color: #facc15;
+  font-family: monospace;
+}
+
+/* WATER LEVEL METER */
+.water-level-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.meter-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #71717a;
+  text-transform: uppercase;
+}
+
+.meter-bar-track {
+  width: 100%;
+  height: 8px;
+  background: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.meter-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+
+/* RESULT CALLOUT */
+.result-callout {
+  position: absolute;
+  bottom: 8px;
+  background: #0f172a;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 8px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 800;
+  margin: 1px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #94a3b8;
+}

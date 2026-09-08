@@ -79,7 +79,7 @@
 #probans .box1 {
     background-color: aliceblue;
     color: black;
-    height: 60px;
+    height: 80px;
     width: 90%;
     margin: 20px;
     margin-top: 25px;
@@ -87,10 +87,33 @@
     border-right: 5px solid green;
     border-bottom: 5px solid green;
 }
+#progressbar{
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+#progressbar #player{
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+}
+#progressbar progress{
+    
+    width: 60vw;
+    height: 25px;
+}
 
 #probans .box1.b1 {
-    height: 100px;
+    height: 80px;
     margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+#probans .box1.b1 h4{
+    margin-left: 20px;
 }
 
 #probans .box2 {
@@ -116,7 +139,7 @@
 #probans .box2 .box22 {
     display: flex;
     align-items: center;
-
+   
     padding-left: 10px;
     padding-top: 10px;
     flex-shrink: 0;
@@ -125,7 +148,7 @@
 
 #probans .box2 .box22 h1 {
     color: black;
-    width: 250px;
+    width: 15vw;
     white-space: nowrap;
     height: 40px;
     overflow: hidden;
@@ -158,13 +181,16 @@
 h2:hover {
     color: rgb(1, 159, 180);
 }
-
-#probans .box2 .box22 h3#linkQus {
+#linkQus{
+    margin-left: auto;
+}
+#probans .box2 .box22 h3#linkQus a{
     padding: 5px;
     border-radius: 20px;
+    
 }
 
-#probans .box2 .box22 h3#linkQus a {
+#probans .box2 .box22 h2 a {
     color: black;
 
 }
@@ -177,7 +203,7 @@ h2:hover {
 }
 
 #probans .box3 {
-    width: 440px;
+    width: 30vw;
     height: 50px;
 
     border-radius: 10px;
@@ -185,7 +211,7 @@ h2:hover {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin-top: -835px;
+    margin-top: -836px;
     margin-left: auto;
     margin-right: 100px;
     border-right: 5px solid green;

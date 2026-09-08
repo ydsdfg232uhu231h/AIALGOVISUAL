@@ -1,0 +1,212 @@
+{
+  "id": 143,
+  "title": "Reorder List",
+  "difficulty": "Medium",
+  "topic": "Linked List",
+  "algorithm": "Find Mid + Reverse + Merge",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Reorder a linked list to interleave nodes from the start and the end.",
+  "url": "https://leetcode.com/problems/reorder-list/",
+  "explanation": "1. Find middle node using fast/slow pointers. 2. Reverse second half of linked list in-place. 3. Merge first half and reversed second half alternately.",
+  "pseudoCode": "FUNCTION reorderList(head):\n    slow = head, fast = head.next\n    WHILE fast AND fast.next DO slow = slow.next; fast = fast.next.next\n    second = slow.next; slow.next = NULL; prev = NULL\n    WHILE second DO temp = second.next; second.next = prev; prev = second; second = temp\n    first = head; second = prev\n    WHILE second DO\n        t1 = first.next, t2 = second.next\n        first.next = second; second.next = t1\n        first = t1; second = t2\n    END WHILE\nEND FUNCTION",
+  "renderType": "linked_list_reorder",
+  "initialData": [1, 2, 3, 4, 5],
+  "codeLines": [
+    "FUNCTION reorderList(head):",
+    "    slow = head, fast = head.next",
+    "    WHILE fast AND fast.next DO slow = slow.next; fast = fast.next.next",
+    "    second = slow.next; slow.next = NULL; prev = NULL",
+    "    WHILE second DO temp = second.next; second.next = prev; prev = second; second = temp",
+    "    first = head; second = prev",
+    "    WHILE second DO",
+    "        t1 = first.next, t2 = second.next",
+    "        first.next = second; second.next = t1",
+    "        first = t1; second = t2",
+    "    END WHILE",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize slow = head (1), fast = head.next (2). Phase 1: Find middle node.",
+      "state": {
+        "phase": "FIND_MID",
+        "slow": 1,
+        "fast": 2
+      },
+      "firstList": [1, 2, 3, 4, 5],
+      "secondList": [],
+      "mergedList": [],
+      "slowIdx": 0,
+      "fastIdx": 1,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 2,
+      "narration": "Line 3: Advance slow by 1 (to node 2) and fast by 2 (to node 4).",
+      "state": {
+        "phase": "FIND_MID",
+        "slow": 2,
+        "fast": 4
+      },
+      "firstList": [1, 2, 3, 4, 5],
+      "secondList": [],
+      "mergedList": [],
+      "slowIdx": 1,
+      "fastIdx": 3,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 2,
+      "narration": "Line 3: Advance slow by 1 (to node 3). fast reached end boundary. Middle node located at 3.",
+      "state": {
+        "phase": "MID_FOUND",
+        "slow": 3,
+        "fast": "END"
+      },
+      "firstList": [1, 2, 3, 4, 5],
+      "secondList": [],
+      "mergedList": [],
+      "slowIdx": 2,
+      "fastIdx": 4,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: Split list at slow. Set second = slow.next (4), then disconnect slow.next = NULL.",
+      "state": {
+        "phase": "SPLIT",
+        "firstHalf": "[1, 2, 3]",
+        "secondHalf": "[4, 5]"
+      },
+      "firstList": [1, 2, 3],
+      "secondList": [4, 5],
+      "mergedList": [],
+      "slowIdx": null,
+      "fastIdx": null,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: Phase 2: Reverse second half. Point node 4 backward: 4 -> NULL, prev = 4, second = 5.",
+      "state": {
+        "phase": "REVERSING",
+        "prev": 4,
+        "second": 5
+      },
+      "firstList": [1, 2, 3],
+      "secondList": [4],
+      "mergedList": [],
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Line 5: Reverse node 5: 5 -> 4. Reversed second half complete: [5 -> 4].",
+      "state": {
+        "phase": "REVERSED",
+        "firstHalf": "[1, 2, 3]",
+        "reversedSecond": "[5, 4]"
+      },
+      "firstList": [1, 2, 3],
+      "secondList": [5, 4],
+      "mergedList": [],
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6: Phase 3: Prepare interleave. Set first = head (1), second = prev (5).",
+      "state": {
+        "phase": "START_MERGE",
+        "firstPtr": 1,
+        "secondPtr": 5
+      },
+      "firstList": [1, 2, 3],
+      "secondList": [5, 4],
+      "mergedList": [],
+      "firstPtrIdx": 0,
+      "secondPtrIdx": 0,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 7,
+      "narration": "Lines 8-9: Link first (1) -> second (5). Advance first to t1 (2).",
+      "state": {
+        "phase": "MERGING",
+        "linked": "1 -> 5"
+      },
+      "firstList": [2, 3],
+      "secondList": [4],
+      "mergedList": [1, 5],
+      "firstPtrIdx": 0,
+      "secondPtrIdx": 0,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 8,
+      "narration": "Lines 8-9: Link second (5) -> next first node (2). Partial chain: 1 -> 5 -> 2.",
+      "state": {
+        "phase": "MERGING",
+        "linked": "5 -> 2"
+      },
+      "firstList": [2, 3],
+      "secondList": [4],
+      "mergedList": [1, 5, 2],
+      "firstPtrIdx": 0,
+      "secondPtrIdx": 0,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 8,
+      "narration": "Lines 8-9: Link node 2 -> node 4, then link node 4 -> remaining node 3.",
+      "state": {
+        "phase": "MERGING",
+        "linked": "2 -> 4 -> 3"
+      },
+      "firstList": [3],
+      "secondList": [],
+      "mergedList": [1, 5, 2, 4, 3],
+      "firstPtrIdx": null,
+      "secondPtrIdx": null,
+      "dwellMs": 1600,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 11,
+      "narration": "Line 12: second pointer reached NULL. Reorder completed in-place: 1 -> 5 -> 2 -> 4 -> 3.",
+      "state": {
+        "status": "COMPLETED",
+        "result": "1 -> 5 -> 2 -> 4 -> 3"
+      },
+      "firstList": [],
+      "secondList": [],
+      "mergedList": [1, 5, 2, 4, 3],
+      "dwellMs": 3500,
+      "output": {
+        "label": "Reordered List",
+        "value": "1 -> 5 -> 2 -> 4 -> 3",
+        "detail": "Interleaved in-place using O(1) extra memory in O(n) time."
+      }
+    }
+  ]
+}

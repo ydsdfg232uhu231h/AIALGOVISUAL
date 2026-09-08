@@ -1,0 +1,437 @@
+{
+  "id": 208,
+  "title": "Implement Trie (Prefix Tree)",
+  "difficulty": "Medium",
+  "topic": "Trie",
+  "algorithm": "N-ary Tree / Trie Data Structure",
+  "timeComplexity": "O(w) per insert/search/startsWith",
+  "spaceComplexity": "O(N * w)",
+  "oneLinerQuestion": "Implement a trie supporting insert, search, and startsWith methods.",
+  "url": "https://leetcode.com/problems/implement-trie-prefix-tree/",
+  "explanation": "Store characters in a nested tree where each node points to its children and maintains an isWord flag marking full word completions.",
+  "pseudoCode": "CLASS Trie:\n    CONSTRUCTOR(): root = NEW TrieNode()\n    FUNCTION insert(word):\n        curr = root\n        FOR c IN word DO:\n            IF c NOT IN curr.children THEN curr.children[c] = NEW TrieNode()\n            curr = curr.children[c]\n        END FOR\n        curr.isWord = True\n    FUNCTION search(word):\n        node = findNode(word)\n        RETURN node IS NOT NULL AND node.isWord\n    FUNCTION startsWith(prefix):\n        RETURN findNode(prefix) IS NOT NULL\nEND CLASS",
+  "renderType": "trie_tree",
+  "initialData": [
+    "insert('apple')",
+    "search('apple')",
+    "startsWith('app')",
+    "search('app')"
+  ],
+  "codeLines": [
+    "CLASS Trie:",
+    "    CONSTRUCTOR(): root = NEW TrieNode()",
+    "    FUNCTION insert(word):",
+    "        curr = root",
+    "        FOR c IN word DO:",
+    "            IF c NOT IN curr.children THEN curr.children[c] = NEW TrieNode()",
+    "            curr = curr.children[c]",
+    "        END FOR",
+    "        curr.isWord = True",
+    "    FUNCTION search(word):",
+    "        node = findNode(word)",
+    "        RETURN node IS NOT NULL AND node.isWord",
+    "    FUNCTION startsWith(prefix):",
+    "        RETURN findNode(prefix) IS NOT NULL",
+    "END CLASS"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize root TrieNode with empty children map.",
+      "state": { "op": "init", "activeNode": "root" },
+      "trieTree": { "root": {} },
+      "activePath": [],
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: insert('apple') -> Character 'a' not in root. Create node 'a'.",
+      "state": { "op": "insert", "char": "a", "word": "apple" },
+      "trieTree": {
+        "root": {
+          "a": {}
+        }
+      },
+      "activePath": ["a"],
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: insert('apple') -> Character 'p' not in 'a'. Create node 'p'.",
+      "state": { "op": "insert", "char": "p", "word": "apple" },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {}
+          }
+        }
+      },
+      "activePath": ["a", "p"],
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: insert('apple') -> Second 'p' not in first 'p'. Create child 'p'.",
+      "state": { "op": "insert", "char": "p", "word": "apple" },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {}
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p"],
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: insert('apple') -> Character 'l' not in 'p'. Create child 'l'.",
+      "state": { "op": "insert", "char": "l", "word": "apple" },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {}
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p", "l"],
+      "dwellMs": 1100,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 8,
+      "narration": "Line 9: insert('apple') -> Create 'e' and set curr.isWord = True on terminal node.",
+      "state": { "op": "insert", "char": "e", "word": "apple", "isWord": "True" },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p", "l", "e"],
+      "dwellMs": 1800,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 10,
+      "narration": "Line 11: search('apple') -> Start search from root node.",
+      "state": { "op": "search", "word": "apple", "pos": 0 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": [],
+      "dwellMs": 1000,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 11,
+      "narration": "Line 11: Step into child 'a' (exists).",
+      "state": { "op": "search", "word": "apple", "pos": 1 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a"],
+      "dwellMs": 900,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 11,
+      "narration": "Line 11: Step into child 'p' (exists).",
+      "state": { "op": "search", "word": "apple", "pos": 2 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p"],
+      "dwellMs": 900,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 11,
+      "narration": "Line 11: Step into second child 'p' (exists).",
+      "state": { "op": "search", "word": "apple", "pos": 3 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p"],
+      "dwellMs": 900,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 11,
+      "narration": "Line 11: Step into child 'l' (exists).",
+      "state": { "op": "search", "word": "apple", "pos": 4 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p", "l"],
+      "dwellMs": 900,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 11,
+      "narration": "Line 12: Reach node 'e'. Node exists and isWord == True! RETURN True.",
+      "state": { "op": "search", "word": "apple", "isWord": "True", "result": "True" },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p", "l", "e"],
+      "dwellMs": 2200,
+      "output": {
+        "label": "Search Result: search('apple')",
+        "value": "True",
+        "detail": "Path 'apple' exists and terminal node 'e' has isWord = True."
+      }
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 13,
+      "narration": "Line 14: startsWith('app') -> Traverse prefix from root.",
+      "state": { "op": "startsWith", "prefix": "app", "pos": 0 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": [],
+      "dwellMs": 1000,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 13,
+      "narration": "Line 14: startsWith('app') -> Step into 'a'.",
+      "state": { "op": "startsWith", "prefix": "app", "pos": 1 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a"],
+      "dwellMs": 900,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 13,
+      "narration": "Line 14: startsWith('app') -> Step into 'p'.",
+      "state": { "op": "startsWith", "prefix": "app", "pos": 2 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p"],
+      "dwellMs": 900,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 13,
+      "narration": "Line 14: startsWith('app') -> Step into second 'p'. Prefix ends, subtree exists! RETURN True.",
+      "state": { "op": "startsWith", "prefix": "app", "result": "True" },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p"],
+      "dwellMs": 2200,
+      "output": {
+        "label": "Prefix Result: startsWith('app')",
+        "value": "True",
+        "detail": "Prefix 'app' exists in Trie. startsWith does not require isWord = True."
+      }
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 10,
+      "narration": "Line 11: search('app') -> Start search for full word 'app'.",
+      "state": { "op": "search", "word": "app", "pos": 0 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": [],
+      "dwellMs": 1000,
+      "output": null
+    },
+    {
+      "stepIndex": 17,
+      "activeLine": 11,
+      "narration": "Line 11: search('app') -> Follow 'a' -> 'p' -> 'p'.",
+      "state": { "op": "search", "word": "app", "pos": 3 },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p"],
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 18,
+      "activeLine": 11,
+      "narration": "Line 12: Node 'p' exists, but isWord == False (only 'apple' was inserted, not 'app')! RETURN False.",
+      "state": { "op": "search", "word": "app", "isWord": "False", "result": "False", "status": "COMPLETED" },
+      "trieTree": {
+        "root": {
+          "a": {
+            "p": {
+              "p": {
+                "l": {
+                  "e": { "isWord": true }
+                }
+              }
+            }
+          }
+        }
+      },
+      "activePath": ["a", "p", "p"],
+      "dwellMs": 3500,
+      "output": {
+        "label": "Search Result: search('app')",
+        "value": "False",
+        "detail": "Prefix 'app' exists, but terminal node 'p' has isWord = False. Not an inserted word."
+      }
+    }
+  ]
+}

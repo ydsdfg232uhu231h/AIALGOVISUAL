@@ -1,0 +1,213 @@
+{
+  "id": 703,
+  "title": "Kth Largest Element in a Stream",
+  "difficulty": "Easy",
+  "topic": "Heap / Priority Queue",
+  "algorithm": "Min-Heap of Fixed Size K",
+  "timeComplexity": "O(log k) per insertion",
+  "spaceComplexity": "O(k)",
+  "oneLinerQuestion": "Design a class that processes stream numbers and continuously maintains the kth largest element.",
+  "url": "https://leetcode.com/problems/kth-largest-element-in-a-stream/",
+  "explanation": "Maintain a Min-Heap capped strictly at size k. When adding a new value, push it to heap and pop excess elements; top of Min-Heap holds current kth largest number.",
+  "pseudoCode": "CLASS KthLargest:\n    CONSTRUCTOR(k, nums):\n        minHeap = MinHeap(nums), kVal = k\n        WHILE SIZE(minHeap) > kVal DO POP(minHeap)\n    FUNCTION add(val):\n        PUSH val TO minHeap\n        IF SIZE(minHeap) > kVal THEN POP(minHeap)\n        RETURN TOP(minHeap)\nEND CLASS",
+  "renderType": "stream_heap",
+  "initialData": {
+    "k": 3,
+    "nums": [4, 5, 8, 2],
+    "operations": [
+      "add(3)",
+      "add(5)",
+      "add(10)"
+    ]
+  },
+  "codeLines": [
+    "CLASS KthLargest:",
+    "    CONSTRUCTOR(k, nums):",
+    "        minHeap = MinHeap(nums), kVal = k",
+    "        WHILE SIZE(minHeap) > kVal DO POP(minHeap)",
+    "    FUNCTION add(val):",
+    "        PUSH val TO minHeap",
+    "        IF SIZE(minHeap) > kVal THEN POP(minHeap)",
+    "        RETURN TOP(minHeap)",
+    "END CLASS"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Lines 3-4: Constructor with k = 3, nums = [4, 5, 8, 2]. Push to minHeap and pop excess smallest (2) to maintain size 3.",
+      "state": {
+        "k": 3,
+        "heap": "[4, 5, 8]",
+        "kthLargest": 4,
+        "popped": 2
+      },
+      "heap": [4, 5, 8],
+      "addedVal": null,
+      "k": 3,
+      "actionType": "INIT",
+      "comparisonText": "heap.size (3) == k (3)",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 5,
+      "narration": "Line 6: add(3): Push 3 into minHeap -> heap becomes [3, 4, 5, 8] with size 4.",
+      "state": {
+        "added": 3,
+        "kthLargest": 4
+      },
+      "heap": [3, 4, 5, 8],
+      "addedVal": 3,
+      "k": 3,
+      "actionType": "PUSH",
+      "comparisonText": "heap.size (4) > k (3) -> Needs eviction",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7: Heap size exceeds k (4 > 3). POP smallest element: 3. minHeap returns to [4, 5, 8].",
+      "state": {
+        "added": 3,
+        "popped": 3,
+        "kthLargest": 4
+      },
+      "heap": [4, 5, 8],
+      "addedVal": 3,
+      "k": 3,
+      "actionType": "POP_EXCESS",
+      "comparisonText": "Popped 3 -> Restored size 3",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 7,
+      "narration": "Line 8: Return TOP(minHeap) = 4. The 3rd largest element is 4.",
+      "state": {
+        "kthLargest": 4
+      },
+      "heap": [4, 5, 8],
+      "addedVal": null,
+      "k": 3,
+      "actionType": "IDLE",
+      "comparisonText": "top(heap) = 4",
+      "isCompleted": false,
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: add(5): Push 5 into minHeap -> heap becomes [4, 5, 5, 8] with size 4.",
+      "state": {
+        "added": 5,
+        "kthLargest": 4
+      },
+      "heap": [4, 5, 5, 8],
+      "addedVal": 5,
+      "k": 3,
+      "actionType": "PUSH",
+      "comparisonText": "heap.size (4) > k (3) -> Needs eviction",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7: Heap size exceeds k (4 > 3). POP smallest element: 4. minHeap becomes [5, 5, 8].",
+      "state": {
+        "added": 5,
+        "popped": 4,
+        "kthLargest": 5
+      },
+      "heap": [5, 5, 8],
+      "addedVal": 5,
+      "k": 3,
+      "actionType": "POP_EXCESS",
+      "comparisonText": "Popped 4 -> Restored size 3",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 7,
+      "narration": "Line 8: Return TOP(minHeap) = 5. The 3rd largest element is now 5.",
+      "state": {
+        "kthLargest": 5
+      },
+      "heap": [5, 5, 8],
+      "addedVal": null,
+      "k": 3,
+      "actionType": "IDLE",
+      "comparisonText": "top(heap) = 5",
+      "isCompleted": false,
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 5,
+      "narration": "Line 6: add(10): Push 10 into minHeap -> heap becomes [5, 5, 8, 10] with size 4.",
+      "state": {
+        "added": 10,
+        "kthLargest": 5
+      },
+      "heap": [5, 5, 8, 10],
+      "addedVal": 10,
+      "k": 3,
+      "actionType": "PUSH",
+      "comparisonText": "heap.size (4) > k (3) -> Needs eviction",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 6,
+      "narration": "Line 7: Heap size exceeds k (4 > 3). POP smallest element: 5. minHeap becomes [5, 8, 10].",
+      "state": {
+        "added": 10,
+        "popped": 5,
+        "kthLargest": 5
+      },
+      "heap": [5, 8, 10],
+      "addedVal": 10,
+      "k": 3,
+      "actionType": "POP_EXCESS",
+      "comparisonText": "Popped 5 -> Restored size 3",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 7,
+      "narration": "Line 8: Stream operations finished. Return TOP(minHeap) = 5 as the 3rd largest element.",
+      "state": {
+        "status": "COMPLETED",
+        "kthLargest": 5
+      },
+      "heap": [5, 8, 10],
+      "addedVal": null,
+      "k": 3,
+      "actionType": "DONE",
+      "comparisonText": "Final kth largest = 5",
+      "isCompleted": true,
+      "dwellMs": 3500,
+      "output": {
+        "label": "3rd Largest Element (Green Glow)",
+        "value": "5",
+        "detail": "Final stream: [4, 5, 8, 2, 3, 5, 10] -> Top 3 elements are [5, 8, 10], smallest of which is 5."
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "id": 150,
+  "title": "Evaluate Reverse Polish Notation",
+  "difficulty": "Medium",
+  "topic": "Stack",
+  "algorithm": "Operand Stack Evaluation",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Evaluate the value of an arithmetic expression written in Reverse Polish Notation (postfix).",
+  "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
+  "explanation": "Push numbers onto stack. When an operator is encountered, pop two numbers, perform operation (second pop OP first pop), and push result back onto stack.",
+  "pseudoCode": "FUNCTION evalRPN(tokens):\n    stack = EMPTY_STACK()\n    FOR t IN tokens DO:\n        IF t IS OPERATOR THEN:\n            b = POP(stack), a = POP(stack)\n            PUSH APPLY_OP(a, b, t) TO stack\n        ELSE PUSH INT(t) TO stack\n    END FOR\n    RETURN POP(stack)\nEND FUNCTION",
+  "renderType": "rpn_stack",
+  "initialData": [
+    "2",
+    "1",
+    "+",
+    "3",
+    "*"
+  ],
+  "codeLines": [
+    "FUNCTION evalRPN(tokens):",
+    "    stack = EMPTY_STACK()",
+    "    FOR t IN tokens DO:",
+    "        IF t IS OPERATOR THEN:",
+    "            b = POP(stack), a = POP(stack)",
+    "            PUSH APPLY_OP(a, b, t) TO stack",
+    "        ELSE PUSH INT(t) TO stack",
+    "    END FOR",
+    "    RETURN POP(stack)",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize empty evaluation stack. Tokens: ['2', '1', '+', '3', '*'].",
+      "tokens": ["2", "1", "+", "3", "*"],
+      "tokenIdx": -1,
+      "stack": [],
+      "state": {},
+      "actionType": "INIT",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 6,
+      "narration": "Line 7: Token '2' is a number. Push 2 onto stack.",
+      "tokens": ["2", "1", "+", "3", "*"],
+      "tokenIdx": 0,
+      "stack": [2],
+      "state": {},
+      "actionType": "PUSH_OPERAND",
+      "isCompleted": false,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7: Token '1' is a number. Push 1 onto stack -> stack: [2, 1].",
+      "tokens": ["2", "1", "+", "3", "*"],
+      "tokenIdx": 1,
+      "stack": [2, 1],
+      "state": {},
+      "actionType": "PUSH_OPERAND",
+      "isCompleted": false,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Lines 5-6: Token '+' is operator. Pop b = 1, pop a = 2. Compute 2 + 1 = 3. Push 3 back onto stack.",
+      "tokens": ["2", "1", "+", "3", "*"],
+      "tokenIdx": 2,
+      "stack": [3],
+      "state": {
+        "op": "+",
+        "a": 2,
+        "b": 1,
+        "result": 3
+      },
+      "actionType": "APPLY_OPERATOR",
+      "isCompleted": false,
+      "dwellMs": 1800,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 6,
+      "narration": "Line 7: Token '3' is a number. Push 3 onto stack -> stack: [3, 3].",
+      "tokens": ["2", "1", "+", "3", "*"],
+      "tokenIdx": 3,
+      "stack": [3, 3],
+      "state": {},
+      "actionType": "PUSH_OPERAND",
+      "isCompleted": false,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Lines 5-6: Token '*' is operator. Pop b = 3, pop a = 3. Compute 3 * 3 = 9. Push 9 back onto stack.",
+      "tokens": ["2", "1", "+", "3", "*"],
+      "tokenIdx": 4,
+      "stack": [9],
+      "state": {
+        "op": "*",
+        "a": 3,
+        "b": 3,
+        "result": 9
+      },
+      "actionType": "APPLY_OPERATOR",
+      "isCompleted": false,
+      "dwellMs": 1800,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: All tokens processed. Return top of stack: 9.",
+      "tokens": ["2", "1", "+", "3", "*"],
+      "tokenIdx": 4,
+      "stack": [9],
+      "state": {
+        "status": "COMPLETED",
+        "finalVal": 9
+      },
+      "actionType": "DONE",
+      "isCompleted": true,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Evaluated RPN Result",
+        "value": "9",
+        "detail": "((2 + 1) * 3) = 9. Processed in O(n) time using an evaluation stack."
+      }
+    }
+  ]
+}

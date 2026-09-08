@@ -1,0 +1,230 @@
+{
+  "id": 435,
+  "title": "Non-overlapping Intervals",
+  "difficulty": "Medium",
+  "topic": "Intervals / Greedy",
+  "algorithm": "Greedy Earliest End Time Selection",
+  "timeComplexity": "O(n log n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the minimum number of intervals to remove to make the rest non-overlapping.",
+  "url": "https://leetcode.com/problems/non-overlapping-intervals/",
+  "explanation": "Sort intervals by start time. Initialize prevEnd at origin 0. Expand prevEnd to current end when there is no overlap; otherwise increment removals and retain min(prevEnd, current.end).",
+  "pseudoCode": "FUNCTION eraseOverlapIntervals(intervals):\n    SORT(intervals BY start_time), res = 0, prevEnd = 0\n    FOR i FROM 0 TO LENGTH(intervals) - 1 DO:\n        IF intervals[i].start >= prevEnd THEN prevEnd = intervals[i].end\n        ELSE res = res + 1; prevEnd = MIN(intervals[i].end, prevEnd)\n    END FOR\n    RETURN res\nEND FUNCTION",
+  "renderType": "greedy_intervals",
+  "initialData": [
+    [1, 3],
+    [2, 4],
+    [3, 5],
+    [4, 7],
+    [5, 8],
+    [6, 9],
+    [7, 10],
+    [8, 10]
+  ],
+  "codeLines": [
+    "FUNCTION eraseOverlapIntervals(intervals):",
+    "    SORT(intervals BY start_time), res = 0, prevEnd = 0",
+    "    FOR i FROM 0 TO LENGTH(intervals) - 1 DO:",
+    "        IF intervals[i].start >= prevEnd THEN prevEnd = intervals[i].end",
+    "        ELSE res = res + 1; prevEnd = MIN(intervals[i].end, prevEnd)",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: 8 intervals sorted. Initialize sweep guideline prevEnd = 0 at the origin, removals res = 0.",
+      "state": { "prevEnd": 0, "res": 0 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": null,
+      "removed": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Inspect interval [1, 3]. start(1) >= prevEnd(0). Valid selection! Advance prevEnd from 0 to 3.",
+      "state": { "prevEnd": 3, "res": 0 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 0,
+      "removed": [],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: Inspect interval [2, 4]. start(2) < prevEnd(3) -> Collision detected! Remove [2, 4]. prevEnd stays min(4, 3) = 3.",
+      "state": { "prevEnd": 3, "res": 1 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 1,
+      "removed": [1],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: Inspect interval [3, 5]. start(3) >= prevEnd(3). No collision! Keep [3, 5]. Advance prevEnd from 3 to 5.",
+      "state": { "prevEnd": 5, "res": 1 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 2,
+      "removed": [1],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: Inspect interval [4, 7]. start(4) < prevEnd(5) -> Collision detected! Remove [4, 7]. prevEnd stays min(7, 5) = 5.",
+      "state": { "prevEnd": 5, "res": 2 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 3,
+      "removed": [1, 3],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: Inspect interval [5, 8]. start(5) >= prevEnd(5). No collision! Keep [5, 8]. Advance prevEnd from 5 to 8.",
+      "state": { "prevEnd": 8, "res": 2 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 4,
+      "removed": [1, 3],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Line 5: Inspect interval [6, 9]. start(6) < prevEnd(8) -> Collision detected! Remove [6, 9]. prevEnd stays min(9, 8) = 8.",
+      "state": { "prevEnd": 8, "res": 3 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 5,
+      "removed": [1, 3, 5],
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 4,
+      "narration": "Line 5: Inspect interval [7, 10]. start(7) < prevEnd(8) -> Collision detected! Remove [7, 10]. prevEnd stays min(10, 8) = 8.",
+      "state": { "prevEnd": 8, "res": 4 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 6,
+      "removed": [1, 3, 5, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 3,
+      "narration": "Line 4: Inspect interval [8, 10]. start(8) >= prevEnd(8). No collision! Keep [8, 10]. Advance prevEnd from 8 to 10.",
+      "state": { "prevEnd": 10, "res": 4 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": 7,
+      "removed": [1, 3, 5, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 6,
+      "narration": "Line 7: Sweep finishes across the entire scale to t = 11. Total removed = 4 intervals. RETURN 4.",
+      "state": { "status": "COMPLETED", "minRemoved": 4, "prevEnd": 11, "res": 4 },
+      "intervals": [
+        [1, 3],
+        [2, 4],
+        [3, 5],
+        [4, 7],
+        [5, 8],
+        [6, 9],
+        [7, 10],
+        [8, 10]
+      ],
+      "currentIndex": null,
+      "removed": [1, 3, 5, 6],
+      "output": {
+        "label": "Greedy Sweep Finished",
+        "value": "4 Removals",
+        "detail": "Sweep line completed traversal from 0 to 11. Optimal set: [1, 3], [3, 5], [5, 8], [8, 10]."
+      }
+    }
+  ]
+}

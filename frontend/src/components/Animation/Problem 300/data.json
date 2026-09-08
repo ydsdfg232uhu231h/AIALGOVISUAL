@@ -1,0 +1,163 @@
+{
+  "id": 300,
+  "title": "Longest Increasing Subsequence",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "Patience Sorting / Binary Search + DP",
+  "timeComplexity": "O(n^2)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Find the length of the longest strictly increasing subsequence in an array.",
+  "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+  "explanation": "Using dynamic programming, dp[i] stores length of longest increasing subsequence ending at index i by comparing with preceding elements j < i where nums[j] < nums[i].",
+  "pseudoCode": "FUNCTION lengthOfLIS(nums):\n    LIS = ARRAY_OF_SIZE(LENGTH(nums), INITIAL_VALUE = 1)\n    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:\n        FOR j FROM i + 1 TO LENGTH(nums) - 1 DO:\n            IF nums[i] < nums[j] THEN LIS[i] = MAX(LIS[i], 1 + LIS[j])\n        END FOR\n    END FOR\n    RETURN MAX(LIS)\nEND FUNCTION",
+  "renderType": "lis_dp_array",
+  "initialData": [10, 9, 2, 5, 3, 7, 101, 18],
+  "codeLines": [
+    "FUNCTION lengthOfLIS(nums):",
+    "    LIS = ARRAY_OF_SIZE(LENGTH(nums), INITIAL_VALUE = 1)",
+    "    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:",
+    "        FOR j FROM i + 1 TO LENGTH(nums) - 1 DO:",
+    "            IF nums[i] < nums[j] THEN LIS[i] = MAX(LIS[i], 1 + LIS[j])",
+    "        END FOR",
+    "    END FOR",
+    "    RETURN MAX(LIS)",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize LIS array of size 8 with base length 1: all single elements form an LIS of length 1.",
+      "state": {
+        "maxLIS": 1
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 1, 1, 1, 1, 1, 1, 1],
+      "i": null,
+      "j": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 2,
+      "narration": "Line 3: i = 7 (val: 18). No elements to the right. LIS[7] = 1.",
+      "state": {
+        "maxLIS": 1
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 1, 1, 1, 1, 1, 1, 1],
+      "i": 7,
+      "j": null,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: i = 6 (val: 101), j = 7 (val: 18). 101 < 18 is False. LIS[6] remains 1.",
+      "state": {
+        "maxLIS": 1
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 1, 1, 1, 1, 1, 1, 1],
+      "i": 6,
+      "j": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: i = 5 (val: 7). 7 < 101 (j=6) and 7 < 18 (j=7). LIS[5] = MAX(1, 1 + LIS[6], 1 + LIS[7]) = 2.",
+      "state": {
+        "maxLIS": 2
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 1, 1, 1, 1, 2, 1, 1],
+      "i": 5,
+      "j": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: i = 4 (val: 3). 3 < 7 (j=5). LIS[4] = 1 + LIS[5] = 1 + 2 = 3.",
+      "state": {
+        "maxLIS": 3
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 1, 1, 1, 3, 2, 1, 1],
+      "i": 4,
+      "j": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Line 5: i = 3 (val: 5). 5 < 7 (j=5). LIS[3] = 1 + LIS[5] = 1 + 2 = 3.",
+      "state": {
+        "maxLIS": 3
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 1, 1, 3, 3, 2, 1, 1],
+      "i": 3,
+      "j": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Line 5: i = 2 (val: 2). 2 < 5 (j=3, LIS=3) and 2 < 3 (j=4, LIS=3). LIS[2] = 1 + 3 = 4.",
+      "state": {
+        "maxLIS": 4
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 1, 4, 3, 3, 2, 1, 1],
+      "i": 2,
+      "j": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 4,
+      "narration": "Line 5: i = 1 (val: 9). 9 < 101 (j=6) and 9 < 18 (j=7). LIS[1] = 1 + 1 = 2.",
+      "state": {
+        "maxLIS": 4
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [1, 2, 4, 3, 3, 2, 1, 1],
+      "i": 1,
+      "j": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5: i = 0 (val: 10). 10 < 101 (j=6) and 10 < 18 (j=7). LIS[0] = 1 + 1 = 2.",
+      "state": {
+        "maxLIS": 4
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [2, 2, 4, 3, 3, 2, 1, 1],
+      "i": 0,
+      "j": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 7,
+      "narration": "Line 8: Loop complete. Longest Increasing Subsequence length is MAX(LIS) = 4. RETURN 4.",
+      "state": {
+        "status": "COMPLETED",
+        "maxLIS": 4
+      },
+      "nums": [10, 9, 2, 5, 3, 7, 101, 18],
+      "lis": [2, 2, 4, 3, 3, 2, 1, 1],
+      "i": null,
+      "j": null,
+      "output": {
+        "label": "Max LIS Length",
+        "value": "4",
+        "detail": "Subsequence [2, 3, 7, 101] or [2, 5, 7, 101] has maximum length 4."
+      }
+    }
+  ]
+}

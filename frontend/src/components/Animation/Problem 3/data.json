@@ -1,0 +1,373 @@
+{
+  "id": 3,
+  "title": "Longest Substring Without Repeating Characters",
+  "difficulty": "Medium",
+  "topic": "Sliding Window",
+  "algorithm": "Variable Size Sliding Window & Hash Set",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(min(m, n))",
+  "oneLinerQuestion": "Find the length of the longest substring containing no duplicate characters.",
+  "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+  "explanation": "We use a sliding window approach maintained by two pointers (left and right) along with a set of visited characters. As the right pointer expands the window, if a duplicate is found, the left pointer shrinks the window from the left until all characters inside the window are unique again.",
+  "pseudoCode": "FUNCTION lengthOfLongestSubstring(s):\n    charSet = EMPTY_SET(), left = 0, maxLength = 0\n    FOR right FROM 0 TO LENGTH(s) - 1 DO:\n        WHILE s[right] IN charSet DO:\n            REMOVE s[left] FROM charSet\n            left = left + 1\n        END WHILE\n        ADD s[right] TO charSet\n        maxLength = MAX(maxLength, right - left + 1)\n    END FOR\n    RETURN maxLength\nEND FUNCTION",
+  "renderType": "sliding_window",
+  "initialData": ["a", "b", "c", "a", "b", "c", "b", "b"],
+  "codeLines": [
+    "FUNCTION lengthOfLongestSubstring(s):",
+    "    charSet = EMPTY_SET(), left = 0, maxLength = 0",
+    "    FOR right FROM 0 TO LENGTH(s) - 1 DO:",
+    "        WHILE s[right] IN charSet DO:",
+    "            REMOVE s[left] FROM charSet",
+    "            left = left + 1",
+    "        END WHILE",
+    "        ADD s[right] TO charSet",
+    "        maxLength = MAX(maxLength, right - left + 1)",
+    "    END FOR",
+    "    RETURN maxLength",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize charSet = {}, left = 0, maxLength = 0.",
+      "state": {
+        "left": 0,
+        "right": 0,
+        "maxLength": 0,
+        "charSet": "{}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 0,
+      "right": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 7,
+      "narration": "Line 8-9: right = 0 ('a'). 'a' not in charSet. Add 'a'. Window: 'a' [0..0]. maxLength = MAX(0, 1) = 1.",
+      "state": {
+        "left": 0,
+        "right": 0,
+        "maxLength": 1,
+        "charSet": "{a}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 0,
+      "right": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 7,
+      "narration": "Line 8-9: right = 1 ('b'). 'b' not in charSet. Add 'b'. Window: 'ab' [0..1]. maxLength = MAX(1, 2) = 2.",
+      "state": {
+        "left": 0,
+        "right": 1,
+        "maxLength": 2,
+        "charSet": "{a, b}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 0,
+      "right": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 7,
+      "narration": "Line 8-9: right = 2 ('c'). 'c' not in charSet. Add 'c'. Window: 'abc' [0..2]. maxLength = MAX(2, 3) = 3.",
+      "state": {
+        "left": 0,
+        "right": 2,
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 0,
+      "right": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: right = 3 ('a'). Check if 'a' is in charSet: Duplicate detected! Entering while loop.",
+      "state": {
+        "left": 0,
+        "right": 3,
+        "duplicate": "a",
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 0,
+      "right": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Line 5-6: Remove s[0] ('a') from charSet, left advances to 1.",
+      "state": {
+        "left": 1,
+        "right": 3,
+        "maxLength": 3,
+        "charSet": "{b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 1,
+      "right": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 7,
+      "narration": "Line 8-9: Add s[3] ('a') to charSet. Window: 'bca' [1..3]. maxLength = MAX(3, 3) = 3.",
+      "state": {
+        "left": 1,
+        "right": 3,
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 1,
+      "right": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: right = 4 ('b'). Check if 'b' is in charSet: Duplicate detected! Entering while loop.",
+      "state": {
+        "left": 1,
+        "right": 4,
+        "duplicate": "b",
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 1,
+      "right": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5-6: Remove s[1] ('b') from charSet, left advances to 2.",
+      "state": {
+        "left": 2,
+        "right": 4,
+        "maxLength": 3,
+        "charSet": "{a, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 2,
+      "right": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 7,
+      "narration": "Line 8-9: Add s[4] ('b') to charSet. Window: 'cab' [2..4]. maxLength = MAX(3, 3) = 3.",
+      "state": {
+        "left": 2,
+        "right": 4,
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 2,
+      "right": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 3,
+      "narration": "Line 4: right = 5 ('c'). Check if 'c' is in charSet: Duplicate detected! Entering while loop.",
+      "state": {
+        "left": 2,
+        "right": 5,
+        "duplicate": "c",
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 2,
+      "right": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 4,
+      "narration": "Line 5-6: Remove s[2] ('c') from charSet, left advances to 3.",
+      "state": {
+        "left": 3,
+        "right": 5,
+        "maxLength": 3,
+        "charSet": "{a, b}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 3,
+      "right": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 7,
+      "narration": "Line 8-9: Add s[5] ('c') to charSet. Window: 'abc' [3..5]. maxLength = MAX(3, 3) = 3.",
+      "state": {
+        "left": 3,
+        "right": 5,
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 3,
+      "right": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 3,
+      "narration": "Line 4: right = 6 ('b'). Check if 'b' is in charSet: Duplicate detected! Entering while loop.",
+      "state": {
+        "left": 3,
+        "right": 6,
+        "duplicate": "b",
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 3,
+      "right": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 4,
+      "narration": "Line 5-6: 'b' still in set. Remove s[3] ('a') from charSet, left advances to 4.",
+      "state": {
+        "left": 4,
+        "right": 6,
+        "duplicate": "b",
+        "maxLength": 3,
+        "charSet": "{b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 4,
+      "right": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 4,
+      "narration": "Line 5-6: 'b' still in set! Remove s[4] ('b') from charSet, left advances to 5.",
+      "state": {
+        "left": 5,
+        "right": 6,
+        "maxLength": 3,
+        "charSet": "{c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 5,
+      "right": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 7,
+      "narration": "Line 8-9: Add s[6] ('b') to charSet. Window: 'cb' [5..6]. maxLength = MAX(3, 2) = 3.",
+      "state": {
+        "left": 5,
+        "right": 6,
+        "maxLength": 3,
+        "charSet": "{b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 5,
+      "right": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 17,
+      "activeLine": 3,
+      "narration": "Line 4: right = 7 ('b'). Check if 'b' is in charSet: Duplicate detected! Entering while loop.",
+      "state": {
+        "left": 5,
+        "right": 7,
+        "duplicate": "b",
+        "maxLength": 3,
+        "charSet": "{b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 5,
+      "right": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 18,
+      "activeLine": 4,
+      "narration": "Line 5-6: 'b' still in set. Remove s[5] ('c') from charSet, left advances to 6.",
+      "state": {
+        "left": 6,
+        "right": 7,
+        "duplicate": "b",
+        "maxLength": 3,
+        "charSet": "{b}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 6,
+      "right": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 19,
+      "activeLine": 4,
+      "narration": "Line 5-6: 'b' still in set! Remove s[6] ('b') from charSet, left advances to 7.",
+      "state": {
+        "left": 7,
+        "right": 7,
+        "maxLength": 3,
+        "charSet": "{}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 7,
+      "right": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 20,
+      "activeLine": 7,
+      "narration": "Line 8-9: Add s[7] ('b') to charSet. Window: 'b' [7..7]. maxLength = MAX(3, 1) = 3.",
+      "state": {
+        "left": 7,
+        "right": 7,
+        "maxLength": 3,
+        "charSet": "{b}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 7,
+      "right": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 21,
+      "activeLine": 10,
+      "narration": "Line 11: End of string reached. Traversal complete. RETURN maxLength = 3 (longest unique window: 'abc' [0..2]).",
+      "state": {
+        "status": "COMPLETED",
+        "left": 0,
+        "right": 2,
+        "maxLength": 3,
+        "charSet": "{a, b, c}"
+      },
+      "string": ["a", "b", "c", "a", "b", "c", "b", "b"],
+      "left": 0,
+      "right": 2,
+      "output": {
+        "label": "Max Length",
+        "value": "3",
+        "detail": "Longest valid substring without repeats is 'abc'"
+      }
+    }
+  ]
+}

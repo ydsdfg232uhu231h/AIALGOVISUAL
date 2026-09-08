@@ -1,0 +1,275 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#kclosest-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  box-sizing: border-box;
+  padding: 12px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+#metric-k-target,
+#metric-heap-count,
+#metric-res-count,
+#metric-radius-active,
+#metric-radius-idle {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+#metric-k-target b { color: #facc15; font-family: ui-monospace, monospace; }
+#metric-heap-count b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#metric-res-count b { color: #22c55e; font-family: ui-monospace, monospace; }
+
+#metric-radius-active {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+}
+#metric-radius-active b { color: #7dd3fc !important; font-family: ui-monospace, monospace; }
+#metric-radius-idle b { color: #636374; }
+
+/* ============================================================
+   STAGE LAYOUT
+   ============================================================ */
+#kclosest-stage {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  #kclosest-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+#cartesian-card,
+#heap-panel {
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   CARTESIAN RADAR CARD
+   ============================================================ */
+#cartesian-card {
+  align-items: center;
+  justify-content: center;
+}
+
+#radar-plane-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  background: #0d0d12;
+  border: 1px solid #1e1e28;
+}
+
+/* ============================================================
+   MIN-HEAP & RESULT PANEL
+   ============================================================ */
+#heap-panel-header,
+#res-panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+#heap-title,
+#res-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+#heap-sub,
+#res-sub {
+  font-size: 9.5px;
+  font-weight: 500;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+}
+
+#heap-list-viewport {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 120px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+#heap-empty-text,
+#res-empty-text {
+  font-size: 11px;
+  color: #636374;
+  font-style: italic;
+  font-family: ui-monospace, monospace;
+  margin: auto;
+}
+
+[id^="heap-card-"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+[id^="heap-card-idle-"] {
+  background: #181822;
+  border: 1.5px solid #272736;
+}
+
+[id^="heap-card-root-"] {
+  background: rgba(56, 189, 248, 0.12) !important;
+  border: 1.5px solid #38bdf8 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+[id^="heap-order-badge-"] {
+  font-size: 9px;
+  color: #717182;
+  font-weight: 700;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="heap-pt-val-"] {
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="heap-dist-tag-"] {
+  font-size: 11px;
+  font-weight: 800;
+  color: #facc15;
+  font-family: ui-monospace, monospace;
+}
+
+#heap-root-pill {
+  font-size: 7.5px;
+  font-weight: 900;
+  background: #38bdf8;
+  color: #0c0c10;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   EXTRACTED RESULTS
+   ============================================================ */
+#res-list-viewport {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 36px;
+  align-items: center;
+}
+
+[id^="res-chip-item-"] {
+  background: #13241b;
+  border: 1.5px solid #22c55e;
+  color: #86efac;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 20, 16, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
+  z-index: 100;
+  max-width: 90%;
+}
+
+#callout-header-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #86efac;
+  letter-spacing: 0.8px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #4ade80;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #dcfce7;
+  font-weight: 500;
+}

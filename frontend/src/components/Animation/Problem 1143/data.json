@@ -1,0 +1,155 @@
+{
+  "id": 1143,
+  "title": "Longest Common Subsequence",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "2D Matrix Grid DP",
+  "timeComplexity": "O(m * n)",
+  "spaceComplexity": "O(m * n)",
+  "oneLinerQuestion": "Find the length of the longest sub-sequence shared between two strings.",
+  "url": "https://leetcode.com/problems/longest-common-subsequence/",
+  "explanation": "2D Dynamic Programming matrix dp[i][j]: if text1[i] == text2[j], dp[i][j] = 1 + dp[i+1][j+1]; otherwise dp[i][j] = max(dp[i+1][j], dp[i][j+1]).",
+  "pseudoCode": "FUNCTION longestCommonSubsequence(text1, text2):\n    dp = MATRIX(LENGTH(text1) + 1, LENGTH(text2) + 1, 0)\n    FOR i FROM LENGTH(text1) - 1 DOWN TO 0 DO:\n        FOR j FROM LENGTH(text2) - 1 DOWN TO 0 DO:\n            IF text1[i] == text2[j] THEN dp[i][j] = 1 + dp[i + 1][j + 1]\n            ELSE dp[i][j] = MAX(dp[i + 1][j], dp[i][j + 1])\n        END FOR\n    END FOR\n    RETURN dp[0][0]\nEND FUNCTION",
+  "renderType": "lcs_matrix_dp",
+  "initialData": {
+    "text1": "abcde",
+    "text2": "ace"
+  },
+  "codeLines": [
+    "FUNCTION longestCommonSubsequence(text1, text2):",
+    "    dp = MATRIX(LENGTH(text1) + 1, LENGTH(text2) + 1, 0)",
+    "    FOR i FROM LENGTH(text1) - 1 DOWN TO 0 DO:",
+    "        FOR j FROM LENGTH(text2) - 1 DOWN TO 0 DO:",
+    "            IF text1[i] == text2[j] THEN dp[i][j] = 1 + dp[i + 1][j + 1]",
+    "            ELSE dp[i][j] = MAX(dp[i + 1][j], dp[i][j + 1])",
+    "        END FOR",
+    "    END FOR",
+    "    RETURN dp[0][0]",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize 6 x 4 DP matrix with zeros. Boundary row (i=5) and boundary column (j=3) represent empty strings.",
+      "state": { "rows": 6, "cols": 4 },
+      "dpTable": [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+      ],
+      "i": null,
+      "j": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: i = 4 ('e'), j = 2 ('e'). text1[4] == text2[2]. Match! dp[4][2] = 1 + dp[5][3] = 1 + 0 = 1.",
+      "state": { "i": 4, "j": 2, "match": "e == e", "val": 1 },
+      "dpTable": [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 0]
+      ],
+      "i": 4,
+      "j": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: i = 3 ('d'), j = 2 ('e'). Mismatch! dp[3][2] = MAX(dp[4][2]=1, dp[3][3]=0) = 1.",
+      "state": { "i": 3, "j": 2, "val": 1 },
+      "dpTable": [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 0]
+      ],
+      "i": 3,
+      "j": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: i = 2 ('c'), j = 1 ('c'). text1[2] == text2[1]. Match! dp[2][1] = 1 + dp[3][2] = 1 + 1 = 2.",
+      "state": { "i": 2, "j": 1, "match": "c == c", "val": 2 },
+      "dpTable": [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 2, 1, 0],
+        [0, 1, 1, 0],
+        [0, 1, 1, 0],
+        [0, 0, 0, 0]
+      ],
+      "i": 2,
+      "j": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: i = 1 ('b'), j = 0 ('a'). Mismatch! dp[1][0] = MAX(dp[2][0]=2, dp[1][1]=2) = 2.",
+      "state": { "i": 1, "j": 0, "val": 2 },
+      "dpTable": [
+        [0, 0, 0, 0],
+        [2, 2, 1, 0],
+        [2, 2, 1, 0],
+        [1, 1, 1, 0],
+        [1, 1, 1, 0],
+        [0, 0, 0, 0]
+      ],
+      "i": 1,
+      "j": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Line 5: i = 0 ('a'), j = 0 ('a'). text1[0] == text2[0]. Match! dp[0][0] = 1 + dp[1][1] = 1 + 2 = 3.",
+      "state": { "i": 0, "j": 0, "match": "a == a", "val": 3 },
+      "dpTable": [
+        [3, 2, 1, 0],
+        [2, 2, 1, 0],
+        [2, 2, 1, 0],
+        [1, 1, 1, 0],
+        [1, 1, 1, 0],
+        [0, 0, 0, 0]
+      ],
+      "i": 0,
+      "j": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: Bottom-up matrix evaluation complete. Longest common subsequence length is dp[0][0] = 3. RETURN 3.",
+      "state": { "status": "COMPLETED", "lcsLength": 3 },
+      "dpTable": [
+        [3, 2, 1, 0],
+        [2, 2, 1, 0],
+        [2, 2, 1, 0],
+        [1, 1, 1, 0],
+        [1, 1, 1, 0],
+        [0, 0, 0, 0]
+      ],
+      "i": 0,
+      "j": 0,
+      "output": {
+        "label": "LCS Length",
+        "value": "3",
+        "detail": "Longest common subsequence is 'ace'."
+      }
+    }
+  ]
+}

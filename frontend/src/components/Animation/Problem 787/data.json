@@ -1,0 +1,160 @@
+{
+  "id": 787,
+  "title": "Cheapest Flights Within K Stops",
+  "difficulty": "Medium",
+  "topic": "Graph / Bellman-Ford / BFS",
+  "algorithm": "Modified Bellman-Ford / BFS Queue",
+  "timeComplexity": "O(K * E)",
+  "spaceComplexity": "O(V)",
+  "oneLinerQuestion": "Find the cheapest price from a source to destination city with at most K flight stops.",
+  "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
+  "explanation": "Bellman-Ford Algorithm executed for k + 1 iterations. Update shortest distances array copying previous iteration state to respect stop constraints.",
+  "pseudoCode": "FUNCTION findCheapestPrice(n, flights, src, dst, k):\n    prices = ARRAY_OF_SIZE(n, INFINITY)\n    prices[src] = 0\n    FOR i FROM 0 TO k DO:\n        tmpPrices = COPY(prices)\n        FOR s, d, p IN flights DO:\n            IF prices[s] == INFINITY THEN CONTINUE\n            IF prices[s] + p < tmpPrices[d] THEN tmpPrices[d] = prices[s] + p\n        END FOR\n        prices = tmpPrices\n    END FOR\n    RETURN prices[dst] != INFINITY ? prices[dst] : -1\nEND FUNCTION",
+  "renderType": "bellman_ford_flights",
+  "initialData": {
+    "n": 5,
+    "flights": [
+      [0, 1, 100],
+      [0, 2, 500],
+      [1, 2, 100],
+      [1, 3, 1000],
+      [1, 4, 600],
+      [2, 3, 150],
+      [2, 4, 500],
+      [3, 4, 200]
+    ],
+    "src": 0,
+    "dst": 4,
+    "k": 2
+  },
+  "codeLines": [
+    "FUNCTION findCheapestPrice(n, flights, src, dst, k):",
+    "    prices = ARRAY_OF_SIZE(n, INFINITY)",
+    "    prices[src] = 0",
+    "    FOR i FROM 0 TO k DO:",
+    "        tmpPrices = COPY(prices)",
+    "        FOR s, d, p IN flights DO:",
+    "            IF prices[s] == INFINITY THEN CONTINUE",
+    "            IF prices[s] + p < tmpPrices[d] THEN tmpPrices[d] = prices[s] + p",
+    "        END FOR",
+    "        prices = tmpPrices",
+    "    END FOR",
+    "    RETURN prices[dst] != INFINITY ? prices[dst] : -1",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Initialize prices = [0, INF, INF, INF, INF]. Source = 0, Destination = 4, Max Stops k = 2.",
+      "state": { "k": 2 },
+      "prices": [0, "INF", "INF", "INF", "INF"],
+      "iteration": 0,
+      "activeFlight": null,
+      "pathHighlight": [],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 7,
+      "narration": "Iteration 0 (0 stops): Airplane flies 0 -> 1 ($100). City 1 price updated to $100.",
+      "state": { "iteration": 0, "stops": 0 },
+      "prices": [0, 100, "INF", "INF", "INF"],
+      "iteration": 1,
+      "activeFlight": { "from": 0, "to": 1, "cost": 100 },
+      "pathHighlight": [[0, 1]],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 7,
+      "narration": "Iteration 0 (0 stops): Airplane flies 0 -> 2 ($500). City 2 price updated to $500.",
+      "state": { "iteration": 0, "stops": 0 },
+      "prices": [0, 100, 500, "INF", "INF"],
+      "iteration": 1,
+      "activeFlight": { "from": 0, "to": 2, "cost": 500 },
+      "pathHighlight": [[0, 1], [0, 2]],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 7,
+      "narration": "Iteration 1 (1 stop): Airplane flies 1 -> 2 ($100). $100 + $100 = $200 < $500. City 2 relaxed to $200.",
+      "state": { "iteration": 1, "stops": 1 },
+      "prices": [0, 100, 200, "INF", "INF"],
+      "iteration": 2,
+      "activeFlight": { "from": 1, "to": 2, "cost": 100 },
+      "pathHighlight": [[0, 1], [1, 2]],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 7,
+      "narration": "Iteration 1 (1 stop): Airplane flies 1 -> 4 ($600). Destination 4 reached for $100 + $600 = $700.",
+      "state": { "iteration": 1, "stops": 1 },
+      "prices": [0, 100, 200, "INF", 700],
+      "iteration": 2,
+      "activeFlight": { "from": 1, "to": 4, "cost": 600 },
+      "pathHighlight": [[0, 1], [1, 2], [1, 4]],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 7,
+      "narration": "Iteration 2 (2 stops): Airplane flies 2 -> 3 ($150). City 3 reached for $200 + $150 = $350. (Uses both allowed stops).",
+      "state": { "iteration": 2, "stops": 2 },
+      "prices": [0, 100, 200, 350, 700],
+      "iteration": 3,
+      "activeFlight": { "from": 2, "to": 3, "cost": 150 },
+      "pathHighlight": [[0, 1], [1, 2], [2, 3]],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 7,
+      "narration": "Iteration 2 (2 stops): Airplane flies 2 -> 4 ($500). Price = $200 + $500 = $700. Valid within k = 2.",
+      "state": { "iteration": 2, "stops": 2 },
+      "prices": [0, 100, 200, 350, 700],
+      "iteration": 3,
+      "activeFlight": { "from": 2, "to": 4, "cost": 500 },
+      "pathHighlight": [[0, 1], [1, 2], [2, 4]],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 8,
+      "narration": "Stop limit reached! Attempting 3 -> 4 requires 3 intermediate stops (cities 1, 2, 3), exceeding k=2.",
+      "state": { "kExceeded": true },
+      "prices": [0, 100, 200, 350, 700],
+      "iteration": 3,
+      "activeFlight": { "from": 3, "to": 4, "cost": 200 },
+      "pathHighlight": [[0, 1], [1, 2], [2, 4]],
+      "isCompleted": false,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 11,
+      "narration": "Line 12: Optimal route confirmed! Airplane takes the full itinerary 0 -> 1 -> 2 -> 4 for $700.",
+      "state": { "status": "COMPLETED", "cheapest": 700 },
+      "prices": [0, 100, 200, 350, 700],
+      "iteration": 3,
+      "activeFlight": null,
+      "pathHighlight": [[0, 1], [1, 2], [2, 4]],
+      "isCompleted": true,
+      "finalRoute": [0, 1, 2, 4],
+      "output": {
+        "label": "Optimal Route Decided",
+        "value": "$700",
+        "detail": "Flying path: 0 -> 1 ($100) -> 2 ($100) -> 4 ($500) = $700 using exactly 2 stops."
+      }
+    }
+  ]
+}

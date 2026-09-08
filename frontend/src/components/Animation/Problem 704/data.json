@@ -1,0 +1,132 @@
+{
+  "id": 704,
+  "title": "Binary Search",
+  "difficulty": "Easy",
+  "topic": "Binary Search",
+  "algorithm": "Classic Iterative Binary Search",
+  "timeComplexity": "O(log n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Search for a target value in a sorted array with logarithmic runtime.",
+  "url": "https://leetcode.com/problems/binary-search/",
+  "explanation": "Divide search space in half repeatedly by comparing target against mid index element in a sorted array in O(log N) runtime.",
+  "pseudoCode": "FUNCTION search(nums, target):\n    l = 0, r = LENGTH(nums) - 1\n    WHILE l <= r DO:\n        m = l + (r - l) / 2\n        IF nums[m] == target THEN RETURN m\n        ELSE IF nums[m] < target THEN l = m + 1\n        ELSE r = m - 1\n    END WHILE\n    RETURN -1\nEND FUNCTION",
+  "renderType": "binary_search",
+  "initialData": [
+    -1,
+    0,
+    3,
+    5,
+    9,
+    12
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: l = 0, r = 5. Target is 9.",
+      "state": {
+        "target": 9,
+        "l": 0,
+        "r": 5,
+        "m": 2
+      },
+      "array": [
+        -1,
+        0,
+        3,
+        5,
+        9,
+        12
+      ],
+      "left": 0,
+      "right": 5,
+      "mid": 2,
+      "foundIdx": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: m = 0 + (5 - 0) / 2 = 2. nums[2] is 3.",
+      "state": {
+        "nums[m]": 3,
+        "target": 9,
+        "condition": "3 < 9"
+      },
+      "array": [
+        -1,
+        0,
+        3,
+        5,
+        9,
+        12
+      ],
+      "left": 0,
+      "right": 5,
+      "mid": 2,
+      "foundIdx": null,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: nums[m] < target. Update l = m + 1 = 3.",
+      "state": {
+        "l": 3,
+        "r": 5,
+        "m": 4
+      },
+      "array": [
+        -1,
+        0,
+        3,
+        5,
+        9,
+        12
+      ],
+      "left": 3,
+      "right": 5,
+      "mid": 4,
+      "foundIdx": null,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: m = 4. nums[4] is 9 == target! RETURN 4.",
+      "state": {
+        "status": "COMPLETED",
+        "return": 4
+      },
+      "array": [
+        -1,
+        0,
+        3,
+        5,
+        9,
+        12
+      ],
+      "left": 3,
+      "right": 5,
+      "mid": 4,
+      "foundIdx": 4,
+      "output": {
+        "label": "Target Index",
+        "value": "Index 4",
+        "detail": "nums[4] === 9 matched in 2 iterations."
+      }
+    }
+  ],
+  "codeLines": [
+    "FUNCTION search(nums, target):",
+    "    l = 0, r = LENGTH(nums) - 1",
+    "    WHILE l <= r DO:",
+    "        m = l + (r - l) / 2",
+    "        IF nums[m] == target THEN RETURN m",
+    "        ELSE IF nums[m] < target THEN l = m + 1",
+    "        ELSE r = m - 1",
+    "    END WHILE",
+    "    RETURN -1",
+    "END FUNCTION"
+  ]
+}

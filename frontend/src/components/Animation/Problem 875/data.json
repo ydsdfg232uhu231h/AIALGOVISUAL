@@ -1,0 +1,142 @@
+{
+  "id": 875,
+  "title": "Koko Eating Bananas",
+  "difficulty": "Medium",
+  "topic": "Binary Search",
+  "algorithm": "Binary Search on Solution Space",
+  "timeComplexity": "O(n log(max(P)))",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the minimum integer eating speed k to eat all bananas within h hours.",
+  "url": "https://leetcode.com/problems/koko-eating-bananas/",
+  "explanation": "Binary search speed k within range [1, max(piles)]. Calculate total hours needed for speed k; adjust range to find minimum valid speed.",
+  "pseudoCode": "FUNCTION minEatingSpeed(piles, h):\n    l = 1, r = MAX(piles), res = r\n    WHILE l <= r DO:\n        k = (l + r) / 2\n        hours = SUM(CEIL(p / k) FOR p IN piles)\n        IF hours <= h THEN res = k; r = k - 1\n        ELSE l = k + 1\n    END WHILE\n    RETURN res\nEND FUNCTION",
+  "renderType": "koko_eating_speed",
+  "initialData": {
+    "piles": [
+      3,
+      6,
+      7,
+      11
+    ],
+    "h": 8
+  },
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Piles: [3, 6, 7, 11], h = 8. Search range for eating speed k: l = 1, r = 11, res = 11.",
+      "state": {
+        "l": 1,
+        "r": 11,
+        "res": 11,
+        "h": 8
+      },
+      "piles": [
+        3,
+        6,
+        7,
+        11
+      ],
+      "k": null,
+      "calculatedHours": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Mid speed k = (1 + 11) / 2 = 6. Calculate hours: ceil(3/6)+ceil(6/6)+ceil(7/6)+ceil(11/6) = 1+1+2+2 = 6 hrs. 6 <= 8 (Valid!). res = 6, r = 5.",
+      "state": {
+        "k": 6,
+        "hours": 6,
+        "valid": "True",
+        "res": 6,
+        "r": 5
+      },
+      "piles": [
+        3,
+        6,
+        7,
+        11
+      ],
+      "k": 6,
+      "calculatedHours": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 3,
+      "narration": "Line 4: Next mid speed k = (1 + 5) / 2 = 3. Hours: ceil(3/3)+ceil(6/3)+ceil(7/3)+ceil(11/3) = 1+2+3+4 = 10 hrs. 10 > 8 (Too slow!). l = 3 + 1 = 4.",
+      "state": {
+        "k": 3,
+        "hours": 10,
+        "valid": "False",
+        "l": 4,
+        "res": 6
+      },
+      "piles": [
+        3,
+        6,
+        7,
+        11
+      ],
+      "k": 3,
+      "calculatedHours": 10,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: Next mid speed k = (4 + 5) / 2 = 4. Hours: 1+2+2+3 = 8 hrs. 8 <= 8 (Valid!). res = 4, r = 3.",
+      "state": {
+        "k": 4,
+        "hours": 8,
+        "valid": "True",
+        "res": 4,
+        "r": 3
+      },
+      "piles": [
+        3,
+        6,
+        7,
+        11
+      ],
+      "k": 4,
+      "calculatedHours": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 7,
+      "narration": "Line 8: l > r (4 > 3). Binary search terminates. RETURN res = 4.",
+      "state": {
+        "status": "COMPLETED",
+        "minSpeed": 4
+      },
+      "piles": [
+        3,
+        6,
+        7,
+        11
+      ],
+      "k": 4,
+      "calculatedHours": 8,
+      "output": {
+        "label": "Minimum Eating Speed",
+        "value": "4 bananas/hr",
+        "detail": "Koko finishes all piles in exactly 8 hours with speed k = 4."
+      }
+    }
+  ],
+  "codeLines": [
+    "FUNCTION minEatingSpeed(piles, h):",
+    "    l = 1, r = MAX(piles), res = r",
+    "    WHILE l <= r DO:",
+    "        k = (l + r) / 2",
+    "        hours = SUM(CEIL(p / k) FOR p IN piles)",
+    "        IF hours <= h THEN res = k; r = k - 1",
+    "        ELSE l = k + 1",
+    "    END WHILE",
+    "    RETURN res",
+    "END FUNCTION"
+  ]
+}

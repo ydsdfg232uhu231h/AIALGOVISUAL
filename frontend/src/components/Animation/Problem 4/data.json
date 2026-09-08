@@ -1,0 +1,158 @@
+{
+  "id": 4,
+  "title": "Median of Two Sorted Arrays",
+  "difficulty": "Hard",
+  "topic": "Binary Search",
+  "algorithm": "Binary Search on Partition",
+  "timeComplexity": "O(log(min(n, m)))",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the median of two sorted arrays in logarithmic time complexity.",
+  "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+  "explanation": "We apply binary search on the smaller of the two sorted arrays to partition both arrays into equal left and right halves. We adjust the binary search range until all elements in the left partition are less than or equal to all elements in the right partition, yielding O(log(min(m, n))) time.",
+  "pseudoCode": "FUNCTION findMedianSortedArrays(nums1, nums2):\n    IF LENGTH(nums1) > LENGTH(nums2) THEN RETURN findMedianSortedArrays(nums2, nums1)\n    m = LENGTH(nums1), n = LENGTH(nums2), low = 0, high = m\n    WHILE low <= high DO:\n        i = (low + high) / 2, j = (m + n + 1) / 2 - i\n        maxLeft1 = (i == 0) ? -INF : nums1[i-1]\n        minRight1 = (i == m) ? INF : nums1[i]\n        maxLeft2 = (j == 0) ? -INF : nums2[j-1]\n        minRight2 = (j == n) ? INF : nums2[j]\n        IF maxLeft1 <= minRight2 AND maxLeft2 <= minRight1 THEN:\n            IF (m + n) % 2 == 0 THEN RETURN (MAX(maxLeft1, maxLeft2) + MIN(minRight1, minRight2)) / 2.0\n            ELSE RETURN MAX(maxLeft1, maxLeft2)\n        ELSE IF maxLeft1 > minRight2 THEN high = i - 1\n        ELSE low = i + 1\n    END WHILE\nEND FUNCTION",
+  "renderType": "partition_search",
+  "initialData": {
+    "nums1": [1, 3, 8, 9, 15],
+    "nums2": [7, 11, 18, 19, 21, 25]
+  },
+  "codeLines": [
+    "FUNCTION findMedianSortedArrays(nums1, nums2):",
+    "    IF LENGTH(nums1) > LENGTH(nums2) THEN RETURN findMedianSortedArrays(nums2, nums1)",
+    "    m = LENGTH(nums1), n = LENGTH(nums2), low = 0, high = m",
+    "    WHILE low <= high DO:",
+    "        i = (low + high) / 2, j = (m + n + 1) / 2 - i",
+    "        maxLeft1 = (i == 0) ? -INF : nums1[i-1]",
+    "        minRight1 = (i == m) ? INF : nums1[i]",
+    "        maxLeft2 = (j == 0) ? -INF : nums2[j-1]",
+    "        minRight2 = (j == n) ? INF : nums2[j]",
+    "        IF maxLeft1 <= minRight2 AND maxLeft2 <= minRight1 THEN:",
+    "            IF (m + n) % 2 == 0 THEN RETURN (MAX(maxLeft1, maxLeft2) + MIN(minRight1, minRight2)) / 2.0",
+    "            ELSE RETURN MAX(maxLeft1, maxLeft2)",
+    "        ELSE IF maxLeft1 > minRight2 THEN high = i - 1",
+    "        ELSE low = i + 1",
+    "    END WHILE",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: nums1 length m = 5, nums2 length n = 6. Binary search on nums1: low = 0, high = 5.",
+      "state": {
+        "low": 0,
+        "high": 5,
+        "m": 5,
+        "n": 6,
+        "i": 0,
+        "j": 0
+      },
+      "nums1": [1, 3, 8, 9, 15],
+      "nums2": [7, 11, 18, 19, 21, 25],
+      "partition1": 0,
+      "partition2": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: Try mid partition i = (0 + 5) / 2 = 2. Total left size needed = (5 + 6 + 1)/2 = 6. Thus j = 6 - 2 = 4.",
+      "state": {
+        "low": 0,
+        "high": 5,
+        "i": 2,
+        "j": 4,
+        "maxLeft1": 3,
+        "minRight1": 8,
+        "maxLeft2": 19,
+        "minRight2": 21
+      },
+      "nums1": [1, 3, 8, 9, 15],
+      "nums2": [7, 11, 18, 19, 21, 25],
+      "partition1": 2,
+      "partition2": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 13,
+      "narration": "Line 14: Check partition validity: maxLeft2 (19) > minRight1 (8). Cut in nums1 is too far left! Adjust search: low = i + 1 = 3.",
+      "state": {
+        "low": 3,
+        "high": 5,
+        "i": 2,
+        "j": 4,
+        "maxLeft1": 3,
+        "minRight1": 8,
+        "maxLeft2": 19,
+        "minRight2": 21
+      },
+      "nums1": [1, 3, 8, 9, 15],
+      "nums2": [7, 11, 18, 19, 21, 25],
+      "partition1": 2,
+      "partition2": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: New mid partition i = (3 + 5) / 2 = 4. Then j = 6 - 4 = 2.",
+      "state": {
+        "low": 3,
+        "high": 5,
+        "i": 4,
+        "j": 2,
+        "maxLeft1": 9,
+        "minRight1": 15,
+        "maxLeft2": 11,
+        "minRight2": 18
+      },
+      "nums1": [1, 3, 8, 9, 15],
+      "nums2": [7, 11, 18, 19, 21, 25],
+      "partition1": 4,
+      "partition2": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 9,
+      "narration": "Line 10: Check conditions: maxLeft1(9) <= minRight2(18) AND maxLeft2(11) <= minRight1(15). Both conditions satisfied! Perfect partition found.",
+      "state": {
+        "i": 4,
+        "j": 2,
+        "maxLeft1": 9,
+        "minRight1": 15,
+        "maxLeft2": 11,
+        "minRight2": 18
+      },
+      "nums1": [1, 3, 8, 9, 15],
+      "nums2": [7, 11, 18, 19, 21, 25],
+      "partition1": 4,
+      "partition2": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 11,
+      "narration": "Line 12: Total elements (m + n = 11) is odd. Median is MAX(maxLeft1, maxLeft2) = MAX(9, 11) = 11.0. RETURN 11.0.",
+      "state": {
+        "status": "COMPLETED",
+        "median": 11.0,
+        "i": 4,
+        "j": 2,
+        "maxLeft1": 9,
+        "minRight1": 15,
+        "maxLeft2": 11,
+        "minRight2": 18
+      },
+      "nums1": [1, 3, 8, 9, 15],
+      "nums2": [7, 11, 18, 19, 21, 25],
+      "partition1": 4,
+      "partition2": 2,
+      "output": {
+        "label": "Median Found",
+        "value": "11.0",
+        "detail": "Left side has [1, 3, 8, 9] + [7, 11] (6 elements). Median is MAX(9, 11) = 11.0"
+      }
+    }
+  ]
+}

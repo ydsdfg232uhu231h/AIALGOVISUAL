@@ -1,0 +1,143 @@
+{
+  "id": 1584,
+  "title": "Min Cost to Connect All Points",
+  "difficulty": "Medium",
+  "topic": "Graph / Minimum Spanning Tree",
+  "algorithm": "Prim's MST Algorithm",
+  "timeComplexity": "O(n^2)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Find the minimum total cost to connect all 2D points into a single connected component.",
+  "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/",
+  "explanation": "Prim's Algorithm for Minimum Spanning Tree (MST): iteratively connect the nearest unvisited node with minimal Manhattan distance.",
+  "pseudoCode": "FUNCTION minCostConnectPoints(points):\n    N = LENGTH(points), adj = HASH_MAP_OF_LISTS()\n    FOR i FROM 0 TO N - 1 DO:\n        FOR j FROM i + 1 TO N - 1 DO:\n            dist = ABS(points[i][0] - points[j][0]) + ABS(points[i][1] - points[j][1])\n            APPEND [dist, j] TO adj[i]; APPEND [dist, i] TO adj[j]\n        END FOR\n    END FOR\n    res = 0, visit = SET(), minHeap = MinHeap([[0, 0]])\n    WHILE LENGTH(visit) < N DO:\n        [cost, i] = POP(minHeap)\n        IF i IN visit THEN CONTINUE\n        res = res + cost; ADD i TO visit\n        FOR neiCost, nei IN adj[i] DO:\n            IF nei NOT IN visit THEN PUSH [neiCost, nei] TO minHeap\n        END FOR\n    END WHILE\n    RETURN res\nEND FUNCTION",
+  "renderType": "mst_points_prim",
+  "initialData": {
+    "points": [
+      [0, 0],
+      [2, 2],
+      [3, 10],
+      [5, 2],
+      [7, 0],
+      [3, 5],
+      [6, 7],
+      [1, 8]
+    ]
+  },
+  "codeLines": [
+    "FUNCTION minCostConnectPoints(points):",
+    "    N = LENGTH(points), adj = HASH_MAP_OF_LISTS()",
+    "    FOR i FROM 0 TO N - 1 DO:",
+    "        FOR j FROM i + 1 TO N - 1 DO:",
+    "            dist = ABS(points[i][0] - points[j][0]) + ABS(points[i][1] - points[j][1])",
+    "            APPEND [dist, j] TO adj[i]; APPEND [dist, i] TO adj[j]",
+    "        END FOR",
+    "    END FOR",
+    "    res = 0, visit = SET(), minHeap = MinHeap([[0, 0]])",
+    "    WHILE LENGTH(visit) < N DO:",
+    "        [cost, i] = POP(minHeap)",
+    "        IF i IN visit THEN CONTINUE",
+    "        res = res + cost; ADD i TO visit",
+    "        FOR neiCost, nei IN adj[i] DO:",
+    "            IF nei NOT IN visit THEN PUSH [neiCost, nei] TO minHeap",
+    "        END FOR",
+    "    END WHILE",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 8,
+      "narration": "Line 9: Initialize Prim's on 8 points. Start at point 0 (0, 0). Cost = 0.",
+      "state": { "res": 0, "addedEdge": null, "edgeCost": 0 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0],
+      "connectedEdges": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 12,
+      "narration": "Line 13: Pop min edge [cost: 4, pt: 1]. Connect 0 -> 1. Total cost = 0 + 4 = 4.",
+      "state": { "res": 4, "addedEdge": "0 -> 1", "edgeCost": 4 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1],
+      "connectedEdges": [[0, 1]],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 12,
+      "narration": "Line 13: Pop min edge [cost: 3, pt: 3]. Connect 1 -> 3. Total cost = 4 + 3 = 7.",
+      "state": { "res": 7, "addedEdge": "1 -> 3", "edgeCost": 3 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1, 3],
+      "connectedEdges": [[0, 1], [1, 3]],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 12,
+      "narration": "Line 13: Pop min edge [cost: 4, pt: 4]. Connect 3 -> 4. Total cost = 7 + 4 = 11.",
+      "state": { "res": 11, "addedEdge": "3 -> 4", "edgeCost": 4 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1, 3, 4],
+      "connectedEdges": [[0, 1], [1, 3], [3, 4]],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 12,
+      "narration": "Line 13: Pop min edge [cost: 4, pt: 5]. Connect 1 -> 5. Total cost = 11 + 4 = 15.",
+      "state": { "res": 15, "addedEdge": "1 -> 5", "edgeCost": 4 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1, 3, 4, 5],
+      "connectedEdges": [[0, 1], [1, 3], [3, 4], [1, 5]],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 12,
+      "narration": "Line 13: Pop min edge [cost: 5, pt: 6]. Connect 5 -> 6. Total cost = 15 + 5 = 20.",
+      "state": { "res": 20, "addedEdge": "5 -> 6", "edgeCost": 5 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1, 3, 4, 5, 6],
+      "connectedEdges": [[0, 1], [1, 3], [3, 4], [1, 5], [5, 6]],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 12,
+      "narration": "Line 13: Pop min edge [cost: 5, pt: 7]. Connect 5 -> 7. Total cost = 20 + 5 = 25.",
+      "state": { "res": 25, "addedEdge": "5 -> 7", "edgeCost": 5 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1, 3, 4, 5, 6, 7],
+      "connectedEdges": [[0, 1], [1, 3], [3, 4], [1, 5], [5, 6], [5, 7]],
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 12,
+      "narration": "Line 13: Pop min edge [cost: 4, pt: 2]. Connect 7 -> 2. Total cost = 25 + 4 = 29.",
+      "state": { "res": 29, "addedEdge": "7 -> 2", "edgeCost": 4 },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1, 2, 3, 4, 5, 6, 7],
+      "connectedEdges": [[0, 1], [1, 3], [3, 4], [1, 5], [5, 6], [5, 7], [7, 2]],
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 17,
+      "narration": "Line 18: All 8 points are connected into the Minimum Spanning Tree with 7 edges. Total Cost = 29.",
+      "state": { "status": "COMPLETED", "res": 29, "addedEdge": null, "edgeCost": null },
+      "points": [[0, 0], [2, 2], [3, 10], [5, 2], [7, 0], [3, 5], [6, 7], [1, 8]],
+      "visited": [0, 1, 2, 3, 4, 5, 6, 7],
+      "connectedEdges": [[0, 1], [1, 3], [3, 4], [1, 5], [5, 6], [5, 7], [7, 2]],
+      "output": {
+        "label": "Minimum MST Cost (8 Points)",
+        "value": "29",
+        "detail": "Edges: (0-1: 4) + (1-3: 3) + (3-4: 4) + (1-5: 4) + (5-6: 5) + (5-7: 5) + (7-2: 4) = 29."
+      }
+    }
+  ]
+}

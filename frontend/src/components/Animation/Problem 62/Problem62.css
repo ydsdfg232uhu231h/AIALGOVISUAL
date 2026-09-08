@@ -1,0 +1,165 @@
+.grid-paths-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 420px;
+  position: relative;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.metric-chip {
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.size-chip b {
+  color: #facc15;
+}
+
+.row-chip b {
+  color: #38bdf8;
+}
+
+.dp-chip b {
+  color: #a855f7;
+}
+
+.paths-chip b {
+  color: #4ade80;
+}
+
+.dp-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: #111215;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+}
+
+.dp-grid-row {
+  display: flex;
+  gap: 10px;
+}
+
+.dp-cell {
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  background: #141416;
+  border: 2px solid #27272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cell-badges {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  right: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coord-tag {
+  font-size: 9px;
+  color: #71717a;
+  font-family: monospace;
+}
+
+.role-tag {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+.start-tag {
+  background: #ff7324;
+  color: #000;
+}
+
+.end-tag {
+  background: #38bdf8;
+  color: #000;
+}
+
+.dp-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin-top: 6px;
+}
+
+.uncomputed-cell {
+  color: #3f3f46;
+}
+
+.computed-cell {
+  background: #18181b;
+}
+
+.active-row-cell {
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.target-complete {
+  background: rgba(34, 197, 94, 0.2) !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.4) !important;
+}
+
+.result-callout {
+  position: absolute;
+  bottom: 12px;
+  background: #111827;
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.callout-header {
+  font-size: 11px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.callout-detail {
+  font-size: 12px;
+  color: #9ca3af;
+}

@@ -14,6 +14,7 @@ import Errorpage from "../pages/Errorpage.jsx";
 import Errors from "../components/Error.jsx";
 import Profilepage from "../pages/Profilepage.jsx";
 import MyProtectedRoutes from "./MyProtectedRoutes.jsx";
+import PseudocodeEditor from "../components/Engine/Pesudocodeeditor.jsx";
 
 function FrontRoute() {
     const myroute = createBrowserRouter([
@@ -71,6 +72,13 @@ function FrontRoute() {
                             path: ":id",loader:  loadprobans,element:
                                 <MyProtectedRoutes>
                                     <Myproblemlayout />
+                                </MyProtectedRoutes>
+
+                        },
+                        {
+                            path: "/problems/pesudocode", element:
+                                <MyProtectedRoutes>
+                                    <PseudocodeEditor/>
                                 </MyProtectedRoutes>
 
                         },

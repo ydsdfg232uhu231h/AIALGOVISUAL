@@ -1,0 +1,165 @@
+{
+  "id": 416,
+  "title": "Partition Equal Subset Sum",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "0/1 Knapsack DP Subset Sum",
+  "timeComplexity": "O(n * target)",
+  "spaceComplexity": "O(target)",
+  "oneLinerQuestion": "Determine if an array can be partitioned into two subsets with equal element sums.",
+  "url": "https://leetcode.com/problems/partition-equal-subset-sum/",
+  "explanation": "Problem reduces to 0/1 Knapsack: check if subset sum equals totalSum / 2. Dynamic programming set iteratively stores achievable sub-sums.",
+  "pseudoCode": "FUNCTION canPartition(nums):\n    IF SUM(nums) % 2 != 0 THEN RETURN False\n    target = SUM(nums) / 2, dp = SET([0])\n    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:\n        nextDP = COPY(dp)\n        FOR t IN dp DO:\n            IF t + nums[i] == target THEN RETURN True\n            ADD (t + nums[i]) TO nextDP\n        END FOR\n        dp = nextDP\n    END FOR\n    RETURN target IN dp\nEND FUNCTION",
+  "renderType": "subset_sum_dp",
+  "initialData": [1, 5, 11, 5, 2, 4, 7, 1],
+  "codeLines": [
+    "FUNCTION canPartition(nums):",
+    "    IF SUM(nums) % 2 != 0 THEN RETURN False",
+    "    target = SUM(nums) / 2, dp = SET([0])",
+    "    FOR i FROM LENGTH(nums) - 1 DOWN TO 0 DO:",
+    "        nextDP = COPY(dp)",
+    "        FOR t IN dp DO:",
+    "            IF t + nums[i] == target THEN RETURN True",
+    "            ADD (t + nums[i]) TO nextDP",
+    "        END FOR",
+    "        dp = nextDP",
+    "    END FOR",
+    "    RETURN target IN dp",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Total sum is 36 (even). Target = 36 / 2 = 18. Initialize dp set = {0}.",
+      "state": {
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0],
+      "target": 18,
+      "currentIdx": null,
+      "addedSums": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 5,
+      "narration": "Line 6: i = 7 (val: 1). 0 + 1 = 1. Add 1 to dp set. dp becomes {0, 1}.",
+      "state": {
+        "num": 1,
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0, 1],
+      "target": 18,
+      "currentIdx": 7,
+      "addedSums": [1],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: i = 6 (val: 7). Add 0+7=7, 1+7=8. dp becomes {0, 1, 7, 8}.",
+      "state": {
+        "num": 7,
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0, 1, 7, 8],
+      "target": 18,
+      "currentIdx": 6,
+      "addedSums": [7, 8],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: i = 5 (val: 4). Add 4 to existing sums: 4, 5, 11, 12. dp has 8 reachable sums.",
+      "state": {
+        "num": 4,
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0, 1, 4, 5, 7, 8, 11, 12],
+      "target": 18,
+      "currentIdx": 5,
+      "addedSums": [4, 5, 11, 12],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: i = 4 (val: 2). Add 2 to previous sums: 2, 3, 6, 9, 10, 13, 14.",
+      "state": {
+        "num": 2,
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      "target": 18,
+      "currentIdx": 4,
+      "addedSums": [2, 3, 6, 9, 10, 13, 14],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: i = 3 (val: 5). Add 5 to previous sums. Reaching sums up to 17.",
+      "state": {
+        "num": 5,
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+      "target": 18,
+      "currentIdx": 3,
+      "addedSums": [15, 16, 17],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 6,
+      "narration": "Line 7: i = 2 (val: 11). Checking existing sum 7: 7 + 11 == 18 (Target hit!).",
+      "state": {
+        "num": 11,
+        "match": "7 + 11 == 18",
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+      "target": 18,
+      "currentIdx": 2,
+      "addedSums": [18],
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 6,
+      "narration": "Line 7: Target partition 18 successfully verified. RETURN True.",
+      "state": {
+        "status": "COMPLETED",
+        "canPartition": "True",
+        "totalSum": 36,
+        "target": 18
+      },
+      "nums": [1, 5, 11, 5, 2, 4, 7, 1],
+      "dpSet": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+      "target": 18,
+      "currentIdx": 2,
+      "addedSums": [],
+      "output": {
+        "label": "Partition Exists",
+        "value": "True",
+        "detail": "Subsets [11, 7] and [1, 5, 5, 2, 4, 1] both sum to 18."
+      }
+    }
+  ]
+}

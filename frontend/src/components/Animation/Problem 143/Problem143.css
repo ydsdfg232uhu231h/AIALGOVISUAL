@@ -1,0 +1,327 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#reorder-list-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 540px;
+  box-sizing: border-box;
+  padding: 12px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+#metric-phase,
+#metric-pointers-mid,
+#metric-status-active,
+#metric-status-done {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+#metric-phase b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#metric-pointers-mid b { color: #facc15; font-family: ui-monospace, monospace; }
+#metric-status-active b { color: #c084fc; }
+
+#metric-status-done {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.16) !important;
+}
+#metric-status-done b { color: #4ade80 !important; }
+
+/* ============================================================
+   STAGE LAYOUT
+   ============================================================ */
+#reorder-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+#first-track-card,
+#second-track-card,
+#merged-track-card {
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+#first-card-header,
+#second-card-header,
+#merged-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+#first-header-title,
+#second-header-title,
+#merged-header-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+#first-header-sub,
+#second-header-sub,
+#merged-header-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   TRACK VIEWPORTS & CHAINS
+   ============================================================ */
+#first-viewport,
+#second-viewport,
+#merged-viewport {
+  width: 100%;
+  min-height: 80px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+#first-chain,
+#second-chain,
+#merged-chain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+[id^="first-col-"],
+[id^="second-col-"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+[id^="tag-anchor-"],
+[id^="second-tag-anchor-"] {
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#tag-slow,
+#tag-fast,
+#tag-first-ptr,
+#tag-second-ptr {
+  font-size: 8px;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  font-family: ui-monospace, monospace;
+}
+
+#tag-slow {
+  background: #facc15;
+  color: #0c0c10;
+}
+
+#tag-fast {
+  background: #38bdf8;
+  color: #0c0c10;
+}
+
+#tag-first-ptr {
+  background: #38bdf8;
+  color: #0c0c10;
+}
+
+#tag-second-ptr {
+  background: #c084fc;
+  color: #0c0c10;
+}
+
+/* Node Spheres */
+[id^="first-node-"],
+[id^="second-node-"],
+[id^="merged-node-"] {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+/* First Track Nodes */
+[id^="first-node-idle-"] {
+  background: #181822;
+  border: 2px solid #2e2e40;
+  color: #a1a1aa;
+}
+
+[id^="first-node-slow-"] {
+  background: #262214 !important;
+  border: 2px solid #facc15 !important;
+  color: #fef08a !important;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
+}
+
+[id^="first-node-fast-"] {
+  background: #102438 !important;
+  border: 2px solid #38bdf8 !important;
+  color: #bae6fd !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+}
+
+[id^="first-node-ptr-"] {
+  background: #102438 !important;
+  border: 2px solid #38bdf8 !important;
+  color: #bae6fd !important;
+}
+
+/* Second Track Nodes */
+[id^="second-node-idle-"] {
+  background: #201430;
+  border: 2px solid #8b5cf6;
+  color: #d8b4fe;
+}
+
+[id^="second-node-ptr-"] {
+  background: #2c1542 !important;
+  border: 2px solid #c084fc !important;
+  color: #f3e8ff !important;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.6);
+}
+
+/* Merged Track Nodes */
+[id^="merged-node-idle-"] {
+  background: #151e26;
+  border: 2px solid #283848;
+  color: #7dd3fc;
+}
+
+[id^="merged-node-latest-"] {
+  background: #262214 !important;
+  border: 2px solid #facc15 !important;
+  color: #fef08a !important;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
+}
+
+[id^="merged-node-done-"] {
+  background: #13241b !important;
+  border: 2px solid #22c55e !important;
+  color: #4ade80 !important;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+}
+
+/* Arrows */
+[id^="first-arrow-"],
+[id^="second-arrow-"],
+[id^="merged-arrow-"] {
+  color: #525266;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+[id^="merged-arrow-"] {
+  color: #38bdf8;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 20, 16, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
+  z-index: 100;
+  max-width: 90%;
+}
+
+#callout-header-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #86efac;
+  letter-spacing: 0.8px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #4ade80;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #dcfce7;
+  font-weight: 500;
+}

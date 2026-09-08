@@ -1,0 +1,119 @@
+{
+  "id": 79,
+  "title": "Word Search",
+  "difficulty": "Medium",
+  "topic": "Backtracking",
+  "algorithm": "2D Grid DFS / Backtracking",
+  "timeComplexity": "O(m * n * 4^L)",
+  "spaceComplexity": "O(L)",
+  "oneLinerQuestion": "Check if a target word exists by connecting adjacent letter cells in a 2D board.",
+  "url": "https://leetcode.com/problems/word-search/",
+  "explanation": "Perform depth-first search from every cell matching the first letter of the target word. Recursively explore adjacent 4-directional cells, marking visited paths temporally to prevent duplicate character usage.",
+  "pseudoCode": "FUNCTION exist(board, word):\n    ROWS = LENGTH(board), COLS = LENGTH(board[0])\n    FUNCTION dfs(r, c, i):\n        IF i == LENGTH(word) THEN RETURN True\n        IF r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR board[r][c] != word[i] THEN RETURN False\n        temp = board[r][c]; board[r][c] = '#'\n        found = dfs(r+1,c,i+1) OR dfs(r-1,c,i+1) OR dfs(r,c+1,i+1) OR dfs(r,c-1,i+1)\n        board[r][c] = temp\n        RETURN found\n    END FUNCTION\n    FOR r FROM 0 TO ROWS - 1 DO:\n        FOR c FROM 0 TO COLS - 1 DO:\n            IF dfs(r, c, 0) THEN RETURN True\n        END FOR\n    END FOR\n    RETURN False\nEND FUNCTION",
+  "renderType": "word_search_grid",
+  "initialData": {
+    "board": [
+      ["A", "B", "C", "E"],
+      ["S", "F", "C", "S"],
+      ["A", "D", "E", "E"]
+    ],
+    "word": "ABCCED"
+  },
+  "codeLines": [
+    "FUNCTION exist(board, word):",
+    "    ROWS = LENGTH(board), COLS = LENGTH(board[0])",
+    "    FUNCTION dfs(r, c, i):",
+    "        IF i == LENGTH(word) THEN RETURN True",
+    "        IF r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR board[r][c] != word[i] THEN RETURN False",
+    "        temp = board[r][c]; board[r][c] = '#'",
+    "        found = dfs(r+1,c,i+1) OR dfs(r-1,c,i+1) OR dfs(r,c+1,i+1) OR dfs(r,c-1,i+1)",
+    "        board[r][c] = temp",
+    "        RETURN found",
+    "    END FUNCTION",
+    "    FOR r FROM 0 TO ROWS - 1 DO:",
+    "        FOR c FROM 0 TO COLS - 1 DO:",
+    "            IF dfs(r, c, 0) THEN RETURN True",
+    "        END FOR",
+    "    END FOR",
+    "    RETURN False",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 11,
+      "narration": "Line 12: Locate starting letter 'A' at (0, 0). Begin dfs(0, 0, 0).",
+      "state": { "r": 0, "c": 0, "i": 0, "matched": "A" },
+      "path": [[0, 0]],
+      "statusType": "normal",
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 6,
+      "narration": "Line 7: Move right to (0, 1). 'B' matches word[1]. Path: A -> B.",
+      "state": { "r": 0, "c": 1, "i": 1, "matched": "AB" },
+      "path": [[0, 0], [0, 1]],
+      "statusType": "normal",
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7: Move right to (0, 2). 'C' matches word[2]. Path: A -> B -> C.",
+      "state": { "r": 0, "c": 2, "i": 2, "matched": "ABC" },
+      "path": [[0, 0], [0, 1], [0, 2]],
+      "statusType": "normal",
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: Explore right neighbor (0, 3): 'E' != word[3] ('C'). Mismatch! Backtrack.",
+      "state": { "r": 0, "c": 3, "i": 3, "matched": "ABC" },
+      "path": [[0, 0], [0, 1], [0, 2]],
+      "statusType": "conflict",
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 6,
+      "narration": "Line 7: Move down to (1, 2): 'C' == word[3]. Valid match! Path: A -> B -> C -> C.",
+      "state": { "r": 1, "c": 2, "i": 3, "matched": "ABCC" },
+      "path": [[0, 0], [0, 1], [0, 2], [1, 2]],
+      "statusType": "normal",
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7: Move down to (2, 2): 'E' == word[4]. Valid match! Path: A -> B -> C -> C -> E.",
+      "state": { "r": 2, "c": 2, "i": 4, "matched": "ABCCE" },
+      "path": [[0, 0], [0, 1], [0, 2], [1, 2], [2, 2]],
+      "statusType": "normal",
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 6,
+      "narration": "Line 7: Move left to (2, 1): 'D' == word[5]. Valid match! Path: A -> B -> C -> C -> E -> D.",
+      "state": { "r": 2, "c": 1, "i": 5, "matched": "ABCCED" },
+      "path": [[0, 0], [0, 1], [0, 2], [1, 2], [2, 2], [2, 1]],
+      "statusType": "normal",
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: i == 6 == LENGTH(word). Entire target string matched! RETURN True.",
+      "state": { "status": "COMPLETED", "found": "True", "matched": "ABCCED" },
+      "path": [[0, 0], [0, 1], [0, 2], [1, 2], [2, 2], [2, 1]],
+      "statusType": "found",
+      "output": {
+        "label": "Word Found",
+        "value": "True",
+        "detail": "'ABCCED' traced at (0,0) -> (0,1) -> (0,2) -> (1,2) -> (2,2) -> (2,1)."
+      }
+    }
+  ]
+}

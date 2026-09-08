@@ -1,0 +1,303 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#islands-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  box-sizing: border-box;
+  padding: 12px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   TOP METRICS BAR
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+.metric-chip {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+.metric-chip b {
+  color: #f4f4f5;
+  font-weight: 800;
+}
+
+#metric-grid-dim b { color: #c084fc; }
+#metric-scan-pos b { color: #38bdf8; font-family: ui-monospace, monospace; }
+
+#metric-island-count {
+  border-color: rgba(34, 197, 94, 0.4) !important;
+  background: rgba(34, 197, 94, 0.1) !important;
+}
+#metric-island-count b { color: #4ade80; }
+
+#metric-status-scanning b { color: #fb923c; }
+
+#metric-status-flooding {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+}
+#metric-status-flooding b { color: #7dd3fc !important; }
+
+/* ============================================================
+   STAGE LAYOUT
+   ============================================================ */
+#islands-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+.track-card {
+  width: 100%;
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.card-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+.card-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #636374;
+  text-transform: none;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   GRID VIEWPORT & CELLS
+   ============================================================ */
+#grid-viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 8px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+#cells-grid {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  background: #0f0f14;
+  border: 1.5px solid #23232c;
+  border-radius: 12px;
+}
+
+.cell-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#scan-cursor-badge {
+  position: absolute;
+  top: -14px;
+  font-size: 11px;
+  color: #38bdf8;
+  font-weight: 900;
+  z-index: 10;
+}
+
+.island-cell {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+.cell-val {
+  font-size: 20px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  line-height: 1;
+}
+
+.cell-coords {
+  font-size: 8px;
+  font-weight: 700;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+  margin-top: 3px;
+}
+
+/* Dynamic State Styles */
+.cell-land {
+  background: #252418;
+  border: 2px solid #facc15;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.25);
+}
+.cell-land .cell-val { color: #fef08a; }
+
+.cell-flooding {
+  background: rgba(56, 189, 248, 0.25) !important;
+  border: 2px solid #38bdf8 !important;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.5) !important;
+}
+.cell-flooding .cell-val { color: #7dd3fc !important; }
+
+.cell-sunk {
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.3) 0%, #13241b 90%) !important;
+  border: 2px solid #22c55e !important;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.4) !important;
+}
+.cell-sunk .cell-val { color: #4ade80 !important; }
+
+.cell-water {
+  background: #14141c;
+  border: 1.5px solid #252534;
+}
+.cell-water .cell-val { color: #525262; }
+
+.cell-flood-ring {
+  position: absolute;
+  inset: -5px;
+  border: 2px solid #38bdf8;
+  border-radius: 14px;
+  animation: pulse-ring 1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.96); opacity: 0.9; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+
+/* ============================================================
+   LEGEND
+   ============================================================ */
+#islands-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid #1a1a24;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #8b8b99;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.dot-land { background: #facc15; }
+.dot-flooding { background: #38bdf8; box-shadow: 0 0 6px rgba(56, 189, 248, 0.6); }
+.dot-sunk { background: #22c55e; box-shadow: 0 0 6px rgba(34, 197, 94, 0.6); }
+.dot-water { background: #3f3f50; }
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 20, 16, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
+  z-index: 100;
+  max-width: 90%;
+}
+
+#callout-header-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #86efac;
+  letter-spacing: 0.8px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #4ade80;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #dcfce7;
+  font-weight: 500;
+}

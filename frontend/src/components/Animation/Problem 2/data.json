@@ -1,0 +1,186 @@
+{
+  "id": 2,
+  "title": "Add Two Numbers",
+  "difficulty": "Medium",
+  "topic": "Linked List",
+  "algorithm": "Elementary Addition with Carry",
+  "timeComplexity": "O(max(n, m))",
+  "spaceComplexity": "O(max(n, m))",
+  "oneLinerQuestion": "Add two numbers represented by reversed linked lists and return the sum as a linked list.",
+  "url": "https://leetcode.com/problems/add-two-numbers/",
+  "explanation": "We traverse both linked lists node by node, summing corresponding digits along with any carry from the previous position. We create new nodes for the ones digit of each sum and propagate the carry to the next iteration, effectively simulating column-by-column addition in O(max(N, M)) time.",
+  "pseudoCode": "FUNCTION addTwoNumbers(l1, l2):\n    dummy = NEW Node(0), curr = dummy, carry = 0\n    WHILE l1 OR l2 OR carry DO:\n        val1 = l1 ? l1.val : 0\n        val2 = l2 ? l2.val : 0\n        sum = val1 + val2 + carry\n        carry = sum / 10\n        curr.next = NEW Node(sum % 10)\n        curr = curr.next\n        IF l1 THEN l1 = l1.next\n        IF l2 THEN l2 = l2.next\n    END WHILE\n    RETURN dummy.next\nEND FUNCTION",
+  "renderType": "linked_list",
+  "initialData": {
+    "l1": [
+      2,
+      4,
+      3
+    ],
+    "l2": [
+      5,
+      6,
+      4
+    ]
+  },
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize dummy node, curr pointer, and carry = 0.",
+      "state": {
+        "carry": 0,
+        "sum": 0,
+        "currVal": 0
+      },
+      "l1": [
+        2,
+        4,
+        3
+      ],
+      "l2": [
+        5,
+        6,
+        4
+      ],
+      "resultList": [],
+      "l1Idx": 0,
+      "l2Idx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 5,
+      "narration": "Line 6: Add 2 + 5 + carry(0) = 7. carry = 0. Append 7 to result.",
+      "state": {
+        "val1": 2,
+        "val2": 5,
+        "carry": 0,
+        "sum": 7,
+        "digit": 7
+      },
+      "l1": [
+        2,
+        4,
+        3
+      ],
+      "l2": [
+        5,
+        6,
+        4
+      ],
+      "resultList": [
+        7
+      ],
+      "l1Idx": 0,
+      "l2Idx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: Add 4 + 6 + carry(0) = 10. carry = 1. Append 0 to result.",
+      "state": {
+        "val1": 4,
+        "val2": 6,
+        "carry": 1,
+        "sum": 10,
+        "digit": 0
+      },
+      "l1": [
+        2,
+        4,
+        3
+      ],
+      "l2": [
+        5,
+        6,
+        4
+      ],
+      "resultList": [
+        7,
+        0
+      ],
+      "l1Idx": 1,
+      "l2Idx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 5,
+      "narration": "Line 6: Add 3 + 4 + carry(1) = 8. carry = 0. Append 8 to result.",
+      "state": {
+        "val1": 3,
+        "val2": 4,
+        "carry": 0,
+        "sum": 8,
+        "digit": 8
+      },
+      "l1": [
+        2,
+        4,
+        3
+      ],
+      "l2": [
+        5,
+        6,
+        4
+      ],
+      "resultList": [
+        7,
+        0,
+        8
+      ],
+      "l1Idx": 2,
+      "l2Idx": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 12,
+      "narration": "Line 13: Both lists exhausted and carry is 0. RETURN dummy.next.",
+      "state": {
+        "status": "COMPLETED",
+        "result": "[7 -> 0 -> 8]"
+      },
+      "l1": [
+        2,
+        4,
+        3
+      ],
+      "l2": [
+        5,
+        6,
+        4
+      ],
+      "resultList": [
+        7,
+        0,
+        8
+      ],
+      "l1Idx": 3,
+      "l2Idx": 3,
+      "output": {
+        "label": "Linked List Sum",
+        "value": "7 -> 0 -> 8",
+        "detail": "Equivalent to 342 + 465 = 807"
+      }
+    }
+  ],
+  "codeLines": [
+    "FUNCTION addTwoNumbers(l1, l2):",
+    "    dummy = NEW Node(0), curr = dummy, carry = 0",
+    "    WHILE l1 OR l2 OR carry DO:",
+    "        val1 = l1 ? l1.val : 0",
+    "        val2 = l2 ? l2.val : 0",
+    "        sum = val1 + val2 + carry",
+    "        carry = sum / 10",
+    "        curr.next = NEW Node(sum % 10)",
+    "        curr = curr.next",
+    "        IF l1 THEN l1 = l1.next",
+    "        IF l2 THEN l2 = l2.next",
+    "    END WHILE",
+    "    RETURN dummy.next",
+    "END FUNCTION"
+  ]
+}

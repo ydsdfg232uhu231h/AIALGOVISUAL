@@ -1,0 +1,221 @@
+{
+  "id": 15,
+  "title": "3Sum",
+  "difficulty": "Medium",
+  "topic": "Two Pointers",
+  "algorithm": "Sorting & Two Pointers",
+  "timeComplexity": "O(n^2)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find all unique triplets in an array that sum to zero.",
+  "url": "https://leetcode.com/problems/3sum/",
+  "explanation": "Sort the array first. For each element i, use two pointers l and r. Check triplets systematically: if sum < 0, increment l to increase the sum; if sum > 0, decrement r to decrease the sum; if sum == 0, record the triplet and shift both pointers past duplicates.",
+  "pseudoCode": "FUNCTION threeSum(nums):\n    SORT(nums), res = []\n    FOR i FROM 0 TO LENGTH(nums) - 3 DO:\n        IF i > 0 AND nums[i] == nums[i-1] THEN CONTINUE\n        l = i + 1, r = LENGTH(nums) - 1\n        WHILE l < r DO:\n            sum = nums[i] + nums[l] + nums[r]\n            IF sum == 0 THEN:\n                APPEND [nums[i], nums[l], nums[r]] TO res\n                WHILE l < r AND nums[l] == nums[l+1] DO l = l + 1\n                WHILE l < r AND nums[r] == nums[r-1] DO r = r - 1\n                l = l + 1, r = r - 1\n            ELSE IF sum < 0 THEN l = l + 1\n            ELSE r = r - 1\n        END WHILE\n    END FOR\n    RETURN res\nEND FUNCTION",
+  "renderType": "three_sum",
+  "initialData": [-4, -1, -1, 0, 1, 2],
+  "codeLines": [
+    "FUNCTION threeSum(nums):",
+    "    SORT(nums), res = []",
+    "    FOR i FROM 0 TO LENGTH(nums) - 3 DO:",
+    "        IF i > 0 AND nums[i] == nums[i-1] THEN CONTINUE",
+    "        l = i + 1, r = LENGTH(nums) - 1",
+    "        WHILE l < r DO:",
+    "            sum = nums[i] + nums[l] + nums[r]",
+    "            IF sum == 0 THEN:",
+    "                APPEND [nums[i], nums[l], nums[r]] TO res",
+    "                WHILE l < r AND nums[l] == nums[l+1] DO l = l + 1",
+    "                WHILE l < r AND nums[r] == nums[r-1] DO r = r - 1",
+    "                l = l + 1, r = r - 1",
+    "            ELSE IF sum < 0 THEN l = l + 1",
+    "            ELSE r = r - 1",
+    "        END WHILE",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Sort input in ascending order: [-4, -1, -1, 0, 1, 2]. Initialize res = [].",
+      "state": { "i": 0, "nums[i]": -4, "res": "[]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 0,
+      "l": 1,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 6,
+      "narration": "Line 7: [i=0, l=1, r=5]: (-4) + (-1) + (2) = -3. Sum is below 0 -> advance l from 1 to 2 to increase sum.",
+      "state": { "i": 0, "l": 1, "r": 5, "sum": -3, "res": "[]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 0,
+      "l": 1,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7: [i=0, l=2, r=5]: (-4) + (-1) + (2) = -3. Sum is below 0 -> advance l from 2 to 3 to increase sum.",
+      "state": { "i": 0, "l": 2, "r": 5, "sum": -3, "res": "[]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 0,
+      "l": 2,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7: [i=0, l=3, r=5]: (-4) + (0) + (2) = -2. Sum increased to -2, still below 0 -> advance l from 3 to 4.",
+      "state": { "i": 0, "l": 3, "r": 5, "sum": -2, "res": "[]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 0,
+      "l": 3,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 6,
+      "narration": "Line 7: [i=0, l=4, r=5]: (-4) + (1) + (2) = -1. Sum increased to -1, still below 0 -> advance l from 4 to 5.",
+      "state": { "i": 0, "l": 4, "r": 5, "sum": -1, "res": "[]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 0,
+      "l": 4,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 5,
+      "narration": "Line 6: l (5) >= r (5). No zero-sum triplet possible with anchor nums[0] = -4. Advance i to 1.",
+      "state": { "i": 1, "nums[i]": -1, "res": "[]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 1,
+      "l": 2,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 6,
+      "narration": "Line 7: [i=1, l=2, r=5]: (-1) + (-1) + (2) = 0. Target 0 reached! Triplet [-1, -1, 2] found.",
+      "state": { "i": 1, "l": 2, "r": 5, "sum": 0, "res": "[[-1, -1, 2]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 1,
+      "l": 2,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 8,
+      "narration": "Line 9: Record [-1, -1, 2]. Increment l past duplicates (l -> 3) and decrement r (r -> 4).",
+      "state": { "i": 1, "l": 3, "r": 4, "res": "[[-1, -1, 2]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 1,
+      "l": 3,
+      "r": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 6,
+      "narration": "Line 7: [i=1, l=3, r=4]: (-1) + (0) + (1) = 0. Target 0 reached again! Triplet [-1, 0, 1] found.",
+      "state": { "i": 1, "l": 3, "r": 4, "sum": 0, "res": "[[-1, -1, 2], [-1, 0, 1]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 1,
+      "l": 3,
+      "r": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 8,
+      "narration": "Line 9: Record [-1, 0, 1]. Advance l to 4 and decrement r to 3.",
+      "state": { "i": 1, "l": 4, "r": 3, "res": "[[-1, -1, 2], [-1, 0, 1]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 1,
+      "l": 4,
+      "r": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 5,
+      "narration": "Line 6: l (4) > r (3). Inner window closed for i = 1. Advance outer loop to i = 2.",
+      "state": { "i": 2, "nums[i]": -1, "res": "[[-1, -1, 2], [-1, 0, 1]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 2,
+      "l": 3,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 3,
+      "narration": "Line 4: nums[2] == nums[1] (-1 == -1). Duplicate anchor detected! Skip i = 2 to avoid duplicate triplets.",
+      "state": { "i": 2, "res": "[[-1, -1, 2], [-1, 0, 1]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 2,
+      "l": 3,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 2,
+      "narration": "Line 3: Advance outer loop to i = 3 (val: 0). Set l = 4 (val: 1), r = 5 (val: 2).",
+      "state": { "i": 3, "nums[i]": 0, "res": "[[-1, -1, 2], [-1, 0, 1]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 3,
+      "l": 4,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 6,
+      "narration": "Line 7: [i=3, l=4, r=5]: (0) + (1) + (2) = 3. Sum is 3 > 0 -> decrement r from 5 to 4 to reduce sum.",
+      "state": { "i": 3, "l": 4, "r": 5, "sum": 3, "res": "[[-1, -1, 2], [-1, 0, 1]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 3,
+      "l": 4,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 5,
+      "narration": "Line 6: l (4) >= r (4). Inner loop terminates for i = 3.",
+      "state": { "i": 3, "l": 4, "r": 4, "res": "[[-1, -1, 2], [-1, 0, 1]]" },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": 3,
+      "l": 4,
+      "r": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 17,
+      "narration": "Line 18: i reaches LENGTH(nums) - 2. All candidates verified in increasing value order. RETURN res.",
+      "state": {
+        "status": "COMPLETED",
+        "tripletsCount": 2,
+        "res": "[[-1, -1, 2], [-1, 0, 1]]"
+      },
+      "array": [-4, -1, -1, 0, 1, 2],
+      "i": null,
+      "l": null,
+      "r": null,
+      "output": {
+        "label": "Unique Triplets",
+        "value": "[[-1, -1, 2], [-1, 0, 1]]",
+        "detail": "Both unique zero-sum triplets found systematically."
+      }
+    }
+  ]
+}

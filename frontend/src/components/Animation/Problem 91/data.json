@@ -1,0 +1,151 @@
+{
+  "id": 91,
+  "title": "Decode Ways",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "1D Linear DP",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Calculate the total number of ways to decode an encoded digit string to letters.",
+  "url": "https://leetcode.com/problems/decode-ways/",
+  "explanation": "Using 1D dynamic programming, dp[i] represents decoding possibilities up to index i. Single-digit decodings (1-9) add dp[i-1], while double-digit combinations (10-26) add dp[i-2].",
+  "pseudoCode": "FUNCTION numDecodings(s):\n    IF s[0] == '0' THEN RETURN 0\n    dp = ARRAY_OF_SIZE(LENGTH(s) + 1, INITIAL_VALUE = 0)\n    dp[0] = 1, dp[1] = 1\n    FOR i FROM 2 TO LENGTH(s) DO:\n        one = INT(SUBSTRING(s, i-1, i))\n        two = INT(SUBSTRING(s, i-2, i))\n        IF one >= 1 THEN dp[i] = dp[i] + dp[i-1]\n        IF two >= 10 AND two <= 26 THEN dp[i] = dp[i] + dp[i-2]\n    END FOR\n    RETURN dp[LENGTH(s)]\nEND FUNCTION",
+  "renderType": "decode_dp",
+  "initialData": "226120",
+  "codeLines": [
+    "FUNCTION numDecodings(s):",
+    "    IF s[0] == '0' THEN RETURN 0",
+    "    dp = ARRAY_OF_SIZE(LENGTH(s) + 1, INITIAL_VALUE = 0)",
+    "    dp[0] = 1, dp[1] = 1",
+    "    FOR i FROM 2 TO LENGTH(s) DO:",
+    "        one = INT(SUBSTRING(s, i-1, i))",
+    "        two = INT(SUBSTRING(s, i-2, i))",
+    "        IF one >= 1 THEN dp[i] = dp[i] + dp[i-1]",
+    "        IF two >= 10 AND two <= 26 THEN dp[i] = dp[i] + dp[i-2]",
+    "    END FOR",
+    "    RETURN dp[LENGTH(s)]",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Base case: empty string has 1 valid decoding configuration. dp[0] = 1.",
+      "state": {
+        "s": "226120",
+        "dp[0]": 1
+      },
+      "s": "226120",
+      "dp": [1, 0, 0, 0, 0, 0, 0],
+      "currentIdx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: First digit s[0] = '2' != '0'. Prefix '2' can only decode as 'B'. dp[1] = 1.",
+      "state": {
+        "s": "226120",
+        "dp[0]": 1,
+        "dp[1]": 1
+      },
+      "s": "226120",
+      "dp": [1, 1, 0, 0, 0, 0, 0],
+      "currentIdx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7-8: i = 2. Single digit '2' >= 1 -> +dp[1] (1). Double digit '22' in [10, 26] -> +dp[0] (1). dp[2] = 1 + 1 = 2.",
+      "state": {
+        "i": 2,
+        "one": 2,
+        "two": 22,
+        "dp[2]": 2
+      },
+      "s": "226120",
+      "dp": [1, 1, 2, 0, 0, 0, 0],
+      "currentIdx": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7-8: i = 3. Single digit '6' >= 1 -> +dp[2] (2). Double digit '26' in [10, 26] -> +dp[1] (1). dp[3] = 2 + 1 = 3.",
+      "state": {
+        "i": 3,
+        "one": 6,
+        "two": 26,
+        "dp[3]": 3
+      },
+      "s": "226120",
+      "dp": [1, 1, 2, 3, 0, 0, 0],
+      "currentIdx": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 6,
+      "narration": "Line 7-8: i = 4. Single digit '1' >= 1 -> +dp[3] (3). Double digit '61' > 26 (Invalid). dp[4] = dp[3] = 3.",
+      "state": {
+        "i": 4,
+        "one": 1,
+        "two": 61,
+        "dp[4]": 3
+      },
+      "s": "226120",
+      "dp": [1, 1, 2, 3, 3, 0, 0],
+      "currentIdx": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7-8: i = 5. Single digit '2' >= 1 -> +dp[4] (3). Double digit '12' in [10, 26] -> +dp[3] (3). dp[5] = 3 + 3 = 6.",
+      "state": {
+        "i": 5,
+        "one": 2,
+        "two": 12,
+        "dp[5]": 6
+      },
+      "s": "226120",
+      "dp": [1, 1, 2, 3, 3, 6, 0],
+      "currentIdx": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 6,
+      "narration": "Line 7-8: i = 6. Single digit '0' < 1 (No single '0' decode). Double digit '20' in [10, 26] -> +dp[4] (3). dp[6] = 3.",
+      "state": {
+        "i": 6,
+        "one": 0,
+        "two": 20,
+        "dp[6]": 3
+      },
+      "s": "226120",
+      "dp": [1, 1, 2, 3, 3, 6, 3],
+      "currentIdx": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 10,
+      "narration": "Line 11: Traversal complete. RETURN dp[6] = 3.",
+      "state": {
+        "status": "COMPLETED",
+        "totalWays": 3,
+        "i": 6
+      },
+      "s": "226120",
+      "dp": [1, 1, 2, 3, 3, 6, 3],
+      "currentIdx": 6,
+      "output": {
+        "label": "Decoding Ways",
+        "value": "3 decodings",
+        "detail": "'226120' decodes to 3 valid strings ending in '...T' ('20')."
+      }
+    }
+  ]
+}

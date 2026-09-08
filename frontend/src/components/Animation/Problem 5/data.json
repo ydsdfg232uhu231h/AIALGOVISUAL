@@ -1,0 +1,144 @@
+{
+  "id": 5,
+  "title": "Longest Palindromic Substring",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "Expand Around Center / DP",
+  "timeComplexity": "O(n^2)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the longest substring in a given string that reads the same backward as forward.",
+  "url": "https://leetcode.com/problems/longest-palindromic-substring/",
+  "explanation": "Every palindrome centers around either a single character (odd length) or two adjacent equal characters (even length). We iterate through each index of the string, treating it as the center, and expand outward as long as the surrounding characters match.",
+  "pseudoCode": "FUNCTION longestPalindrome(s):\n    res = ''\n    FOR i FROM 0 TO LENGTH(s) - 1 DO:\n        p1 = expandAroundCenter(s, i, i)\n        p2 = expandAroundCenter(s, i, i + 1)\n        IF LENGTH(p1) > LENGTH(res) THEN res = p1\n        IF LENGTH(p2) > LENGTH(res) THEN res = p2\n    END FOR\n    RETURN res\nEND FUNCTION\n\nFUNCTION expandAroundCenter(s, l, r):\n    WHILE l >= 0 AND r < LENGTH(s) AND s[l] == s[r] DO:\n        l = l - 1, r = r + 1\n    END WHILE\n    RETURN SUBSTRING(s, l + 1, r)\nEND FUNCTION",
+  "renderType": "center_expand",
+  "initialData": ["b", "a", "b", "a", "d"],
+  "codeLines": [
+    "FUNCTION longestPalindrome(s):",
+    "    res = ''",
+    "    FOR i FROM 0 TO LENGTH(s) - 1 DO:",
+    "        p1 = expandAroundCenter(s, i, i)",
+    "        p2 = expandAroundCenter(s, i, i + 1)",
+    "        IF LENGTH(p1) > LENGTH(res) THEN res = p1",
+    "        IF LENGTH(p2) > LENGTH(res) THEN res = p2",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION",
+    "",
+    "FUNCTION expandAroundCenter(s, l, r):",
+    "    WHILE l >= 0 AND r < LENGTH(s) AND s[l] == s[r] DO:",
+    "        l = l - 1, r = r + 1",
+    "    END WHILE",
+    "    RETURN SUBSTRING(s, l + 1, r)",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize res = ''. String = 'babad'.",
+      "state": { "i": 0, "res": "" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": null,
+      "centerR": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: i = 0 ('b'). Expand odd center at (0, 0): 'b'. res = 'b'.",
+      "state": { "i": 0, "p1": "b", "res": "b" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 0,
+      "centerR": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: i = 0. Expand even center at (0, 1): 'b' != 'a'. No even palindrome.",
+      "state": { "i": 0, "p2": "", "res": "b" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 0,
+      "centerR": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: i = 1 ('a'). Expand odd center at (1, 1). Check s[0] ('b') == s[2] ('b'): Match! Palindrome 'bab' formed.",
+      "state": { "i": 1, "p1": "bab", "res": "bab" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 0,
+      "centerR": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: i = 1. Expand even center at (1, 2): 'a' != 'b'. No even palindrome.",
+      "state": { "i": 1, "p2": "", "res": "bab" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 1,
+      "centerR": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: i = 2 ('b'). Expand odd center at (2, 2). Check s[1] ('a') == s[3] ('a'): Match! Palindrome 'aba' formed (length 3).",
+      "state": { "i": 2, "p1": "aba", "res": "bab" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 1,
+      "centerR": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Line 5: i = 2. Expand even center at (2, 3): 'b' != 'a'. No even palindrome.",
+      "state": { "i": 2, "p2": "", "res": "bab" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 2,
+      "centerR": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: i = 3 ('a'). Expand odd center at (3, 3): 'a'. Check s[2] ('b') != s[4] ('d'). Stop expansion.",
+      "state": { "i": 3, "p1": "a", "res": "bab" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 3,
+      "centerR": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5: i = 3. Expand even center at (3, 4): 'a' != 'd'. Stop.",
+      "state": { "i": 3, "p2": "", "res": "bab" },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 3,
+      "centerR": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 7,
+      "narration": "Line 8: Loop complete. Longest palindromic substring is 'bab' (length 3). RETURN 'bab'.",
+      "state": {
+        "status": "COMPLETED",
+        "res": "bab",
+        "i": 1
+      },
+      "chars": ["b", "a", "b", "a", "d"],
+      "centerL": 0,
+      "centerR": 2,
+      "output": {
+        "label": "Longest Palindrome",
+        "value": "\"bab\"",
+        "detail": "Max length valid palindrome of length 3."
+      }
+    }
+  ]
+}

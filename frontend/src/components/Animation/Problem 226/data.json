@@ -1,0 +1,146 @@
+{
+  "id": 226,
+  "title": "Invert Binary Tree",
+  "difficulty": "Easy",
+  "topic": "Tree",
+  "algorithm": "Recursive Postorder / Preorder Swap",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(h)",
+  "oneLinerQuestion": "Invert a binary tree so that left and right children are swapped recursively across all levels.",
+  "url": "https://leetcode.com/problems/invert-binary-tree/",
+  "explanation": "Recursively swap the left and right subtrees for every node in the tree. The right subtree containing children [6, 9] inverts internally first, before swapping across the root with left child [2].",
+  "pseudoCode": "FUNCTION invertTree(root):\n    IF root IS NULL THEN RETURN NULL\n    temp = root.left\n    root.left = invertTree(root.right)\n    root.right = invertTree(temp)\n    RETURN root\nEND FUNCTION",
+  "renderType": "tree_invert",
+  "initialData": {
+    "val": 4,
+    "left": 2,
+    "right": {
+      "val": 7,
+      "left": 6,
+      "right": 9
+    }
+  },
+  "codeLines": [
+    "FUNCTION invertTree(root):",
+    "    IF root IS NULL THEN RETURN NULL",
+    "    temp = root.left",
+    "    root.left = invertTree(root.right)",
+    "    root.right = invertTree(temp)",
+    "    RETURN root",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initial tree: Root(4) has left child 2 and right child 7 (with children 6 and 9).",
+      "state": { "root": 4, "left": 2, "right": 7 },
+      "nodeSlots": {
+        "4": "root",
+        "2": "left",
+        "7": "right",
+        "6": "rightLeft",
+        "9": "rightRight"
+      },
+      "activeSwapPair": [],
+      "swappedNodes": [],
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Recurse into right subtree Node(7). Inspect its children: left=6, right=9.",
+      "state": { "activeSubtree": 7 },
+      "nodeSlots": {
+        "4": "root",
+        "2": "left",
+        "7": "right",
+        "6": "rightLeft",
+        "9": "rightRight"
+      },
+      "activeSwapPair": [6, 9],
+      "swappedNodes": [],
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Lines 4-5: Swap 7's children: temp = 6; 7.left = 9; 7.right = 6. Children animate across 7's axis.",
+      "state": { "swapped7Children": true },
+      "nodeSlots": {
+        "4": "root",
+        "2": "left",
+        "7": "right",
+        "6": "rightRight",
+        "9": "rightLeft"
+      },
+      "activeSwapPair": [6, 9],
+      "swappedNodes": [6, 9],
+      "isCompleted": false,
+      "dwellMs": 1600,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: Back at root Node(4). Prepare to swap left subtree (Node 2) and right subtree (Node 7 and its children).",
+      "state": { "activeSubtree": 4 },
+      "nodeSlots": {
+        "4": "root",
+        "2": "left",
+        "7": "right",
+        "6": "rightRight",
+        "9": "rightLeft"
+      },
+      "activeSwapPair": [2, 7],
+      "swappedNodes": [6, 9],
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Lines 4-5: Swap root's children: root.left = 7 (along with leaves 9 and 6), root.right = 2. Subtrees animate across main mirror axis.",
+      "state": { "swappedRootChildren": true },
+      "nodeSlots": {
+        "4": "root",
+        "2": "right",
+        "7": "left",
+        "9": "leftLeft",
+        "6": "leftRight"
+      },
+      "activeSwapPair": [2, 7],
+      "swappedNodes": [6, 9, 2, 7],
+      "isCompleted": false,
+      "dwellMs": 1600,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7: Inversion complete! Left child is now 7 (with children 9, 6) and right child is now 2. RETURN root.",
+      "state": { "status": "COMPLETED" },
+      "nodeSlots": {
+        "4": "root",
+        "2": "right",
+        "7": "left",
+        "9": "leftLeft",
+        "6": "leftRight"
+      },
+      "activeSwapPair": [],
+      "swappedNodes": [4, 2, 7, 6, 9],
+      "isCompleted": true,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Tree Inverted (Green Glow)",
+        "value": "Root: 4 [Left: 7(9,6), Right: 2]",
+        "detail": "Both internal leaf children and main branches mirror-swapped successfully."
+      }
+    }
+  ]
+}

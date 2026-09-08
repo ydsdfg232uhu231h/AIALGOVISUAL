@@ -1,0 +1,195 @@
+{
+  "id": 200,
+  "title": "Number of Islands",
+  "difficulty": "Medium",
+  "topic": "Graph / BFS / DFS",
+  "algorithm": "Grid Flood Fill DFS / BFS",
+  "timeComplexity": "O(m * n)",
+  "spaceComplexity": "O(m * n)",
+  "oneLinerQuestion": "Count the number of 4-directionally connected land islands in a 2D grid.",
+  "url": "https://leetcode.com/problems/number-of-islands/",
+  "explanation": "Iterate through matrix. When seeing '1', increment island count and fire BFS/DFS to sink all connected land ('1' -> '0') to prevent double counting.",
+  "pseudoCode": "FUNCTION numIslands(grid):\n    IF grid IS EMPTY THEN RETURN 0\n    count = 0, ROWS = LENGTH(grid), COLS = LENGTH(grid[0])\n    FUNCTION dfs(r, c):\n        IF r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR grid[r][c] == '0' THEN RETURN\n        grid[r][c] = '0'\n        dfs(r+1, c); dfs(r-1, c); dfs(r, c+1); dfs(r, c-1)\n    END FUNCTION\n    FOR r FROM 0 TO ROWS - 1 DO:\n        FOR c FROM 0 TO COLS - 1 DO:\n            IF grid[r][c] == '1' THEN count = count + 1; dfs(r, c)\n        END FOR\n    END FOR\n    RETURN count\nEND FUNCTION",
+  "renderType": "grid_islands",
+  "initialData": [
+    ["1", "1", "0", "0"],
+    ["1", "1", "0", "0"],
+    ["0", "0", "1", "0"],
+    ["0", "0", "0", "1"]
+  ],
+  "codeLines": [
+    "FUNCTION numIslands(grid):",
+    "    IF grid IS EMPTY THEN RETURN 0",
+    "    count = 0, ROWS = LENGTH(grid), COLS = LENGTH(grid[0])",
+    "    FUNCTION dfs(r, c):",
+    "        IF r < 0 OR c < 0 OR r >= ROWS OR c >= COLS OR grid[r][c] == '0' THEN RETURN",
+    "        grid[r][c] = '0'",
+    "        dfs(r+1, c); dfs(r-1, c); dfs(r, c+1); dfs(r, c-1)",
+    "    END FUNCTION",
+    "    FOR r FROM 0 TO ROWS - 1 DO:",
+    "        FOR c FROM 0 TO COLS - 1 DO:",
+    "            IF grid[r][c] == '1' THEN count = count + 1; dfs(r, c)",
+    "        END FOR",
+    "    END FOR",
+    "    RETURN count",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: count = 0. Scanner starts at [0, 0] searching for unvisited land ('1').",
+      "state": { "count": 0 },
+      "grid": [
+        ["1", "1", "0", "0"],
+        ["1", "1", "0", "0"],
+        ["0", "0", "1", "0"],
+        ["0", "0", "0", "1"]
+      ],
+      "scanPos": [0, 0],
+      "floodCells": [],
+      "sunkIslands": [],
+      "count": 0,
+      "activeIsland": null,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 11,
+      "narration": "Line 12: Encounter land '1' at [0, 0]! Increment count = 1. Trigger DFS flood-fill.",
+      "state": { "count": 1, "action": "dfs_start" },
+      "grid": [
+        ["1", "1", "0", "0"],
+        ["1", "1", "0", "0"],
+        ["0", "0", "1", "0"],
+        ["0", "0", "0", "1"]
+      ],
+      "scanPos": [0, 0],
+      "floodCells": [[0, 0]],
+      "sunkIslands": [],
+      "count": 1,
+      "activeIsland": 1,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7: DFS recursively sinks adjacent land cells: [0,1], [1,0], and [1,1] to '0'.",
+      "state": { "count": 1, "flooded": 4 },
+      "grid": [
+        ["1", "1", "0", "0"],
+        ["1", "1", "0", "0"],
+        ["0", "0", "1", "0"],
+        ["0", "0", "0", "1"]
+      ],
+      "scanPos": [0, 0],
+      "floodCells": [[0, 0], [0, 1], [1, 0], [1, 1]],
+      "sunkIslands": [],
+      "count": 1,
+      "activeIsland": 1,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 10,
+      "narration": "Line 11: Island #1 completely sunk. Mark cells explored and continue scanning.",
+      "state": { "count": 1, "island1": "sunk" },
+      "grid": [
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "1", "0"],
+        ["0", "0", "0", "1"]
+      ],
+      "scanPos": [1, 1],
+      "floodCells": [],
+      "sunkIslands": [[0, 0], [0, 1], [1, 0], [1, 1]],
+      "count": 1,
+      "activeIsland": null,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 11,
+      "narration": "Line 12: Scanner arrives at [2, 2] and finds land '1'! Increment count = 2. Fire DFS.",
+      "state": { "count": 2, "action": "dfs_start" },
+      "grid": [
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "1", "0"],
+        ["0", "0", "0", "1"]
+      ],
+      "scanPos": [2, 2],
+      "floodCells": [[2, 2]],
+      "sunkIslands": [[0, 0], [0, 1], [1, 0], [1, 1]],
+      "count": 2,
+      "activeIsland": 2,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 10,
+      "narration": "Line 11: Cell [2, 2] has no adjacent land. Sink to '0' and continue scan.",
+      "state": { "count": 2, "island2": "sunk" },
+      "grid": [
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "1"]
+      ],
+      "scanPos": [2, 2],
+      "floodCells": [],
+      "sunkIslands": [[0, 0], [0, 1], [1, 0], [1, 1], [2, 2]],
+      "count": 2,
+      "activeIsland": null,
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 11,
+      "narration": "Line 12: Scanner arrives at [3, 3] and finds land '1'! Increment count = 3. Sink cell.",
+      "state": { "count": 3, "action": "dfs_start" },
+      "grid": [
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "1"]
+      ],
+      "scanPos": [3, 3],
+      "floodCells": [[3, 3]],
+      "sunkIslands": [[0, 0], [0, 1], [1, 0], [1, 1], [2, 2]],
+      "count": 3,
+      "activeIsland": 3,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 14,
+      "narration": "Line 15: All grid cells scanned. 3 isolated islands discovered. RETURN count = 3.",
+      "state": { "status": "COMPLETED", "totalIslands": 3 },
+      "grid": [
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"],
+        ["0", "0", "0", "0"]
+      ],
+      "scanPos": [3, 3],
+      "floodCells": [],
+      "sunkIslands": [[0, 0], [0, 1], [1, 0], [1, 1], [2, 2], [3, 3]],
+      "count": 3,
+      "activeIsland": null,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Total Islands Found",
+        "value": "3 Islands",
+        "detail": "Connected components: 1 multi-cell island of size 4, and 2 single-cell islands."
+      }
+    }
+  ]
+}

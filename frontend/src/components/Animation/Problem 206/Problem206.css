@@ -1,0 +1,143 @@
+.reverse-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  gap: 28px;
+}
+
+.state-badge-row {
+  display: flex;
+  gap: 12px;
+}
+
+.state-chip {
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+}
+
+.prev-chip b {
+  color: #a855f7;
+}
+
+.curr-chip b {
+  color: #38bdf8;
+}
+
+.nodes-chain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 80px;
+}
+
+.node-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.pointers-row {
+  position: absolute;
+  top: -24px;
+  display: flex;
+  gap: 4px;
+}
+
+.ptr-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.prev-badge {
+  background: #a855f7;
+  color: #fff;
+}
+
+.curr-badge {
+  background: #38bdf8;
+  color: #000;
+}
+
+.node-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #141416;
+  border: 2px solid #2d2d32;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.node-circle.active-prev {
+  border-color: #a855f7;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+}
+
+.node-circle.active-curr {
+  border-color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.node-idx {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #71717a;
+}
+
+.arrow-sym {
+  color: #52525b;
+  font-size: 20px;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.reversed-arrow {
+  color: #22c55e;
+}
+
+.result-callout {
+  position: absolute;
+  bottom: 12px;
+  background: #111827;
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.callout-header {
+  font-size: 11px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.callout-detail {
+  font-size: 12px;
+  color: #9ca3af;
+}

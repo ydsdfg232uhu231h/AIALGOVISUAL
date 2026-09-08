@@ -1,0 +1,169 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#ll-canvas-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  position: relative;
+  gap: 32px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+
+#nodes-chain-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 500px;
+  min-width: 800px;
+  padding-left: 50px;
+}
+
+[id^="node-container-"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* ============================================================
+   POINTER BADGES
+   ============================================================ */
+[id^="pointers-row-"] {
+  position: absolute;
+  top: -24px;
+  display: flex;
+  gap: 4px;
+}
+
+[id^="ptr-badge-"] {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="ptr-badge-slow-"] {
+  background: #ff7324;
+  color: #000;
+  box-shadow: 0 2px 6px rgba(255, 115, 36, 0.4);
+}
+
+[id^="ptr-badge-fast-"] {
+  background: #38bdf8;
+  color: #000;
+  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.4);
+}
+
+/* ============================================================
+   NODE CIRCLES & STATES
+   ============================================================ */
+[id^="node-circle-"] {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #141416;
+  border: 2px solid #2d2d32;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: ui-monospace, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Dummy Node Styles */
+[id^="node-circle-dummy-"] {
+  border-style: dashed;
+  border-color: #52525b;
+  color: #a1a1aa;
+}
+
+/* Active State Overrides (Using Substring Matching) */
+[id^="node-circle-"][id*="-slow-"] {
+  border-color: #ff7324 !important;
+  box-shadow: 0 0 12px rgba(255, 115, 36, 0.4);
+}
+
+[id^="node-circle-"][id*="-fast-"] {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+[id^="node-circle-"][id*="-both-"] {
+  border-color: #c084fc !important; /* Purple when both slow and fast point here */
+  box-shadow: 0 0 14px rgba(192, 132, 252, 0.6);
+}
+
+[id^="node-circle-"][id*="-deleted-"] {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+  text-decoration: line-through;
+}
+
+/* ============================================================
+   NODE LABELS & ARROWS
+   ============================================================ */
+[id^="node-idx-"] {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #71717a;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="arrow-sym-"] {
+  color: #52525b;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+[id^="arrow-sym-dimmed-"] {
+  opacity: 0.3;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: absolute;
+  bottom: 24px;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+#callout-header-text {
+  font-size: 11px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #9ca3af;
+}

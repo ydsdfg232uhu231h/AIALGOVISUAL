@@ -1,0 +1,190 @@
+{
+  "id": 567,
+  "title": "Permutation in String",
+  "difficulty": "Medium",
+  "topic": "Sliding Window",
+  "algorithm": "Fixed Size Window Frequency Match",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Check if one string contains a permutation of another string as a substring.",
+  "url": "https://leetcode.com/problems/permutation-in-string/",
+  "explanation": "Fixed-length sliding window of size len(s1) moving over s2. Compare character frequency maps between window slice and target string s1.",
+  "pseudoCode": "FUNCTION checkInclusion(s1, s2):\n    IF LENGTH(s1) > LENGTH(s2) THEN RETURN False\n    c1 = FREQ_MAP(s1), c2 = EMPTY_MAP(), l = 0\n    FOR r FROM 0 TO LENGTH(s2) - 1 DO:\n        c2[s2[r]] = c2[s2[r]] + 1\n        IF (r - l + 1) == LENGTH(s1) THEN:\n            IF c1 == c2 THEN RETURN True\n            c2[s2[l]] = c2[s2[l]] - 1\n            IF c2[s2[l]] == 0 THEN DELETE c2[s2[l]]\n            l = l + 1\n        END IF\n    END FOR\n    RETURN False\nEND FUNCTION",
+  "renderType": "fixed_window_permutation",
+  "initialData": {
+    "s1": "ab",
+    "s2": "eidbaooo"
+  },
+  "codeLines": [
+    "FUNCTION checkInclusion(s1, s2):",
+    "    IF LENGTH(s1) > LENGTH(s2) THEN RETURN False",
+    "    c1 = FREQ_MAP(s1), c2 = EMPTY_MAP(), l = 0",
+    "    FOR r FROM 0 TO LENGTH(s2) - 1 DO:",
+    "        c2[s2[r]] = c2[s2[r]] + 1",
+    "        IF (r - l + 1) == LENGTH(s1) THEN:",
+    "            IF c1 == c2 THEN RETURN True",
+    "            c2[s2[l]] = c2[s2[l]] - 1",
+    "            IF c2[s2[l]] == 0 THEN DELETE c2[s2[l]]",
+    "            l = l + 1",
+    "        END IF",
+    "    END FOR",
+    "    RETURN False",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Target s1 = 'ab'. Count c1 = {a:1, b:1}. Required window size = 2. l = 0.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{}",
+        "windowSize": 2,
+        "l": 0,
+        "r": 0,
+        "window": ""
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 0,
+      "right": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 5: r = 0 (s2[0] = 'e'). c2 = {e:1}. Window length 1 < 2.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{e:1}",
+        "l": 0,
+        "r": 0,
+        "window": "e"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 0,
+      "right": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6-7: r = 1 (s2[1] = 'i'). Window [0..1] ('ei'). c2 = {e:1, i:1} != c1. Match = False.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{e:1, i:1}",
+        "l": 0,
+        "r": 1,
+        "window": "ei",
+        "match": "False"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 0,
+      "right": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 8,
+      "narration": "Line 8-9: Slide window: remove s2[0] ('e'), advance l to 1. c2 drops 'e'.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{i:1}",
+        "l": 1,
+        "r": 1,
+        "window": "i"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 1,
+      "right": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6-7: r = 2 (s2[2] = 'd'). Window [1..2] ('id'). c2 = {i:1, d:1} != c1. Match = False.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{i:1, d:1}",
+        "l": 1,
+        "r": 2,
+        "window": "id",
+        "match": "False"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 1,
+      "right": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 8,
+      "narration": "Line 8-9: Slide window: remove s2[1] ('i'), advance l to 2. c2 drops 'i'.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{d:1}",
+        "l": 2,
+        "r": 2,
+        "window": "d"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 2,
+      "right": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6-7: r = 3 (s2[3] = 'b'). Window [2..3] ('db'). c2 = {d:1, b:1} != c1. Match = False.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{d:1, b:1}",
+        "l": 2,
+        "r": 3,
+        "window": "db",
+        "match": "False"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 2,
+      "right": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 8,
+      "narration": "Line 8-9: Slide window: remove s2[2] ('d'), advance l to 3. c2 drops 'd'.",
+      "state": {
+        "c1": "{a:1, b:1}",
+        "c2": "{b:1}",
+        "l": 3,
+        "r": 3,
+        "window": "b"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 3,
+      "right": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 6,
+      "narration": "Line 7: r = 4 (s2[4] = 'a'). Window [3..4] ('ba'). c2 = {b:1, a:1} == c1 ({a:1, b:1}). Match Found! RETURN True.",
+      "state": {
+        "status": "COMPLETED",
+        "c1": "{a:1, b:1}",
+        "c2": "{b:1, a:1}",
+        "l": 3,
+        "r": 4,
+        "window": "ba",
+        "match": "True"
+      },
+      "s2": ["e", "i", "d", "b", "a", "o", "o", "o"],
+      "left": 3,
+      "right": 4,
+      "output": {
+        "label": "Permutation Found",
+        "value": "True",
+        "detail": "Substring 'ba' at indices [3..4] is an exact permutation of 'ab'."
+      }
+    }
+  ]
+}

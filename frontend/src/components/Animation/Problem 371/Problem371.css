@@ -1,0 +1,409 @@
+.alu-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 560px;
+  position: relative;
+  gap: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* METRICS STRIP */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #141417;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.round-chip b {
+  color: #facc15;
+}
+
+.phase-chip b {
+  color: #38bdf8;
+}
+
+.chip-running {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.chip-running b {
+  color: #86efac;
+}
+
+.chip-halted {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.chip-halted b {
+  color: #fca5a5;
+}
+
+/* ALU CHASSIS */
+.alu-chassis {
+  width: 100%;
+  max-width: 520px;
+  background: #101014;
+  border: 1px solid #27272a;
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+}
+
+/* BIT WEIGHT HEADER */
+.bit-column-headers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed #27272a;
+}
+
+.reg-id-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #52525b;
+  width: 72px;
+  text-transform: uppercase;
+}
+
+.dec-val-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #52525b;
+  width: 36px;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.bit-cells-row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  flex: 1;
+}
+
+.bit-weight {
+  font-size: 9px;
+  color: #52525b;
+  font-family: monospace;
+  text-align: center;
+  font-weight: 700;
+}
+
+.weight-lit {
+  color: #38bdf8;
+  font-weight: 900;
+}
+
+/* REGISTER LANES */
+.register-lane {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #141417;
+  border: 1px solid #27272a;
+  border-radius: 12px;
+  padding: 8px 10px;
+}
+
+.lane-meta {
+  display: flex;
+  flex-direction: column;
+  width: 72px;
+  gap: 2px;
+}
+
+.lane-tag {
+  font-size: 11px;
+  font-weight: 900;
+  font-family: monospace;
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.tag-a {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+}
+
+.tag-b {
+  background: rgba(250, 204, 21, 0.15);
+  color: #facc15;
+  border: 1px solid #facc15;
+}
+
+.tag-carry {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid #a855f7;
+}
+
+.lane-role {
+  font-size: 8px;
+  color: #71717a;
+  text-transform: uppercase;
+}
+
+.lane-decimal {
+  width: 36px;
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  font-family: monospace;
+  text-align: right;
+}
+
+/* BIT BOXES */
+.bit-box {
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: monospace;
+  background: #18181b;
+  border: 1.5px solid #27272a;
+  color: #52525b;
+  transition: all 0.2s ease;
+}
+
+.high-a {
+  background: rgba(56, 189, 248, 0.16) !important;
+  border-color: #38bdf8 !important;
+  color: #7dd3fc !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+.high-b {
+  background: rgba(250, 204, 21, 0.16) !important;
+  border-color: #facc15 !important;
+  color: #fde047 !important;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.35);
+}
+
+.high-carry {
+  background: rgba(168, 85, 247, 0.18) !important;
+  border-color: #a855f7 !important;
+  color: #d8b4fe !important;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.35);
+}
+
+.col-focus {
+  border-color: #22c55e !important;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.5) !important;
+}
+
+/* CIRCUIT BUS & ALU BANNER */
+.circuit-bus-layer {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bus-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.alu-microcode-banner {
+  position: relative;
+  z-index: 2;
+}
+
+.gate-core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 18px;
+  border-radius: 10px;
+  background: #18181b;
+  border: 1.5px solid #27272a;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.core-operator {
+  font-size: 13px;
+  font-weight: 900;
+  font-family: monospace;
+}
+
+.core-desc {
+  font-size: 9px;
+  color: #a1a1aa;
+}
+
+.core-xor {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.14);
+}
+
+.core-xor .core-operator {
+  color: #38bdf8;
+}
+
+.core-and {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.core-and .core-operator {
+  color: #86efac;
+}
+
+/* RESULT CALLOUT */
+.result-callout {
+  position: absolute;
+  bottom: 8px;
+  background: #0f172a;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 8px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.callout-val {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 800;
+  margin: 1px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* CIRCUIT BUS & HIGH-VOLTAGE CONDUITS */
+.circuit-bus-layer {
+  position: relative;
+  width: 100%;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
+  border-radius: 8px;
+  overflow: visible;
+}
+
+.bus-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Static wire conduit glow */
+.circuit-conduit {
+  transition: all 0.3s ease;
+}
+
+.conduit-hot line {
+  filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.6));
+}
+
+/* Upgraded Microcode Badge */
+.alu-microcode-banner {
+  position: relative;
+  z-index: 5;
+}
+
+.gate-core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 18px;
+  border-radius: 12px;
+  background: rgba(16, 16, 20, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid #27272a;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.core-operator {
+  font-size: 13px;
+  font-weight: 900;
+  font-family: monospace;
+  letter-spacing: 0.5px;
+}
+
+.core-desc {
+  font-size: 9px;
+  color: #a1a1aa;
+}
+
+.core-xor {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.12) !important;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.25) !important;
+}
+
+.core-xor .core-operator {
+  color: #38bdf8;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+}
+
+.core-and {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.12) !important;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.25) !important;
+}
+
+.core-and .core-operator {
+  color: #86efac;
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+}

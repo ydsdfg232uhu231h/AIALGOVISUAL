@@ -1,0 +1,110 @@
+{
+  "id": 235,
+  "title": "Lowest Common Ancestor of a Binary Tree",
+  "difficulty": "Medium",
+  "topic": "Tree / DFS",
+  "algorithm": "Post-Order Recursive Search",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(h)",
+  "oneLinerQuestion": "Find the lowest common ancestor of two target nodes in a general binary tree.",
+  "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
+  "explanation": "Traverse the tree post-order. If the current node matches either p or q, return it. If both the left and right recursive calls return non-null, the current node is the lowest common ancestor.",
+  "pseudoCode": "FUNCTION lowestCommonAncestor(root, p, q):\n    IF root IS NULL OR root == p OR root == q THEN RETURN root\n    left = lowestCommonAncestor(root.left, p, q)\n    right = lowestCommonAncestor(root.right, p, q)\n    IF left IS NOT NULL AND right IS NOT NULL THEN RETURN root\n    RETURN IF left IS NOT NULL THEN left ELSE right\nEND FUNCTION",
+  "renderType": "tree_lca",
+  "initialData": {
+    "root": 3,
+    "p": 5,
+    "q": 1,
+    "tree": [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]
+  },
+  "codeLines": [
+    "FUNCTION lowestCommonAncestor(root, p, q):",
+    "    IF root IS NULL OR root == p OR root == q THEN RETURN root",
+    "    left = lowestCommonAncestor(root.left, p, q)",
+    "    right = lowestCommonAncestor(root.right, p, q)",
+    "    IF left IS NOT NULL AND right IS NOT NULL THEN RETURN root",
+    "    RETURN IF left IS NOT NULL THEN left ELSE right",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Start DFS at root Node(3). Target targets: p = 5, q = 1.",
+      "state": { "curr": 3, "p": 5, "q": 1 },
+      "activeNode": 3,
+      "p": 5,
+      "q": 1,
+      "leftResult": null,
+      "rightResult": null,
+      "foundNodes": [],
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 2,
+      "narration": "Line 3: Recurse left from root 3 to Node(5). Node 5 matches target p! Return Node(5) upward.",
+      "state": { "foundP": 5 },
+      "activeNode": 5,
+      "p": 5,
+      "q": 1,
+      "leftResult": 5,
+      "rightResult": null,
+      "foundNodes": [5],
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 3,
+      "narration": "Line 4: Recurse right from root 3 to Node(1). Node 1 matches target q! Return Node(1) upward.",
+      "state": { "foundQ": 1 },
+      "activeNode": 1,
+      "p": 5,
+      "q": 1,
+      "leftResult": 5,
+      "rightResult": 1,
+      "foundNodes": [5, 1],
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: At root Node(3): left return is 5 (not NULL) and right return is 1 (not NULL). Both branches returned target nodes!",
+      "state": { "lcaFound": 3 },
+      "activeNode": 3,
+      "p": 5,
+      "q": 1,
+      "leftResult": 5,
+      "rightResult": 1,
+      "foundNodes": [5, 1],
+      "isCompleted": false,
+      "dwellMs": 1600,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: Fork confirmed at root. Node 3 is the Lowest Common Ancestor. RETURN Node(3).",
+      "state": { "status": "COMPLETED", "LCA": 3 },
+      "activeNode": 3,
+      "p": 5,
+      "q": 1,
+      "leftResult": 5,
+      "rightResult": 1,
+      "foundNodes": [5, 1],
+      "isCompleted": true,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Lowest Common Ancestor Found (Green Glow)",
+        "value": "Node 3",
+        "detail": "Target p (5) is in left subtree and q (1) is in right subtree. Root 3 is the lowest common ancestor."
+      }
+    }
+  ]
+}

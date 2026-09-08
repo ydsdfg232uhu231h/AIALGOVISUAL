@@ -1,0 +1,122 @@
+{
+  "id": 684,
+  "title": "Redundant Connection",
+  "difficulty": "Medium",
+  "topic": "Graph / Union Find",
+  "algorithm": "Disjoint Set Union (DSU)",
+  "timeComplexity": "O(n * alpha(n))",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Find an edge that can be removed to turn a graph back into an unrooted tree.",
+  "url": "https://leetcode.com/problems/redundant-connection/",
+  "explanation": "Process edges sequentially. Edge [1, 5] merges node 5 into the component. Subsequent edge [1, 4] completes cycle 1-2-3-4-1.",
+  "pseudoCode": "FUNCTION findRedundantConnection(edges):\n    parent = [i FOR i FROM 0 TO LENGTH(edges)]\n    FUNCTION find(n):\n        p = parent[n]\n        WHILE p != parent[p] DO parent[p] = parent[parent[p]]; p = parent[p]\n        RETURN p\n    END FUNCTION\n    FUNCTION union(n1, n2):\n        p1, p2 = find(n1), find(n2)\n        IF p1 == p2 THEN RETURN False\n        parent[p1] = p2; RETURN True\n    END FUNCTION\n    FOR n1, n2 IN edges DO:\n        IF NOT union(n1, n2) THEN RETURN [n1, n2]\n    END FOR\nEND FUNCTION",
+  "renderType": "dsu_graph",
+  "initialData": [
+    [1, 2],
+    [2, 3],
+    [3, 4],
+    [1, 5],
+    [1, 4]
+  ],
+  "codeLines": [
+    "FUNCTION findRedundantConnection(edges):",
+    "    parent = [i FOR i FROM 0 TO LENGTH(edges)]",
+    "    FUNCTION find(n):",
+    "        p = parent[n]",
+    "        WHILE p != parent[p] DO parent[p] = parent[parent[p]]; p = parent[p]",
+    "        RETURN p",
+    "    END FUNCTION",
+    "    FUNCTION union(n1, n2):",
+    "        p1, p2 = find(n1), find(n2)",
+    "        IF p1 == p2 THEN RETURN False",
+    "        parent[p1] = p2; RETURN True",
+    "    END FUNCTION",
+    "    FOR n1, n2 IN edges DO:",
+    "        IF NOT union(n1, n2) THEN RETURN [n1, n2]",
+    "    END FOR",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize DSU parent array: parent = [0, 1, 2, 3, 4, 5].",
+      "state": { "parent": "[0, 1, 2, 3, 4, 5]" },
+      "parent": [0, 1, 2, 3, 4, 5],
+      "activeEdge": null,
+      "cycleEdge": null,
+      "evaluatedEdges": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 7,
+      "narration": "Line 8: Edge [1, 2]: find(1) = 1, find(2) = 2. union(1, 2) merges parent[1] = 2.",
+      "state": { "edge": "[1, 2]", "union": "Merged parent[1] = 2" },
+      "parent": [0, 2, 2, 3, 4, 5],
+      "activeEdge": [1, 2],
+      "cycleEdge": null,
+      "evaluatedEdges": [[1, 2]],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 7,
+      "narration": "Line 8: Edge [2, 3]: find(2) = 2, find(3) = 3. union(2, 3) merges parent[2] = 3.",
+      "state": { "edge": "[2, 3]", "union": "Merged parent[2] = 3" },
+      "parent": [0, 2, 3, 3, 4, 5],
+      "activeEdge": [2, 3],
+      "cycleEdge": null,
+      "evaluatedEdges": [[1, 2], [2, 3]],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 7,
+      "narration": "Line 8: Edge [3, 4]: find(3) = 3, find(4) = 4. union(3, 4) merges parent[3] = 4.",
+      "state": { "edge": "[3, 4]", "union": "Merged parent[3] = 4" },
+      "parent": [0, 2, 3, 4, 4, 5],
+      "activeEdge": [3, 4],
+      "cycleEdge": null,
+      "evaluatedEdges": [[1, 2], [2, 3], [3, 4]],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 7,
+      "narration": "Line 8: Edge [1, 5]: find(1) resolves to 4, find(5) = 5. union(4, 5) merges parent[4] = 5. Node 5 is now checked and connected!",
+      "state": { "edge": "[1, 5]", "union": "Merged parent[4] = 5" },
+      "parent": [0, 2, 3, 4, 5, 5],
+      "activeEdge": [1, 5],
+      "cycleEdge": null,
+      "evaluatedEdges": [[1, 2], [2, 3], [3, 4], [1, 5]],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 8,
+      "narration": "Line 9: Edge [1, 4]: find(1) -> 5, find(4) -> 5. Both nodes share root 5! Cycle detected.",
+      "state": { "edge": "[1, 4]", "union": "Same Root: 5" },
+      "parent": [0, 2, 3, 4, 5, 5],
+      "activeEdge": [1, 4],
+      "cycleEdge": [1, 4],
+      "evaluatedEdges": [[1, 2], [2, 3], [3, 4], [1, 5]],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 12,
+      "narration": "Line 13: union(1, 4) returns False. Edge [1, 4] is redundant. RETURN [1, 4].",
+      "state": { "status": "COMPLETED", "redundant": "[1, 4]" },
+      "parent": [0, 2, 3, 4, 5, 5],
+      "activeEdge": [1, 4],
+      "cycleEdge": [1, 4],
+      "evaluatedEdges": [[1, 2], [2, 3], [3, 4], [1, 5]],
+      "output": {
+        "label": "Redundant Edge",
+        "value": "[1, 4]",
+        "detail": "All 5 nodes connected. Edge [1, 4] creates the redundant cycle."
+      }
+    }
+  ]
+}

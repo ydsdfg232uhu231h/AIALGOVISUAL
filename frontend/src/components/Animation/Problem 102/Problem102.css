@@ -1,0 +1,391 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#levelorder-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  box-sizing: border-box;
+  padding: 12px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+#metric-level,
+#metric-queue-size,
+#metric-active-node,
+#metric-status-active,
+#metric-status-done {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+#metric-level b { color: #38bdf8; }
+#metric-queue-size b { color: #facc15; }
+#metric-active-node b { color: #c084fc; }
+#metric-status-active b { color: #38bdf8; }
+
+#metric-status-done {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.16) !important;
+}
+#metric-status-done b { color: #4ade80 !important; }
+
+/* ============================================================
+   STAGE LAYOUT
+   ============================================================ */
+#levelorder-stage {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+}
+
+@media (max-width: 720px) {
+  #levelorder-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+#data-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#tree-card,
+#queue-card,
+#result-matrix-card {
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+#tree-card-header,
+#queue-card-header,
+#result-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+#tree-header-title,
+#queue-header-title,
+#result-header-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+#tree-header-sub,
+#queue-header-sub,
+#result-header-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   TREE VIEWPORT & SVG
+   ============================================================ */
+#tree-viewport {
+  width: 100%;
+  height: 240px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#tree-svg-surface {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Level Bands */
+[id^="level-guide-"] {
+  stroke: #1e1e2c;
+  stroke-dasharray: 4 4;
+  stroke-width: 1.5;
+}
+
+[id^="level-tag-"] {
+  fill: #525264;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+}
+
+/* Edges */
+[id^="edge-idle-"] {
+  stroke: #2a2a3a;
+  stroke-width: 2.5;
+}
+
+[id^="edge-active-"] {
+  stroke: #38bdf8 !important;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+}
+
+/* Nodes */
+[id^="node-idle-"] {
+  fill: #181822;
+  stroke: #2e2e40;
+  stroke-width: 2;
+}
+
+[id^="node-queued-"] {
+  fill: #14212c;
+  stroke: #facc15;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.4));
+}
+
+[id^="node-active-"] {
+  fill: #262214;
+  stroke: #38bdf8;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.7));
+}
+
+[id^="node-level-"] {
+  fill: #181e28;
+  stroke: #60a5fa;
+  stroke-width: 2.5;
+}
+
+[id^="node-done-"] {
+  fill: #13241b;
+  stroke: #22c55e;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.5));
+}
+
+[id^="text-val-"] {
+  fill: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+[id^="node-done-"] ~ [id^="text-val-"] {
+  fill: #4ade80 !important;
+}
+
+[id^="halo-"] {
+  fill: transparent;
+  stroke: #22c55e;
+  stroke-width: 1.5;
+  opacity: 0.6;
+  animation: halo-pulse 1.4s infinite ease-out;
+}
+
+@keyframes halo-pulse {
+  0% { r: 24px; opacity: 0.8; }
+  100% { r: 32px; opacity: 0; }
+}
+
+/* ============================================================
+   QUEUE VIEWPORT
+   ============================================================ */
+#queue-viewport {
+  width: 100%;
+  min-height: 80px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
+#queue-elements-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+#queue-side-front,
+#queue-side-back {
+  font-size: 8px;
+  font-weight: 800;
+  color: #636374;
+  letter-spacing: 0.5px;
+  font-family: ui-monospace, monospace;
+  flex-shrink: 0;
+}
+
+#queue-empty-text {
+  font-size: 11px;
+  color: #636374;
+  font-style: italic;
+  font-family: ui-monospace, monospace;
+  margin: auto;
+}
+
+[id^="queue-pill-"] {
+  background: #181824;
+  border: 1.5px solid #38bdf8;
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+span[id^="queue-val-"] {
+  font-size: 15px;
+  font-weight: 900;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
+}
+
+span[id^="queue-idx-"] {
+  font-size: 8px;
+  font-weight: 700;
+  color: #38bdf8;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   MATRIX RESULT VIEWPORT
+   ============================================================ */
+#matrix-viewport {
+  width: 100%;
+  min-height: 90px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#matrix-empty-text {
+  font-size: 11px;
+  color: #636374;
+  font-style: italic;
+  font-family: ui-monospace, monospace;
+  margin: auto 0;
+}
+
+[id^="res-level-row-"] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: ui-monospace, monospace;
+}
+
+span[id^="res-level-tag-"] {
+  font-size: 11px;
+  font-weight: 800;
+  color: #a1a1aa;
+}
+
+span[id^="res-level-data-"] {
+  font-size: 13px;
+  font-weight: 800;
+  color: #4ade80;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 20, 16, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
+  z-index: 100;
+  max-width: 90%;
+}
+
+#callout-header-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #86efac;
+  letter-spacing: 0.8px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #4ade80;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #dcfce7;
+  font-weight: 500;
+}

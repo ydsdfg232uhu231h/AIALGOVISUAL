@@ -1,0 +1,340 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#contains-dup-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  box-sizing: border-box;
+  padding: 12px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 14px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+#metric-size,
+#metric-set-count,
+#metric-active-idle,
+#metric-active-val,
+#metric-active-val-dup {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+#metric-size b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#metric-set-count b { color: #c084fc; font-family: ui-monospace, monospace; }
+
+#metric-active-val b { color: #facc15; font-family: ui-monospace, monospace; }
+
+#metric-active-val-dup {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.16) !important;
+}
+#metric-active-val-dup b { color: #fca5a5 !important; font-family: ui-monospace, monospace; }
+
+/* ============================================================
+   STAGE LAYOUT
+   ============================================================ */
+#hashset-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+#array-track-card,
+#set-track-card {
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+#array-card-header,
+#set-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+#array-header-title,
+#set-header-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+#array-header-sub,
+#set-header-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   ARRAY TRACK VIEWPORT
+   ============================================================ */
+#array-elements-track {
+  width: 100%;
+  min-height: 100px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 16px 28px 16px; /* Extra bottom padding for tags */
+  gap: 16px;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+[id^="array-col-"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+[id^="array-box-"] {
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+/* Array Box States */
+[id^="array-box-idle-"] {
+  background: #181822;
+  border: 2px solid #2e2e40;
+  color: #a1a1aa;
+}
+
+[id^="array-box-active-"] {
+  background: #262214 !important;
+  border: 2px solid #facc15 !important;
+  color: #fef08a !important;
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.7);
+}
+
+[id^="array-box-processed-"] {
+  background: #151e26;
+  border: 2px solid #283848;
+  color: #7dd3fc;
+  opacity: 0.7;
+}
+
+[id^="array-box-duplicate-"] {
+  background: #2a1215 !important;
+  border: 2px solid #ef4444 !important;
+  color: #fca5a5 !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);
+  z-index: 10;
+}
+
+/* Badges & Tags */
+#dup-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+  letter-spacing: 0.5px;
+}
+
+[id^="idx-tag-"] {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #717182;
+  font-family: ui-monospace, monospace;
+  margin-top: 6px;
+}
+
+#pointer-tag-i {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  background: #facc15;
+  color: #0c0c10;
+  box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+  z-index: 5;
+}
+
+/* ============================================================
+   HASH SET VIEWPORT
+   ============================================================ */
+#set-elements-track {
+  width: 100%;
+  min-height: 120px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding: 16px;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+#set-empty-text {
+  font-size: 12px;
+  color: #636374;
+  font-style: italic;
+  font-family: ui-monospace, monospace;
+  margin: auto;
+}
+
+[id^="set-pill-"] {
+  display: flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 8px;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+[id^="set-pill-idle-"] {
+  background: #201430;
+  border: 1.5px solid #8b5cf6;
+  color: #d8b4fe;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+}
+
+[id^="set-pill-conflict-"] {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border: 2px solid #ef4444 !important;
+  color: #fca5a5 !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);
+}
+
+[id^="set-dot-"] {
+  font-size: 14px;
+  line-height: 1;
+}
+
+[id^="set-val-"] {
+  font-size: 16px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="collision-tag-"] {
+  background: #ef4444;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   RESULT CALLOUT (RED FAIL ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26, 11, 14, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(239, 68, 68, 0.35);
+  z-index: 100;
+  max-width: 90%;
+}
+
+#callout-header-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #fca5a5;
+  letter-spacing: 0.8px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #ef4444;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #fecaca;
+  font-weight: 500;
+}

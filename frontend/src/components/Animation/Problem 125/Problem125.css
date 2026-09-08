@@ -1,0 +1,230 @@
+.palindrome-scan-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 440px;
+  position: relative;
+  gap: 22px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* METRICS & DASHBOARD */
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95%;
+}
+
+.metric-chip {
+  background: #141417;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.metric-chip b {
+  color: #fff;
+}
+
+.match-chip {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.match-chip b {
+  color: #86efac;
+}
+
+.mismatch-chip {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.mismatch-chip b {
+  color: #fca5a5;
+}
+
+.ptr-chip b {
+  color: #facc15;
+}
+
+.result-chip {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.result-chip b {
+  color: #38bdf8;
+}
+
+/* TRACK CONTAINER */
+.chars-track-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at bottom, #18191f 0%, #101014 100%);
+  border: 1px solid #27272a;
+  border-radius: 16px;
+  padding: 40px 28px 22px 28px;
+  max-width: 95%;
+  box-sizing: border-box;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.chars-stream {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.char-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* POINTER BADGES */
+.ptrs-group {
+  position: absolute;
+  top: -28px;
+  display: flex;
+  gap: 3px;
+  height: 20px;
+  z-index: 3;
+}
+
+.pointer-tag {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.ptr-l {
+  background: #facc15;
+  color: #000;
+}
+
+.ptr-r {
+  background: #c084fc;
+  color: #000;
+}
+
+.ptr-lr {
+  background: #38bdf8;
+  color: #000;
+}
+
+/* CHARACTER TILES */
+.char-tile {
+  width: 50px;
+  height: 54px;
+  border-radius: 10px;
+  background: #141417;
+  border: 2px solid #27272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.char-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #d4d4d8;
+  text-transform: lowercase;
+}
+
+.idx-tag {
+  font-size: 8px;
+  color: #71717a;
+  position: absolute;
+  bottom: 3px;
+  font-family: monospace;
+}
+
+/* ACTIVE POINTER STATE */
+.tile-active {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.16) !important;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.4), inset 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.tile-active .char-val {
+  color: #fff;
+}
+
+/* VERIFIED STATE (OUTSIDE CURRENT WINDOW) */
+.tile-verified {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.tile-verified .char-val {
+  color: #86efac;
+}
+
+/* FULL MATCH COMPLETE STATE */
+.tile-complete {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.22) !important;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.45);
+}
+
+.tile-complete .char-val {
+  color: #4ade80;
+  font-weight: 900;
+}
+
+/* FLOATING RESULT CALLOUT */
+.result-callout {
+  position: absolute;
+  bottom: 10px;
+  background: #0f172a;
+  border: 1px solid #22c55e;
+  border-radius: 10px;
+  padding: 8px 18px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 16px rgba(34, 197, 94, 0.25);
+  z-index: 5;
+}
+
+.callout-header {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.callout-val {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.callout-detail {
+  font-size: 11px;
+  color: #94a3b8;
+}

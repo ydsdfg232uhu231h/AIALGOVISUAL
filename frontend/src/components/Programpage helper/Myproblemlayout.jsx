@@ -1,16 +1,15 @@
 import { IoMdSearch } from "react-icons/io";
-import {useState} from "react";
-import TwoSumVisualizer from "../Homepagehelper/Twosumpage";
+import TwoSumVisualizer from "../Homepagehelper/Twosumpage.jsx";
 import { MdOutlineManageSearch } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import { VscRunCompact } from "react-icons/vsc";
-import { IoCopyOutline } from "react-icons/io5";
+import { FaExternalLinkAlt, FaPlay, FaPause  } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import "./Myproblemlayout.css"
 import CodeEditor from "./Codelinesdis.jsx";
 import { Link, useLoaderData, useNavigate, useParams, useRouteLoaderData } from "react-router";
+import { FaFastForward,FaFastBackward  } from "react-icons/fa";
+import { useState } from "react";
 function Myproblemlayout() {
-  const [userCodeRun,setUserCodeRun] = useState(false);
+  const [isplay,setisplay]= useState(false);
   const navigate = useNavigate();
   const problemdata = useRouteLoaderData("problems");
   const answerdata = useLoaderData();
@@ -60,20 +59,31 @@ function Myproblemlayout() {
               <h1>{singleprobdata.algorithm}</h1>
 
               </div>
-              <h2 id="ma" onClick><a href={singleprobdata.url} target="_blank" rel="noopener noreferrer"><FaEdit /></a></h2>
-              <h2><VscRunCompact onClick={()=> setUserCodeRun(!userCodeRun)} /></h2>
-              <h2><IoCopyOutline /></h2>
-              <h3 id="linkQus"><a href={singleprobdata.url} target="_blank" rel="noopener noreferrer">practice</a></h3>
+              {/* <h2 id="ma"><FaEdit /></h2> */}
+              <h2 id="linkQus"><Link to={"/problems/pesudocode"}>practice</Link></h2>
+              <h2><a href={singleprobdata.url} target="_blank" rel="noopener noreferrer"><FaExternalLinkAlt/></a></h2>
             </div>
             <div>
-             {!userCodeRun && <CodeEditor pesudocode={singleansdata.pseudoCode} />}
+             <CodeEditor pesudocode={singleansdata.pseudoCode} />
             </div>
           </div>
           <div className="box2 b2">Output</div>
           <div className="box1 b1">
-            gregre
+            <h4>Step: 4</h4>
+            <p>Found it! Left(-2) + Right(7) = 5. Target reached. </p>
           </div>
-          <div className="box1">we need to add player here</div>
+          <div className="box1">
+            <div id={"progressbar"}>
+              <h3>Play here</h3>
+              <div id="player">
+                <h3><FaFastBackward /></h3>
+                <h3 onClick={()=>setisplay(!isplay)}> {isplay? <FaPause/> : <FaPlay />} </h3>
+                <h3><FaFastForward/></h3>
+              </div>
+            <progress max={"100%"} value={"60%"}/>
+
+            </div>
+          </div>
           <div className="box3">
             <div>
               <h2>{singleprobdata.algorithm}</h2>

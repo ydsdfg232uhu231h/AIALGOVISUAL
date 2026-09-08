@@ -1,0 +1,210 @@
+{
+  "id": 739,
+  "title": "Daily Temperatures",
+  "difficulty": "Medium",
+  "topic": "Monotonic Stack",
+  "algorithm": "Monotonic Decreasing Index Stack",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Find how many days you have to wait for a warmer temperature for each day in an array.",
+  "url": "https://leetcode.com/problems/daily-temperatures/",
+  "explanation": "Use a monotonic decreasing stack storing indices. When encountering a warmer temperature, pop smaller indices and calculate difference in index position.",
+  "pseudoCode": "FUNCTION dailyTemperatures(temperatures):\n    res = ARRAY_OF_SIZE(LENGTH(temperatures), 0), stack = EMPTY_STACK()\n    FOR i, t IN ENUMERATE(temperatures) DO:\n        WHILE stack AND t > TOP(stack).temp DO:\n            [stackT, stackInd] = POP(stack)\n            res[stackInd] = i - stackInd\n        END WHILE\n        PUSH [t, i] TO stack\n    END FOR\n    RETURN res\nEND FUNCTION",
+  "renderType": "temp_monotonic_stack",
+  "initialData": [73, 74, 75, 71, 69, 72, 76, 73],
+  "codeLines": [
+    "FUNCTION dailyTemperatures(temperatures):",
+    "    res = ARRAY_OF_SIZE(LENGTH(temperatures), 0), stack = EMPTY_STACK()",
+    "    FOR i, t IN ENUMERATE(temperatures) DO:",
+    "        WHILE stack AND t > TOP(stack).temp DO:",
+    "            [stackT, stackInd] = POP(stack)",
+    "            res[stackInd] = i - stackInd",
+    "        END WHILE",
+    "        PUSH [t, i] TO stack",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize res = [0, 0, 0, 0, 0, 0, 0, 0], stack = [].",
+      "state": { "res": "[0,0,0,0,0,0,0,0]", "poppedIndex": null, "waitDays": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [0, 0, 0, 0, 0, 0, 0, 0],
+      "stack": [],
+      "currentIndex": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 7,
+      "narration": "Line 8: i = 0 (73°): Stack is empty. Push [73°, day 0] to stack.",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [0, 0, 0, 0, 0, 0, 0, 0],
+      "stack": [{ "temp": 73, "idx": 0 }],
+      "currentIndex": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: i = 1 (74°): 74° > TOP(73° at day 0). Pop day 0! res[0] = 1 - 0 = 1 day.",
+      "state": { "poppedIndex": 0, "waitDays": 1 },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 0, 0, 0, 0, 0, 0, 0],
+      "stack": [],
+      "currentIndex": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 7,
+      "narration": "Line 8: i = 1 (74°): Stack is empty. Push [74°, day 1] to stack.",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 0, 0, 0, 0, 0, 0, 0],
+      "stack": [{ "temp": 74, "idx": 1 }],
+      "currentIndex": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: i = 2 (75°): 75° > TOP(74° at day 1). Pop day 1! res[1] = 2 - 1 = 1 day.",
+      "state": { "poppedIndex": 1, "waitDays": 1 },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 0, 0, 0, 0, 0],
+      "stack": [],
+      "currentIndex": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 7,
+      "narration": "Line 8: i = 2 (75°): Push [75°, day 2] to stack.",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 0, 0, 0, 0, 0],
+      "stack": [{ "temp": 75, "idx": 2 }],
+      "currentIndex": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 7,
+      "narration": "Line 8: i = 3 (71°): 71° <= TOP(75°). Push [71°, day 3]. Monotonic decreasing maintained.",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 0, 0, 0, 0, 0],
+      "stack": [{ "temp": 75, "idx": 2 }, { "temp": 71, "idx": 3 }],
+      "currentIndex": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 7,
+      "narration": "Line 8: i = 4 (69°): 69° <= TOP(71°). Push [69°, day 4].",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 0, 0, 0, 0, 0],
+      "stack": [{ "temp": 75, "idx": 2 }, { "temp": 71, "idx": 3 }, { "temp": 69, "idx": 4 }],
+      "currentIndex": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5: i = 5 (72°): 72° > TOP(69° at day 4). Pop day 4! res[4] = 5 - 4 = 1 day.",
+      "state": { "poppedIndex": 4, "waitDays": 1 },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 0, 1, 0, 0, 0],
+      "stack": [{ "temp": 75, "idx": 2 }, { "temp": 71, "idx": 3 }],
+      "currentIndex": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 4,
+      "narration": "Line 5: i = 5 (72°): 72° > TOP(71° at day 3). Pop day 3! res[3] = 5 - 3 = 2 days.",
+      "state": { "poppedIndex": 3, "waitDays": 2 },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 2, 1, 0, 0, 0],
+      "stack": [{ "temp": 75, "idx": 2 }],
+      "currentIndex": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 7,
+      "narration": "Line 8: i = 5 (72°): 72° <= TOP(75°). Push [72°, day 5] to stack.",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 2, 1, 0, 0, 0],
+      "stack": [{ "temp": 75, "idx": 2 }, { "temp": 72, "idx": 5 }],
+      "currentIndex": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 4,
+      "narration": "Line 5: i = 6 (76°): 76° > TOP(72° at day 5). Pop day 5! res[5] = 6 - 5 = 1 day.",
+      "state": { "poppedIndex": 5, "waitDays": 1 },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 0, 2, 1, 1, 0, 0],
+      "stack": [{ "temp": 75, "idx": 2 }],
+      "currentIndex": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 4,
+      "narration": "Line 5: i = 6 (76°): 76° > TOP(75° at day 2). Pop day 2! res[2] = 6 - 2 = 4 days.",
+      "state": { "poppedIndex": 2, "waitDays": 4 },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 4, 2, 1, 1, 0, 0],
+      "stack": [],
+      "currentIndex": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 7,
+      "narration": "Line 8: i = 6 (76°): Stack is empty. Push [76°, day 6].",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 4, 2, 1, 1, 0, 0],
+      "stack": [{ "temp": 76, "idx": 6 }],
+      "currentIndex": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 7,
+      "narration": "Line 8: i = 7 (73°): 73° <= TOP(76°). Push [73°, day 7].",
+      "state": { "poppedIndex": null },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 4, 2, 1, 1, 0, 0],
+      "stack": [{ "temp": 76, "idx": 6 }, { "temp": 73, "idx": 7 }],
+      "currentIndex": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 10,
+      "narration": "Line 10: Traversal complete. Days remaining in stack (days 6 & 7) have no warmer day and stay 0. RETURN res.",
+      "state": { "status": "COMPLETED", "res": "[1, 1, 4, 2, 1, 1, 0, 0]" },
+      "temperatures": [73, 74, 75, 71, 69, 72, 76, 73],
+      "res": [1, 1, 4, 2, 1, 1, 0, 0],
+      "stack": [{ "temp": 76, "idx": 6 }, { "temp": 73, "idx": 7 }],
+      "currentIndex": 7,
+      "output": {
+        "label": "Daily Temperatures Solved",
+        "value": "[1, 1, 4, 2, 1, 1, 0, 0]",
+        "detail": "Monotonic stack processed all 8 days in linear O(N) time."
+      }
+    }
+  ]
+}

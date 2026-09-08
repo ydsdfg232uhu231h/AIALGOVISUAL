@@ -1,0 +1,169 @@
+{
+  "id": 155,
+  "title": "Min Stack",
+  "difficulty": "Medium",
+  "topic": "Stack / Design",
+  "algorithm": "Auxiliary Min Stack Pair",
+  "timeComplexity": "O(1) for all operations",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Design a stack that supports push, pop, top, and retrieving the minimum element in O(1) time.",
+  "url": "https://leetcode.com/problems/min-stack/",
+  "explanation": "To support getMin() in O(1) without rescanning the full stack, maintain an auxiliary stack (`minStack`) parallel to the main data stack. The top of `minStack` always holds the minimum element currently present in the main stack.",
+  "pseudoCode": "CLASS MinStack:\n    CONSTRUCTOR(): stack = [], minStack = []\n    FUNCTION push(val):\n        val = MIN(val, IS_EMPTY(minStack) ? val : TOP(minStack))\n        PUSH val TO stack\n        PUSH val TO minStack\n    FUNCTION pop(): POP stack; POP minStack\n    FUNCTION top(): RETURN TOP(stack)\n    FUNCTION getMin(): RETURN TOP(minStack)\nEND CLASS",
+  "renderType": "min_stack",
+  "initialData": [
+    "push(-10)",
+    "push(14)",
+    "push(-20)",
+    "getMin()",
+    "pop()",
+    "getMin()"
+  ],
+  "codeLines": [
+    "CLASS MinStack:",
+    "    CONSTRUCTOR(): stack = [], minStack = []",
+    "    FUNCTION push(val):",
+    "        m = IS_EMPTY(minStack) ? val : MIN(val, TOP(minStack))",
+    "        PUSH val TO stack",
+    "        PUSH m TO minStack",
+    "    FUNCTION pop(): POP stack; POP minStack",
+    "    FUNCTION top(): RETURN TOP(stack)",
+    "    FUNCTION getMin(): RETURN TOP(minStack)",
+    "END CLASS"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize root TrieNode.",
+      "state": { "op": "init" },
+      "currentOp": "init",
+      "activeVal": null,
+      "currentMin": null,
+      "stack": [],
+      "minStack": [],
+      "dwellMs": 1300,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Lines 4-8: addWord('bad') -> Create branch 'b' -> 'a' -> 'd'. Set isWord = True.",
+      "state": { "added": "bad" },
+      "currentOp": "push",
+      "activeVal": -10,
+      "currentMin": -10,
+      "stack": [
+        { "id": "s-0", "val": -10 }
+      ],
+      "minStack": [
+        { "id": "m-0", "val": -10 }
+      ],
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 3,
+      "narration": "Lines 4-8: addWord('dad') -> Create branch 'd' -> 'a' -> 'd'. Set isWord = True.",
+      "state": { "added": "dad" },
+      "currentOp": "push",
+      "activeVal": 14,
+      "currentMin": -10,
+      "stack": [
+        { "id": "s-0", "val": -10 },
+        { "id": "s-1", "val": 14 }
+      ],
+      "minStack": [
+        { "id": "m-0", "val": -10 },
+        { "id": "m-1", "val": -10 }
+      ],
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Lines 4-8: addWord('mad') -> Create branch 'm' -> 'a' -> 'd'. Set isWord = True.",
+      "state": { "added": "mad" },
+      "currentOp": "push",
+      "activeVal": -20,
+      "currentMin": -20,
+      "stack": [
+        { "id": "s-0", "val": -10 },
+        { "id": "s-1", "val": 14 },
+        { "id": "s-2", "val": -20 }
+      ],
+      "minStack": [
+        { "id": "m-0", "val": -10 },
+        { "id": "m-1", "val": -10 },
+        { "id": "m-2", "val": -20 }
+      ],
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 13,
+      "narration": "Line 14: New Query: search('.ad') -> Wildcard '.' fans out to child branches ['b', 'd', 'm'].",
+      "state": { "query": ".ad", "c": "." },
+      "currentOp": "getMin",
+      "activeVal": null,
+      "currentMin": -20,
+      "stack": [
+        { "id": "s-0", "val": -10 },
+        { "id": "s-1", "val": 14 },
+        { "id": "s-2", "val": -20 }
+      ],
+      "minStack": [
+        { "id": "m-0", "val": -10 },
+        { "id": "m-1", "val": -10 },
+        { "id": "m-2", "val": -20 }
+      ],
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 15,
+      "narration": "Line 16: Branch 1 ('b'): Step into 'b' -> 'a'.",
+      "state": { "branch": "b" },
+      "currentOp": "pop",
+      "activeVal": -20,
+      "currentMin": -10,
+      "stack": [
+        { "id": "s-0", "val": -10 },
+        { "id": "s-1", "val": 14 }
+      ],
+      "minStack": [
+        { "id": "m-0", "val": -10 },
+        { "id": "m-1", "val": -10 }
+      ],
+      "dwellMs": 1600,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 21,
+      "narration": "Line 22: Step into 'd' (isWord == True). Matched 'bad'!",
+      "state": { "branch": "b", "matched": "bad" },
+      "currentOp": "getMin",
+      "activeVal": null,
+      "currentMin": -10,
+      "stack": [
+        { "id": "s-0", "val": -10 },
+        { "id": "s-1", "val": 14 }
+      ],
+      "minStack": [
+        { "id": "m-0", "val": -10 },
+        { "id": "m-1", "val": -10 }
+      ],
+      "dwellMs": 3500,
+      "output": {
+        "label": "O(1) Minimum Retrieved",
+        "value": "-10",
+        "detail": "Auxiliary minStack tracks the global minimum across all pushes and pops in O(1) time."
+      }
+    }
+  ]
+}

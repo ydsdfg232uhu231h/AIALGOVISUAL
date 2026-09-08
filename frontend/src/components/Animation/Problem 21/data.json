@@ -1,0 +1,203 @@
+{
+  "id": 21,
+  "title": "Merge Two Sorted Lists",
+  "difficulty": "Easy",
+  "topic": "Linked List",
+  "algorithm": "Iterative Two Pointers / Recursion",
+  "timeComplexity": "O(n + m)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Merge two sorted linked lists into one single sorted list.",
+  "url": "https://leetcode.com/problems/merge-two-sorted-lists/",
+  "explanation": "We compare the current nodes of both lists using a dummy starting node. We attach the smaller node to the merged list and advance its pointer until one list is exhausted, then append the remaining nodes.",
+  "pseudoCode": "FUNCTION mergeTwoLists(l1, l2):\n    dummy = NEW Node(0), curr = dummy\n    WHILE l1 IS NOT NULL AND l2 IS NOT NULL DO:\n        IF l1.val <= l2.val THEN curr.next = l1; l1 = l1.next\n        ELSE curr.next = l2; l2 = l2.next\n        curr = curr.next\n    END WHILE\n    curr.next = l1 ? l1 : l2\n    RETURN dummy.next\nEND FUNCTION",
+  "renderType": "merge_lists",
+  "initialData": {
+    "l1": [
+      1,
+      2,
+      4
+    ],
+    "l2": [
+      1,
+      3,
+      4
+    ]
+  },
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: dummy = Node(0), curr = dummy.",
+      "state": {
+        "curr": "dummy",
+        "merged": "[]"
+      },
+      "l1": [
+        1,
+        2,
+        4
+      ],
+      "l2": [
+        1,
+        3,
+        4
+      ],
+      "merged": [],
+      "l1Idx": 0,
+      "l2Idx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: l1.val(1) <= l2.val(1). Attach l1 node and advance l1.",
+      "state": {
+        "attached": 1,
+        "from": "l1"
+      },
+      "l1": [
+        1,
+        2,
+        4
+      ],
+      "l2": [
+        1,
+        3,
+        4
+      ],
+      "merged": [
+        1
+      ],
+      "l1Idx": 1,
+      "l2Idx": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: l2.val(1) < l1.val(2). Attach l2 node and advance l2.",
+      "state": {
+        "attached": 1,
+        "from": "l2"
+      },
+      "l1": [
+        1,
+        2,
+        4
+      ],
+      "l2": [
+        1,
+        3,
+        4
+      ],
+      "merged": [
+        1,
+        1
+      ],
+      "l1Idx": 1,
+      "l2Idx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: l1.val(2) < l2.val(3). Attach l1 node and advance l1.",
+      "state": {
+        "attached": 2,
+        "from": "l1"
+      },
+      "l1": [
+        1,
+        2,
+        4
+      ],
+      "l2": [
+        1,
+        3,
+        4
+      ],
+      "merged": [
+        1,
+        1,
+        2
+      ],
+      "l1Idx": 2,
+      "l2Idx": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 4: l1.val(2) < l2.val(3). Attach l1 node and advance l1.",
+      "state": {
+        "attached": 2,
+        "from": "l1"
+      },
+      "l1": [
+        1,
+        2,
+        4
+      ],
+      "l2": [
+        1,
+        3,
+        4
+      ],
+      "merged": [
+        1,
+        1,
+        2,
+        3
+      ],
+      "l1Idx": 2,
+      "l2Idx": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 8,
+      "narration": "Line 9: Remaining nodes linked. RETURN dummy.next.",
+      "state": {
+        "status": "COMPLETED",
+        "result": "[1 -> 1 -> 2 -> 3 -> 4 -> 4]"
+      },
+      "l1": [
+        1,
+        2,
+        4
+      ],
+      "l2": [
+        1,
+        3,
+        4
+      ],
+      "merged": [
+        1,
+        1,
+        2,
+        3,
+        4,
+        4
+      ],
+      "l1Idx": 3,
+      "l2Idx": 3,
+      "output": {
+        "label": "Merged List",
+        "value": "1 -> 1 -> 2 -> 3 -> 4 -> 4",
+        "detail": "Merged both lists into monotonic sorted order."
+      }
+    }
+  ],
+  "codeLines": [
+    "FUNCTION mergeTwoLists(l1, l2):",
+    "    dummy = NEW Node(0), curr = dummy",
+    "    WHILE l1 IS NOT NULL AND l2 IS NOT NULL DO:",
+    "        IF l1.val <= l2.val THEN curr.next = l1; l1 = l1.next",
+    "        ELSE curr.next = l2; l2 = l2.next",
+    "        curr = curr.next",
+    "    END WHILE",
+    "    curr.next = l1 ? l1 : l2",
+    "    RETURN dummy.next",
+    "END FUNCTION"
+  ]
+}

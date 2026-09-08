@@ -1,0 +1,426 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#deque-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  gap: 12px;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   TOP METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  max-width: 98%;
+  flex-shrink: 0;
+}
+
+#metric-k,
+#metric-window,
+#metric-max {
+  background: #141418;
+  border: 1.5px solid #27272a;
+  color: #e4e4e7;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+#metric-k b {
+  color: #38bdf8;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+}
+
+#metric-window b {
+  color: #facc15;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+}
+
+#metric-max b {
+  color: #4ade80;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   MAIN STAGE & CARDS
+   ============================================================ */
+#deque-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 860px;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+
+#track-card-array,
+#deque-card,
+#output-stream-card {
+  width: 100%;
+  background: #101014;
+  border: 1.5px solid #27272a;
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+#card-header-array,
+#card-header-deque,
+#card-header-output {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #27272a;
+}
+
+#card-sub-array,
+#card-sub-deque,
+#card-sub-output {
+  font-size: 11px;
+  color: #71717a;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   ARRAY TRACK CONTAINER & SLIDING FRAME
+   ============================================================ */
+#array-track-container {
+  width: 100%;
+  position: relative;
+  padding-top: 4px;
+}
+
+#window-sliding-frame {
+  position: absolute;
+  top: 28px;
+  height: 58px;
+  border: 2px solid #38bdf8;
+  border-radius: 12px;
+  background: rgba(56, 189, 248, 0.08);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25), inset 0 0 10px rgba(56, 189, 248, 0.06);
+  pointer-events: none;
+  z-index: 2;
+}
+
+#window-frame-bar-top,
+#window-frame-bar-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #38bdf8;
+}
+
+#window-frame-bar-top { top: 0; }
+#window-frame-bar-bottom { bottom: 0; }
+
+/* ============================================================
+   CELLS GRID & NODES
+   ============================================================ */
+#cells-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+[id^="cell-col-"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  min-width: 0;
+  gap: 5px;
+  user-select: none;
+}
+
+[id^="pointer-anchor-"] {
+  height: 24px;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  pointer-events: none;
+}
+
+[id^="pointer-pill-"] {
+  font-size: 9px;
+  font-weight: 900;
+  padding: 2px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.6px;
+  font-family: ui-monospace, monospace;
+  white-space: nowrap;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+[id^="pointer-pill-l-"] {
+  background: #38bdf8;
+  color: #082f49;
+  border: 1px solid #7dd3fc;
+}
+
+[id^="pointer-pill-r-"] {
+  background: #facc15;
+  color: #422006;
+  border: 1px solid #fde047;
+}
+
+[id^="pointer-pill-both-"] {
+  background: #c084fc;
+  color: #3b0764;
+  border: 1px solid #e9d5ff;
+}
+
+[id^="num-node-"] {
+  width: 100%;
+  height: 52px;
+  border-radius: 10px;
+  background: #16161a;
+  border: 2px solid #27272a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+[id^="num-val-"] {
+  font-size: 19px;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+  color: #f4f4f5;
+  line-height: 1;
+}
+
+[id^="num-node-inwindow-"] {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+[id^="num-node-max-"] {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.22) !important;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.5), inset 0 0 8px rgba(34, 197, 94, 0.25);
+  z-index: 4;
+}
+
+[id^="max-tag-pill-"] {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 8px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.25);
+  border: 1px solid #22c55e;
+  border-radius: 3px;
+  padding: 1px 4px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+[id^="idx-tag-"] {
+  font-size: 11px;
+  color: #71717a;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+/* ============================================================
+   MONOTONIC DEQUE STREAM
+   ============================================================ */
+#deque-stream {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 62px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#deque-stream::-webkit-scrollbar {
+  display: none;
+}
+
+#empty-deque-text {
+  font-size: 12px;
+  color: #52525b;
+  font-style: italic;
+  margin: auto;
+}
+
+[id^="deque-item-"] {
+  background: #18181c;
+  border: 1.5px solid #27272a;
+  border-radius: 10px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 58px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+[id^="deque-item-front-"] {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.14) !important;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.35);
+}
+
+[id^="deque-pos-tag-"] {
+  font-size: 8px;
+  font-weight: 900;
+  color: #a1a1aa;
+}
+
+[id^="deque-item-front-"] > [id^="deque-pos-tag-"] {
+  color: #4ade80;
+}
+
+[id^="deque-value-"] {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="deque-idx-"] {
+  font-size: 9px;
+  color: #71717a;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   OUTPUT STREAM
+   ============================================================ */
+#output-stream-track {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 42px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#output-stream-track::-webkit-scrollbar {
+  display: none;
+}
+
+#empty-stream-text {
+  font-size: 12px;
+  color: #52525b;
+  font-style: italic;
+  margin: auto;
+}
+
+[id^="output-pill-"] {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1.5px solid #38bdf8;
+  border-radius: 8px;
+  padding: 4px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.25);
+  box-sizing: border-box;
+}
+
+[id^="out-val-"] {
+  font-size: 15px;
+  font-weight: 900;
+  color: #fff;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="out-sub-"] {
+  font-size: 8px;
+  color: #7dd3fc;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: absolute;
+  bottom: 8px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 8px 20px;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.85);
+  z-index: 10;
+}
+
+#callout-header-text {
+  font-size: 11px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #fff;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #cbd5e1;
+  font-weight: 500;
+}

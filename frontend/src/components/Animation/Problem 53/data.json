@@ -1,0 +1,146 @@
+{
+  "id": 53,
+  "title": "Maximum Subarray",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "Kadane's Algorithm",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the contiguous subarray with the largest sum.",
+  "url": "https://leetcode.com/problems/maximum-subarray/",
+  "explanation": "Using Kadane's algorithm, we iterate through the array maintaining a running maximum sum. If the sum drops below zero, we reset it to zero since a negative sum cannot contribute to a larger future subarray.",
+  "pseudoCode": "FUNCTION maxSubArray(nums):\n    maxSum = nums[0], currSum = nums[0]\n    FOR i FROM 1 TO LENGTH(nums) - 1 DO:\n        currSum = MAX(nums[i], currSum + nums[i])\n        maxSum = MAX(maxSum, currSum)\n    END FOR\n    RETURN maxSum\nEND FUNCTION",
+  "renderType": "kadane_array",
+  "initialData": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+  "codeLines": [
+    "FUNCTION maxSubArray(nums):",
+    "    maxSum = nums[0], currSum = nums[0]",
+    "    FOR i FROM 1 TO LENGTH(nums) - 1 DO:",
+    "        currSum = MAX(nums[i], currSum + nums[i])",
+    "        maxSum = MAX(maxSum, currSum)",
+    "    END FOR",
+    "    RETURN maxSum",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize maxSum = nums[0] = -2, currSum = nums[0] = -2. Window: [-2].",
+      "state": { "i": 0, "currSum": -2, "maxSum": -2 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 0,
+      "subStart": 0,
+      "subEnd": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: i = 1 (val: 1). currSum = MAX(1, -2 + 1) = 1. Starting fresh window at index 1. maxSum = MAX(-2, 1) = 1.",
+      "state": { "i": 1, "currSum": 1, "maxSum": 1 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 1,
+      "subStart": 1,
+      "subEnd": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 3,
+      "narration": "Line 4: i = 2 (val: -3). currSum = MAX(-3, 1 + (-3)) = -2. Window [1, -3]. maxSum remains 1.",
+      "state": { "i": 2, "currSum": -2, "maxSum": 1 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 2,
+      "subStart": 1,
+      "subEnd": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: i = 3 (val: 4). currSum = MAX(4, -2 + 4) = 4. Previous sum was negative; reset start to 3. maxSum = MAX(1, 4) = 4.",
+      "state": { "i": 3, "currSum": 4, "maxSum": 4 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 3,
+      "subStart": 3,
+      "subEnd": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: i = 4 (val: -1). currSum = MAX(-1, 4 + (-1)) = 3. Extend window to index 4. maxSum remains 4.",
+      "state": { "i": 4, "currSum": 3, "maxSum": 4 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 4,
+      "subStart": 3,
+      "subEnd": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: i = 5 (val: 2). currSum = MAX(2, 3 + 2) = 5. Extend window. maxSum = MAX(4, 5) = 5.",
+      "state": { "i": 5, "currSum": 5, "maxSum": 5 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 5,
+      "subStart": 3,
+      "subEnd": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 3,
+      "narration": "Line 4: i = 6 (val: 1). currSum = MAX(1, 5 + 1) = 6. Window [4, -1, 2, 1]. maxSum = MAX(5, 6) = 6.",
+      "state": { "i": 6, "currSum": 6, "maxSum": 6 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 6,
+      "subStart": 3,
+      "subEnd": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: i = 7 (val: -5). currSum = MAX(-5, 6 + (-5)) = 1. Extend window. maxSum remains 6.",
+      "state": { "i": 7, "currSum": 1, "maxSum": 6 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 7,
+      "subStart": 3,
+      "subEnd": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 3,
+      "narration": "Line 4: i = 8 (val: 4). currSum = MAX(4, 1 + 4) = 5. Window [4, -1, 2, 1, -5, 4]. maxSum remains 6.",
+      "state": { "i": 8, "currSum": 5, "maxSum": 6 },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 8,
+      "subStart": 3,
+      "subEnd": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 6,
+      "narration": "Line 7: Traversal complete. Subarray [4, -1, 2, 1] achieves the maximum sum. RETURN maxSum = 6.",
+      "state": {
+        "status": "COMPLETED",
+        "maxSum": 6,
+        "currSum": 6,
+        "i": 8
+      },
+      "array": [-2, 1, -3, 4, -1, 2, 1, -5, 4],
+      "currentIndex": 8,
+      "subStart": 3,
+      "subEnd": 6,
+      "output": {
+        "label": "Max Subarray Sum",
+        "value": "6",
+        "detail": "Subarray [4, -1, 2, 1] at indices [3..6] gives maximum sum 6."
+      }
+    }
+  ]
+}

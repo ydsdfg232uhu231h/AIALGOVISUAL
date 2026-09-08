@@ -1,0 +1,139 @@
+{
+  "id": 217,
+  "title": "Contains Duplicate",
+  "difficulty": "Easy",
+  "topic": "Array / Hash Table",
+  "algorithm": "Hash Set Lookup",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Check if any value appears at least twice in an integer array.",
+  "url": "https://leetcode.com/problems/contains-duplicate/",
+  "explanation": "Iterate through array while adding numbers to a Hash Set. If current number is already present in set, immediately return True.",
+  "pseudoCode": "FUNCTION containsDuplicate(nums):\n    seen = EMPTY_SET()\n    FOR n IN nums DO:\n        IF n IN seen THEN RETURN True\n        ADD n TO seen\n    END FOR\n    RETURN False\nEND FUNCTION",
+  "renderType": "hashset_dup",
+  "initialData": [1, 2, 3, 1],
+  "codeLines": [
+    "FUNCTION containsDuplicate(nums):",
+    "    seen = EMPTY_SET()",
+    "    FOR n IN nums DO:",
+    "        IF n IN seen THEN RETURN True",
+    "        ADD n TO seen",
+    "    END FOR",
+    "    RETURN False",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize empty hash set seen = {}.",
+      "state": { "seen": "{}" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": -1,
+      "seenSet": [],
+      "duplicateVal": null,
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: i = 0, n = nums[0] = 1. Check if 1 is in seen: False.",
+      "state": { "i": 0, "n": 1, "inSeen": "False" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 0,
+      "seenSet": [],
+      "duplicateVal": null,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: Add 1 to seen set -> seen = {1}.",
+      "state": { "seen": "{1}" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 0,
+      "seenSet": [1],
+      "duplicateVal": null,
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: i = 1, n = nums[1] = 2. Check if 2 is in seen: False.",
+      "state": { "i": 1, "n": 2, "inSeen": "False" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 1,
+      "seenSet": [1],
+      "duplicateVal": null,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: Add 2 to seen set -> seen = {1, 2}.",
+      "state": { "seen": "{1, 2}" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 1,
+      "seenSet": [1, 2],
+      "duplicateVal": null,
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: i = 2, n = nums[2] = 3. Check if 3 is in seen: False.",
+      "state": { "i": 2, "n": 3, "inSeen": "False" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 2,
+      "seenSet": [1, 2],
+      "duplicateVal": null,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Line 5: Add 3 to seen set -> seen = {1, 2, 3}.",
+      "state": { "seen": "{1, 2, 3}" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 2,
+      "seenSet": [1, 2, 3],
+      "duplicateVal": null,
+      "dwellMs": 1200,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: i = 3, n = nums[3] = 1. Check if 1 is in seen: 1 is ALREADY in seen! Duplicate found.",
+      "state": { "i": 3, "n": 1, "inSeen": "True", "duplicate": 1 },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 3,
+      "seenSet": [1, 2, 3],
+      "duplicateVal": 1,
+      "dwellMs": 2600,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 3,
+      "narration": "Line 4: Duplicate detected! Early exit, RETURN True.",
+      "state": { "status": "COMPLETED", "return": "True" },
+      "array": [1, 2, 3, 1],
+      "currentIndex": 3,
+      "seenSet": [1, 2, 3],
+      "duplicateVal": 1,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Duplicate Found",
+        "value": "True",
+        "detail": "Element 1 appears multiple times. Verified in O(n) time."
+      }
+    }
+  ]
+}

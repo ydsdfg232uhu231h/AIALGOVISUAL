@@ -1,0 +1,141 @@
+{
+  "id": 347,
+  "title": "Top K Frequent Elements",
+  "difficulty": "Medium",
+  "topic": "Heap / Hash Table",
+  "algorithm": "Bucket Sort / Min-Heap",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Find the k most frequent elements in an array.",
+  "url": "https://leetcode.com/problems/top-k-frequent-elements/",
+  "explanation": "Count occurrences using a Hash Map, then place elements into a bucket array indexed by frequency counts. Traverse buckets backward from max frequency to collect top k numbers in O(N) time.",
+  "pseudoCode": "FUNCTION topKFrequent(nums, k):\n    count = FREQ_MAP(nums), bucket = ARRAY_OF_LISTS(LENGTH(nums) + 1)\n    FOR num, freq IN count DO APPEND num TO bucket[freq]\n    res = []\n    FOR i FROM LENGTH(bucket) - 1 DOWN TO 0 DO:\n        FOR num IN bucket[i] DO:\n            APPEND num TO res\n            IF LENGTH(res) == k THEN RETURN res\n        END FOR\n    END FOR\nEND FUNCTION",
+  "renderType": "bucket_sort",
+  "initialData": {
+    "nums": [4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 3],
+    "k": 3
+  },
+  "codeLines": [
+    "FUNCTION topKFrequent(nums, k):",
+    "    count = FREQ_MAP(nums), bucket = ARRAY_OF_LISTS(LENGTH(nums) + 1)",
+    "    FOR num, freq IN count DO APPEND num TO bucket[freq]",
+    "    res = []",
+    "    FOR i FROM LENGTH(bucket) - 1 DOWN TO 0 DO:",
+    "        FOR num IN bucket[i] DO:",
+    "            APPEND num TO res",
+    "            IF LENGTH(res) == k THEN RETURN res",
+    "        END FOR",
+    "    END FOR",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Build frequency map from nums: {4: 5x, 1: 3x, 2: 2x, 3: 1x}. Buckets initialized from 1 to 8.",
+      "state": { "k": 3, "count": "{4: 5, 1: 3, 2: 2, 3: 1}", "res": "[]" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [], "2": [], "3": [], "4": [], "5": [], "6": [], "7": [], "8": [] },
+      "res": [],
+      "k": 3,
+      "activeBucket": null,
+      "extractedNum": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 2,
+      "narration": "Line 3: Distribute numbers into buckets based on counts: bucket[5] = [4], bucket[3] = [1], bucket[2] = [2], bucket[1] = [3].",
+      "state": { "bucket[5]": "[4]", "bucket[3]": "[1]", "bucket[2]": "[2]", "bucket[1]": "[3]" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [3], "2": [2], "3": [1], "4": [], "5": [4], "6": [], "7": [], "8": [] },
+      "res": [],
+      "k": 3,
+      "activeBucket": null,
+      "extractedNum": null,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: Scan backward from highest frequency. Buckets 8, 7, and 6 are empty.",
+      "state": { "scan": "Buckets 8..6" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [3], "2": [2], "3": [1], "4": [], "5": [4], "6": [], "7": [], "8": [] },
+      "res": [],
+      "k": 3,
+      "activeBucket": 6,
+      "extractedNum": null,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7: Scan bucket[5]: contains 4 (frequency 5). Append 4 to res. Length of res is 1.",
+      "state": { "res": "[4]" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [3], "2": [2], "3": [1], "4": [], "5": [4], "6": [], "7": [], "8": [] },
+      "res": [4],
+      "k": 3,
+      "activeBucket": 5,
+      "extractedNum": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: Scan bucket[4]: empty.",
+      "state": { "scan": "Bucket 4 empty" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [3], "2": [2], "3": [1], "4": [], "5": [4], "6": [], "7": [], "8": [] },
+      "res": [4],
+      "k": 3,
+      "activeBucket": 4,
+      "extractedNum": null,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 6,
+      "narration": "Line 7: Scan bucket[3]: contains 1 (frequency 3). Append 1 to res. Length of res is 2.",
+      "state": { "res": "[4, 1]" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [3], "2": [2], "3": [1], "4": [], "5": [4], "6": [], "7": [], "8": [] },
+      "res": [4, 1],
+      "k": 3,
+      "activeBucket": 3,
+      "extractedNum": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 6,
+      "narration": "Line 7: Scan bucket[2]: contains 2 (frequency 2). Append 2 to res. Length of res is 3.",
+      "state": { "res": "[4, 1, 2]" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [3], "2": [2], "3": [1], "4": [], "5": [4], "6": [], "7": [], "8": [] },
+      "res": [4, 1, 2],
+      "k": 3,
+      "activeBucket": 2,
+      "extractedNum": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 7,
+      "narration": "Line 8: LENGTH(res) == 3 (target k reached). Terminate scan early. RETURN res = [4, 1, 2].",
+      "state": { "status": "COMPLETED", "res": "[4, 1, 2]" },
+      "freqMap": { "4": 5, "1": 3, "2": 2, "3": 1 },
+      "buckets": { "1": [3], "2": [2], "3": [1], "4": [], "5": [4], "6": [], "7": [], "8": [] },
+      "res": [4, 1, 2],
+      "k": 3,
+      "activeBucket": 2,
+      "extractedNum": null,
+      "output": {
+        "label": "Top 3 Frequent Elements",
+        "value": "[4, 1, 2]",
+        "detail": "Elements 4 (5x), 1 (3x), and 2 (2x) collected via reverse bucket scan in O(N) time."
+      }
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+{
+  "id": 981,
+  "title": "Time Based Key-Value Store",
+  "difficulty": "Medium",
+  "topic": "Binary Search / Hash Table",
+  "algorithm": "Hash Map + Binary Search on Timestamps",
+  "timeComplexity": "O(log n) for get, O(1) for set",
+  "spaceComplexity": "O(N)",
+  "oneLinerQuestion": "Design a key-value data structure that stores values at specific timestamps and retrieves them efficiently.",
+  "url": "https://leetcode.com/problems/time-based-key-value-store/",
+  "explanation": "Store key mapping to list of [value, timestamp] pairs. Since timestamps are strictly increasing, use binary search to locate highest timestamp <= targetTimestamp.",
+  "pseudoCode": "CLASS TimeMap:\n    CONSTRUCTOR(): store = HASH_MAP()\n    FUNCTION set(key, value, timestamp):\n        IF key NOT IN store THEN store[key] = []\n        APPEND [value, timestamp] TO store[key]\n    FUNCTION get(key, timestamp):\n        res = '', values = store[key] OR []\n        l = 0, r = LENGTH(values) - 1\n        WHILE l <= r DO:\n            m = (l + r) / 2\n            IF values[m][1] <= timestamp THEN res = values[m][0]; l = m + 1\n            ELSE r = m - 1\n        END WHILE\n        RETURN res\nEND CLASS",
+  "renderType": "time_key_store",
+  "initialData": [
+    "set('foo', 'bar', 1)",
+    "get('foo', 1)",
+    "get('foo', 3)",
+    "set('foo', 'bar2', 4)",
+    "get('foo', 4)",
+    "get('foo', 5)"
+  ],
+  "codeLines": [
+    "CLASS TimeMap:",
+    "    CONSTRUCTOR(): store = HASH_MAP()",
+    "    FUNCTION set(key, value, timestamp):",
+    "        IF key NOT IN store THEN store[key] = []",
+    "        APPEND [value, timestamp] TO store[key]",
+    "    FUNCTION get(key, timestamp):",
+    "        res = '', values = store[key] OR []",
+    "        l = 0, r = LENGTH(values) - 1",
+    "        WHILE l <= r DO:",
+    "            m = (l + r) / 2",
+    "            IF values[m][1] <= timestamp THEN res = values[m][0]; l = m + 1",
+    "            ELSE r = m - 1",
+    "        END WHILE",
+    "        RETURN res",
+    "END CLASS"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: CALL TimeMap CONSTRUCTOR. Initialize empty store hash map {}.",
+      "state": { "store": "{}" },
+      "store": {},
+      "currentQuery": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: CALL set('foo', 'bar', 1). Check: Is 'foo' in store? No.",
+      "state": { "keyCheck": "'foo' NOT IN store" },
+      "store": {},
+      "currentQuery": null,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 3,
+      "narration": "Line 4: 'foo' not found. Initialize store['foo'] as an empty list [].",
+      "state": { "store['foo']": "[]" },
+      "store": { "foo": [] },
+      "currentQuery": null,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: Append record ['bar', t=1] into store['foo']. set() completes.",
+      "state": { "store['foo']": "[['bar', 1]]" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": null,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: CALL get('foo', 1). Initialize res = '', fetch values = store['foo'].",
+      "state": { "key": "'foo'", "timestamp": 1, "res": "''", "vLen": 1 },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 7,
+      "narration": "Line 8: Initialize binary search pointers. Left l = 0, Right r = 0.",
+      "state": { "l": 0, "r": 0 },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: WHILE l(0) <= r(0) is true. Enter loop.",
+      "state": { "loopCheck": "0 <= 0 is true" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 9,
+      "narration": "Line 10: Calculate mid m = (0 + 0) / 2 = 0.",
+      "state": { "m": 0 },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 10,
+      "narration": "Line 11: Check values[m=0].timestamp(1) <= target(1)? Yes.",
+      "state": { "mTimeCheck": "1 <= 1 is true" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 10,
+      "narration": "Line 11: Conditions met. Update res = 'bar', l = m + 1 = 1.",
+      "state": { "res": "'bar'", "l": 1 },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 8,
+      "narration": "Line 9: WHILE l(1) <= r(0) is false. Exit loop.",
+      "state": { "loopCheck": "1 <= 0 is false" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 13,
+      "narration": "Line 14: RETURN res ('bar'). get() completes.",
+      "state": { "result": "bar" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 1, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 5,
+      "narration": "Line 6: CALL get('foo', 3). Pointers l=0, r=0. Mid m=0. res=''. Target=3.",
+      "state": { "key": "'foo'", "timestamp": 3, "l": 0, "r": 0, "m": 0, "res": "''" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 3, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 10,
+      "narration": "Line 11: values[0].time(1) <= 3? Yes. res='bar', l=1.",
+      "state": { "res": "'bar'", "l": 1 },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 3, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 13,
+      "narration": "Line 14: Loop l(1)<=r(0) fails. RETURN res ('bar').",
+      "state": { "result": "bar" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": { "key": "foo", "time": 3, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 3,
+      "narration": "Line 4: CALL set('foo', 'bar2', 4). 'foo' is in store.",
+      "state": { "keyCheck": "'foo' IN store" },
+      "store": {
+        "foo": [{ "val": "bar", "time": 1 }]
+      },
+      "currentQuery": null,
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 4,
+      "narration": "Line 5: Append ['bar2', t=4] into store['foo']. set() completes.",
+      "state": { "store['foo']": "[['bar', 1], ['bar2', 4]]" },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": null,
+      "output": null
+    },
+    {
+      "stepIndex": 17,
+      "activeLine": 5,
+      "narration": "Line 6: CALL get('foo', 4). l=0, r=1, res='', m=0. Target=4.",
+      "state": { "l": 0, "r": 1, "m": 0, "res": "''" },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 4, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 18,
+      "activeLine": 10,
+      "narration": "Line 11: values[0].time(1) <= 4? Yes. res='bar', l=1.",
+      "state": { "res": "'bar'", "l": 1 },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 4, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 19,
+      "activeLine": 8,
+      "narration": "Line 9: WHILE l(1) <= r(1) true. Mid m = (1+1)/2 = 1.",
+      "state": { "l": 1, "r": 1, "m": 1 },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 4, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 20,
+      "activeLine": 10,
+      "narration": "Line 11: values[1].time(4) <= 4? Yes. res='bar2', l=2.",
+      "state": { "res": "'bar2'", "l": 2 },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 4, "res": "bar2" },
+      "output": null
+    },
+    {
+      "stepIndex": 21,
+      "activeLine": 13,
+      "narration": "Line 14: Loop l(2)<=r(1) fails. RETURN res ('bar2').",
+      "state": { "result": "bar2" },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 4, "res": "bar2" },
+      "output": null
+    },
+    {
+      "stepIndex": 22,
+      "activeLine": 5,
+      "narration": "Line 6: CALL get('foo', 5). Pointers l=0, r=1, res='', target=5.",
+      "state": { "l": 0, "r": 1, "res": "''" },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 5, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 23,
+      "activeLine": 9,
+      "narration": "Line 10: Loop 1: mid m=0. values[0].time(1) <= 5? Yes.",
+      "state": { "m": 0, "check": "1 <= 5" },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 5, "res": "" },
+      "output": null
+    },
+    {
+      "stepIndex": 24,
+      "activeLine": 10,
+      "narration": "Line 11: res='bar', l=1.",
+      "state": { "res": "'bar'", "l": 1 },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 5, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 25,
+      "activeLine": 9,
+      "narration": "Line 10: Loop 2: l=1, r=1. mid m=1. values[1].time(4) <= 5? Yes.",
+      "state": { "l": 1, "m": 1, "check": "4 <= 5" },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 5, "res": "bar" },
+      "output": null
+    },
+    {
+      "stepIndex": 26,
+      "activeLine": 10,
+      "narration": "Line 11: res='bar2', l=2.",
+      "state": { "res": "'bar2'", "l": 2 },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 5, "res": "bar2" },
+      "output": null
+    },
+    {
+      "stepIndex": 27,
+      "activeLine": 13,
+      "narration": "Line 14: Loop l(2)<=r(1) fails. Exit loop. RETURN res ('bar2').",
+      "state": { "status": "COMPLETED", "result": "bar2" },
+      "store": {
+        "foo": [
+          { "val": "bar", "time": 1 },
+          { "val": "bar2", "time": 4 }
+        ]
+      },
+      "currentQuery": { "key": "foo", "time": 5, "res": "bar2" },
+      "output": {
+        "label": "TimeMap Lookup",
+        "value": "\"bar2\"",
+        "detail": "Retrieved value for highest timestamp 4 <= query timestamp 5."
+      }
+    }
+  ]
+}

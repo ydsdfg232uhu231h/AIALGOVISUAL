@@ -1,0 +1,284 @@
+/* ============================================================
+   CONTAINER & LAYOUT
+   ============================================================ */
+#char-replace-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 720px;
+  position: relative;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  background: #121214;
+  border: 1px solid #27272a;
+  border-radius: 14px;
+  color: #f4f4f5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  user-select: none;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* ============================================================
+   METRICS TOP BAR
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+}
+
+#status-pill-window-size,
+#status-pill-max-f,
+#status-pill-replacements-checking,
+#status-pill-replacements-done,
+#status-pill-replacements-danger,
+#status-pill-best {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background: #18181b;
+  border: 1px solid #3f3f46;
+  border-radius: 9999px;
+  color: #a1a1aa;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+#status-pill-window-size b,
+#status-pill-max-f b {
+  color: #fafafa;
+}
+
+/* Yellow status while checking/processing */
+#status-pill-replacements-checking {
+  border-color: rgba(250, 204, 21, 0.4) !important;
+  background: rgba(250, 204, 21, 0.1) !important;
+}
+
+#status-pill-replacements-checking b {
+  color: #facc15 !important;
+}
+
+/* Green status when completed */
+#status-pill-replacements-done {
+  border-color: rgba(34, 197, 94, 0.4) !important;
+  background: rgba(34, 197, 94, 0.1) !important;
+}
+
+#status-pill-replacements-done b {
+  color: #4ade80 !important;
+}
+
+/* Red danger status if shrinking */
+#status-pill-replacements-danger {
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+#status-pill-replacements-danger b {
+  color: #f87171 !important;
+}
+
+#status-pill-best {
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+#status-pill-best b {
+  color: #60a5fa !important;
+}
+
+/* ============================================================
+   CHARACTER RIBBON & POINTERS
+   ============================================================ */
+#chars-ribbon-track {
+  display: flex;
+  gap: 0.85rem;
+  padding: 4rem 0.5rem;
+  align-items: flex-end;
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+[id^="char-col-"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 52px;
+  flex-shrink: 0;
+}
+
+[id^="ptrs-track-"] {
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+[id^="ptr-badge-"] {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #ffffff;
+  line-height: 1;
+}
+
+[id^="ptr-badge-l-"] {
+  background: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+[id^="ptr-badge-r-"] {
+  background: #facc15;
+  color: #0c0c10;
+  font-weight: 900;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+}
+
+/* ============================================================
+   CHARACTER BOX STATES
+   ============================================================ */
+[id^="char-box-"] {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 10px;
+  border: 2px solid #27272a;
+  background: #18181b;
+  position: relative;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ACTIVE CHECKING STATE (YELLOW) */
+[id^="char-box-checking-"] {
+  background: rgba(250, 204, 21, 0.14) !important;
+  border-color: #facc15 !important;
+  color: #fef08a !important;
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.5), inset 0 0 8px rgba(250, 204, 21, 0.15) !important;
+}
+
+/* FINAL OUTPUT COMPLETE STATE (GREEN) */
+[id^="char-box-complete-"] {
+  background: rgba(34, 197, 94, 0.2) !important;
+  border-color: #22c55e !important;
+  color: #86efac !important;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.7), inset 0 0 10px rgba(34, 197, 94, 0.25) !important;
+}
+
+/* DANGER / EXCEEDED REPLACEMENTS STATE (RED) */
+[id^="char-box-danger-"] {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: #ef4444 !important;
+  color: #fca5a5 !important;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.5) !important;
+}
+
+/* OUTSIDE OF WINDOW */
+[id^="char-box-out-"] {
+  background: #18181b !important;
+  border-color: #27272a !important;
+  color: #71717a !important;
+}
+
+/* Finished Optimal Element Badge */
+[id^="complete-tag-"] {
+  position: absolute;
+  top: -9px;
+  right: -6px;
+  font-size: 7px;
+  font-weight: 900;
+  background: #22c55e;
+  color: #0c0c10;
+  padding: 1px 4px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.6);
+}
+
+[id^="idx-tag-"] {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #71717a;
+}
+
+/* ============================================================
+   ACTIVE / COMPLETED SUBSTRING PREVIEWS
+   ============================================================ */
+#window-preview-box-checking {
+  font-size: 0.95rem;
+  color: #d4d4d8;
+  background: #18181b;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border-left: 3px solid #facc15;
+}
+
+#window-preview-box-checking b {
+  color: #facc15;
+  letter-spacing: 0.1em;
+}
+
+#window-preview-box-complete {
+  font-size: 0.95rem;
+  color: #d4d4d8;
+  background: #18181b;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border-left: 3px solid #22c55e;
+}
+
+#window-preview-box-complete b {
+  color: #4ade80;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   RESULT CALLOUT (FINAL GREEN OUTPUT)
+   ============================================================ */
+#result-callout-box {
+  margin-top: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  background: #13241b;
+  border: 2px solid #22c55e;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
+  box-sizing: border-box;
+}
+
+#callout-header-text {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #86efac;
+  font-weight: 800;
+}
+
+#callout-val-text {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #4ade80;
+  margin: 0.2rem 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 0.85rem;
+  color: #dcfce7;
+}

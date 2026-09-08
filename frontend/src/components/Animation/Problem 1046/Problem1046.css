@@ -1,0 +1,370 @@
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#last-stone-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  box-sizing: border-box;
+  padding: 12px 16px 60px 16px;
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#metrics-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  flex-shrink: 0;
+}
+
+#metric-heap-count,
+#metric-heaviest,
+#metric-smashed-active,
+#metric-smashed-idle,
+#metric-status-active,
+#metric-status-done {
+  background: rgba(24, 24, 32, 0.9);
+  border: 1.5px solid #272736;
+  color: #a1a1aa;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+#metric-heap-count b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#metric-heaviest b { color: #facc15; font-family: ui-monospace, monospace; }
+
+#metric-smashed-active {
+  border-color: #f97316 !important;
+  background: rgba(249, 115, 22, 0.15) !important;
+}
+#metric-smashed-active b { color: #fb923c !important; font-family: ui-monospace, monospace; }
+
+#metric-smashed-idle b { color: #636374; }
+#metric-status-active b { color: #38bdf8; }
+
+#metric-status-done {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.16) !important;
+}
+#metric-status-done b { color: #4ade80 !important; }
+
+/* ============================================================
+   STAGE LAYOUT
+   ============================================================ */
+#stone-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 860px;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+#smash-arena-card,
+#heap-track-card {
+  background: #121218;
+  border: 1.5px solid #242430;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+#arena-card-header,
+#heap-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1c1c24;
+}
+
+#arena-header-title,
+#heap-header-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #8b8b99;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+#arena-header-sub,
+#heap-header-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #636374;
+  font-family: ui-monospace, monospace;
+}
+
+/* ============================================================
+   SMASH ARENA VIEWPORT
+   ============================================================ */
+#arena-viewport {
+  width: 100%;
+  min-height: 120px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+#arena-empty-text,
+#arena-empty-text-done {
+  font-size: 12px;
+  color: #636374;
+  font-style: italic;
+  font-family: ui-monospace, monospace;
+}
+
+#arena-empty-text-done {
+  color: #4ade80 !important;
+}
+
+#collision-pair-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+#stone-box-first,
+#stone-box-second {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.3);
+}
+
+#stone-box-first {
+  background: #27140e;
+  border: 2.5px solid #f97316;
+}
+
+#stone-box-second {
+  background: #251b0e;
+  border: 2.5px solid #facc15;
+}
+
+#stone-val-first {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fb923c;
+  font-family: ui-monospace, monospace;
+  line-height: 1;
+}
+
+#stone-val-second {
+  font-size: 24px;
+  font-weight: 900;
+  color: #fef08a;
+  font-family: ui-monospace, monospace;
+  line-height: 1;
+}
+
+#stone-tag-first,
+#stone-tag-second {
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #a1a1aa;
+  margin-top: 2px;
+}
+
+#smash-impact-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+#smash-symbol {
+  font-size: 28px;
+  animation: pulse-smash 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-smash {
+  0% { transform: scale(0.9); }
+  100% { transform: scale(1.15); }
+}
+
+#smash-equation {
+  font-size: 11px;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
+  color: #f87171;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   HEAP TRACK VIEWPORT
+   ============================================================ */
+#heap-elements-track {
+  width: 100%;
+  min-height: 105px;
+  background: #0f0f14;
+  border: 1px solid #1e1e28;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 14px 16px 28px 16px;
+  gap: 14px;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+#heap-empty-text {
+  font-size: 11px;
+  color: #636374;
+  font-style: italic;
+  font-family: ui-monospace, monospace;
+}
+
+[id^="heap-col-"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+[id^="heap-box-"] {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: 900;
+  font-family: ui-monospace, monospace;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+/* Heap Node States */
+[id^="heap-box-node-"] {
+  background: #151e26;
+  border: 2px solid #283848;
+  color: #7dd3fc;
+}
+
+[id^="heap-box-top-"] {
+  background: #262214 !important;
+  border: 2.5px solid #facc15 !important;
+  color: #fef08a !important;
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.7);
+}
+
+[id^="heap-box-winner-"] {
+  background: #13241b !important;
+  border: 2.5px solid #22c55e !important;
+  color: #4ade80 !important;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.75) !important;
+}
+
+[id^="heap-idx-tag-"] {
+  font-size: 8px;
+  font-weight: 700;
+  color: #717182;
+  font-family: ui-monospace, monospace;
+  margin-top: 4px;
+}
+
+#heap-pointer-tag-top {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 900;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.5px;
+  background: #facc15;
+  color: #0c0c10;
+  box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+  z-index: 5;
+}
+
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 20, 16, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
+  z-index: 100;
+  max-width: 90%;
+}
+
+#callout-header-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #86efac;
+  letter-spacing: 0.8px;
+}
+
+#callout-val-text {
+  font-size: 18px;
+  color: #4ade80;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#callout-detail-text {
+  font-size: 12px;
+  color: #dcfce7;
+  font-weight: 500;
+}

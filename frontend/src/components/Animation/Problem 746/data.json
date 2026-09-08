@@ -1,0 +1,104 @@
+{
+  "id": 746,
+  "title": "Min Cost Climbing Stairs",
+  "difficulty": "Easy",
+  "topic": "Dynamic Programming",
+  "algorithm": "1D State Progression DP",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the minimum cost to reach the top of a staircase taking 1 or 2 steps per turn.",
+  "url": "https://leetcode.com/problems/min-cost-climbing-stairs/",
+  "explanation": "Dynamic programming working backward: cost[i] = cost[i] + min(cost[i+1], cost[i+2]). Final result is min(cost[0], cost[1]).",
+  "pseudoCode": "FUNCTION minCostClimbingStairs(cost):\n    FOR i FROM LENGTH(cost) - 3 DOWN TO 0 DO:\n        cost[i] = cost[i] + MIN(cost[i + 1], cost[i + 2])\n    END FOR\n    RETURN MIN(cost[0], cost[1])\nEND FUNCTION",
+  "renderType": "min_cost_climb",
+  "initialData": [1, 100, 1, 1, 1, 100, 1, 1],
+  "codeLines": [
+    "FUNCTION minCostClimbingStairs(cost):",
+    "    FOR i FROM LENGTH(cost) - 3 DOWN TO 0 DO:",
+    "        cost[i] = cost[i] + MIN(cost[i + 1], cost[i + 2])",
+    "    END FOR",
+    "    RETURN MIN(cost[0], cost[1])",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initial cost array = [1, 100, 1, 1, 1, 100, 1, 1]. Length = 8. Base states at top are cost[6]=1 and cost[7]=1. Start backward scan at index 5.",
+      "state": { "n": 8 },
+      "costArray": [1, 100, 1, 1, 1, 100, 1, 1],
+      "currentI": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 2,
+      "narration": "Line 3: i = 5 (val: 100). cost[5] = 100 + MIN(cost[6]=1, cost[7]=1) = 100 + 1 = 101.",
+      "state": { "i": 5, "cost[5]": 101 },
+      "costArray": [1, 100, 1, 1, 1, 101, 1, 1],
+      "currentI": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 2,
+      "narration": "Line 3: i = 4 (val: 1). cost[4] = 1 + MIN(cost[5]=101, cost[6]=1) = 1 + 1 = 2.",
+      "state": { "i": 4, "cost[4]": 2 },
+      "costArray": [1, 100, 1, 1, 2, 101, 1, 1],
+      "currentI": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 2,
+      "narration": "Line 3: i = 3 (val: 1). cost[3] = 1 + MIN(cost[4]=2, cost[5]=101) = 1 + 2 = 3.",
+      "state": { "i": 3, "cost[3]": 3 },
+      "costArray": [1, 100, 1, 3, 2, 101, 1, 1],
+      "currentI": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 2,
+      "narration": "Line 3: i = 2 (val: 1). cost[2] = 1 + MIN(cost[3]=3, cost[4]=2) = 1 + 2 = 3.",
+      "state": { "i": 2, "cost[2]": 3 },
+      "costArray": [1, 100, 3, 3, 2, 101, 1, 1],
+      "currentI": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 2,
+      "narration": "Line 3: i = 1 (val: 100). cost[1] = 100 + MIN(cost[2]=3, cost[3]=3) = 100 + 3 = 103.",
+      "state": { "i": 1, "cost[1]": 103 },
+      "costArray": [1, 103, 3, 3, 2, 101, 1, 1],
+      "currentI": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 2,
+      "narration": "Line 3: i = 0 (val: 1). cost[0] = 1 + MIN(cost[1]=103, cost[2]=3) = 1 + 3 = 4.",
+      "state": { "i": 0, "cost[0]": 4 },
+      "costArray": [4, 103, 3, 3, 2, 101, 1, 1],
+      "currentI": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 4,
+      "narration": "Line 5: Backward scan complete. Compare starting points: MIN(cost[0]=4, cost[1]=103) = 4. RETURN 4.",
+      "state": {
+        "status": "COMPLETED",
+        "minCost": 4
+      },
+      "costArray": [4, 103, 3, 3, 2, 101, 1, 1],
+      "currentI": null,
+      "output": {
+        "label": "Minimum Cost",
+        "value": "4",
+        "detail": "Start at Step 0 ($1) -> jump to Step 2 ($1) -> jump to Step 4 ($1) -> jump to Step 6 ($1) -> reach Top. Total cost = 4."
+      }
+    }
+  ]
+}

@@ -6,6 +6,9 @@
   box-sizing: border-box;
   list-style: none;
 }
+*::-webkit-scrollbar{
+  display: none;
+}
 
 html::-webkit-scrollbar {
   display: none;
@@ -296,6 +299,7 @@ header#mylayout nav ul li:first-child {
   font-size: inherit !important;
   line-height: inherit !important;
   white-space: pre !important;
+  width: 100vw;
 }
 
 .code-container {

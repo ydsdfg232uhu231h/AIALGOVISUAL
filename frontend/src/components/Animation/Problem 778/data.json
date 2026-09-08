@@ -1,0 +1,298 @@
+{
+  "id": 778,
+  "title": "Swim in Rising Water",
+  "difficulty": "Hard",
+  "topic": "Graph / Dijkstra / Heap",
+  "algorithm": "Dijkstra's Shortest Path / Min-Heap",
+  "timeComplexity": "O(n^2 log n)",
+  "spaceComplexity": "O(n^2)",
+  "oneLinerQuestion": "Find the minimum water height/time needed to travel from top-left to bottom-right of a grid.",
+  "url": "https://leetcode.com/problems/swim-in-rising-water/",
+  "explanation": "Dijkstra's Algorithm using Min-Heap: track path maximum grid elevation. Always expand the adjacent unvisited neighbor requiring minimal water height.",
+  "pseudoCode": "FUNCTION swimInWater(grid):\n    N = LENGTH(grid), minHeap = MinHeap([[grid[0][0], 0, 0]]), visit = SET([(0,0)])\n    WHILE minHeap DO:\n        [t, r, c] = POP(minHeap)\n        IF r == N - 1 AND c == N - 1 THEN RETURN t\n        FOR dr, dc IN [[1,0], [-1,0], [0,1], [0,-1]] DO:\n            nr, nc = r + dr, c + dc\n            IF nr >= 0 AND nc >= 0 AND nr < N AND nc < N AND (nr,nc) NOT IN visit THEN:\n                ADD (nr,nc) TO visit\n                PUSH [MAX(t, grid[nr][nc]), nr, nc] TO minHeap\n            END IF\n        END FOR\n    END WHILE\nEND FUNCTION",
+  "renderType": "water_grid_dijkstra",
+  "initialData": [
+    [0, 2, 4, 6, 8],
+    [16, 18, 20, 22, 10],
+    [14, 12, 24, 21, 11],
+    [15, 13, 23, 17, 9],
+    [19, 5, 3, 7, 1]
+  ],
+  "codeLines": [
+    "FUNCTION swimInWater(grid):",
+    "    N = LENGTH(grid), minHeap = MinHeap([[grid[0][0], 0, 0]]), visit = SET([(0,0)])",
+    "    WHILE minHeap DO:",
+    "        [t, r, c] = POP(minHeap)",
+    "        IF r == N - 1 AND c == N - 1 THEN RETURN t",
+    "        FOR dr, dc IN [[1,0], [-1,0], [0,1], [0,-1]] DO:",
+    "            nr, nc = r + dr, c + dc",
+    "            IF nr >= 0 AND nc >= 0 AND nr < N AND nc < N AND (nr,nc) NOT IN visit THEN:",
+    "                ADD (nr,nc) TO visit",
+    "                PUSH [MAX(t, grid[nr][nc]), nr, nc] TO minHeap",
+    "            END IF",
+    "        END FOR",
+    "    END WHILE",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize minHeap with origin (0, 0) [elev: 0, t: 0]. Mark (0, 0) in visit set.",
+      "state": { "minHeap": "[[0, 0, 0]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0]],
+      "currentCell": [0, 0],
+      "currentTime": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 9,
+      "narration": "Line 10: From (0, 0): push (0, 1) [req t=max(0, 2)=2] and (1, 0) [req t=max(0, 16)=16].",
+      "state": { "minHeap": "[[2, 0, 1], [16, 1, 0]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0]],
+      "currentCell": [0, 0],
+      "currentTime": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 3,
+      "narration": "Line 4: Pop min root [t: 2, (0, 1)]. Water rises to t = 2. Swimmer advances to (0, 1).",
+      "state": { "minHeap": "[[16, 1, 0]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0]],
+      "currentCell": [0, 1],
+      "currentTime": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 9,
+      "narration": "Line 10: From (0, 1): push (0, 2) [req t=max(2, 4)=4] and (1, 1) [req t=max(2, 18)=18].",
+      "state": { "minHeap": "[[4, 0, 2], [16, 1, 0], [18, 1, 1]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1]],
+      "currentCell": [0, 1],
+      "currentTime": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: Pop min root [t: 4, (0, 2)]. Water rises to t = 4. Swimmer moves to (0, 2).",
+      "state": { "minHeap": "[[16, 1, 0], [18, 1, 1]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1]],
+      "currentCell": [0, 2],
+      "currentTime": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 9,
+      "narration": "Line 10: From (0, 2): push (0, 3) [req t=max(4, 6)=6] and (1, 2) [req t=max(4, 20)=20].",
+      "state": { "minHeap": "[[6, 0, 3], [16, 1, 0], [18, 1, 1], [20, 1, 2]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2]],
+      "currentCell": [0, 2],
+      "currentTime": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 3,
+      "narration": "Line 4: Pop min root [t: 6, (0, 3)]. Water rises to t = 6. Swimmer moves to (0, 3).",
+      "state": { "minHeap": "[[16, 1, 0], [18, 1, 1], [20, 1, 2]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2]],
+      "currentCell": [0, 3],
+      "currentTime": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 9,
+      "narration": "Line 10: From (0, 3): push (0, 4) [req t=max(6, 8)=8] and (1, 3) [req t=max(6, 22)=22].",
+      "state": { "minHeap": "[[8, 0, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3]],
+      "currentCell": [0, 3],
+      "currentTime": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 3,
+      "narration": "Line 4: Pop min root [t: 8, (0, 4)]. Water rises to t = 8. Swimmer turns down east edge.",
+      "state": { "minHeap": "[[16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3]],
+      "currentCell": [0, 4],
+      "currentTime": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 9,
+      "narration": "Line 10: From (0, 4): push (1, 4) [req t=max(8, 10)=10]. Added to heap.",
+      "state": { "minHeap": "[[10, 1, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4]],
+      "currentCell": [0, 4],
+      "currentTime": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 3,
+      "narration": "Line 4: Pop min root [t: 10, (1, 4)]. Water rises to t = 10. Swimmer reaches (1, 4).",
+      "state": { "minHeap": "[[16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4]],
+      "currentCell": [1, 4],
+      "currentTime": 10,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 9,
+      "narration": "Line 10: From (1, 4): push (2, 4) [req t=max(10, 11)=11].",
+      "state": { "minHeap": "[[11, 2, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4]],
+      "currentCell": [1, 4],
+      "currentTime": 10,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 3,
+      "narration": "Line 4: Pop min root [t: 11, (2, 4)]. Water rises to t = 11. Push neighbor (3, 4) [req t=max(11, 9)=11].",
+      "state": { "minHeap": "[[11, 3, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4], [3, 4]],
+      "currentCell": [2, 4],
+      "currentTime": 11,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 3,
+      "narration": "Line 4: Pop min root [t: 11, (3, 4)]. Swimmer moves to (3, 4). Push destination neighbor (4, 4) [req t=max(11, 1)=11]!",
+      "state": { "minHeap": "[[11, 4, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4], [3, 4], [4, 4]],
+      "currentCell": [3, 4],
+      "currentTime": 11,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 4,
+      "narration": "Line 5: Pop min root [t: 11, (4, 4)]. r == 4 AND c == 4. Bottom-right destination reached! RETURN t = 11.",
+      "state": { "status": "COMPLETED", "minTime": 11 },
+      "grid": [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      "visited": [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4], [3, 4], [4, 4]],
+      "currentCell": [4, 4],
+      "currentTime": 11,
+      "output": {
+        "label": "Minimum Water Height (5x5)",
+        "value": "t = 11",
+        "detail": "Path (0,0)->(0,1)->(0,2)->(0,3)->(0,4)->(1,4)->(2,4)->(3,4)->(4,4) bypasses central high peaks and is reachable when water rises to 11."
+      }
+    }
+  ]
+}

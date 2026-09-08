@@ -1,0 +1,83 @@
+{
+  "id": 125,
+  "title": "Valid Palindrome",
+  "difficulty": "Easy",
+  "topic": "Two Pointers",
+  "algorithm": "Two Pointers inward scan",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Check if a string is a palindrome after converting to lowercase and removing non-alphanumeric characters.",
+  "url": "https://leetcode.com/problems/valid-palindrome/",
+  "explanation": "Use two pointers starting at left and right boundaries. Skip non-alphanumeric characters and compare lowercase equivalents until pointers meet.",
+  "pseudoCode": "FUNCTION isPalindrome(s):\n    l = 0, r = LENGTH(s) - 1\n    WHILE l < r DO:\n        WHILE l < r AND NOT IS_ALPHANUMERIC(s[l]) DO l = l + 1\n        WHILE l < r AND NOT IS_ALPHANUMERIC(s[r]) DO r = r - 1\n        IF LOWERCASE(s[l]) != LOWERCASE(s[r]) THEN RETURN False\n        l = l + 1, r = r - 1\n    END WHILE\n    RETURN True\nEND FUNCTION",
+  "renderType": "palindrome_scan",
+  "initialData": ["r", "a", "c", "e", "c", "a", "r"],
+  "codeLines": [
+    "FUNCTION isPalindrome(s):",
+    "    l = 0, r = LENGTH(s) - 1",
+    "    WHILE l < r DO:",
+    "        WHILE l < r AND NOT IS_ALPHANUMERIC(s[l]) DO l = l + 1",
+    "        WHILE l < r AND NOT IS_ALPHANUMERIC(s[r]) DO r = r - 1",
+    "        IF LOWERCASE(s[l]) != LOWERCASE(s[r]) THEN RETURN False",
+    "        l = l + 1, r = r - 1",
+    "    END WHILE",
+    "    RETURN True",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize l = 0 ('r'), r = 6 ('r'). Compare outer boundary characters.",
+      "state": { "l": 0, "r": 6, "s[l]": "r", "s[r]": "r" },
+      "chars": ["r", "a", "c", "e", "c", "a", "r"],
+      "l": 0,
+      "r": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 6,
+      "narration": "Line 7: s[0] ('r') == s[6] ('r'). Match! Advance l to 1, decrement r to 5.",
+      "state": { "l": 1, "r": 5, "s[l]": "a", "s[r]": "a" },
+      "chars": ["r", "a", "c", "e", "c", "a", "r"],
+      "l": 1,
+      "r": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7: s[1] ('a') == s[5] ('a'). Match! Advance l to 2, decrement r to 4.",
+      "state": { "l": 2, "r": 4, "s[l]": "c", "s[r]": "c" },
+      "chars": ["r", "a", "c", "e", "c", "a", "r"],
+      "l": 2,
+      "r": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7: s[2] ('c') == s[4] ('c'). Match! Advance l to 3, decrement r to 3.",
+      "state": { "l": 3, "r": 3, "s[l]": "e", "s[r]": "e" },
+      "chars": ["r", "a", "c", "e", "c", "a", "r"],
+      "l": 3,
+      "r": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 8,
+      "narration": "Line 9: Pointers meet at index 3 ('e') (l >= r). All pairs matched. RETURN True.",
+      "state": { "status": "COMPLETED", "isPalindrome": "True" },
+      "chars": ["r", "a", "c", "e", "c", "a", "r"],
+      "l": 3,
+      "r": 3,
+      "output": {
+        "label": "Valid Palindrome",
+        "value": "True",
+        "detail": "'racecar' reads the same forwards and backwards."
+      }
+    }
+  ]
+}

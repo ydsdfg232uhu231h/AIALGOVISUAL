@@ -1,0 +1,84 @@
+.canvas-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  gap: 28px;
+}
+
+.elements-track { display: flex; gap: 14px; }
+.box-column { display: flex; flex-direction: column; align-items: center; position: relative; }
+.box-node {
+  width: 52px;
+  height: 52px;
+  background: #141416;
+  border: 2px solid #2d2d32;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  transition: border-color 0.2s;
+}
+.box-node.current, .box-node.mid-node { border-color: #ff7324; background: rgba(255, 115, 36, 0.15); }
+.box-node.match { border-color: #22c55e; background: rgba(34, 197, 94, 0.2); }
+.idx-tag { margin-top: 6px; font-size: 11px; color: #71717a; }
+
+.pointer-tag {
+  position: absolute;
+  top: -24px;
+  background: #ff7324;
+  color: #000;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.ptr-l { background: #ff7324; color: #000; }
+.ptr-r { background: #38bdf8; color: #000; }
+.ptr-m { background: #a855f7; color: #fff; top: -42px; }
+.ptrs-group { position: absolute; top: 0; display: flex; gap: 2px; }
+
+/* Hash Map */
+.hashmap-area { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.hashmap-title { font-size: 11px; text-transform: uppercase; color: #71717a; }
+.hashmap-list { display: flex; gap: 8px; min-height: 32px; align-items: center; }
+.hash-chip { background: #1a1a1e; border: 1px solid #333; padding: 4px 10px; border-radius: 6px; font-family: monospace; display: flex; gap: 6px; font-size: 13px; color: #22c55e; }
+.empty-notice { color: #52525b; font-size: 12px; }
+
+/* Water */
+.water-stats { font-size: 14px; color: #a1a1aa; }
+.bars-area { display: flex; align-items: flex-end; gap: 14px; height: 200px; position: relative; }
+.bar-column { display: flex; flex-direction: column; align-items: center; position: relative; }
+.bar-element { width: 34px; background: #27272a; border: 1px solid #3f3f46; border-radius: 4px 4px 0 0; display: flex; justify-content: center; padding-top: 4px; color: #fff; font-weight: bold; }
+.bar-element.boundary { border-color: #ff7324; background: rgba(255, 115, 36, 0.25); }
+.water-fill { position: absolute; bottom: 20px; width: 34px; background: rgba(56, 189, 248, 0.4); pointer-events: none; }
+
+/* Stack */
+.char-stream { display: flex; gap: 8px; }
+.char-chip { width: 38px; height: 38px; border: 1px solid #333; background: #141416; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #a1a1aa; font-size: 18px; }
+.char-chip.active { border-color: #ff7324; color: #ff7324; background: rgba(255, 115, 36, 0.15); }
+.stack-bucket { display: flex; flex-direction: column; align-items: center; }
+.bucket-well { border-left: 2px solid #ff7324; border-right: 2px solid #ff7324; border-bottom: 2px solid #ff7324; width: 66px; min-height: 120px; border-radius: 0 0 8px 8px; display: flex; flex-direction: column; justify-content: flex-end; padding: 4px; gap: 4px; }
+.stack-item { height: 30px; background: #27272a; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; }
+.bucket-tag { font-size: 11px; color: #71717a; margin-top: 4px; }
+
+/* Result Output Banner */
+.result-callout {
+  position: absolute;
+  bottom: 12px;
+  background: #111827;
+  border: 1px solid #16a34a;
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+.callout-header { font-size: 11px; color: #86efac; text-transform: uppercase; font-weight: 700; }
+.callout-val { font-size: 18px; color: #fff; font-weight: 800; margin: 2px 0; }
+.callout-detail { font-size: 12px; color: #9ca3af; }

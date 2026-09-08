@@ -1,0 +1,181 @@
+{
+  "id": 74,
+  "title": "Search a 2D Matrix",
+  "difficulty": "Medium",
+  "topic": "Binary Search",
+  "algorithm": "Virtual 1D Binary Search",
+  "timeComplexity": "O(log(m * n))",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Search for a target value in a row-and-column-sorted matrix.",
+  "url": "https://leetcode.com/problems/search-a-2d-matrix/",
+  "explanation": "Treat the m x n matrix as a single 1D flattened array of size m * n. Standard binary search is applied by translating index `mid` to matrix position `matrix[mid / n][mid % n]`.",
+  "pseudoCode": "FUNCTION searchMatrix(matrix, target):\n    m = LENGTH(matrix), n = LENGTH(matrix[0]), low = 0, high = m * n - 1\n    WHILE low <= high DO:\n        mid = (low + high) / 2\n        val = matrix[mid / n][mid % n]\n        IF val == target THEN RETURN True\n        ELSE IF val < target THEN low = mid + 1\n        ELSE high = mid - 1\n    END WHILE\n    RETURN False\nEND FUNCTION",
+  "renderType": "matrix_bs",
+  "initialData": {
+    "matrix": [
+      [1, 3, 5, 7],
+      [10, 11, 16, 20],
+      [23, 30, 34, 60]
+    ],
+    "target": 16
+  },
+  "codeLines": [
+    "FUNCTION searchMatrix(matrix, target):",
+    "    m = LENGTH(matrix), n = LENGTH(matrix[0]), low = 0, high = m * n - 1",
+    "    WHILE low <= high DO:",
+    "        mid = (low + high) / 2",
+    "        val = matrix[mid / n][mid % n]",
+    "        IF val == target THEN RETURN True",
+    "        ELSE IF val < target THEN low = mid + 1",
+    "        ELSE high = mid - 1",
+    "    END WHILE",
+    "    RETURN False",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: m = 3, n = 4. Flattened range: low = 0, high = 11 (3 * 4 - 1). Target = 16.",
+      "state": {
+        "low": 0,
+        "high": 11,
+        "target": 16
+      },
+      "matrix": [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 60]
+      ],
+      "activeRow": 0,
+      "activeCol": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 4,
+      "narration": "Line 4-5: mid = (0 + 11) / 2 = 5. Row = 5 / 4 = 1, Col = 5 % 4 = 1. matrix[1][1] = 11.",
+      "state": {
+        "mid": 5,
+        "val": 11,
+        "low": 0,
+        "high": 11,
+        "target": 16
+      },
+      "matrix": [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 60]
+      ],
+      "activeRow": 1,
+      "activeCol": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 7,
+      "narration": "Line 7: matrix[1][1] (11) < target (16). Search right: low = mid + 1 = 6.",
+      "state": {
+        "mid": 5,
+        "val": 11,
+        "low": 6,
+        "high": 11,
+        "target": 16
+      },
+      "matrix": [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 60]
+      ],
+      "activeRow": 1,
+      "activeCol": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 4-5: mid = (6 + 11) / 2 = 8. Row = 8 / 4 = 2, Col = 8 % 4 = 0. matrix[2][0] = 23.",
+      "state": {
+        "mid": 8,
+        "val": 23,
+        "low": 6,
+        "high": 11,
+        "target": 16
+      },
+      "matrix": [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 60]
+      ],
+      "activeRow": 2,
+      "activeCol": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 8,
+      "narration": "Line 8: matrix[2][0] (23) > target (16). Search left: high = mid - 1 = 7.",
+      "state": {
+        "mid": 8,
+        "val": 23,
+        "low": 6,
+        "high": 7,
+        "target": 16
+      },
+      "matrix": [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 60]
+      ],
+      "activeRow": 2,
+      "activeCol": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 4,
+      "narration": "Line 4-5: mid = (6 + 7) / 2 = 6. Row = 6 / 4 = 1, Col = 6 % 4 = 2. matrix[1][2] = 16.",
+      "state": {
+        "mid": 6,
+        "val": 16,
+        "low": 6,
+        "high": 7,
+        "target": 16
+      },
+      "matrix": [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 60]
+      ],
+      "activeRow": 1,
+      "activeCol": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 6,
+      "narration": "Line 6: matrix[1][2] (16) == target (16)! Value found. RETURN True.",
+      "state": {
+        "status": "COMPLETED",
+        "found": "True",
+        "mid": 6,
+        "val": 16,
+        "low": 6,
+        "high": 7,
+        "target": 16
+      },
+      "matrix": [
+        [1, 3, 5, 7],
+        [10, 11, 16, 20],
+        [23, 30, 34, 60]
+      ],
+      "activeRow": 1,
+      "activeCol": 2,
+      "output": {
+        "label": "Search Result",
+        "value": "True",
+        "detail": "Target 16 found at matrix coordinates [1, 2] (1D index #6)."
+      }
+    }
+  ]
+}

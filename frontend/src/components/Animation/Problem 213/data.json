@@ -1,0 +1,299 @@
+{
+  "id": 213,
+  "title": "House Robber II",
+  "difficulty": "Medium",
+  "topic": "Dynamic Programming",
+  "algorithm": "Dual Pass House Robber (Circular DP)",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Maximize stolen amount in a circular arrangement of houses where first and last are connected.",
+  "url": "https://leetcode.com/problems/house-robber-ii/",
+  "explanation": "Since house 0 and house N-1 are adjacent, run standard House Robber twice: once on subarray range [0..N-2] and once on range [1..N-1], returning max of both results.",
+  "pseudoCode": "FUNCTION rob(nums):\n    IF LENGTH(nums) == 1 THEN RETURN nums[0]\n    RETURN MAX(robRange(nums, 0, LENGTH(nums)-2), robRange(nums, 1, LENGTH(nums)-1))\nEND FUNCTION\n\nFUNCTION robRange(nums, start, end):\n    r1 = 0, r2 = 0\n    FOR i FROM start TO end DO:\n        temp = MAX(nums[i] + r1, r2); r1 = r2; r2 = temp\n    END FOR\n    RETURN r2\nEND FUNCTION",
+  "renderType": "circular_robber",
+  "initialData": [2, 7, 9, 3, 1, 5, 8, 4],
+  "codeLines": [
+    "FUNCTION rob(nums):",
+    "    IF LENGTH(nums) == 1 THEN RETURN nums[0]",
+    "    RETURN MAX(robRange(nums, 0, LENGTH(nums)-2), robRange(nums, 1, LENGTH(nums)-1))",
+    "END FUNCTION",
+    "",
+    "FUNCTION robRange(nums, start, end):",
+    "    r1 = 0, r2 = 0",
+    "    FOR i FROM start TO end DO:",
+    "        temp = MAX(nums[i] + r1, r2)",
+    "        r1 = r2",
+    "        r2 = temp",
+    "    END FOR",
+    "    RETURN r2",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 2,
+      "narration": "Line 3: Circular street with 8 houses. House 0 and 7 are connected. Pass 1: Exclude House 7 (range [0..6]).",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": -1,
+        "r1": 0,
+        "r2": 0
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 1 - House 0 ($2). Base values: r1 = $0, r2 = $0. temp = MAX(2 + 0, 0) = 2. Shift: r1 = 0, r2 = 2.",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": 0,
+        "val": 2,
+        "r1": 0,
+        "r2": 0
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 1 - House 1 ($7). Incoming: r1 = $0, r2 = $2. temp = MAX(7 + 0, 2) = 7. Shift: r1 = 2, r2 = 7.",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": 1,
+        "val": 7,
+        "r1": 0,
+        "r2": 2
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 1 - House 2 ($9). Incoming: r1 = $2 (H[0]), r2 = $7 (H[1]). temp = MAX(9 + 2, 7) = 11. Shift: r1 = 7, r2 = 11.",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": 2,
+        "val": 9,
+        "r1": 2,
+        "r2": 7
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 1 - House 3 ($3). Incoming: r1 = $7 (H[1]), r2 = $11 (H[2]). temp = MAX(3 + 7, 11) = 11. Skip house 3. Shift: r1 = 11, r2 = 11.",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": 3,
+        "val": 3,
+        "r1": 7,
+        "r2": 11
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 1 - House 4 ($1). Incoming: r1 = $11 (H[2]), r2 = $11 (H[3]). temp = MAX(1 + 11, 11) = 12. Shift: r1 = 11, r2 = 12.",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": 4,
+        "val": 1,
+        "r1": 11,
+        "r2": 11
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 1 - House 5 ($5). Incoming: r1 = $11 (H[3]), r2 = $12 (H[4]). temp = MAX(5 + 11, 12) = 16. Shift: r1 = 12, r2 = 16.",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": 5,
+        "val": 5,
+        "r1": 11,
+        "r2": 12
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 1 - House 6 ($8). Incoming: r1 = $12 (H[4]), r2 = $16 (H[5]). temp = MAX(8 + 12, 16) = 20. Shift: r1 = 16, r2 = 20. Pass 1 result = $20.",
+      "state": {
+        "currentPass": 1,
+        "currentHouse": 6,
+        "val": 8,
+        "r1": 12,
+        "r2": 16,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [0, 6],
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 2,
+      "narration": "Line 3: Pass 1 completed with max $20. Pass 2: Exclude House 0 (range [1..7]). Reset r1 = $0, r2 = $0.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": -1,
+        "r1": 0,
+        "r2": 0,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 2 - House 1 ($7). Base values: r1 = $0, r2 = $0. temp = MAX(7 + 0, 0) = 7. Shift: r1 = 0, r2 = 7.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": 1,
+        "val": 7,
+        "r1": 0,
+        "r2": 0,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 2 - House 2 ($9). Incoming: r1 = $0, r2 = $7. temp = MAX(9 + 0, 7) = 9. Shift: r1 = 7, r2 = 9.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": 2,
+        "val": 9,
+        "r1": 0,
+        "r2": 7,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 2 - House 3 ($3). Incoming: r1 = $7 (H[1]), r2 = $9 (H[2]). temp = MAX(3 + 7, 9) = 10. Shift: r1 = 9, r2 = 10.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": 3,
+        "val": 3,
+        "r1": 7,
+        "r2": 9,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 2 - House 4 ($1). Incoming: r1 = $9 (H[2]), r2 = $10 (H[3]). temp = MAX(1 + 9, 10) = 10. Skip house 4. Shift: r1 = 10, r2 = 10.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": 4,
+        "val": 1,
+        "r1": 9,
+        "r2": 10,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 2 - House 5 ($5). Incoming: r1 = $10 (H[3]), r2 = $10 (H[4]). temp = MAX(5 + 10, 10) = 15. Shift: r1 = 10, r2 = 15.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": 5,
+        "val": 5,
+        "r1": 10,
+        "r2": 10,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 2 - House 6 ($8). Incoming: r1 = $10 (H[4]), r2 = $15 (H[5]). temp = MAX(8 + 10, 15) = 18. Shift: r1 = 15, r2 = 18.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": 6,
+        "val": 8,
+        "r1": 10,
+        "r2": 15,
+        "maxPass1": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 8,
+      "narration": "Line 9: Pass 2 - House 7 ($4). Incoming: r1 = $15 (H[5]), r2 = $18 (H[6]). temp = MAX(4 + 15, 18) = 19. Shift: r1 = 18, r2 = 19. Pass 2 result = $19.",
+      "state": {
+        "currentPass": 2,
+        "currentHouse": 7,
+        "val": 4,
+        "r1": 15,
+        "r2": 18,
+        "maxPass1": 20,
+        "maxPass2": 19
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [1, 7],
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 2,
+      "narration": "Line 3: Both passes complete. MAX(Pass 1 = $20, Pass 2 = $19) = $20. RETURN 20.",
+      "state": {
+        "status": "COMPLETED",
+        "maxPass1": 20,
+        "maxPass2": 19,
+        "maxLoot": 20
+      },
+      "houses": [2, 7, 9, 3, 1, 5, 8, 4],
+      "activeRange": [],
+      "output": {
+        "label": "Max Stolen Amount",
+        "value": "$20",
+        "detail": "Pass 1 [0..6] yields maximum loot of $20 by robbing houses 0 ($2), 2 ($9), and 6 ($8)."
+      }
+    }
+  ]
+}

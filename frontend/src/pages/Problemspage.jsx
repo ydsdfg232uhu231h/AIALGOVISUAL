@@ -1,5 +1,6 @@
 import { useRouteLoaderData,Link } from "react-router"
 import style from "./Problemspage.module.css";
+import AnimateLayout from "../components/Animation/Animatelayout";
 
  function Problemspage() {
   const problemdata = useRouteLoaderData("problems");
@@ -7,15 +8,16 @@ import style from "./Problemspage.module.css";
   
   return (
     <>
-        <h1>DSA Problem</h1>
-         <ul>
+        
+         {/* <ul>
           {
             probdata.map((mydata, index)=> (
               <li id={style.problemques} key={mydata.id}><Link to={`/problems/${mydata.id}`}>Q{index + 1} {mydata.title}</Link></li>
               
             ))
           }
-         </ul>
+         </ul> */}
+         <AnimateLayout/>
     </>
   )
 }

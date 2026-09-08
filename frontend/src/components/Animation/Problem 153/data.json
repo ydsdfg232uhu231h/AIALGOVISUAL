@@ -1,0 +1,144 @@
+{
+  "id": 153,
+  "title": "Find Minimum in Rotated Sorted Array",
+  "difficulty": "Medium",
+  "topic": "Binary Search",
+  "algorithm": "Binary Search Pivot Detection",
+  "timeComplexity": "O(log n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find the minimum element in a sorted array that has been rotated.",
+  "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+  "explanation": "Apply binary search: if mid element is greater than or equal to left element, pivot/minimum lies in right half; otherwise it lies in left half.",
+  "pseudoCode": "FUNCTION findMin(nums):\n    l = 0, r = LENGTH(nums) - 1, res = nums[0]\n    WHILE l <= r DO:\n        IF nums[l] < nums[r] THEN res = MIN(res, nums[l]); BREAK\n        m = (l + r) / 2\n        res = MIN(res, nums[m])\n        IF nums[m] >= nums[l] THEN l = m + 1\n        ELSE r = m - 1\n    END WHILE\n    RETURN res\nEND FUNCTION",
+  "renderType": "rotated_bs",
+  "initialData": [4, 5, 6, 7, 0, 1, 2],
+  "codeLines": [
+    "FUNCTION findMin(nums):",
+    "    l = 0, r = LENGTH(nums) - 1, res = nums[0]",
+    "    WHILE l <= r DO:",
+    "        IF nums[l] < nums[r] THEN res = MIN(res, nums[l]); BREAK",
+    "        m = (l + r) / 2",
+    "        res = MIN(res, nums[m])",
+    "        IF nums[m] >= nums[l] THEN l = m + 1",
+    "        ELSE r = m - 1",
+    "    END WHILE",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize l = 0 (val 4), r = 6 (val 2). res = nums[0] = 4.",
+      "state": {
+        "l": 0,
+        "r": 6,
+        "res": 4
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "l": 0,
+      "r": 6,
+      "m": null,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Check if nums[l] < nums[r]: 4 < 2 is FALSE (array is rotated). Continue to calculate mid.",
+      "state": {
+        "l": 0,
+        "r": 6,
+        "res": 4
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "l": 0,
+      "r": 6,
+      "m": null,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5-6: m = (0 + 6) / 2 = 3 (nums[3] = 7). res = MIN(4, 7) = 4.",
+      "state": {
+        "l": 0,
+        "r": 6,
+        "m": 3,
+        "res": 4
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "l": 0,
+      "r": 6,
+      "m": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7: nums[m] (7) >= nums[l] (4) is TRUE. Left partition [4..7] is sorted, minimum is in right partition. l = m + 1 = 4.",
+      "state": {
+        "l": 4,
+        "r": 6,
+        "m": 3,
+        "res": 4
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "l": 4,
+      "r": 6,
+      "m": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 3,
+      "narration": "Line 4: Window is [4..6] ([0, 1, 2]). nums[l] (0) < nums[r] (2) is TRUE! Subarray is sorted.",
+      "state": {
+        "l": 4,
+        "r": 6,
+        "res": 4
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "l": 4,
+      "r": 6,
+      "m": null,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: Update res = MIN(4, nums[4]=0) = 0. BREAK loop.",
+      "state": {
+        "l": 4,
+        "r": 6,
+        "res": 0
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "l": 4,
+      "r": 6,
+      "m": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 9,
+      "narration": "Line 10: Traversal ended. Minimum element in rotated sorted array is 0. RETURN 0.",
+      "state": {
+        "status": "COMPLETED",
+        "min": 0,
+        "res": 0,
+        "l": 4,
+        "r": 6,
+        "m": 4
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "l": 4,
+      "r": 6,
+      "m": 4,
+      "output": {
+        "label": "Minimum Found",
+        "value": "0",
+        "detail": "nums[4] = 0 is the pivot / smallest element."
+      }
+    }
+  ]
+}

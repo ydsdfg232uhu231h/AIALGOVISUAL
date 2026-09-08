@@ -1,0 +1,289 @@
+{
+  "id": 973,
+  "title": "K Closest Points to Origin",
+  "difficulty": "Medium",
+  "topic": "Heap / Geometry",
+  "algorithm": "Min-Heap / Euclidean Distance",
+  "timeComplexity": "O(n log k)",
+  "spaceComplexity": "O(k)",
+  "oneLinerQuestion": "Find the k closest 2D coordinate points to the origin (0,0).",
+  "url": "https://leetcode.com/problems/k-closest-points-to-origin/",
+  "explanation": "Compute squared Euclidean distance x^2 + y^2 for each point and insert into a Min-Heap. Pop k closest elements from the root in O(k log N) time.",
+  "pseudoCode": "FUNCTION kClosest(points, k):\n    minHeap = []\n    FOR x, y IN points DO:\n        dist = x^2 + y^2\n        PUSH [dist, x, y] TO minHeap\n    END FOR\n    BUILD_HEAP(minHeap), res = []\n    FOR i FROM 1 TO k DO:\n        [dist, x, y] = POP(minHeap)\n        APPEND [x, y] TO res\n    END FOR\n    RETURN res\nEND FUNCTION",
+  "renderType": "points_plane_heap",
+  "initialData": {
+    "points": [
+      [3, 3],
+      [5, -1],
+      [-2, 4],
+      [0, 2]
+    ],
+    "k": 2
+  },
+  "codeLines": [
+    "FUNCTION kClosest(points, k):",
+    "    minHeap = []",
+    "    FOR x, y IN points DO:",
+    "        dist = x^2 + y^2",
+    "        PUSH [dist, x, y] TO minHeap",
+    "    END FOR",
+    "    BUILD_HEAP(minHeap), res = []",
+    "    FOR i FROM 1 TO k DO:",
+    "        [dist, x, y] = POP(minHeap)",
+    "        APPEND [x, y] TO res",
+    "    END FOR",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize minHeap = [], res = []. Input points = [[3, 3], [5, -1], [-2, 4], [0, 2]], k = 2.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3] },
+        { "coords": [5, -1] },
+        { "coords": [-2, 4] },
+        { "coords": [0, 2] }
+      ],
+      "activePoint": null,
+      "activeRadius": 0,
+      "heap": [],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: Point [3, 3]: calculate Euclidean distance d² = 3² + 3² = 18.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1] },
+        { "coords": [-2, 4] },
+        { "coords": [0, 2] }
+      ],
+      "activePoint": [3, 3],
+      "activeRadius": 18,
+      "heap": [],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: Push [d²: 18, [3, 3]] into minHeap.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1] },
+        { "coords": [-2, 4] },
+        { "coords": [0, 2] }
+      ],
+      "activePoint": [3, 3],
+      "activeRadius": 18,
+      "heap": [
+        { "dist": 18, "point": [3, 3] }
+      ],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: Point [5, -1]: calculate Euclidean distance d² = 5² + (-1)² = 26.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4] },
+        { "coords": [0, 2] }
+      ],
+      "activePoint": [5, -1],
+      "activeRadius": 26,
+      "heap": [
+        { "dist": 18, "point": [3, 3] }
+      ],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: Push [d²: 26, [5, -1]] into minHeap.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4] },
+        { "coords": [0, 2] }
+      ],
+      "activePoint": [5, -1],
+      "activeRadius": 26,
+      "heap": [
+        { "dist": 18, "point": [3, 3] },
+        { "dist": 26, "point": [5, -1] }
+      ],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: Point [-2, 4]: calculate Euclidean distance d² = (-2)² + 4² = 20.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4], "dist": 20 },
+        { "coords": [0, 2] }
+      ],
+      "activePoint": [-2, 4],
+      "activeRadius": 20,
+      "heap": [
+        { "dist": 18, "point": [3, 3] },
+        { "dist": 26, "point": [5, -1] }
+      ],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 4,
+      "narration": "Line 5: Push [d²: 20, [-2, 4]] into minHeap.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4], "dist": 20 },
+        { "coords": [0, 2] }
+      ],
+      "activePoint": [-2, 4],
+      "activeRadius": 20,
+      "heap": [
+        { "dist": 18, "point": [3, 3] },
+        { "dist": 26, "point": [5, -1] },
+        { "dist": 20, "point": [-2, 4] }
+      ],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: Point [0, 2]: calculate Euclidean distance d² = 0² + 2² = 4.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4], "dist": 20 },
+        { "coords": [0, 2], "dist": 4 }
+      ],
+      "activePoint": [0, 2],
+      "activeRadius": 4,
+      "heap": [
+        { "dist": 18, "point": [3, 3] },
+        { "dist": 26, "point": [5, -1] },
+        { "dist": 20, "point": [-2, 4] }
+      ],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5: Push [d²: 4, [0, 2]] into minHeap. Distance 4 floats directly to root!",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4], "dist": 20 },
+        { "coords": [0, 2], "dist": 4 }
+      ],
+      "activePoint": [0, 2],
+      "activeRadius": 4,
+      "heap": [
+        { "dist": 4, "point": [0, 2] },
+        { "dist": 18, "point": [3, 3] },
+        { "dist": 20, "point": [-2, 4] },
+        { "dist": 26, "point": [5, -1] }
+      ],
+      "res": [],
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 8,
+      "narration": "Line 9: Pop #1: Extract minimum root [0, 2] (d²=4). Append to res.",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4], "dist": 20 },
+        { "coords": [0, 2], "dist": 4 }
+      ],
+      "activePoint": [0, 2],
+      "activeRadius": 4,
+      "heap": [
+        { "dist": 18, "point": [3, 3] },
+        { "dist": 26, "point": [5, -1] },
+        { "dist": 20, "point": [-2, 4] }
+      ],
+      "res": [
+        [0, 2]
+      ],
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 8,
+      "narration": "Line 9: Pop #2: Extract new minimum root [3, 3] (d²=18). Append to res. k = 2 reached!",
+      "state": { "k": 2 },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4], "dist": 20 },
+        { "coords": [0, 2], "dist": 4 }
+      ],
+      "activePoint": [3, 3],
+      "activeRadius": 18,
+      "heap": [
+        { "dist": 20, "point": [-2, 4] },
+        { "dist": 26, "point": [5, -1] }
+      ],
+      "res": [
+        [0, 2],
+        [3, 3]
+      ],
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 11,
+      "narration": "Line 12: Selected 2 closest points to origin: [[0, 2], [3, 3]]. RETURN res.",
+      "state": { "status": "COMPLETED" },
+      "points": [
+        { "coords": [3, 3], "dist": 18 },
+        { "coords": [5, -1], "dist": 26 },
+        { "coords": [-2, 4], "dist": 20 },
+        { "coords": [0, 2], "dist": 4 }
+      ],
+      "activePoint": null,
+      "activeRadius": 18,
+      "heap": [
+        { "dist": 20, "point": [-2, 4] },
+        { "dist": 26, "point": [5, -1] }
+      ],
+      "res": [
+        [0, 2],
+        [3, 3]
+      ],
+      "output": {
+        "label": "2 Closest Points",
+        "value": "[[0, 2], [3, 3]]",
+        "detail": "Distances: [0, 2] (d=2.00), [3, 3] (d≈4.24) < [-2, 4] (d≈4.47) < [5, -1] (d≈5.10)."
+      }
+    }
+  ]
+}

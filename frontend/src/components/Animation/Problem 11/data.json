@@ -1,0 +1,223 @@
+{
+  "id": 11,
+  "title": "Container With Most Water",
+  "difficulty": "Medium",
+  "topic": "Two Pointers",
+  "algorithm": "Two Pointers (Shrinking Window)",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Find two vertical lines that together with the x-axis form a container holding maximum water.",
+  "url": "https://leetcode.com/problems/container-with-most-water/",
+  "explanation": "We place pointers at both ends of the array. The area is constrained by the shorter line, so at each step we calculate the current container volume and then move the pointer pointing to the shorter height inward, attempting to find a taller boundary.",
+  "pseudoCode": "FUNCTION maxArea(height):\n    left = 0, right = LENGTH(height) - 1, maxW = 0\n    WHILE left < right DO:\n        area = (right - left) * MIN(height[left], height[right])\n        maxW = MAX(maxW, area)\n        IF height[left] < height[right] THEN left = left + 1\n        ELSE right = right - 1\n    END WHILE\n    RETURN maxW\nEND FUNCTION",
+  "renderType": "water_bars",
+  "initialData": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+  "codeLines": [
+    "FUNCTION maxArea(height):",
+    "    left = 0, right = LENGTH(height) - 1, maxW = 0",
+    "    WHILE left < right DO:",
+    "        area = (right - left) * MIN(height[left], height[right])",
+    "        maxW = MAX(maxW, area)",
+    "        IF height[left] < height[right] THEN left = left + 1",
+    "        ELSE right = right - 1",
+    "    END WHILE",
+    "    RETURN maxW",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Initialize left = 0, right = 8, maxW = 0.",
+      "state": { "left": 0, "right": 8, "maxW": 0, "area": 0 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 0,
+      "right": 8,
+      "currentWater": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: L=0 (h=1), R=8 (h=7). Width = 8. area = 8 * MIN(1, 7) = 8. maxW = 8.",
+      "state": { "left": 0, "right": 8, "area": 8, "maxW": 8 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 0,
+      "right": 8,
+      "currentWater": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: height[0] (1) < height[8] (7). Move left inward to 1.",
+      "state": { "left": 1, "right": 8, "area": 8, "maxW": 8 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 8,
+      "currentWater": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Line 4: L=1 (h=8), R=8 (h=7). Width = 7. area = 7 * MIN(8, 7) = 49. maxW = 49.",
+      "state": { "left": 1, "right": 8, "area": 49, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 8,
+      "currentWater": 49,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 6,
+      "narration": "Line 7: height[1] (8) >= height[8] (7). Move right inward to 7.",
+      "state": { "left": 1, "right": 7, "area": 49, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 7,
+      "currentWater": 49,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: L=1 (h=8), R=7 (h=3). Width = 6. area = 6 * MIN(8, 3) = 18. maxW remains 49.",
+      "state": { "left": 1, "right": 7, "area": 18, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 7,
+      "currentWater": 18,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 6,
+      "narration": "Line 7: height[7] (3) < height[1] (8). Move right inward to 6.",
+      "state": { "left": 1, "right": 6, "area": 18, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 6,
+      "currentWater": 18,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Line 4: L=1 (h=8), R=6 (h=8). Width = 5. area = 5 * MIN(8, 8) = 40. maxW remains 49.",
+      "state": { "left": 1, "right": 6, "area": 40, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 6,
+      "currentWater": 40,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 6,
+      "narration": "Line 7: height[1] (8) == height[6] (8). Move right inward to 5.",
+      "state": { "left": 1, "right": 5, "area": 40, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 5,
+      "currentWater": 40,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 3,
+      "narration": "Line 4: L=1 (h=8), R=5 (h=4). Width = 4. area = 4 * MIN(8, 4) = 16. maxW remains 49.",
+      "state": { "left": 1, "right": 5, "area": 16, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 5,
+      "currentWater": 16,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 6,
+      "narration": "Line 7: height[5] (4) < height[1] (8). Move right inward to 4.",
+      "state": { "left": 1, "right": 4, "area": 16, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 4,
+      "currentWater": 16,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 3,
+      "narration": "Line 4: L=1 (h=8), R=4 (h=5). Width = 3. area = 3 * MIN(8, 5) = 15. maxW remains 49.",
+      "state": { "left": 1, "right": 4, "area": 15, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 4,
+      "currentWater": 15,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 6,
+      "narration": "Line 7: height[4] (5) < height[1] (8). Move right inward to 3.",
+      "state": { "left": 1, "right": 3, "area": 15, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 3,
+      "currentWater": 15,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 3,
+      "narration": "Line 4: L=1 (h=8), R=3 (h=2). Width = 2. area = 2 * MIN(8, 2) = 4. maxW remains 49.",
+      "state": { "left": 1, "right": 3, "area": 4, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 3,
+      "currentWater": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 6,
+      "narration": "Line 7: height[3] (2) < height[1] (8). Move right inward to 2.",
+      "state": { "left": 1, "right": 2, "area": 4, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 2,
+      "currentWater": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 3,
+      "narration": "Line 4: L=1 (h=8), R=2 (h=6). Width = 1. area = 1 * MIN(8, 6) = 6. maxW remains 49.",
+      "state": { "left": 1, "right": 2, "area": 6, "maxW": 49 },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 2,
+      "currentWater": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 16,
+      "activeLine": 8,
+      "narration": "Line 9: Pointers meet. Maximum water capacity found is 49 units². RETURN 49.",
+      "state": {
+        "status": "COMPLETED",
+        "maxW": 49
+      },
+      "heights": [1, 8, 6, 2, 5, 4, 8, 3, 7],
+      "left": 1,
+      "right": 8,
+      "currentWater": 49,
+      "output": {
+        "label": "Max Water Volume",
+        "value": "49 units²",
+        "detail": "Formed between index 1 (height 8) and index 8 (height 7)."
+      }
+    }
+  ]
+}

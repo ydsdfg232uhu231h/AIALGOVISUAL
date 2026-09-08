@@ -1,0 +1,152 @@
+{
+  "id": 1046,
+  "title": "Last Stone Weight",
+  "difficulty": "Easy",
+  "topic": "Heap / Priority Queue",
+  "algorithm": "Max-Heap Collision Simulation",
+  "timeComplexity": "O(n log n)",
+  "spaceComplexity": "O(n)",
+  "oneLinerQuestion": "Simulate smashing the two heaviest stones together repeatedly until at most 1 stone remains.",
+  "url": "https://leetcode.com/problems/last-stone-weight/",
+  "explanation": "Use Max-Heap to efficiently pop top 2 heaviest stones in O(log N). If weights differ, push absolute weight difference back into Max-Heap until <= 1 stone left.",
+  "pseudoCode": "FUNCTION lastStoneWeight(stones):\n    maxHeap = MaxHeap(stones)\n    WHILE SIZE(maxHeap) > 1 DO:\n        first = POP(maxHeap)\n        second = POP(maxHeap)\n        IF first != second THEN PUSH(maxHeap, first - second)\n    END WHILE\n    RETURN SIZE(maxHeap) == 1 ? TOP(maxHeap) : 0\nEND FUNCTION",
+  "renderType": "stone_smash_heap",
+  "initialData": [2, 7, 4, 1, 8, 1],
+  "codeLines": [
+    "FUNCTION lastStoneWeight(stones):",
+    "    maxHeap = MaxHeap(stones)",
+    "    WHILE SIZE(maxHeap) > 1 DO:",
+    "        first = POP(maxHeap)",
+    "        second = POP(maxHeap)",
+    "        IF first != second THEN PUSH(maxHeap, first - second)",
+    "    END WHILE",
+    "    RETURN SIZE(maxHeap) == 1 ? TOP(maxHeap) : 0",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Build maxHeap from input stones [2, 7, 4, 1, 8, 1]. Heap order: [8, 7, 4, 2, 1, 1].",
+      "state": { "heap": "[8, 7, 4, 2, 1, 1]" },
+      "heap": [8, 7, 4, 2, 1, 1],
+      "smashedPair": null,
+      "actionType": "IDLE",
+      "isCompleted": false,
+      "dwellMs": 1400,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Lines 4-5: Pop the two heaviest stones: first = 8, second = 7.",
+      "state": { "first": 8, "second": 7, "heap": "[4, 2, 1, 1]" },
+      "heap": [4, 2, 1, 1],
+      "smashedPair": [8, 7],
+      "actionType": "POP_TWO",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: 8 != 7. Smash creates remainder stone: 8 - 7 = 1. Push 1 back into maxHeap.",
+      "state": { "diff": 1, "heap": "[4, 2, 1, 1, 1]" },
+      "heap": [4, 2, 1, 1, 1],
+      "smashedPair": null,
+      "actionType": "PUSH_DIFF",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 3,
+      "narration": "Lines 4-5: Pop the two heaviest stones: first = 4, second = 2.",
+      "state": { "first": 4, "second": 2, "heap": "[1, 1, 1]" },
+      "heap": [1, 1, 1],
+      "smashedPair": [4, 2],
+      "actionType": "POP_TWO",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 5,
+      "narration": "Line 6: 4 != 2. Remainder: 4 - 2 = 2. Push 2 back into maxHeap.",
+      "state": { "diff": 2, "heap": "[2, 1, 1, 1]" },
+      "heap": [2, 1, 1, 1],
+      "smashedPair": null,
+      "actionType": "PUSH_DIFF",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Lines 4-5: Pop the two heaviest stones: first = 2, second = 1.",
+      "state": { "first": 2, "second": 1, "heap": "[1, 1]" },
+      "heap": [1, 1],
+      "smashedPair": [2, 1],
+      "actionType": "POP_TWO",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6: 2 != 1. Remainder: 2 - 1 = 1. Push 1 back into maxHeap.",
+      "state": { "diff": 1, "heap": "[1, 1, 1]" },
+      "heap": [1, 1, 1],
+      "smashedPair": null,
+      "actionType": "PUSH_DIFF",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 3,
+      "narration": "Lines 4-5: Pop the two heaviest stones: first = 1, second = 1.",
+      "state": { "first": 1, "second": 1, "heap": "[1]" },
+      "heap": [1],
+      "smashedPair": [1, 1],
+      "actionType": "COLLIDE",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 5,
+      "narration": "Line 6: 1 == 1. Equal weights annihilate each other completely. No stone pushed back.",
+      "state": { "heap": "[1]" },
+      "heap": [1],
+      "smashedPair": null,
+      "actionType": "DESTROY_BOTH",
+      "isCompleted": false,
+      "dwellMs": 1500,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 7,
+      "narration": "Line 8: Only 1 stone remains in maxHeap (size <= 1). RETURN top stone = 1.",
+      "state": { "status": "COMPLETED", "lastStone": 1 },
+      "heap": [1],
+      "smashedPair": null,
+      "actionType": "DONE",
+      "isCompleted": true,
+      "dwellMs": 3500,
+      "output": {
+        "label": "Last Stone Weight (Green Glow)",
+        "value": "1",
+        "detail": "All collisions evaluated using Max-Heap in O(n log n) time."
+      }
+    }
+  ]
+}

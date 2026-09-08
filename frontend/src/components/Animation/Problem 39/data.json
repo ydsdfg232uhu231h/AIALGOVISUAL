@@ -1,0 +1,202 @@
+{
+  "id": 39,
+  "title": "Combination Sum",
+  "difficulty": "Medium",
+  "topic": "Backtracking",
+  "algorithm": "Backtracking (Decision Tree)",
+  "timeComplexity": "O(2^t)",
+  "spaceComplexity": "O(t)",
+  "oneLinerQuestion": "Find all unique combinations of candidate numbers that sum up to a target with unlimited reuse allowed.",
+  "url": "https://leetcode.com/problems/combination-sum/",
+  "explanation": "Using depth-first search with backtracking, explore decision paths where each candidate can be reused repeatedly until the current running sum equals or exceeds the target.",
+  "pseudoCode": "FUNCTION combinationSum(candidates, target):\n    res = []\n    FUNCTION backtrack(idx, current, sum):\n        IF sum == target THEN APPEND COPY(current) TO res; RETURN\n        IF sum > target OR idx >= LENGTH(candidates) THEN RETURN\n        APPEND candidates[idx] TO current\n        backtrack(idx, current, sum + candidates[idx])\n        POP current\n        backtrack(idx + 1, current, sum)\n    END FUNCTION\n    backtrack(0, [], 0)\n    RETURN res\nEND FUNCTION",
+  "renderType": "tree_backtrack",
+  "initialData": {
+    "candidates": [2, 3, 4, 5, 6, 7],
+    "target": 7
+  },
+  "codeLines": [
+    "FUNCTION combinationSum(candidates, target):",
+    "    res = []",
+    "    FUNCTION backtrack(idx, current, sum):",
+    "        IF sum == target THEN APPEND COPY(current) TO res; RETURN",
+    "        IF sum > target OR idx >= LENGTH(candidates) THEN RETURN",
+    "        APPEND candidates[idx] TO current",
+    "        backtrack(idx, current, sum + candidates[idx])",
+    "        POP current",
+    "        backtrack(idx + 1, current, sum)",
+    "    END FUNCTION",
+    "    backtrack(0, [], 0)",
+    "    RETURN res",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 10,
+      "narration": "Line 11: Start backtrack(0, [], 0). Candidates = [2, 3, 4, 5, 6, 7], Target = 7.",
+      "state": { "idx": 0, "sum": 0, "res": "[]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [],
+      "runningSum": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 6,
+      "narration": "Line 7: Pick candidate 2. Current = [2], sum = 2.",
+      "state": { "idx": 0, "sum": 2, "res": "[]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2],
+      "runningSum": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 6,
+      "narration": "Line 7: Reuse candidate 2. Current = [2, 2], sum = 4.",
+      "state": { "idx": 0, "sum": 4, "res": "[]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 2],
+      "runningSum": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7: Reuse candidate 2 again. Current = [2, 2, 2], sum = 6.",
+      "state": { "idx": 0, "sum": 6, "res": "[]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 2, 2],
+      "runningSum": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: Another 2 gives [2, 2, 2, 2], sum = 8 > 7. Exceeds target! Backtrack and pop 2.",
+      "state": { "idx": 0, "sum": 8, "res": "[]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 2, 2, 2],
+      "runningSum": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 8,
+      "narration": "Line 9: Pop to [2, 2]. Advance to candidate index 1 (val: 3).",
+      "state": { "idx": 1, "sum": 4, "res": "[]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 2],
+      "runningSum": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 3,
+      "narration": "Line 4: Pick candidate 3: [2, 2, 3]. Sum = 7 == target! Record combination [2, 2, 3].",
+      "state": { "idx": 1, "sum": 7, "res": "[[2, 2, 3]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 2, 3],
+      "runningSum": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 8,
+      "narration": "Line 9: Backtrack to [2]. Advance to candidate index 1 (val: 3): [2, 3], sum = 5.",
+      "state": { "idx": 1, "sum": 5, "res": "[[2, 2, 3]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 3],
+      "runningSum": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 4,
+      "narration": "Line 5: Adding another 3 gives [2, 3, 3] = 8 > 7. Backtrack to [2].",
+      "state": { "idx": 1, "sum": 8, "res": "[[2, 2, 3]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 3, 3],
+      "runningSum": 8,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 8,
+      "narration": "Line 9: From [2], advance to candidate index 2 (val: 4). Current = [2, 4], sum = 6.",
+      "state": { "idx": 2, "sum": 6, "res": "[[2, 2, 3]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 4],
+      "runningSum": 6,
+      "output": null
+    },
+    {
+      "stepIndex": 10,
+      "activeLine": 3,
+      "narration": "Line 4: Pop 4. Advance to candidate index 3 (val: 5): [2, 5], sum = 7 == target! Record [2, 5].",
+      "state": { "idx": 3, "sum": 7, "res": "[[2, 2, 3], [2, 5]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [2, 5],
+      "runningSum": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 11,
+      "activeLine": 8,
+      "narration": "Line 9: Backtrack to root []. Advance to candidate index 1 (val: 3). Current = [3], sum = 3.",
+      "state": { "idx": 1, "sum": 3, "res": "[[2, 2, 3], [2, 5]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [3],
+      "runningSum": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 12,
+      "activeLine": 3,
+      "narration": "Line 4: Advance to candidate index 2 (val: 4): [3, 4], sum = 7 == target! Record [3, 4].",
+      "state": { "idx": 2, "sum": 7, "res": "[[2, 2, 3], [2, 5], [3, 4]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [3, 4],
+      "runningSum": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 13,
+      "activeLine": 8,
+      "narration": "Line 9: Backtrack to root []. Skip indices 2, 3, 4. Advance to candidate index 5 (val: 7).",
+      "state": { "idx": 5, "sum": 0, "res": "[[2, 2, 3], [2, 5], [3, 4]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [],
+      "runningSum": 0,
+      "output": null
+    },
+    {
+      "stepIndex": 14,
+      "activeLine": 3,
+      "narration": "Line 4: Pick candidate 7: [7], sum = 7 == target! Record [7].",
+      "state": { "idx": 5, "sum": 7, "res": "[[2, 2, 3], [2, 5], [3, 4], [7]]" },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [7],
+      "runningSum": 7,
+      "output": null
+    },
+    {
+      "stepIndex": 15,
+      "activeLine": 11,
+      "narration": "Line 12: Traversal complete. Found 4 unique combinations that sum to 7. RETURN res.",
+      "state": {
+        "status": "COMPLETED",
+        "combinations": "[[2, 2, 3], [2, 5], [3, 4], [7]]"
+      },
+      "candidates": [2, 3, 4, 5, 6, 7],
+      "current": [],
+      "runningSum": 0,
+      "output": {
+        "label": "Valid Combinations",
+        "value": "4 combinations",
+        "detail": "[[2, 2, 3], [2, 5], [3, 4], [7]]"
+      }
+    }
+  ]
+}

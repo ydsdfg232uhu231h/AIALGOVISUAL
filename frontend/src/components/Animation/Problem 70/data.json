@@ -1,0 +1,112 @@
+{
+  "id": 70,
+  "title": "Climbing Stairs",
+  "difficulty": "Easy",
+  "topic": "Dynamic Programming",
+  "algorithm": "Fibonacci Sequence DP",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Count how many distinct ways you can climb n steps taking 1 or 2 steps at a time.",
+  "url": "https://leetcode.com/problems/climbing-stairs/",
+  "explanation": "This follows the Fibonacci sequence pattern: the number of ways to reach step n is the sum of ways to reach step n-1 and step n-2. We track the last two results with O(1) memory.",
+  "pseudoCode": "FUNCTION climbStairs(n):\n    IF n <= 2 THEN RETURN n\n    one = 1, two = 2\n    FOR i FROM 3 TO n DO:\n        temp = one + two\n        one = two\n        two = temp\n    END FOR\n    RETURN two\nEND FUNCTION",
+  "renderType": "dp_climb",
+  "initialData": [1, 2, 3, 5, 8],
+  "codeLines": [
+    "FUNCTION climbStairs(n):",
+    "    IF n <= 2 THEN RETURN n",
+    "    one = 1, two = 2",
+    "    FOR i FROM 3 TO n DO:",
+    "        temp = one + two",
+    "        one = two",
+    "        two = temp",
+    "    END FOR",
+    "    RETURN two",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: Base case Step 1: Exactly 1 distinct way to climb (take 1 single step).",
+      "state": {
+        "n": 5,
+        "one": null,
+        "two": null
+      },
+      "stepsList": [1],
+      "currentStep": 1,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 1,
+      "narration": "Line 2: Base case Step 2: Exactly 2 distinct ways to climb (1+1 or 2 steps). Set one = 1, two = 2.",
+      "state": {
+        "n": 5,
+        "one": 1,
+        "two": 2
+      },
+      "stepsList": [1, 2],
+      "currentStep": 2,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 4,
+      "narration": "Line 5: i = 3. Ways(3) = one(1) + two(2) = 3 ways. Shift: one = 2, two = 3.",
+      "state": {
+        "i": 3,
+        "one": 1,
+        "two": 2
+      },
+      "stepsList": [1, 2, 3],
+      "currentStep": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 4,
+      "narration": "Line 5: i = 4. Ways(4) = one(2) + two(3) = 5 ways. Shift: one = 3, two = 5.",
+      "state": {
+        "i": 4,
+        "one": 2,
+        "two": 3
+      },
+      "stepsList": [1, 2, 3, 5],
+      "currentStep": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 4,
+      "narration": "Line 5: i = 5. Ways(5) = one(3) + two(5) = 8 ways. Shift: one = 5, two = 8.",
+      "state": {
+        "i": 5,
+        "one": 3,
+        "two": 5
+      },
+      "stepsList": [1, 2, 3, 5, 8],
+      "currentStep": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 8,
+      "narration": "Line 9: Target step n = 5 reached. Total combinations = 8. RETURN two = 8.",
+      "state": {
+        "status": "COMPLETED",
+        "ways": 8,
+        "one": 5,
+        "two": 8
+      },
+      "stepsList": [1, 2, 3, 5, 8],
+      "currentStep": 5,
+      "output": {
+        "label": "Distinct Ways",
+        "value": "8 combinations",
+        "detail": "There are 8 distinct ways to climb 5 stairs."
+      }
+    }
+  ]
+}

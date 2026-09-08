@@ -1,0 +1,201 @@
+{
+  "id": 33,
+  "title": "Search in Rotated Sorted Array",
+  "difficulty": "Medium",
+  "topic": "Binary Search",
+  "algorithm": "Modified Binary Search",
+  "timeComplexity": "O(log n)",
+  "spaceComplexity": "O(1)",
+  "oneLinerQuestion": "Search for a target value in a sorted array that has been rotated at an unknown pivot.",
+  "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+  "explanation": "In a rotated sorted array, at least one half (left or right) is guaranteed to be strictly sorted at any step. Using modified binary search, we determine which half is sorted and check if the target falls within its range to eliminate half the search space.",
+  "pseudoCode": "FUNCTION search(nums, target):\n    low = 0, high = LENGTH(nums) - 1\n    WHILE low <= high DO:\n        mid = (low + high) / 2\n        IF nums[mid] == target THEN RETURN mid\n        IF nums[low] <= nums[mid] THEN:\n            IF nums[low] <= target AND target < nums[mid] THEN high = mid - 1\n            ELSE low = mid + 1\n        ELSE:\n            IF nums[mid] < target AND target <= nums[high] THEN low = mid + 1\n            ELSE high = mid - 1\n    END WHILE\n    RETURN -1\nEND FUNCTION",
+  "renderType": "rotated_bs",
+  "initialData": [4, 5, 6, 7, 0, 1, 2],
+  "codeLines": [
+    "FUNCTION search(nums, target):",
+    "    low = 0, high = LENGTH(nums) - 1",
+    "    WHILE low <= high DO:",
+    "        mid = (low + high) / 2",
+    "        IF nums[mid] == target THEN RETURN mid",
+    "        IF nums[low] <= nums[mid] THEN:",
+    "            IF nums[low] <= target AND target < nums[mid] THEN high = mid - 1",
+    "            ELSE low = mid + 1",
+    "        ELSE:",
+    "            IF nums[mid] < target AND target <= nums[high] THEN low = mid + 1",
+    "            ELSE high = mid - 1",
+    "    END WHILE",
+    "    RETURN -1",
+    "END FUNCTION"
+  ],
+  "steps": [
+    {
+      "stepIndex": 0,
+      "activeLine": 1,
+      "narration": "Line 2: target = 0. Search space: low = 0 (val 4), high = 6 (val 2).",
+      "state": {
+        "low": 0,
+        "high": 6,
+        "target": 0
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 0,
+      "high": 6,
+      "mid": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 1,
+      "activeLine": 3,
+      "narration": "Line 4: mid = (0 + 6) / 2 = 3 (nums[3] = 7). Check if nums[mid] == target: 7 != 0.",
+      "state": {
+        "low": 0,
+        "high": 6,
+        "mid": 3,
+        "target": 0
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 0,
+      "high": 6,
+      "mid": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 2,
+      "activeLine": 5,
+      "narration": "Line 6: nums[low] (4) <= nums[mid] (7) is TRUE -> Left half [4, 5, 6, 7] is sorted.",
+      "state": {
+        "low": 0,
+        "high": 6,
+        "mid": 3,
+        "target": 0,
+        "sortedHalf": "Left [0..3]"
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 0,
+      "high": 6,
+      "mid": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 3,
+      "activeLine": 6,
+      "narration": "Line 7: Is target 0 in left sorted range [4, 7)? 4 <= 0 < 7 is FALSE.",
+      "state": {
+        "low": 0,
+        "high": 6,
+        "mid": 3,
+        "target": 0,
+        "sortedHalf": "Left [0..3]"
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 0,
+      "high": 6,
+      "mid": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 4,
+      "activeLine": 7,
+      "narration": "Line 8: Target is outside left half. Discard [0..3]. Set low = mid + 1 = 4.",
+      "state": {
+        "low": 4,
+        "high": 6,
+        "target": 0
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 4,
+      "high": 6,
+      "mid": 3,
+      "output": null
+    },
+    {
+      "stepIndex": 5,
+      "activeLine": 3,
+      "narration": "Line 4: mid = (4 + 6) / 2 = 5 (nums[5] = 1). Check if nums[mid] == target: 1 != 0.",
+      "state": {
+        "low": 4,
+        "high": 6,
+        "mid": 5,
+        "target": 0
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 4,
+      "high": 6,
+      "mid": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 6,
+      "activeLine": 5,
+      "narration": "Line 6: nums[low] (nums[4]=0) <= nums[mid] (nums[5]=1) is TRUE -> Sub-range [0, 1] is sorted.",
+      "state": {
+        "low": 4,
+        "high": 6,
+        "mid": 5,
+        "target": 0,
+        "sortedHalf": "Left [4..5]"
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 4,
+      "high": 6,
+      "mid": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 7,
+      "activeLine": 6,
+      "narration": "Line 7: Is target 0 in sorted range [0, 1)? 0 <= 0 < 1 is TRUE. Target is here! Set high = mid - 1 = 4.",
+      "state": {
+        "low": 4,
+        "high": 4,
+        "mid": 5,
+        "target": 0,
+        "sortedHalf": "Left [4..5]"
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 4,
+      "high": 4,
+      "mid": 5,
+      "output": null
+    },
+    {
+      "stepIndex": 8,
+      "activeLine": 3,
+      "narration": "Line 4: mid = (4 + 4) / 2 = 4 (nums[4] = 0).",
+      "state": {
+        "low": 4,
+        "high": 4,
+        "mid": 4,
+        "target": 0
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 4,
+      "high": 4,
+      "mid": 4,
+      "output": null
+    },
+    {
+      "stepIndex": 9,
+      "activeLine": 4,
+      "narration": "Line 5: nums[4] == target (0 == 0)! Target found. RETURN mid = 4.",
+      "state": {
+        "status": "COMPLETED",
+        "return": 4,
+        "low": 4,
+        "high": 4,
+        "mid": 4,
+        "target": 0
+      },
+      "array": [4, 5, 6, 7, 0, 1, 2],
+      "low": 4,
+      "high": 4,
+      "mid": 4,
+      "output": {
+        "label": "Target Found",
+        "value": "Index 4",
+        "detail": "nums[4] === 0 located in O(log n) time."
+      }
+    }
+  ]
+}
