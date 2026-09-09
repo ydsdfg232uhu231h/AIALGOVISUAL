@@ -16,45 +16,91 @@ export default function Problem53({ stepData }) {
   const isComplete = status === "COMPLETED";
 
   return (
-    <div className="canvas-wrapper kadane-canvas">
+    <div id="p53-kadane-canvas">
       {/* Dynamic Kadane State Cards */}
-      <div className="metrics-row">
-        <span className="metric-chip current-chip">
+      <div id="p53-metrics-row">
+        <span id="p53-metric-chip-current">
           Current Element (nums[{currentIndex}]): <b>{array[currentIndex] ?? "-"}</b>
         </span>
-        <span className={`metric-chip sum-chip ${currSum < 0 ? "neg-chip" : "pos-chip"}`}>
+        <span
+          id="p53-metric-chip-sum"
+          data-sign={currSum < 0 ? "neg" : "pos"}
+        >
           Current Window Sum: <b>{currSum}</b>
         </span>
-        <span className="metric-chip max-chip">
+        <span id="p53-metric-chip-max">
           Global Max Sum: <b>{maxSum}</b>
         </span>
-        <span className="metric-chip window-chip">
+        <span id="p53-metric-chip-window">
           Active Subarray: <b>[{subStart}..{subEnd}]</b>
         </span>
       </div>
 
       {/* Array Element Track */}
-      <div className="elements-track">
+      <div id="p53-elements-track">
         {array.map((val, idx) => {
           const inWindow = idx >= subStart && idx <= subEnd;
           const isCurrent = idx === currentIndex;
           const isStart = idx === subStart;
           const isEnd = idx === subEnd;
 
+          let nodeState = "idle";
+          if (isComplete && inWindow) nodeState = "completed";
+          else if (isCurrent) nodeState = "current";
+          else if (inWindow) nodeState = "in-window";
+
           return (
-            <div key={idx} className="box-column">
+            <div key={`p53-col-${idx}`} id={`p53-box-column-${idx}`}>
               {/* Pointer Badges */}
-              <div className="ptrs-group">
-                {isStart && <span className="pointer-tag ptr-start">START</span>}
-                {isCurrent && <span className="pointer-tag ptr-curr">i</span>}
-                {isEnd && !isStart && <span className="pointer-tag ptr-end">END</span>}
+              <div id={`p53-ptrs-group-${idx}`}>
+                <AnimatePresence mode="popLayout">
+                  {isStart && (
+                    <motion.span
+                      key={`p53-ptr-start-${idx}`}
+                      id={`p53-pointer-tag-start-${idx}`}
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      START
+                    </motion.span>
+                  )}
+                  {isCurrent && (
+                    <motion.span
+                      key={`p53-ptr-curr-${idx}`}
+                      id={`p53-pointer-tag-curr-${idx}`}
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      i
+                    </motion.span>
+                  )}
+                  {isEnd && !isStart && (
+                    <motion.span
+                      key={`p53-ptr-end-${idx}`}
+                      id={`p53-pointer-tag-end-${idx}`}
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      END
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Element Box */}
               <motion.div
-                className={`box-node ${inWindow ? "box-in-window" : "box-out"} ${
-                  isCurrent ? "box-current" : ""
-                } ${isComplete && inWindow ? "box-completed" : ""}`}
+                id={`p53-box-node-${idx}`}
+                data-state={nodeState}
+                layout
                 animate={{
                   scale: isCurrent ? 1.12 : inWindow ? 1.05 : 0.95,
                   opacity: inWindow || isCurrent ? 1 : 0.35,
@@ -68,10 +114,10 @@ export default function Problem53({ stepData }) {
                 }}
                 transition={{ duration: 0.25, ease: "easeInOut" }}
               >
-                {val}
+                <span id={`p53-node-val-${idx}`}>{val}</span>
               </motion.div>
 
-              <span className="idx-tag">[{idx}]</span>
+              <span id={`p53-idx-tag-${idx}`}>[{idx}]</span>
             </div>
           );
         })}
@@ -81,14 +127,14 @@ export default function Problem53({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p53-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p53-callout-header-text">{output.label}</div>
+            <div id="p53-callout-val-text">{output.value}</div>
+            <div id="p53-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

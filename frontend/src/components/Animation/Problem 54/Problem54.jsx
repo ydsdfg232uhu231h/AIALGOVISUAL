@@ -24,47 +24,47 @@ export default function Problem54({ stepData }) {
   const checkIsActive = (r, c) => activeCells.some(([ar, ac]) => ar === r && ac === c);
 
   return (
-    <div id="spiral-matrix-canvas">
+    <div id="p54-spiral-matrix-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-top">
+      <div id="p54-metrics-bar">
+        <span id="p54-metric-top">
           Top: <b>{top}</b>
         </span>
-        <span id="metric-bottom">
+        <span id="p54-metric-bottom">
           Bottom: <b>{bottom}</b>
         </span>
-        <span id="metric-left">
+        <span id="p54-metric-left">
           Left: <b>{left}</b>
         </span>
-        <span id="metric-right">
+        <span id="p54-metric-right">
           Right: <b>{right}</b>
         </span>
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span id={isCompleted ? "p54-metric-status-done" : "p54-metric-status-active"}>
           Status: <b>{isCompleted ? "TRAVERSAL COMPLETE ✓" : "SHRINKING BOUNDARIES"}</b>
         </span>
       </div>
 
-      <div id="spiral-stage">
+      <div id="p54-spiral-stage">
         {/* Track 1: 2D Matrix Grid */}
-        <div id="matrix-card">
-          <div id="matrix-card-header">
-            <span id="matrix-header-title">1. 2D Matrix (`matrix`)</span>
-            <span id="matrix-header-sub">Traversing 4 boundaries iteratively</span>
+        <div id="p54-matrix-card">
+          <div id="p54-matrix-card-header">
+            <span id="p54-matrix-header-title">1. 2D Matrix (`matrix`)</span>
+            <span id="p54-matrix-header-sub">Traversing 4 boundaries iteratively</span>
           </div>
 
-          <div id="matrix-viewport">
-            <div id="matrix-grid">
+          <div id="p54-matrix-viewport">
+            <div id="p54-matrix-grid">
               {matrix.map((row, rIdx) => (
-                <div key={`row-${rIdx}`} id={`matrix-row-${rIdx}`}>
+                <div key={`p54-row-${rIdx}`} id={`p54-matrix-row-${rIdx}`}>
                   {row.map((val, cIdx) => {
                     const isVisited = checkIsVisited(rIdx, cIdx);
                     const isActive = checkIsActive(rIdx, cIdx);
 
-                    let boxId = `cell-idle-${rIdx}-${cIdx}`;
-                    if (isActive) boxId = `cell-active-${rIdx}-${cIdx}`;
-                    else if (isVisited) boxId = `cell-visited-${rIdx}-${cIdx}`;
+                    let cellState = "idle";
+                    if (isActive) cellState = "active";
+                    else if (isVisited) cellState = "visited";
 
-                    // Border highlighting to show active boundaries
+                    // Boundary indicators
                     const isTopBoundary = rIdx === top && !isVisited;
                     const isBottomBoundary = rIdx === bottom && !isVisited;
                     const isLeftBoundary = cIdx === left && !isVisited;
@@ -72,19 +72,19 @@ export default function Problem54({ stepData }) {
 
                     return (
                       <motion.div
-                        key={`cell-${rIdx}-${cIdx}`}
-                        id={boxId}
+                        key={`p54-cell-${rIdx}-${cIdx}`}
+                        id={`p54-cell-${rIdx}-${cIdx}`}
+                        data-state={cellState}
+                        data-top-boundary={isTopBoundary && !isActive && !isVisited ? "true" : "false"}
+                        data-bottom-boundary={isBottomBoundary && !isActive && !isVisited ? "true" : "false"}
+                        data-left-boundary={isLeftBoundary && !isActive && !isVisited ? "true" : "false"}
+                        data-right-boundary={isRightBoundary && !isActive && !isVisited ? "true" : "false"}
+                        layout
                         animate={{ scale: isActive ? 1.1 : 1 }}
                         transition={{ type: "spring", stiffness: 350, damping: 20 }}
-                        style={{
-                          borderTopColor: isTopBoundary && !isActive && !isVisited ? "#facc15" : "",
-                          borderBottomColor: isBottomBoundary && !isActive && !isVisited ? "#facc15" : "",
-                          borderLeftColor: isLeftBoundary && !isActive && !isVisited ? "#facc15" : "",
-                          borderRightColor: isRightBoundary && !isActive && !isVisited ? "#facc15" : ""
-                        }}
                       >
-                        {val}
-                        <span id={`coord-tag-${rIdx}-${cIdx}`}>[{rIdx},{cIdx}]</span>
+                        <span id={`p54-cell-val-${rIdx}-${cIdx}`}>{val}</span>
+                        <span id={`p54-coord-tag-${rIdx}-${cIdx}`}>[{rIdx},{cIdx}]</span>
                       </motion.div>
                     );
                   })}
@@ -95,26 +95,29 @@ export default function Problem54({ stepData }) {
         </div>
 
         {/* Track 2: Accumulated Result List */}
-        <div id="res-card">
-          <div id="res-card-header">
-            <span id="res-header-title">2. Output Array (`res`)</span>
-            <span id="res-header-sub">Elements gathered in spiral order</span>
+        <div id="p54-res-card">
+          <div id="p54-res-card-header">
+            <span id="p54-res-header-title">2. Output Array (`res`)</span>
+            <span id="p54-res-header-sub">Elements gathered in spiral order</span>
           </div>
 
-          <div id="res-viewport">
+          <div id="p54-res-viewport">
             <AnimatePresence mode="popLayout">
               {res.length === 0 ? (
-                <span id="res-empty-text">res = [] (empty)</span>
+                <span id="p54-res-empty-text">res = [] (empty)</span>
               ) : (
-                <div id="res-list-container">
+                <div id="p54-res-list-container">
                   {res.map((val, idx) => {
                     const isNewest = idx >= res.length - activeCells.length && !isCompleted;
-                    let pillId = isCompleted ? `res-pill-done-${idx}` : isNewest ? `res-pill-active-${idx}` : `res-pill-idle-${idx}`;
+                    let pillState = "idle";
+                    if (isCompleted) pillState = "done";
+                    else if (isNewest) pillState = "active";
 
                     return (
                       <motion.div
-                        key={`res-item-${idx}-${val}`}
-                        id={pillId}
+                        key={`p54-res-item-${idx}-${val}`}
+                        id={`p54-res-pill-${idx}`}
+                        data-pill-state={pillState}
                         layout
                         initial={{ opacity: 0, scale: 0.5, x: 20 }}
                         animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -135,14 +138,14 @@ export default function Problem54({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p54-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p54-callout-header-text">{output.label}</div>
+            <div id="p54-callout-val-text">{output.value}</div>
+            <div id="p54-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -13,99 +13,99 @@ export default function Problem146({ stepData }) {
     output
   } = stepData || {};
 
+  const normalizedOp = (typeof currentOp === "string" ? currentOp.toLowerCase() : "init");
+
   return (
-    <div className="canvas-wrapper lru-canvas">
+    <div id="p146-lru-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className={`metric-chip op-chip op-${currentOp}`}>
-          Op: <b>{currentOp.toUpperCase()}</b>
+      <div id="p146-metrics-row">
+        <span id="p146-metric-op" data-op={normalizedOp}>
+          Op: <b>{String(currentOp).toUpperCase()}</b>
         </span>
 
         {activeKey !== null && (
-          <span className="metric-chip target-chip">
+          <span id="p146-metric-target">
             Key: <b>{activeKey}</b>
           </span>
         )}
 
-        <span className="metric-chip cap-chip">
+        <span id="p146-metric-cap">
           Capacity: <b>{nodes.length} / {capacity}</b>
         </span>
 
         {evictedKey !== null && (
-          <span className="metric-chip evict-chip">
+          <span id="p146-metric-evict">
             Evicted: <b>Key {evictedKey} (LRU)</b>
           </span>
         )}
       </div>
 
       {/* Main Stage */}
-      <div className="lru-stage">
+      <div id="p146-lru-stage">
         {/* Track 1: Doubly Linked List Usage Hierarchy */}
-        <div className="track-card dll-card" id="mydillcard">
-          <div className="card-header-bar">
-            <span>1. Doubly Linked List (Usage Hierarchy)</span>
-            <span className="card-sub">Left = LRU (Eviction candidate) ➔ Right = MRU (Most Recent)</span>
+        <div id="p146-dll-card">
+          <div id="p146-dll-card-header">
+            <span id="p146-dll-header-title">1. Doubly Linked List (Usage Hierarchy)</span>
+            <span id="p146-dll-header-sub">Left = LRU (Eviction candidate) ➔ Right = MRU (Most Recent)</span>
           </div>
 
-          <div className="dll-track-viewport">
+          <div id="p146-dll-track-viewport">
             {/* Left Sentinel (LRU Head) */}
-            <div className="sentinel-box sentinel-left">
-              <span className="sentinel-tag">HEAD</span>
-              <span className="sentinel-title">LEFT</span>
-              <span className="sentinel-sub">LRU</span>
+            <div id="p146-sentinel-left" data-sentinel="head">
+              <span id="p146-sentinel-tag-left">HEAD</span>
+              <span id="p146-sentinel-title-left">LEFT</span>
+              <span id="p146-sentinel-sub-left">LRU</span>
             </div>
 
-            <div className="conduit-arrow-pair">
-              <span className="arrow-next">⇄</span>
+            <div id="p146-conduit-left">
+              <span id="p146-arrow-next-left">⇄</span>
             </div>
 
             {/* Dynamic Cache Nodes */}
-            <div className="dll-nodes-wrapper">
-              <AnimatePresence initial={false}>
+            <div id="p146-dll-nodes-wrapper">
+              <AnimatePresence mode="popLayout" initial={false}>
                 {nodes.map((node, idx) => {
                   const isLRU = idx === 0;
                   const isMRU = idx === nodes.length - 1;
                   const isActive = activeKey === node.key;
 
+                  let nodeState = "idle";
+                  if (isActive) nodeState = "active";
+                  else if (isMRU) nodeState = "mru";
+                  else if (isLRU) nodeState = "lru";
+
                   return (
                     <React.Fragment key={node.id}>
                       <motion.div
+                        id={`p146-dll-node-${node.id}`}
+                        data-node-state={nodeState}
                         layout
-                        layoutId={node.id}
+                        layoutId={`p146-node-${node.id}`}
                         initial={{ opacity: 0, scale: 0.8, y: -20 }}
                         animate={{
                           opacity: 1,
-                          scale: isActive ? 1.08 : 1,
+                          scale: isActive ? 1.06 : 1,
                           y: 0
                         }}
                         exit={{ opacity: 0, scale: 0.6, y: 30 }}
                         transition={{ type: "spring", stiffness: 350, damping: 24 }}
-                        className={`dll-node-card ${
-                          isActive
-                            ? "node-active"
-                            : isMRU
-                            ? "node-mru"
-                            : isLRU
-                            ? "node-lru"
-                            : ""
-                        }`}
                       >
-                        <div className="node-pos-badge">
+                        <div id={`p146-node-pos-${node.id}`}>
                           {isLRU && nodes.length > 1 ? "LRU" : isMRU ? "MRU" : `POS ${idx + 1}`}
                         </div>
 
-                        <div className="node-kv-content">
-                          <span className="kv-key">K: <b>{node.key}</b></span>
-                          <span className="kv-divider">|</span>
-                          <span className="kv-val">V: <b>{node.val}</b></span>
+                        <div id={`p146-node-kv-${node.id}`}>
+                          <span id={`p146-kv-key-${node.id}`}>K: <b>{node.key}</b></span>
+                          <span id={`p146-kv-divider-${node.id}`}>|</span>
+                          <span id={`p146-kv-val-${node.id}`}>V: <b>{node.val}</b></span>
                         </div>
 
-                        <span className="node-addr-tag">addr: 0x{node.key}A</span>
+                        <span id={`p146-node-addr-${node.id}`}>addr: 0x{node.key}A</span>
                       </motion.div>
 
                       {idx < nodes.length - 1 && (
-                        <div className="conduit-arrow-pair">
-                          <span className="arrow-next">⇄</span>
+                        <div key={`p146-conduit-${node.id}`} id={`p146-conduit-mid-${node.id}`}>
+                          <span id={`p146-arrow-next-mid-${node.id}`}>⇄</span>
                         </div>
                       )}
                     </React.Fragment>
@@ -114,48 +114,52 @@ export default function Problem146({ stepData }) {
               </AnimatePresence>
 
               {nodes.length === 0 && (
-                <div className="empty-dll-placeholder">
+                <div id="p146-empty-dll-placeholder">
                   Cache empty (Sentinels connected directly)
                 </div>
               )}
             </div>
 
-            <div className="conduit-arrow-pair">
-              <span className="arrow-next">⇄</span>
+            <div id="p146-conduit-right">
+              <span id="p146-arrow-next-right">⇄</span>
             </div>
 
             {/* Right Sentinel (MRU Tail) */}
-            <div className="sentinel-box sentinel-right">
-              <span className="sentinel-tag">TAIL</span>
-              <span className="sentinel-title">RIGHT</span>
-              <span className="sentinel-sub">MRU</span>
+            <div id="p146-sentinel-right" data-sentinel="tail">
+              <span id="p146-sentinel-tag-right">TAIL</span>
+              <span id="p146-sentinel-title-right">RIGHT</span>
+              <span id="p146-sentinel-sub-right">MRU</span>
             </div>
           </div>
         </div>
 
         {/* Track 2: Hash Map Pointer Lookup Table */}
-        <div className="track-card map-card">
-          <div className="card-header-bar">
-            <span>2. Hash Map Key Lookup Table (`cache[key]`)</span>
-            <span className="card-sub">Maps key directly to node address for O(1) retrieval</span>
+        <div id="p146-map-card">
+          <div id="p146-map-card-header">
+            <span id="p146-map-header-title">2. Hash Map Key Lookup Table (`cache[key]`)</span>
+            <span id="p146-map-header-sub">Maps key directly to node address for O(1) retrieval</span>
           </div>
 
-          <div className="map-cards-grid">
+          <div id="p146-map-cards-grid">
             {Object.keys(map).length === 0 ? (
-              <span className="empty-map-placeholder">Map is empty</span>
+              <span id="p146-empty-map-placeholder">Map is empty</span>
             ) : (
               Object.entries(map).map(([k, v]) => {
                 const isActive = activeKey === Number(k);
 
                 return (
                   <motion.div
-                    key={`map-entry-${k}`}
+                    key={`p146-map-entry-${k}`}
+                    id={`p146-map-entry-${k}`}
+                    data-token-active={isActive ? "true" : "false"}
                     layout
-                    className={`map-token-pill ${isActive ? "map-token-active" : ""}`}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   >
-                    <span className="token-key">Key: {k}</span>
-                    <span className="token-arrow">➔</span>
-                    <span className="token-ptr">Node({k}, {v}) [0x{k}A]</span>
+                    <span id={`p146-token-key-${k}`}>Key: {k}</span>
+                    <span id={`p146-token-arrow-${k}`}>➔</span>
+                    <span id={`p146-token-ptr-${k}`}>Node({k}, {v}) [0x{k}A]</span>
                   </motion.div>
                 );
               })
@@ -168,14 +172,15 @@ export default function Problem146({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p146-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p146-callout-header-text">{output.label}</div>
+            <div id="p146-callout-val-text">{output.value}</div>
+            <div id="p146-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

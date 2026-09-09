@@ -16,31 +16,31 @@ export default function Problem74({ stepData }) {
   const { low = 0, high = numRows * numCols - 1, mid = null, target = 3, val, found } = state;
 
   return (
-    <div id="matrix-bs-canvas">
+    <div id="p74-matrix-bs-canvas">
       {/* Search Metrics Bar */}
-      <div id="metrics-bar">
-        <span id="metric-chip-target">
+      <div id="p74-metrics-bar">
+        <span id="p74-metric-chip-target">
           Target: <b>{target}</b>
         </span>
-        <span id="metric-chip-range">
+        <span id="p74-metric-chip-range">
           1D Range: low = <b>{low}</b>, high = <b>{high}</b>
         </span>
         {mid !== null && (
-          <span id="metric-chip-mid">
+          <span id="p74-metric-chip-mid">
             mid = <b>{mid}</b> ➔ [{activeRow}, {activeCol}] (val: {val ?? matrix[activeRow]?.[activeCol]})
           </span>
         )}
         {found && (
-          <span id="metric-chip-success">
+          <span id="p74-metric-chip-success">
             Found: <b>True</b>
           </span>
         )}
       </div>
 
       {/* 2D Matrix Grid */}
-      <div id="matrix-container">
+      <div id="p74-matrix-container">
         {matrix.map((row, r) => (
-          <div key={`row-${r}`} id={`matrix-row-${r}`}>
+          <div key={`p74-row-${r}`} id={`p74-matrix-row-${r}`}>
             {row.map((cellVal, c) => {
               const flatIdx = r * numCols + c;
               const inRange = flatIdx >= low && flatIdx <= high;
@@ -53,22 +53,38 @@ export default function Problem74({ stepData }) {
 
               return (
                 <motion.div
-                  key={`cell-${r}-${c}`}
-                  id={`matrix-node-${nodeState}-${r}-${c}`}
+                  key={`p74-cell-${r}-${c}`}
+                  id={`p74-matrix-node-${r}-${c}`}
+                  data-state={nodeState}
+                  layout
                   animate={{
                     scale: isMatch ? 1.15 : isMid ? 1.08 : 1,
                     opacity: inRange ? 1 : 0.28
                   }}
                   transition={{ duration: 0.2 }}
                 >
-                  <div id={`cell-indices-${r}-${c}`}>
-                    <span id={`flat-idx-${r}-${c}`}>#{flatIdx}</span>
-                    <span id={`rc-idx-${r}-${c}`}>[{r},{c}]</span>
+                  <div id={`p74-cell-indices-${r}-${c}`}>
+                    <span id={`p74-flat-idx-${r}-${c}`}>#{flatIdx}</span>
+                    <span id={`p74-rc-idx-${r}-${c}`}>[{r},{c}]</span>
                   </div>
 
-                  <span id={`node-val-${r}-${c}`}>{cellVal}</span>
+                  <span id={`p74-node-val-${r}-${c}`}>{cellVal}</span>
 
-                  {isMid && <span id={`mid-tag-${r}-${c}`}>MID</span>}
+                  <AnimatePresence mode="popLayout">
+                    {isMid && (
+                      <motion.span
+                        key={`p74-mid-${r}-${c}`}
+                        id={`p74-mid-tag-${r}-${c}`}
+                        layout
+                        initial={{ opacity: 0, scale: 0.6 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.6 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                      >
+                        MID
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             })}
@@ -80,14 +96,14 @@ export default function Problem74({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p74-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p74-callout-header-text">{output.label}</div>
+            <div id="p74-callout-val-text">{output.value}</div>
+            <div id="p74-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

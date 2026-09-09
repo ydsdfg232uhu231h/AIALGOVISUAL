@@ -1,85 +1,110 @@
-.phone-keypad-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p17-phone-keypad-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   min-height: 480px;
   position: relative;
   gap: 16px;
   box-sizing: border-box;
-  overflow: hidden;
+  padding: 16px 16px 65px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
-/* TOP METRICS ROW */
-.metrics-row {
+/* ============================================================
+   TOP METRICS ROW
+   ============================================================ */
+#p17-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
   align-items: center;
   max-width: 95%;
+  z-index: 2;
 }
 
-.metric-chip {
+#p17-metric-digits,
+#p17-metric-path,
+#p17-metric-char,
+#p17-metric-level {
   background: #141417;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
   padding: 4px 12px;
   border-radius: 9999px;
   font-size: 12px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-.metric-chip b {
-  color: #fff;
-}
-
-.digits-chip b {
+#p17-metric-digits b {
   color: #facc15;
+  font-family: ui-monospace, monospace;
 }
 
-.path-chip b {
+#p17-metric-path b {
   color: #38bdf8;
+  font-family: ui-monospace, monospace;
 }
 
-.char-chip {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.12);
+#p17-metric-char {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.12) !important;
 }
 
-.char-chip b {
-  color: #86efac;
+#p17-metric-char b {
+  color: #86efac !important;
+  font-family: ui-monospace, monospace;
 }
 
-.level-chip b {
+#p17-metric-level b {
   color: #c084fc;
+  font-family: ui-monospace, monospace;
 }
 
-/* STAGE CONTAINER */
-.keypad-layout-stage {
+/* ============================================================
+   STAGE CONTAINER
+   ============================================================ */
+#p17-keypad-layout-stage {
   display: flex;
   gap: 24px;
   align-items: center;
   justify-content: center;
   max-width: 95%;
+  box-sizing: border-box;
 }
 
-/* 3x4 FULL PHONE KEYPAD */
-.keypad-grid {
+/* ============================================================
+   3x4 FULL PHONE KEYPAD
+   ============================================================ */
+#p17-keypad-grid {
   display: grid;
   grid-template-columns: repeat(3, 56px);
   grid-gap: 8px;
   background: #101014;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   padding: 14px;
   border-radius: 14px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
 }
 
-.keypad-button {
+[id^="p17-keypad-button-"] {
   width: 56px;
   height: 52px;
   border-radius: 10px;
@@ -92,74 +117,82 @@
   transition: all 0.25s ease;
   position: relative;
   opacity: 0.35;
+  box-sizing: border-box;
 }
 
-.key-in-input {
+[id^="p17-keypad-button-"][data-in-input="true"] {
   opacity: 1;
   border-color: #3f3f46;
   background: #202024;
 }
 
-.key-evaluating {
+[id^="p17-keypad-button-"][data-active="true"] {
   border-color: #38bdf8 !important;
   background: rgba(56, 189, 248, 0.18) !important;
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  opacity: 1;
 }
 
-.key-num-label {
+[id^="p17-key-num-label-"] {
   font-size: 16px;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
   line-height: 1;
+  font-family: ui-monospace, monospace;
 }
 
-.key-letters-row {
+[id^="p17-key-letters-row-"] {
   display: flex;
   gap: 2px;
   margin-top: 3px;
 }
 
-.key-letter-char {
+[id^="p17-key-letter-char-"] {
   font-size: 9px;
   font-weight: 800;
   color: #71717a;
   text-transform: uppercase;
   transition: all 0.2s ease;
+  font-family: ui-monospace, monospace;
 }
 
-.char-highlighted {
+[id^="p17-key-letter-char-"][data-highlighted="true"] {
   color: #22c55e !important;
   font-size: 11px !important;
   font-weight: 900 !important;
   text-shadow: 0 0 8px rgba(34, 197, 94, 0.7);
 }
 
-/* DECISION SLOT TRAIL */
-.exploration-trail-card {
+/* ============================================================
+   DECISION SLOT TRAIL
+   ============================================================ */
+#p17-exploration-trail-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 14px;
   padding: 14px 18px;
   min-width: 170px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-.trail-title {
+#p17-trail-title {
   font-size: 11px;
   color: #71717a;
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.trail-slots {
+#p17-trail-slots {
   display: flex;
   gap: 8px;
 }
 
-.trail-slot {
+[id^="p17-trail-slot-"] {
   width: 52px;
   height: 60px;
   border-radius: 10px;
@@ -171,38 +204,43 @@
   justify-content: center;
   position: relative;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.slot-digit-tag {
+[id^="p17-slot-digit-tag-"] {
   font-size: 8px;
   color: #71717a;
   text-transform: uppercase;
   font-weight: 700;
+  font-family: ui-monospace, monospace;
 }
 
-.slot-value {
+[id^="p17-slot-value-"] {
   font-size: 20px;
   font-weight: 900;
-  color: #fff;
+  color: #ffffff;
   margin-top: 2px;
+  font-family: ui-monospace, monospace;
 }
 
-.slot-active {
-  background: rgba(56, 189, 248, 0.15);
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
+[id^="p17-trail-slot-"][data-state="active"] {
+  background: rgba(56, 189, 248, 0.15) !important;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
 }
 
-.slot-filled .slot-value {
+[id^="p17-trail-slot-"][data-state="filled"] [id^="p17-slot-value-"] {
   color: #86efac;
 }
 
-/* ACCUMULATED RESULTS REEL */
-.results-reel-card {
+/* ============================================================
+   ACCUMULATED RESULTS REEL
+   ============================================================ */
+#p17-results-reel-card {
   display: flex;
   flex-direction: column;
   gap: 6px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
   padding: 10px 16px;
   max-width: 95%;
@@ -210,25 +248,27 @@
   box-sizing: border-box;
 }
 
-.reel-header {
+#p17-reel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.reel-title {
+#p17-reel-title {
   font-size: 10px;
   color: #71717a;
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.reel-count {
+#p17-reel-count {
   font-size: 10px;
   color: #a1a1aa;
+  font-family: ui-monospace, monospace;
 }
 
-.reel-chips-stream {
+#p17-reel-chips-stream {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
@@ -237,17 +277,18 @@
   scrollbar-width: none;
 }
 
-.reel-chips-stream::-webkit-scrollbar {
+#p17-reel-chips-stream::-webkit-scrollbar {
   display: none;
 }
 
-.reel-empty-text {
+#p17-reel-empty-text {
   font-size: 11px;
   color: #52525b;
   font-style: italic;
+  font-family: ui-monospace, monospace;
 }
 
-.combo-chip {
+[id^="p17-combo-chip-"] {
   background: #18181b;
   border: 1px solid #22c55e;
   color: #86efac;
@@ -255,36 +296,172 @@
   font-weight: 800;
   padding: 2px 7px;
   border-radius: 5px;
+  font-family: ui-monospace, monospace;
 }
 
-/* RESULT CALLOUT */
-.result-callout {
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#p17-result-callout-box {
   position: absolute;
   bottom: 8px;
   background: #0f172a;
-  border: 1px solid #22c55e;
+  border: 1.5px solid #22c55e;
   border-radius: 10px;
-  padding: 6px 14px;
+  padding: 6px 16px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
   z-index: 5;
+  max-width: 90%;
 }
 
-.callout-header {
+#p17-callout-header-text {
   font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.6px;
 }
 
-.callout-val {
+#p17-callout-val-text {
   font-size: 15px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 800;
   margin: 1px 0;
+  font-family: ui-monospace, monospace;
 }
 
-.callout-detail {
+#p17-callout-detail-text {
   font-size: 11px;
   color: #94a3b8;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p17-keypad-grid {
+    grid-template-columns: repeat(3, 50px);
+    grid-gap: 6px;
+    padding: 12px;
+  }
+
+  [id^="p17-keypad-button-"] {
+    width: 50px;
+    height: 48px;
+  }
+
+  [id^="p17-trail-slot-"] {
+    width: 48px;
+    height: 56px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p17-phone-keypad-canvas {
+    padding: 14px 10px 65px 10px;
+    gap: 14px;
+  }
+
+  #p17-metrics-row {
+    gap: 6px;
+  }
+
+  #p17-metric-digits,
+  #p17-metric-path,
+  #p17-metric-char,
+  #p17-metric-level {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  #p17-keypad-layout-stage {
+    gap: 16px;
+  }
+
+  #p17-results-reel-card {
+    width: 100%;
+    max-width: 380px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p17-phone-keypad-canvas {
+    gap: 12px;
+  }
+
+  #p17-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p17-metric-digits,
+  #p17-metric-path,
+  #p17-metric-char,
+  #p17-metric-level {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p17-keypad-layout-stage {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  #p17-keypad-grid {
+    grid-template-columns: repeat(3, 44px);
+    grid-gap: 6px;
+    padding: 10px;
+  }
+
+  [id^="p17-keypad-button-"] {
+    width: 44px;
+    height: 42px;
+  }
+
+  [id^="p17-key-num-label-"] {
+    font-size: 14px;
+  }
+
+  [id^="p17-key-letter-char-"] {
+    font-size: 8px;
+  }
+
+  #p17-exploration-trail-card {
+    width: 100%;
+    padding: 10px 14px;
+    align-items: center;
+  }
+
+  #p17-trail-slots {
+    justify-content: center;
+  }
+
+  [id^="p17-trail-slot-"] {
+    width: 42px;
+    height: 50px;
+  }
+
+  [id^="p17-slot-value-"] {
+    font-size: 16px;
+  }
+
+  #p17-results-reel-card {
+    width: 100%;
+    padding: 8px 12px;
+  }
+
+  #p17-callout-val-text {
+    font-size: 14px;
+  }
+
+  #p17-callout-detail-text {
+    font-size: 10px;
+  }
 }

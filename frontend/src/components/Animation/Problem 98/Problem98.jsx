@@ -8,7 +8,7 @@ export default function Problem98({ stepData }) {
     activeBounds = ["-INF", "+INF"],
     comparisonExpr = null,
     verdict = "INSPECTING",
-    validatedANodes = [], // Dynamically tracks which nodes in A passed: ["A-node-4", "A-node-2", ...]
+    validatedANodes = [], // Dynamically tracks which nodes in A passed
     treeACompleted = false, // Turns the whole Tree A into finished state
     output
   } = stepData || {};
@@ -51,7 +51,7 @@ export default function Problem98({ stepData }) {
     const treeKey = isTreeA ? "A" : "B";
 
     return (
-      <svg id={`svg-surface-${treeKey}`} viewBox="0 0 300 230">
+      <svg id={`p98-svg-surface-${treeKey}`} viewBox="0 0 300 230">
         {/* Edges */}
         {edges.map(({ from, to }) => {
           const p1 = nodes.find((n) => n.id === from);
@@ -62,14 +62,15 @@ export default function Problem98({ stepData }) {
             validatedANodes.includes(from) &&
             validatedANodes.includes(to);
 
-          let lineId = `edge-normal-${from}-${to}`;
-          if (isEdgeViolated) lineId = `edge-broken-${from}-${to}`;
-          else if (isEdgePassed) lineId = `edge-passed-${from}-${to}`;
+          let edgeState = "normal";
+          if (isEdgeViolated) edgeState = "broken";
+          else if (isEdgePassed) edgeState = "passed";
 
           return (
             <line
-              key={`edge-${from}-${to}`}
-              id={lineId}
+              key={`p98-edge-${from}-${to}`}
+              id={`p98-edge-${from}-${to}`}
+              data-edge-state={edgeState}
               x1={p1.cx}
               y1={p1.cy}
               x2={p2.cx}
@@ -84,30 +85,42 @@ export default function Problem98({ stepData }) {
           const isPassedInA = isTreeA && validatedANodes.includes(node.id);
           const isViolated = !isTreeA && node.id === "B-node-4" && verdict === "FAIL";
 
-          let circleId = `node-idle-${node.id}`;
-          if (isViolated) {
-            circleId = `node-violation-${node.id}`;
-          } else if (isActive) {
-            circleId = `node-active-inspect-${node.id}`;
-          } else if (isPassedInA) {
-            circleId = `node-pass-${node.id}`;
-          }
+          let nodeState = "idle";
+          if (isViolated) nodeState = "violation";
+          else if (isActive) nodeState = "active";
+          else if (isPassedInA) nodeState = "pass";
 
           return (
-            <g key={`g-${node.id}`} id={`g-${node.id}`}>
+            <g key={`p98-g-${node.id}`} id={`p98-g-${node.id}`}>
               {isViolated && (
-                <circle id={`halo-violation-${node.id}`} cx={node.cx} cy={node.cy} r="26" />
+                <circle
+                  id={`p98-halo-violation-${node.id}`}
+                  cx={node.cx}
+                  cy={node.cy}
+                  r="26"
+                />
               )}
               {isPassedInA && (
-                <circle id={`halo-valid-${node.id}`} cx={node.cx} cy={node.cy} r="25" />
+                <circle
+                  id={`p98-halo-valid-${node.id}`}
+                  cx={node.cx}
+                  cy={node.cy}
+                  r="25"
+                />
               )}
 
-              <circle id={circleId} cx={node.cx} cy={node.cy} r="20" />
+              <circle
+                id={`p98-node-${node.id}`}
+                data-state={nodeState}
+                cx={node.cx}
+                cy={node.cy}
+                r="20"
+              />
 
-              <text id={`text-val-${node.id}`} x={node.cx} y={node.cy + 1}>
+              <text id={`p98-text-val-${node.id}`} x={node.cx} y={node.cy + 1}>
                 {node.val}
               </text>
-              <text id={`text-bounds-${node.id}`} x={node.cx} y={node.cy + 28}>
+              <text id={`p98-text-bounds-${node.id}`} x={node.cx} y={node.cy + 28}>
                 {isActive ? `(${activeBounds[0]}, ${activeBounds[1]})` : node.bounds}
               </text>
             </g>
@@ -118,43 +131,35 @@ export default function Problem98({ stepData }) {
   };
 
   return (
-    <div id="dual-bst-canvas">
+    <div id="p98-dual-bst-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-inspecting">
+      <div id="p98-metrics-bar">
+        <span id="p98-metric-inspecting">
           Active Node: <b>{activeNodeId ? activeNodeId : "None"}</b>
         </span>
 
-        <span id="metric-bounds">
+        <span id="p98-metric-bounds">
           Active Interval: <b>({activeBounds[0]}, {activeBounds[1]})</b>
         </span>
 
-        <span
-          id={
-            verdict === "FAIL"
-              ? "metric-verdict-fail"
-              : verdict === "PASS"
-              ? "metric-verdict-pass"
-              : "metric-verdict-active"
-          }
-        >
+        <span id="p98-metric-verdict" data-verdict={verdict}>
           Verdict: <b>{verdict}</b>
         </span>
       </div>
 
       {/* Dual Tree Comparison Grid */}
-      <div id="dual-stage">
+      <div id="p98-dual-stage">
         {/* Tree A: Valid BST */}
-        <div id={treeACompleted ? "tree-card-valid-complete" : "tree-card-valid"}>
-          <div id="header-valid">
-            <span id="title-valid">Tree A: VALID BST</span>
-            <span id={treeACompleted ? "badge-valid-status-done" : "badge-valid-status-active"}>
+        <div id="p98-tree-card-valid" data-complete={treeACompleted ? "true" : "false"}>
+          <div id="p98-header-valid">
+            <span id="p98-title-valid">Tree A: VALID BST</span>
+            <span id="p98-badge-valid-status" data-complete={treeACompleted ? "true" : "false"}>
               {treeACompleted ? "ALL NODES VALIDATED ✓" : `CHECKING (${validatedANodes.length}/5)`}
             </span>
           </div>
-          <div id="viewport-valid">{renderTreeSvg(true)}</div>
-          <div id="footer-valid">
-            <span id="footer-valid-note">
+          <div id="p98-viewport-valid">{renderTreeSvg(true)}</div>
+          <div id="p98-footer-valid">
+            <span id="p98-footer-valid-note">
               {treeACompleted
                 ? "Every node strictly lies within its inherited range"
                 : "DFS traversing & verifying (min < val < max)"}
@@ -163,16 +168,16 @@ export default function Problem98({ stepData }) {
         </div>
 
         {/* Tree B: Invalid BST */}
-        <div id="tree-card-invalid">
-          <div id="header-invalid">
-            <span id="title-invalid">Tree B: INVALID BST</span>
-            <span id={verdict === "FAIL" ? "badge-invalid-status-fail" : "badge-invalid-status-pending"}>
+        <div id="p98-tree-card-invalid">
+          <div id="p98-header-invalid">
+            <span id="p98-title-invalid">Tree B: INVALID BST</span>
+            <span id="p98-badge-invalid-status" data-verdict={verdict}>
               {verdict === "FAIL" ? "VIOLATION DETECTED ✗" : "INSPECTING BOUNDS"}
             </span>
           </div>
-          <div id="viewport-invalid">{renderTreeSvg(false)}</div>
-          <div id="footer-invalid">
-            <span id="footer-invalid-note">
+          <div id="p98-viewport-invalid">{renderTreeSvg(false)}</div>
+          <div id="p98-footer-invalid">
+            <span id="p98-footer-invalid-note">
               {verdict === "FAIL" ? "Node 4 violates right bound: 4 ≤ 5" : "Verifying right child criteria"}
             </span>
           </div>
@@ -180,26 +185,26 @@ export default function Problem98({ stepData }) {
       </div>
 
       {/* Equation / Logic Monitor */}
-      <div id="calc-inspector-card">
-        <div id="calc-card-header">
-          <span id="calc-header-title">Boundary Validation Equation</span>
-          <span id="calc-header-sub">Invariant: minVal &lt; node.val &lt; maxVal</span>
+      <div id="p98-calc-inspector-card">
+        <div id="p98-calc-card-header">
+          <span id="p98-calc-header-title">Boundary Validation Equation</span>
+          <span id="p98-calc-header-sub">Invariant: minVal &lt; node.val &lt; maxVal</span>
         </div>
 
-        <div id="calc-grid">
-          <div id="calc-box-target">
-            <span id="calc-title-target">Testing Node:</span>
-            <span id="calc-val-target">{activeNodeId || "None"}</span>
+        <div id="p98-calc-grid">
+          <div id="p98-calc-box-target">
+            <span id="p98-calc-title-target">Testing Node:</span>
+            <span id="p98-calc-val-target">{activeNodeId || "None"}</span>
           </div>
 
-          <div id="calc-box-formula">
-            <span id="calc-title-formula">Mathematical Condition:</span>
-            <span id="calc-val-formula">{comparisonExpr || "Awaiting step"}</span>
+          <div id="p98-calc-box-formula">
+            <span id="p98-calc-title-formula">Mathematical Condition:</span>
+            <span id="p98-calc-val-formula">{comparisonExpr || "Awaiting step"}</span>
           </div>
 
-          <div id="calc-box-result">
-            <span id="calc-title-result">Evaluation Result:</span>
-            <span id={verdict === "FAIL" ? "calc-val-fail" : "calc-val-pass"}>
+          <div id="p98-calc-box-result">
+            <span id="p98-calc-title-result">Evaluation Result:</span>
+            <span id="p98-calc-val-result" data-verdict={verdict}>
               {verdict === "FAIL"
                 ? "VIOLATION (RETURN FALSE)"
                 : verdict === "PASS"
@@ -214,14 +219,15 @@ export default function Problem98({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id={ "result-callout-box"}
+            id="p98-result-callout-box"
+            data-verdict={verdict}
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p98-callout-header-text">{output.label}</div>
+            <div id="p98-callout-val-text">{output.value}</div>
+            <div id="p98-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -19,40 +19,40 @@ export default function Problem84({ stepData }) {
   const currentCalculatedArea = state?.area ?? null;
 
   return (
-    <div id="histogram-canvas">
+    <div id="p84-histogram-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-pointer-i">
+      <div id="p84-metrics-bar">
+        <span id="p84-metric-pointer-i">
           Sweep Pointer: <b>{currentI < heights.length ? `i = ${currentI}` : `i = ${currentI} (Sentinel)`}</b>
         </span>
 
-        <span id="metric-stack-size">
+        <span id="p84-metric-stack-size">
           Stack Size: <b>{stack.length} bars</b>
         </span>
 
-        <span id="metric-current-area">
+        <span id="p84-metric-current-area">
           Active Rect: <b>{currentCalculatedArea !== null ? `${currentCalculatedArea} units²` : "---"}</b>
         </span>
 
-        <span id="metric-max-area">
+        <span id="p84-metric-max-area">
           Max Area: <b>{maxArea} units²</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span id={isCompleted ? "p84-metric-status-done" : "p84-metric-status-active"}>
           Status: <b>{isCompleted ? "MONOTONIC SWEEP COMPLETE ✓" : actionType}</b>
         </span>
       </div>
 
-      <div id="histogram-stage">
+      <div id="p84-histogram-stage">
         {/* Track 1: Interactive Histogram Area */}
-        <div id="bars-track-card">
-          <div id="bars-card-header">
-            <span id="bars-header-title">1. Monotonic Stack Histogram Terrain</span>
-            <span id="bars-header-sub">Bar heights &amp; calculated rectangle boundaries</span>
+        <div id="p84-bars-track-card">
+          <div id="p84-bars-card-header">
+            <span id="p84-bars-header-title">1. Monotonic Stack Histogram Terrain</span>
+            <span id="p84-bars-header-sub">Bar heights &amp; calculated rectangle boundaries</span>
           </div>
 
-          <div id="bars-viewport">
-            <div id="bars-track-container">
+          <div id="p84-bars-viewport">
+            <div id="p84-bars-track-container">
               {heights.map((h, idx) => {
                 const isCurrent = idx === currentI && !isCompleted;
                 const isInStack = stack.includes(idx);
@@ -63,30 +63,46 @@ export default function Problem84({ stepData }) {
                   idx >= activeRectangle.leftBound &&
                   idx <= activeRectangle.rightBound;
 
-                let barId = `hist-bar-idle-${idx}`;
-                if (isCompleted && isInActiveRect) barId = `hist-bar-winner-${idx}`;
-                else if (isPopped) barId = `hist-bar-popped-${idx}`;
-                else if (isInActiveRect) barId = `hist-bar-rect-${idx}`;
-                else if (isStackTop) barId = `hist-bar-top-${idx}`;
-                else if (isInStack) barId = `hist-bar-stacked-${idx}`;
+                let barState = "idle";
+                if (isCompleted && isInActiveRect) barState = "winner";
+                else if (isPopped) barState = "popped";
+                else if (isInActiveRect) barState = "rect";
+                else if (isStackTop) barState = "top";
+                else if (isInStack) barState = "stacked";
 
                 return (
-                  <div key={`col-${idx}`} id={`hist-col-${idx}`}>
+                  <div key={`p84-col-${idx}`} id={`p84-hist-col-${idx}`}>
                     {/* Index tag */}
-                    <span id={`idx-tag-${idx}`}>[{idx}]</span>
+                    <span id={`p84-idx-tag-${idx}`}>[{idx}]</span>
 
                     {/* Bar Pillar */}
                     <motion.div
-                      id={barId}
+                      id={`p84-hist-bar-${idx}`}
+                      data-bar-state={barState}
+                      layout
                       style={{ height: `${h * 26}px` }}
                       animate={{ scale: isCurrent || isPopped ? 1.08 : 1 }}
                       transition={{ type: "spring", stiffness: 350, damping: 25 }}
                     >
-                      <span id={`bar-val-${idx}`}>{h}</span>
+                      <span id={`p84-bar-val-${idx}`}>{h}</span>
                     </motion.div>
 
                     {/* Sweep Pointer i */}
-                    {isCurrent && <span id="pointer-tag-i">i</span>}
+                    <AnimatePresence mode="popLayout">
+                      {isCurrent && (
+                        <motion.span
+                          key={`p84-ptr-${idx}`}
+                          id="p84-pointer-tag-i"
+                          layout
+                          initial={{ y: 6, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: 6, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                        >
+                          i
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}
@@ -95,18 +111,18 @@ export default function Problem84({ stepData }) {
         </div>
 
         {/* Lower Row: Monotonic Stack Chamber & Area Math */}
-        <div id="middle-stage-grid">
+        <div id="p84-middle-stage-grid">
           {/* Stack Chamber */}
-          <div id="stack-chamber-card">
-            <div id="stack-card-header">
-              <span id="stack-header-title">2. Monotonic Increasing Stack</span>
-              <span id="stack-header-sub">Maintains indices with non-decreasing heights</span>
+          <div id="p84-stack-chamber-card">
+            <div id="p84-stack-card-header">
+              <span id="p84-stack-header-title">2. Monotonic Increasing Stack</span>
+              <span id="p84-stack-header-sub">Maintains indices with non-decreasing heights</span>
             </div>
 
-            <div id="stack-chamber-viewport">
+            <div id="p84-stack-chamber-viewport">
               <AnimatePresence mode="popLayout">
                 {stack.length === 0 ? (
-                  <span id="stack-empty-text">Stack is empty</span>
+                  <span id="p84-stack-empty-text">Stack is empty</span>
                 ) : (
                   stack.map((barIdx, sIdx) => {
                     const isTop = sIdx === stack.length - 1;
@@ -114,17 +130,18 @@ export default function Problem84({ stepData }) {
 
                     return (
                       <motion.div
-                        key={`stack-node-${sIdx}-${barIdx}`}
-                        id={isTop ? `stack-pill-top-${sIdx}` : `stack-pill-idle-${sIdx}`}
+                        key={`p84-stack-node-${sIdx}-${barIdx}`}
+                        id={`p84-stack-pill-${sIdx}`}
+                        data-top={isTop ? "true" : "false"}
                         layout
                         initial={{ opacity: 0, scale: 0.6, y: 15 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.5, y: -20 }}
                         transition={{ type: "spring", stiffness: 360, damping: 24 }}
                       >
-                        <span id={`stack-pill-idx-${sIdx}`}>idx: <b>{barIdx}</b></span>
-                        <span id={`stack-pill-h-${sIdx}`}>h: {hVal}</span>
-                        {isTop && <span id="stack-top-badge">TOP</span>}
+                        <span id={`p84-stack-pill-idx-${sIdx}`}>idx: <b>{barIdx}</b></span>
+                        <span id={`p84-stack-pill-h-${sIdx}`}>h: {hVal}</span>
+                        {isTop && <span id="p84-stack-top-badge">TOP</span>}
                       </motion.div>
                     );
                   })
@@ -134,23 +151,23 @@ export default function Problem84({ stepData }) {
           </div>
 
           {/* Math Area Inspector */}
-          <div id="area-inspector-card">
-            <div id="area-card-header">
-              <span id="area-header-title">3. Area Calculation Engine</span>
-              <span id="area-header-sub">height &times; width</span>
+          <div id="p84-area-inspector-card">
+            <div id="p84-area-card-header">
+              <span id="p84-area-header-title">3. Area Calculation Engine</span>
+              <span id="p84-area-header-sub">height &times; width</span>
             </div>
 
-            <div id="area-grid">
-              <div id="area-box-popped">
-                <span id="area-title-popped">Popped Bar:</span>
-                <span id="area-val-popped">
+            <div id="p84-area-grid">
+              <div id="p84-area-box-popped">
+                <span id="p84-area-title-popped">Popped Bar:</span>
+                <span id="p84-area-val-popped">
                   {poppedIdx !== null ? `Index ${poppedIdx} (height = ${heights[poppedIdx]})` : "None"}
                 </span>
               </div>
 
-              <div id="area-box-calc">
-                <span id="area-title-calc">Formula &amp; Span:</span>
-                <span id="area-val-calc">
+              <div id="p84-area-box-calc">
+                <span id="p84-area-title-calc">Formula &amp; Span:</span>
+                <span id="p84-area-val-calc">
                   {activeRectangle
                     ? `w = (${activeRectangle.rightBound} - ${activeRectangle.leftBound} + 1) = ${activeRectangle.rightBound - activeRectangle.leftBound + 1} | Area = ${activeRectangle.height} * ${activeRectangle.rightBound - activeRectangle.leftBound + 1} = ${activeRectangle.area}`
                     : "Awaiting next pop..."}
@@ -165,14 +182,14 @@ export default function Problem84({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p84-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p84-callout-header-text">{output.label}</div>
+            <div id="p84-callout-val-text">{output.value}</div>
+            <div id="p84-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

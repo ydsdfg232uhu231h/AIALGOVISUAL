@@ -17,7 +17,6 @@ export default function Problem48({ stepData }) {
   const { phase = "initial", swapped, status } = state;
   const isCompleted = status === "COMPLETED" || !!output;
   
-  // FIX: Hoisted to the component scope so both the Matrix and Inspector can read it
   const isTransposePhase = phase === "initial" || phase === "transposed";
 
   // Determine user-friendly phase description
@@ -30,67 +29,68 @@ export default function Problem48({ stepData }) {
     activeCells.some(([ar, ac]) => ar === r && ac === c);
 
   return (
-    <div id="rotate-image-canvas">
+    <div id="p48-rotate-image-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-phase">
+      <div id="p48-metrics-bar">
+        <span id="p48-metric-phase">
           Phase: <b>{displayPhase}</b>
         </span>
 
-        <span id="metric-size">
+        <span id="p48-metric-size">
           Matrix Size: <b>{matrix.length} x {matrix.length}</b>
         </span>
 
         {swapped ? (
-          <span id="metric-swap-active">
+          <span id="p48-metric-swap-active">
             Active Swap: <b>{swapped}</b>
           </span>
         ) : (
-          <span id="metric-swap-idle">
+          <span id="p48-metric-swap-idle">
             Active Swap: <b>None</b>
           </span>
         )}
       </div>
 
-      <div id="rotate-stage">
+      <div id="p48-rotate-stage">
         {/* Main Matrix Board */}
-        <div id="matrix-card">
-          <div id="matrix-card-header">
-            <span id="matrix-header-title">In-Place 2D Matrix (`matrix`)</span>
-            <span id="matrix-header-sub">Time: O(n²) | Space: O(1)</span>
+        <div id="p48-matrix-card">
+          <div id="p48-matrix-card-header">
+            <span id="p48-matrix-header-title">In-Place 2D Matrix (`matrix`)</span>
+            <span id="p48-matrix-header-sub">Time: O(n²) | Space: O(1)</span>
           </div>
 
-          <div id="matrix-viewport">
-            <div id="matrix-grid">
+          <div id="p48-matrix-viewport">
+            <div id="p48-matrix-grid">
               {matrix.map((row, r) => (
-                <div key={`row-${r}`} id={`matrix-row-${r}`}>
+                <div key={`p48-row-${r}`} id={`p48-matrix-row-${r}`}>
                   {row.map((val, c) => {
                     const isActive = isCellActive(r, c);
                     const isDiagonal = r === c;
 
-                    // Determine Cell ID for styling
-                    let cellId = `cell-idle-${r}-${c}`;
+                    let cellState = "idle";
                     if (isCompleted) {
-                      cellId = `cell-done-${r}-${c}`;
+                      cellState = "done";
                     } else if (isActive) {
-                      cellId = `cell-active-${r}-${c}`;
+                      cellState = "active";
                     } else if (isDiagonal && isTransposePhase) {
-                      cellId = `cell-diagonal-${r}-${c}`;
+                      cellState = "diagonal";
                     }
 
                     return (
                       <motion.div
-                        key={`cell-${r}-${c}`}
-                        id={cellId}
+                        key={`p48-cell-${r}-${c}`}
+                        id={`p48-cell-${r}-${c}`}
+                        data-state={cellState}
+                        layout
                         animate={{
                           scale: isActive ? 1.12 : 1,
                         }}
                         transition={{ type: "spring", stiffness: 350, damping: 25 }}
                       >
-                        <span id={`coord-tag-${r}-${c}`}>
+                        <span id={`p48-coord-tag-${r}-${c}`}>
                           [{r},{c}]
                         </span>
-                        <span id={`val-text-${r}-${c}`}>{val}</span>
+                        <span id={`p48-val-text-${r}-${c}`}>{val}</span>
                       </motion.div>
                     );
                   })}
@@ -101,23 +101,29 @@ export default function Problem48({ stepData }) {
         </div>
 
         {/* Algorithm Inspector */}
-        <div id="inspector-card">
-          <div id="inspector-card-header">
-            <span id="inspector-header-title">Rotation Algorithm Logic</span>
-            <span id="inspector-header-sub">Mathematical 90° equivalent</span>
+        <div id="p48-inspector-card">
+          <div id="p48-inspector-card-header">
+            <span id="p48-inspector-header-title">Rotation Algorithm Logic</span>
+            <span id="p48-inspector-header-sub">Mathematical 90° equivalent</span>
           </div>
 
-          <div id="inspector-grid">
-            <div id="box-step-1">
-              <span id="title-step-1">Step 1: Transpose</span>
-              <span id={isTransposePhase ? "val-step-1-active" : "val-step-1-idle"}>
+          <div id="p48-inspector-grid">
+            <div id="p48-box-step-1">
+              <span id="p48-title-step-1">Step 1: Transpose</span>
+              <span
+                id="p48-val-step-1"
+                data-active={isTransposePhase ? "true" : "false"}
+              >
                 SWAP( matrix[i][j], matrix[j][i] )
               </span>
             </div>
 
-            <div id="box-step-2">
-              <span id="title-step-2">Step 2: Reverse Rows</span>
-              <span id={phase === "reversing_rows" ? "val-step-2-active" : "val-step-2-idle"}>
+            <div id="p48-box-step-2">
+              <span id="p48-title-step-2">Step 2: Reverse Rows</span>
+              <span
+                id="p48-val-step-2"
+                data-active={phase === "reversing_rows" ? "true" : "false"}
+              >
                 REVERSE( matrix[i] )
               </span>
             </div>
@@ -129,14 +135,14 @@ export default function Problem48({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p48-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p48-callout-header-text">{output.label}</div>
+            <div id="p48-callout-val-text">{output.value}</div>
+            <div id="p48-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

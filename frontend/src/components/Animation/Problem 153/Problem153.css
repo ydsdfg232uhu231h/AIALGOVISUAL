@@ -1,78 +1,93 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#find-min-canvas {
+#p153-find-min-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 380px;
+  height: 100%;
+  min-height: 400px;
   position: relative;
-  gap: 28px;
+  gap: 26px;
   box-sizing: border-box;
-  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  overflow: hidden;
-  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 16px 65px 16px;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-row {
+#p153-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  align-items: center;
+  max-width: 95%;
+  z-index: 2;
 }
 
-[id^="metric-chip-"] {
+#p153-metric-chip-range,
+#p153-metric-chip-mid,
+#p153-metric-chip-res {
   background: #18181b;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  display: flex;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-[id^="metric-chip-"] b {
-  color: #fff;
+#p153-metric-chip-range b,
+#p153-metric-chip-mid b,
+#p153-metric-chip-res b {
+  color: #ffffff;
   font-family: ui-monospace, monospace;
 }
 
-#metric-chip-range b {
+#p153-metric-chip-range b {
   color: #ff7324;
 }
 
-#metric-chip-mid b {
+#p153-metric-chip-mid b {
   color: #38bdf8;
 }
 
-#metric-chip-res b {
+#p153-metric-chip-res b {
   color: #4ade80;
 }
 
 /* ============================================================
    ELEMENTS TRACK
    ============================================================ */
-#elements-track {
+#p153-elements-track {
   display: flex;
   gap: 12px;
   align-items: center;
-  padding: 24px 8px 8px 8px;
-  min-height: 90px;
-  max-width: 100%;
+  justify-content: center;
+  padding: 30px 16px 12px 16px;
+  min-height: 95px;
+  max-width: 95%;
   overflow-x: auto;
   box-sizing: border-box;
 }
 
-[id^="box-column-"] {
+[id^="p153-box-column-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,52 +95,55 @@
   flex-shrink: 0;
 }
 
-[id^="ptrs-group-"] {
+[id^="p153-ptrs-group-"] {
   position: absolute;
   top: -24px;
   display: flex;
   gap: 4px;
   height: 18px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-[id^="pointer-tag-"] {
+[id^="p153-pointer-tag-"] {
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 900;
   padding: 1px 6px;
   border-radius: 4px;
   text-transform: uppercase;
   font-family: ui-monospace, monospace;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  line-height: 1;
+  line-height: 1.1;
   display: flex;
   align-items: center;
 }
 
-[id^="pointer-tag-l-"] {
+[id^="p153-pointer-tag-"][data-ptr="l"] {
   background: #ff7324;
-  color: #000;
+  color: #0c0c10;
 }
 
-[id^="pointer-tag-m-"] {
+[id^="p153-pointer-tag-"][data-ptr="m"] {
   background: #38bdf8;
-  color: #000;
+  color: #0c0c10;
 }
 
-[id^="pointer-tag-r-"] {
+[id^="p153-pointer-tag-"][data-ptr="r"] {
   background: #eab308;
-  color: #000;
+  color: #0c0c10;
 }
 
 /* Element Box Base */
-[id^="box-node-"] {
+[id^="p153-box-node-"] {
   width: 50px;
   height: 50px;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #141416;
   border: 2px solid #27272a;
-  color: #fff;
+  color: #ffffff;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,63 +152,167 @@
   transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
-[id^="box-node-idle-"] {
+[id^="p153-box-node-"][data-node-state="idle"] {
   background: #141416;
   border-color: #27272a;
 }
 
-[id^="box-node-mid-"] {
-  background: rgba(56, 189, 248, 0.15) !important;
+[id^="p153-box-node-"][data-node-state="in-range"] {
+  background: #18181b;
+  border-color: #52525b;
+}
+
+[id^="p153-box-node-"][data-node-state="mid"] {
+  background: rgba(56, 189, 248, 0.18) !important;
   border-color: #38bdf8 !important;
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
 }
 
-[id^="box-node-min-"] {
-  background: rgba(34, 197, 94, 0.2) !important;
+[id^="p153-box-node-"][data-node-state="min"] {
+  background: rgba(34, 197, 94, 0.22) !important;
   border-color: #22c55e !important;
-  box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.45);
+  color: #4ade80 !important;
 }
 
-[id^="idx-tag-"] {
+[id^="p153-idx-tag-"] {
   margin-top: 6px;
   font-size: 11px;
   color: #71717a;
   font-family: ui-monospace, monospace;
+  font-weight: 700;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
-  position: absolute;
-  bottom: 12px;
-  background: rgba(17, 24, 39, 0.95);
-  backdrop-filter: blur(8px);
-  border: 1px solid #16a34a;
-  border-radius: 8px;
-  padding: 10px 18px;
+#p153-result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(17, 24, 39, 0.96);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid #16a34a;
+  border-radius: 12px;
+  padding: 10px 24px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  z-index: 10;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
-  font-size: 11px;
+#p153-callout-header-text {
+  font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p153-callout-val-text {
   font-size: 18px;
-  color: #fff;
-  font-weight: 800;
+  color: #ffffff;
+  font-weight: 900;
   margin: 2px 0;
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p153-callout-detail-text {
   font-size: 12px;
   color: #9ca3af;
+  font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  [id^="p153-box-node-"] {
+    width: 46px;
+    height: 46px;
+    font-size: 18px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p153-find-min-canvas {
+    padding: 16px 12px 75px 12px;
+    gap: 18px;
+  }
+
+  #p153-metrics-row {
+    gap: 6px;
+  }
+
+  #p153-metric-chip-range,
+  #p153-metric-chip-mid,
+  #p153-metric-chip-res {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  #p153-elements-track {
+    justify-content: flex-start;
+    padding: 26px 10px 10px 10px;
+    gap: 10px;
+  }
+
+  [id^="p153-box-node-"] {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+  }
+
+  [id^="p153-idx-tag-"] {
+    font-size: 9px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p153-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p153-metric-chip-range,
+  #p153-metric-chip-mid,
+  #p153-metric-chip-res {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p153-elements-track {
+    gap: 8px;
+  }
+
+  [id^="p153-box-node-"] {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+
+  [id^="p153-pointer-tag-"] {
+    font-size: 8.5px;
+    padding: 1px 4px;
+  }
+
+  [id^="p153-idx-tag-"] {
+    font-size: 8px;
+  }
+
+  #p153-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p153-callout-detail-text {
+    font-size: 10.5px;
+  }
 }

@@ -1,83 +1,94 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#partition-canvas {
+#p4-partition-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 400px;
+  height: 100%;
+  min-height: 440px;
   position: relative;
-  gap: 22px;
+  gap: 20px;
   box-sizing: border-box;
-  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  overflow: hidden;
-  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 16px 65px 16px;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS BANNER
    ============================================================ */
-#metrics-banner {
+#p4-metrics-banner {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 2;
 }
 
-[id^="metric-chip-"] {
+[id^="p4-metric-chip-"] {
   background: #18181b;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
-  padding: 5px 12px;
-  border-radius: 8px;
+  padding: 5px 14px;
+  border-radius: 9999px;
   font-size: 12px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-[id^="metric-chip-"] b {
-  color: #fff;
+[id^="p4-metric-chip-"] b {
+  color: #ffffff;
   font-family: ui-monospace, monospace;
 }
 
-#metric-chip-range b {
+#p4-metric-chip-range b {
   color: #38bdf8;
 }
 
-#metric-chip-bounds-1 b,
-#metric-chip-bounds-2 b {
+#p4-metric-chip-bounds-1 b,
+#p4-metric-chip-bounds-2 b {
   color: #ff7324;
 }
 
 /* ============================================================
    ARRAYS CONTAINER & ROWS
    ============================================================ */
-#arrays-container {
+#p4-arrays-container {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  width: 100%;
-  max-width: 650px;
-}
-
-[id^="array-row-"] {
-  display: flex;
-  align-items: center;
-  background: #121214;
-  border: 1px solid #27272a;
-  border-radius: 10px;
-  padding: 12px 18px;
   gap: 16px;
+  width: 100%;
+  max-width: 660px;
   box-sizing: border-box;
 }
 
-[id^="array-label-box-"] {
+[id^="p4-array-row-"] {
+  display: flex;
+  align-items: center;
+  background: #121214;
+  border: 1.5px solid #27272a;
+  border-radius: 12px;
+  padding: 12px 18px;
+  gap: 16px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  width: 100%;
+}
+
+[id^="p4-array-label-box-"] {
   display: flex;
   flex-direction: column;
   width: 130px;
@@ -87,7 +98,7 @@
   flex-shrink: 0;
 }
 
-[id^="cut-indicator-"] {
+[id^="p4-cut-indicator-"] {
   font-size: 11px;
   font-family: ui-monospace, monospace;
   color: #38bdf8;
@@ -97,33 +108,35 @@
 /* ============================================================
    PARTITION TRACK & HALVES
    ============================================================ */
-[id^="partition-track-"] {
+[id^="p4-partition-track-"] {
   display: flex;
   align-items: center;
   flex: 1;
   gap: 10px;
+  overflow-x: auto;
+  padding: 4px 2px;
 }
 
-[id^="partition-half-left-"] {
+[id^="p4-partition-half-left-"] {
   display: flex;
   gap: 8px;
   align-items: center;
-  min-width: 70px;
+  min-width: 60px;
   justify-content: flex-end;
   flex: 1;
 }
 
-[id^="partition-half-right-"] {
+[id^="p4-partition-half-right-"] {
   display: flex;
   gap: 8px;
   align-items: center;
-  min-width: 70px;
+  min-width: 60px;
   justify-content: flex-start;
   flex: 1;
 }
 
 /* Number Boxes */
-[id^="number-box-"] {
+[id^="p4-number-box-"] {
   width: 44px;
   height: 44px;
   border-radius: 8px;
@@ -131,26 +144,34 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  font-family: ui-monospace, monospace;
-  color: #fff;
-  border: 2px solid;
   position: relative;
   box-sizing: border-box;
+  flex-shrink: 0;
+  border: 2px solid;
+  transition: all 0.2s ease;
 }
 
-[id^="number-box-left-"] {
+[id^="p4-number-box-"][data-side="left"] {
   border-color: #38bdf8;
   background: rgba(56, 189, 248, 0.12);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
 }
 
-[id^="number-box-right-"] {
+[id^="p4-number-box-"][data-side="right"] {
   border-color: #ff7324;
   background: rgba(255, 115, 36, 0.12);
+  box-shadow: 0 0 10px rgba(255, 115, 36, 0.25);
 }
 
-[id^="box-idx-"] {
+[id^="p4-box-val-"] {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
+  line-height: 1;
+}
+
+[id^="p4-box-idx-"] {
   font-size: 9px;
   color: #71717a;
   position: absolute;
@@ -158,14 +179,14 @@
   font-family: ui-monospace, monospace;
 }
 
-[id^="empty-slot-"] {
+[id^="p4-empty-slot-"] {
   font-size: 11px;
   font-family: ui-monospace, monospace;
   color: #52525b;
 }
 
 /* Partition Divider Line */
-[id^="partition-line-"] {
+[id^="p4-partition-line-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,14 +194,14 @@
   flex-shrink: 0;
 }
 
-[id^="line-bar-top-"],
-[id^="line-bar-bottom-"] {
+[id^="p4-line-bar-top-"],
+[id^="p4-line-bar-bottom-"] {
   width: 2px;
   height: 12px;
   background: #ef4444;
 }
 
-[id^="cut-tag-"] {
+[id^="p4-cut-tag-"] {
   font-size: 9px;
   font-weight: 800;
   color: #ef4444;
@@ -192,25 +213,27 @@
 /* ============================================================
    CONDITION INDICATOR
    ============================================================ */
-#condition-indicator-card {
+#p4-condition-indicator-card {
   font-size: 13px;
   color: #71717a;
   background: #121218;
   border: 1px solid #27272a;
   border-radius: 8px;
   padding: 6px 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
-#condition-prefix-label {
+#p4-condition-prefix-label {
   font-weight: 600;
 }
 
-#condition-check-valid {
+#p4-condition-check-valid {
   color: #22c55e;
   font-family: ui-monospace, monospace;
 }
 
-#condition-check-invalid {
+#p4-condition-check-invalid {
   color: #ef4444;
   font-family: ui-monospace, monospace;
 }
@@ -218,36 +241,163 @@
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p4-result-callout-box {
   position: absolute;
   bottom: 12px;
   background: rgba(17, 24, 39, 0.95);
   backdrop-filter: blur(8px);
-  border: 1px solid #16a34a;
-  border-radius: 8px;
-  padding: 10px 18px;
+  border: 1.5px solid #16a34a;
+  border-radius: 10px;
+  padding: 8px 20px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   z-index: 10;
+  max-width: 90%;
 }
 
-#callout-header-text {
-  font-size: 11px;
+#p4-callout-header-text {
+  font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
 }
 
-#callout-val-text {
+#p4-callout-val-text {
   font-size: 18px;
-  color: #fff;
-  font-weight: 800;
+  color: #4ade80;
+  font-weight: 900;
   margin: 2px 0;
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
-  font-size: 12px;
+#p4-callout-detail-text {
+  font-size: 11px;
   color: #9ca3af;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p4-arrays-container {
+    max-width: 100%;
+  }
+
+  [id^="p4-array-row-"] {
+    padding: 10px 14px;
+    gap: 12px;
+  }
+
+  [id^="p4-array-label-box-"] {
+    width: 115px;
+    font-size: 12px;
+  }
+
+  [id^="p4-number-box-"] {
+    width: 40px;
+    height: 40px;
+  }
+
+  [id^="p4-box-val-"] {
+    font-size: 15px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p4-partition-canvas {
+    padding: 16px 12px 70px 12px;
+    gap: 16px;
+  }
+
+  #p4-metrics-banner {
+    gap: 6px;
+  }
+
+  [id^="p4-metric-chip-"] {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  [id^="p4-array-row-"] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  [id^="p4-array-label-box-"] {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  [id^="p4-cut-indicator-"] {
+    margin-top: 0;
+  }
+
+  [id^="p4-partition-track-"] {
+    width: 100%;
+    justify-content: center;
+  }
+
+  [id^="p4-number-box-"] {
+    width: 36px;
+    height: 36px;
+  }
+
+  [id^="p4-box-val-"] {
+    font-size: 14px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p4-metrics-banner {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  [id^="p4-metric-chip-"] {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  [id^="p4-number-box-"] {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+
+  [id^="p4-box-val-"] {
+    font-size: 13px;
+  }
+
+  [id^="p4-box-idx-"] {
+    font-size: 8px;
+    bottom: 1px;
+  }
+
+  [id^="p4-empty-slot-"] {
+    font-size: 9px;
+  }
+
+  #p4-condition-indicator-card {
+    font-size: 11px;
+    padding: 4px 10px;
+    text-align: center;
+  }
+
+  #p4-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p4-callout-detail-text {
+    font-size: 10px;
+  }
 }

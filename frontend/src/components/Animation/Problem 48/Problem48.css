@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#rotate-image-canvas {
+#p48-rotate-image-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 16px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p48-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,13 +32,15 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-[id^="metric-phase"],
-[id^="metric-size"],
-[id^="metric-swap-"] {
+#p48-metric-phase,
+#p48-metric-size,
+#p48-metric-swap-active,
+#p48-metric-swap-idle {
   background: rgba(24, 24, 32, 0.9);
-  border: 1.5px solid #272736;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
   padding: 4px 12px;
   border-radius: 9999px;
@@ -48,23 +51,24 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
 }
 
-#metric-phase b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#metric-size b { color: #facc15; font-family: ui-monospace, monospace; }
+#p48-metric-phase b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p48-metric-size b { color: #facc15; font-family: ui-monospace, monospace; }
 
-#metric-swap-active {
+#p48-metric-swap-active {
   border-color: #facc15 !important;
   background: rgba(250, 204, 21, 0.15) !important;
 }
-#metric-swap-active b { color: #fef08a !important; font-family: ui-monospace, monospace; }
+#p48-metric-swap-active b { color: #fef08a !important; font-family: ui-monospace, monospace; }
 
-#metric-swap-idle b { color: #636374; }
+#p48-metric-swap-idle b { color: #636374; }
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#rotate-stage {
+#p48-rotate-stage {
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -74,8 +78,8 @@
   flex-shrink: 0;
 }
 
-#matrix-card,
-#inspector-card {
+#p48-matrix-card,
+#p48-inspector-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -88,8 +92,8 @@
   width: 100%;
 }
 
-#matrix-card-header,
-#inspector-card-header {
+#p48-matrix-card-header,
+#p48-inspector-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -98,8 +102,8 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#matrix-header-title,
-#inspector-header-title {
+#p48-matrix-header-title,
+#p48-inspector-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -107,8 +111,8 @@
   letter-spacing: 0.7px;
 }
 
-#matrix-header-sub,
-#inspector-header-sub {
+#p48-matrix-header-sub,
+#p48-inspector-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -118,30 +122,28 @@
 /* ============================================================
    MATRIX GRID
    ============================================================ */
-#matrix-viewport {
+#p48-matrix-viewport {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
   box-sizing: border-box;
+  overflow-x: auto;
 }
 
-#matrix-grid {
+#p48-matrix-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-[id^="matrix-row-"] {
+[id^="p48-matrix-row-"] {
   display: flex;
   gap: 12px;
 }
 
-[id^="cell-idle-"],
-[id^="cell-active-"],
-[id^="cell-diagonal-"],
-[id^="cell-done-"] {
+[id^="p48-cell-"] {
   position: relative;
   width: 72px;
   height: 72px;
@@ -151,48 +153,49 @@
   border-radius: 12px;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 /* Base Idle Cell */
-[id^="cell-idle-"] {
+[id^="p48-cell-"][data-state="idle"] {
   background: #181822;
   border: 2px solid #2e2e40;
 }
-[id^="cell-idle-"] > [id^="val-text-"] { color: #a1a1aa; }
+[id^="p48-cell-"][data-state="idle"] [id^="p48-val-text-"] { color: #a1a1aa; }
 
 /* Main Diagonal Axis (Purple) */
-[id^="cell-diagonal-"] {
+[id^="p48-cell-"][data-state="diagonal"] {
   background: rgba(192, 132, 252, 0.08);
   border: 2px dashed #c084fc;
   box-shadow: inset 0 0 10px rgba(192, 132, 252, 0.15);
 }
-[id^="cell-diagonal-"] > [id^="val-text-"] { color: #d8b4fe; }
+[id^="p48-cell-"][data-state="diagonal"] [id^="p48-val-text-"] { color: #d8b4fe; }
 
-/* Swapping / Active Cell (Yellow/Blue Glow) */
-[id^="cell-active-"] {
+/* Swapping / Active Cell (Yellow Glow) */
+[id^="p48-cell-"][data-state="active"] {
   background: #262214 !important;
   border: 2px solid #facc15 !important;
   box-shadow: 0 0 16px rgba(250, 204, 21, 0.7);
   z-index: 10;
 }
-[id^="cell-active-"] > [id^="val-text-"] { color: #fef08a !important; }
-[id^="cell-active-"] > [id^="coord-tag-"] { color: #fde047 !important; }
+[id^="p48-cell-"][data-state="active"] [id^="p48-val-text-"] { color: #fef08a !important; }
+[id^="p48-cell-"][data-state="active"] [id^="p48-coord-tag-"] { color: #fde047 !important; }
 
 /* Completed Rotation Cell (Green) */
-[id^="cell-done-"] {
+[id^="p48-cell-"][data-state="done"] {
   background: #13241b !important;
   border: 2px solid #22c55e !important;
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
 }
-[id^="cell-done-"] > [id^="val-text-"] { color: #4ade80 !important; }
+[id^="p48-cell-"][data-state="done"] [id^="p48-val-text-"] { color: #4ade80 !important; }
 
-[id^="val-text-"] {
+[id^="p48-val-text-"] {
   font-size: 22px;
   font-weight: 900;
   font-family: ui-monospace, monospace;
 }
 
-[id^="coord-tag-"] {
+[id^="p48-coord-tag-"] {
   position: absolute;
   top: 6px;
   left: 6px;
@@ -206,21 +209,16 @@
 /* ============================================================
    INSPECTOR ENGINE
    ============================================================ */
-#inspector-grid {
+#p48-inspector-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   width: 100%;
+  box-sizing: border-box;
 }
 
-@media (max-width: 600px) {
-  #inspector-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#box-step-1,
-#box-step-2 {
+#p48-box-step-1,
+#p48-box-step-2 {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -228,33 +226,31 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  box-sizing: border-box;
 }
 
-[id^="title-step-"] {
+#p48-title-step-1,
+#p48-title-step-2 {
   font-size: 9px;
   font-weight: 800;
-  color: #717182;
+  color: #717172;
   text-transform: uppercase;
 }
 
-[id^="val-step-1-"],
-[id^="val-step-2-"] {
+#p48-val-step-1,
+#p48-val-step-2 {
   font-size: 13px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
-}
-
-#val-step-1-idle,
-#val-step-2-idle {
   color: #525266;
 }
 
-#val-step-1-active {
+#p48-val-step-1[data-active="true"] {
   color: #c084fc;
   text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
 }
 
-#val-step-2-active {
+#p48-val-step-2[data-active="true"] {
   color: #38bdf8;
   text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
 }
@@ -262,7 +258,7 @@
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p48-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -276,9 +272,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p48-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -286,7 +283,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p48-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -294,8 +291,136 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p48-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p48-rotate-stage {
+    max-width: 100%;
+  }
+
+  [id^="p48-cell-"] {
+    width: 62px;
+    height: 62px;
+  }
+
+  [id^="p48-val-text-"] {
+    font-size: 19px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p48-rotate-image-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p48-metrics-bar {
+    gap: 6px;
+  }
+
+  #p48-metric-phase,
+  #p48-metric-size,
+  #p48-metric-swap-active,
+  #p48-metric-swap-idle {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p48-matrix-viewport {
+    padding: 10px;
+  }
+
+  #p48-matrix-grid,
+  [id^="p48-matrix-row-"] {
+    gap: 8px;
+  }
+
+  [id^="p48-cell-"] {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+  }
+
+  [id^="p48-val-text-"] {
+    font-size: 17px;
+  }
+
+  [id^="p48-coord-tag-"] {
+    font-size: 8px;
+    top: 4px;
+    left: 4px;
+  }
+
+  #p48-inspector-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p48-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p48-metric-phase,
+  #p48-metric-size,
+  #p48-metric-swap-active,
+  #p48-metric-swap-idle {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p48-matrix-card-header,
+  #p48-inspector-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p48-matrix-grid,
+  [id^="p48-matrix-row-"] {
+    gap: 6px;
+  }
+
+  [id^="p48-cell-"] {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+  }
+
+  [id^="p48-val-text-"] {
+    font-size: 15px;
+  }
+
+  [id^="p48-coord-tag-"] {
+    font-size: 7px;
+    top: 3px;
+    left: 3px;
+  }
+
+  #p48-val-step-1,
+  #p48-val-step-2 {
+    font-size: 11px;
+  }
+
+  #p48-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p48-callout-detail-text {
+    font-size: 11px;
+  }
 }

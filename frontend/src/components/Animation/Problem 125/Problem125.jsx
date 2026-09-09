@@ -4,70 +4,142 @@ import "./Problem125.css";
 
 export default function Problem125({ stepData }) {
   const {
-    chars = [],
-    l = null,
-    r = null,
+    chars: rawChars,
+    cleanedStr,
+    s,
+    l,
+    r,
+    left: propLeft,
+    right: propRight,
+    isMatch: propMatch,
+    isCompleted: propCompleted,
     state = {},
     output
   } = stepData || {};
 
-  const { isPalindrome, status } = state;
-  const isComplete = status === "COMPLETED";
-  const charL = l !== null && l >= 0 && l < chars.length ? chars[l] : null;
-  const charR = r !== null && r >= 0 && r < chars.length ? chars[r] : null;
-  const isMatch = charL !== null && charR !== null && charL.toLowerCase() === charR.toLowerCase();
+  // Normalize string/chars array across data formats
+  const stringSource = rawChars || cleanedStr || s || state.chars || ["r", "a", "c", "e", "c", "a", "r"];
+  const chars = Array.isArray(stringSource) ? stringSource : String(stringSource).split("");
+
+  // Normalize pointer indices
+  const left = l ?? propLeft ?? state.l ?? 0;
+  const right = r ?? propRight ?? state.r ?? (chars.length > 0 ? chars.length - 1 : 0);
+
+  // Normalize status flags
+  const isComplete = propCompleted || state.status === "COMPLETED" || output !== null;
+  const isMatch = propMatch ?? (state.isPalindrome !== "False" && chars[left] === chars[right]);
+  const isMismatch = isMatch === false || state.isPalindrome === "False";
+
+  let matchState = "eval";
+  if (isComplete || isMatch === true) matchState = "match";
+  else if (isMismatch) matchState = "mismatch";
 
   return (
-    <div className="canvas-wrapper palindrome-scan-canvas">
-      {/* Metrics Row */}
-      <div className="metrics-row">
-        {l !== null && r !== null && !isComplete && (
-          <span className={`metric-chip ${isMatch ? "match-chip" : "mismatch-chip"}`}>
-            Comparing: <b>'{charL}'</b> (l={l}) vs <b>'{charR}'</b> (r={r}) &rarr;{" "}
-            <b>{isMatch ? "MATCH (l++, r--)" : "MISMATCH (False)"}</b>
-          </span>
-        )}
-        <span className="metric-chip ptr-chip">
-          Pointers: <b>L=[{l !== null ? l : "-"}] | R=[{r !== null ? r : "-"}]</b>
+    <div id="p125-palindrome-scan-canvas">
+      {/* Top Metrics Row */}
+      <div id="p125-metrics-row">
+        <span id="p125-metric-ptrs">
+          Pointers: <b>L: {left} | R: {right}</b>
         </span>
-        {isPalindrome !== undefined && (
-          <span className="metric-chip result-chip">
-            Valid Palindrome: <b>{isPalindrome}</b>
-          </span>
-        )}
+
+        <span
+          id="p125-metric-match"
+          data-match={matchState}
+        >
+          Characters:{" "}
+          <b>
+            {chars[left] !== undefined && chars[right] !== undefined
+              ? `'${chars[left]}' vs '${chars[right]}'`
+              : "Complete"}
+          </b>
+        </span>
+
+        <span id="p125-metric-result">
+          Status: <b>{isComplete ? "VALID PALINDROME ✓" : isMismatch ? "MISMATCH FOUND ✗" : "TWO-POINTER SCAN"}</b>
+        </span>
       </div>
 
-      {/* Characters Track */}
-      <div className="chars-track-container">
-        <div className="chars-stream">
+      {/* Synchronized Character Scan Ribbon */}
+      <div id="p125-chars-track-container">
+        <div id="p125-chars-stream">
           {chars.map((ch, idx) => {
-            const isL = idx === l;
-            const isR = idx === r;
-            const isTarget = isL || isR;
-            const isVerified = (l !== null && idx < l) || (r !== null && idx > r);
+            const isLeft = idx === left;
+            const isRight = idx === right;
+            const isBoth = isLeft && isRight;
+            const isActive = (isLeft || isRight) && !isComplete;
+            const isVerified = (idx < left || idx > right) && !isComplete;
+
+            let tileState = "idle";
+            if (isComplete) {
+              tileState = "complete";
+            } else if (isActive) {
+              tileState = "active";
+            } else if (isVerified) {
+              tileState = "verified";
+            }
 
             return (
-              <div key={idx} className="char-col">
-                {/* Pointer Badges */}
-                <div className="ptrs-group">
-                  {isL && isR && <span className="pointer-tag ptr-lr">L/R</span>}
-                  {isL && !isR && <span className="pointer-tag ptr-l">L</span>}
-                  {isR && !isL && <span className="pointer-tag ptr-r">R</span>}
+              <div key={`p125-col-${idx}`} id={`p125-char-col-${idx}`}>
+                {/* Pointer Badges with Sliding Layout Animation */}
+                <div id={`p125-ptrs-group-${idx}`}>
+                  <AnimatePresence mode="popLayout">
+                    {isBoth && !isComplete && (
+                      <motion.span
+                        key="p125-ptr-both"
+                        layoutId="p125-shared-ptr-lr"
+                        id={`p125-pointer-tag-lr-${idx}`}
+                        data-ptr="lr"
+                        initial={{ y: -8, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -8, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 28 }}
+                      >
+                        L &amp; R
+                      </motion.span>
+                    )}
+                    {isLeft && !isBoth && !isComplete && (
+                      <motion.span
+                        key="p125-ptr-left"
+                        layoutId="p125-shared-ptr-l"
+                        id={`p125-pointer-tag-l-${idx}`}
+                        data-ptr="l"
+                        initial={{ y: -8, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -8, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 28 }}
+                      >
+                        L
+                      </motion.span>
+                    )}
+                    {isRight && !isBoth && !isComplete && (
+                      <motion.span
+                        key="p125-ptr-right"
+                        layoutId="p125-shared-ptr-r"
+                        id={`p125-pointer-tag-r-${idx}`}
+                        data-ptr="r"
+                        initial={{ y: -8, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -8, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 28 }}
+                      >
+                        R
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                {/* Character Node */}
+                {/* Character Tile */}
                 <motion.div
-                  className={`char-tile ${isTarget ? "tile-active" : ""} ${
-                    isVerified ? "tile-verified" : ""
-                  } ${isComplete ? "tile-complete" : ""}`}
+                  id={`p125-char-tile-${idx}`}
+                  data-scan-state={tileState}
+                  layout
                   animate={{
-                    scale: isTarget ? 1.08 : 1,
-                    y: isTarget ? -3 : 0
+                    scale: isComplete || isActive ? 1.08 : 1
                   }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 24 }}
                 >
-                  <span className="char-val">{ch}</span>
-                  <span className="idx-tag">[{idx}]</span>
+                  <span id={`p125-char-val-${idx}`}>{ch}</span>
+                  <span id={`p125-idx-tag-${idx}`}>[{idx}]</span>
                 </motion.div>
               </div>
             );
@@ -75,18 +147,19 @@ export default function Problem125({ stepData }) {
         </div>
       </div>
 
-      {/* Output Callout */}
+      {/* Result Callout */}
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p125-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p125-callout-header-text">{output.label}</div>
+            <div id="p125-callout-val-text">{output.value}</div>
+            <div id="p125-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

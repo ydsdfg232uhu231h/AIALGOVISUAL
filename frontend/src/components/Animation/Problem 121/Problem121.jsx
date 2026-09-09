@@ -19,61 +19,69 @@ export default function Problem121({ stepData }) {
   const maxBarHeight = Math.max(...prices);
 
   return (
-    <div id="stock-canvas">
+    <div id="p121-stock-canvas">
       {/* Top Telemetry Header */}
-      <div id="metrics-bar">
-        <span id="metric-day">
+      <div id="p121-metrics-bar">
+        <span id="p121-metric-day">
           Current Day: <b>Day {currentDay} (${prices[currentDay]})</b>
         </span>
 
-        <span id="metric-min-buy">
+        <span id="p121-metric-min-buy">
           Min Buy Price: <b>{minPrice === "INF" ? "INF" : `$${minPrice} (Day ${buyDay})`}</b>
         </span>
 
-        <span id="metric-cur-profit">
+        <span id="p121-metric-cur-profit">
           Current Spread: <b>+${currentProfit}</b>
         </span>
 
-        <span id={isCompleted ? "metric-max-done" : "metric-max-active"}>
+        <span
+          id="p121-metric-max"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Max Profit: <b>+${maxProf}</b>
         </span>
       </div>
 
       {/* Main Stock Stage */}
-      <div id="stock-stage">
-        <div id="chart-card">
-          <div id="chart-card-header">
-            <span id="chart-header-title">Daily Stock Price & Transaction Window</span>
-            <span id="chart-header-sub">Single-pass tracking: minPrice = min(minPrice, price)</span>
+      <div id="p121-stock-stage">
+        <div id="p121-chart-card">
+          <div id="p121-chart-card-header">
+            <span id="p121-chart-header-title">Daily Stock Price & Transaction Window</span>
+            <span id="p121-chart-header-sub">Single-pass tracking: minPrice = min(minPrice, price)</span>
           </div>
 
-          <div id="bars-viewport">
-            <div id="bars-container">
+          <div id="p121-bars-viewport">
+            <div id="p121-bars-container">
               {prices.map((price, idx) => {
                 const isCurrent = currentDay === idx;
                 const isBuy = buyDay === idx;
-                const isSell = (sellDay !== null ? sellDay === idx : (isCompleted && idx === 4));
+                const isSell = sellDay !== null ? sellDay === idx : (isCompleted && idx === 4);
                 const isWinningTransaction = isCompleted && (isBuy || isSell);
 
                 const barHeightPercent = (price / maxBarHeight) * 100;
 
-                let barId = `bar-idle-${idx}`;
+                let barState = "idle";
                 if (isWinningTransaction) {
-                  barId = `bar-winner-${idx}`;
+                  barState = "winner";
                 } else if (isCurrent) {
-                  barId = `bar-current-${idx}`;
+                  barState = "current";
                 } else if (isBuy) {
-                  barId = `bar-buy-${idx}`;
+                  barState = "buy";
                 }
 
+                // Static scale mapping: no keyframe arrays or repeat loops
+                const targetScale = isWinningTransaction ? 1.05 : isCurrent ? 1.03 : 1;
+
                 return (
-                  <div key={`day-column-${idx}`} id={`col-wrapper-${idx}`} className="day-column">
+                  <div key={`day-column-${idx}`} id={`p121-col-wrapper-${idx}`}>
                     {/* Top Pointer Badges */}
-                    <div id={`ptr-slot-${idx}`} className="pointer-slot">
-                      <AnimatePresence>
+                    <div id={`p121-ptr-slot-${idx}`}>
+                      <AnimatePresence mode="popLayout">
                         {isBuy && !isCompleted && (
                           <motion.div
-                            id="buy-pointer-badge"
+                            key={`p121-buy-ptr-${idx}`}
+                            id="p121-buy-pointer-badge"
+                            layout
                             initial={{ y: -8, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -8, opacity: 0 }}
@@ -84,7 +92,9 @@ export default function Problem121({ stepData }) {
                         )}
                         {isCurrent && !isBuy && !isCompleted && (
                           <motion.div
-                            id="sell-pointer-badge"
+                            key={`p121-sell-ptr-${idx}`}
+                            id="p121-sell-pointer-badge"
+                            layout
                             initial={{ y: -8, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -8, opacity: 0 }}
@@ -95,7 +105,10 @@ export default function Problem121({ stepData }) {
                         )}
                         {isWinningTransaction && (
                           <motion.div
-                            id={isBuy ? "win-buy-badge" : "win-sell-badge"}
+                            key={`p121-win-ptr-${idx}`}
+                            id={`p121-win-badge-${idx}`}
+                            data-badge-type={isBuy ? "buy" : "sell"}
+                            layout
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ type: "spring", stiffness: 450, damping: 26 }}
@@ -107,27 +120,25 @@ export default function Problem121({ stepData }) {
                     </div>
 
                     {/* Visual Bar Pillar */}
-                    <div id={`bar-slot-${idx}`} className="bar-track-slot">
+                    <div id={`p121-bar-slot-${idx}`}>
                       <motion.div
-                        id={barId}
-                        className="price-bar-pillar"
+                        id={`p121-bar-${idx}`}
+                        data-bar-state={barState}
+                        layout
                         style={{ height: `${barHeightPercent}%` }}
-                        animate={{
-                          scale: isWinningTransaction ? [1, 1.05, 1] : isCurrent ? 1.03 : 1
-                        }}
+                        animate={{ scale: targetScale }}
                         transition={{
                           type: "spring",
-                          stiffness: 300,
-                          damping: 20,
-                          scale: isWinningTransaction ? { repeat: Infinity, duration: 1.4 } : undefined
+                          stiffness: 320,
+                          damping: 24
                         }}
                       >
-                        <span id={`price-label-${idx}`} className="bar-val-label">${price}</span>
+                        <span id={`p121-price-label-${idx}`}>${price}</span>
                       </motion.div>
                     </div>
 
                     {/* Day Subscript */}
-                    <span id={`day-label-${idx}`} className="day-index-label">
+                    <span id={`p121-day-label-${idx}`}>
                       Day {idx}
                     </span>
                   </div>
@@ -138,34 +149,34 @@ export default function Problem121({ stepData }) {
         </div>
 
         {/* Calculation Tracker Dashboard */}
-        <div id="calc-card">
-          <div id="calc-card-header">
-            <span id="calc-header-title">Daily Evaluation Logic</span>
-            <span id="calc-header-sub">Computes profit = price - minPrice</span>
+        <div id="p121-calc-card">
+          <div id="p121-calc-card-header">
+            <span id="p121-calc-header-title">Daily Evaluation Logic</span>
+            <span id="p121-calc-header-sub">Computes profit = price - minPrice</span>
           </div>
 
-          <div id="calc-grid">
-            <div id="calc-box-action">
-              <span id="calc-title-action">Current Action:</span>
-              <span id="calc-val-action">
+          <div id="p121-calc-grid">
+            <div id="p121-calc-box-action">
+              <span id="p121-calc-title-action">Current Action:</span>
+              <span id="p121-calc-val-action">
                 {minPrice !== "INF" && prices[currentDay] < minPrice
                   ? `New minimum discovered! Update minPrice = $${prices[currentDay]}`
                   : `Calculate spread: $${prices[currentDay]} - $${minPrice === "INF" ? 0 : minPrice}`}
               </span>
             </div>
 
-            <div id="calc-box-spread">
-              <span id="calc-title-spread">Daily Profit Potential:</span>
-              <span id="calc-val-spread">
+            <div id="p121-calc-box-spread">
+              <span id="p121-calc-title-spread">Daily Profit Potential:</span>
+              <span id="p121-calc-val-spread">
                 {minPrice !== "INF" && prices[currentDay] >= minPrice
                   ? `$${prices[currentDay]} - $${minPrice} = +$${prices[currentDay] - minPrice}`
                   : "$0 (Price is lower than min)"}
               </span>
             </div>
 
-            <div id="calc-box-best">
-              <span id="calc-title-best">Record Profit:</span>
-              <span id="calc-val-best">
+            <div id="p121-calc-box-best">
+              <span id="p121-calc-title-best">Record Profit:</span>
+              <span id="p121-calc-val-best">
                 +${maxProf}
               </span>
             </div>
@@ -177,14 +188,14 @@ export default function Problem121({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p121-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p121-callout-header-text">{output.label}</div>
+            <div id="p121-callout-val-text">{output.value}</div>
+            <div id="p121-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

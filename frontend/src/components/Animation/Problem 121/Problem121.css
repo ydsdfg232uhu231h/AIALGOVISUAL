@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#stock-canvas {
+#p121-stock-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p121-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,13 +32,13 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-day,
-#metric-min-buy,
-#metric-cur-profit,
-#metric-max-active,
-#metric-max-done {
+#p121-metric-day,
+#p121-metric-min-buy,
+#p121-metric-cur-profit,
+#p121-metric-max {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -50,23 +51,25 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-#metric-day b { color: #38bdf8; }
-#metric-min-buy b { color: #facc15; }
-#metric-cur-profit b { color: #c084fc; }
-#metric-max-active b { color: #fb923c; }
+#p121-metric-day b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p121-metric-min-buy b { color: #facc15; font-family: ui-monospace, monospace; }
+#p121-metric-cur-profit b { color: #c084fc; font-family: ui-monospace, monospace; }
+#p121-metric-max b { color: #fb923c; font-family: ui-monospace, monospace; }
 
-#metric-max-done {
+#p121-metric-max[data-status="done"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-max-done b { color: #4ade80 !important; }
+#p121-metric-max[data-status="done"] b { color: #4ade80 !important; }
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#stock-stage {
+#p121-stock-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -76,8 +79,8 @@
   flex-shrink: 0;
 }
 
-#chart-card,
-#calc-card {
+#p121-chart-card,
+#p121-calc-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -89,8 +92,8 @@
   box-sizing: border-box;
 }
 
-#chart-card-header,
-#calc-card-header {
+#p121-chart-card-header,
+#p121-calc-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,8 +102,8 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#chart-header-title,
-#calc-header-title {
+#p121-chart-header-title,
+#p121-calc-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -108,8 +111,8 @@
   letter-spacing: 0.7px;
 }
 
-#chart-header-sub,
-#calc-header-sub {
+#p121-chart-header-sub,
+#p121-calc-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -119,7 +122,7 @@
 /* ============================================================
    BARS VIEWPORT
    ============================================================ */
-#bars-viewport {
+#p121-bars-viewport {
   width: 100%;
   min-height: 230px;
   background: #0f0f14;
@@ -133,7 +136,7 @@
   overflow-x: auto;
 }
 
-#bars-container {
+#p121-bars-container {
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -142,7 +145,7 @@
   width: 100%;
 }
 
-.day-column {
+[id^="p121-col-wrapper-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,9 +154,10 @@
   width: 68px;
   min-width: 68px;
   position: relative;
+  box-sizing: border-box;
 }
 
-.pointer-slot {
+[id^="p121-ptr-slot-"] {
   height: 26px;
   display: flex;
   align-items: center;
@@ -161,7 +165,7 @@
   width: 100%;
 }
 
-#buy-pointer-badge {
+#p121-buy-pointer-badge {
   background: rgba(250, 204, 21, 0.2);
   border: 1.5px solid #facc15;
   color: #fef08a;
@@ -174,7 +178,7 @@
   font-family: ui-monospace, monospace;
 }
 
-#sell-pointer-badge {
+#p121-sell-pointer-badge {
   background: rgba(56, 189, 248, 0.2);
   border: 1.5px solid #38bdf8;
   color: #7dd3fc;
@@ -187,8 +191,8 @@
   font-family: ui-monospace, monospace;
 }
 
-#win-buy-badge,
-#win-sell-badge {
+[id^="p121-win-badge-"][data-badge-type="buy"],
+[id^="p121-win-badge-"][data-badge-type="sell"] {
   background: rgba(34, 197, 94, 0.25);
   border: 1.5px solid #22c55e;
   color: #4ade80;
@@ -202,7 +206,7 @@
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
 }
 
-.bar-track-slot {
+[id^="p121-bar-slot-"] {
   height: 130px;
   width: 100%;
   display: flex;
@@ -210,7 +214,7 @@
   justify-content: center;
 }
 
-.price-bar-pillar {
+[id^="p121-bar-"] {
   width: 46px;
   border-radius: 8px 8px 3px 3px;
   display: flex;
@@ -218,46 +222,46 @@
   justify-content: center;
   padding-top: 6px;
   box-sizing: border-box;
-  transition: all 0.25s ease;
+  transform-origin: bottom center;
   position: relative;
 }
 
-.bar-val-label {
+[id^="p121-price-label-"] {
   font-size: 13px;
   font-weight: 900;
   font-family: ui-monospace, monospace;
-  line-height: 1;
+  line-height: 0.5;
 }
 
-/* Pillar State IDs */
-[id^="bar-idle-"] {
+/* Pillar State Selectors */
+[id^="p121-bar-"][data-bar-state="idle"] {
   background: #181824;
   border: 1.5px solid #282838;
 }
-[id^="bar-idle-"] .bar-val-label { color: #717182; }
+[id^="p121-bar-"][data-bar-state="idle"] [id^="p121-price-label-"] { color: #717182; }
 
-[id^="bar-current-"] {
+[id^="p121-bar-"][data-bar-state="current"] {
   background: rgba(56, 189, 248, 0.18) !important;
   border: 2px solid #38bdf8 !important;
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
 }
-[id^="bar-current-"] .bar-val-label { color: #7dd3fc !important; }
+[id^="p121-bar-"][data-bar-state="current"] [id^="p121-price-label-"] { color: #7dd3fc !important; }
 
-[id^="bar-buy-"] {
+[id^="p121-bar-"][data-bar-state="buy"] {
   background: rgba(250, 204, 21, 0.18) !important;
   border: 2px solid #facc15 !important;
   box-shadow: 0 0 16px rgba(250, 204, 21, 0.35);
 }
-[id^="bar-buy-"] .bar-val-label { color: #fef08a !important; }
+[id^="p121-bar-"][data-bar-state="buy"] [id^="p121-price-label-"] { color: #fef08a !important; }
 
-[id^="bar-winner-"] {
+[id^="p121-bar-"][data-bar-state="winner"] {
   background: radial-gradient(circle at center, rgba(34, 197, 94, 0.35) 0%, #13241b 90%) !important;
   border: 2px solid #22c55e !important;
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.6) !important;
 }
-[id^="bar-winner-"] .bar-val-label { color: #4ade80 !important; }
+[id^="p121-bar-"][data-bar-state="winner"] [id^="p121-price-label-"] { color: #4ade80 !important; }
 
-.day-index-label {
+[id^="p121-day-label-"] {
   font-size: 9px;
   font-weight: 700;
   color: #636374;
@@ -268,22 +272,16 @@
 /* ============================================================
    CALCULATION TRACKER GRID
    ============================================================ */
-#calc-grid {
+#p121-calc-grid {
   display: grid;
   grid-template-columns: 2fr 1.5fr 1fr;
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 680px) {
-  #calc-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#calc-box-action,
-#calc-box-spread,
-#calc-box-best {
+#p121-calc-box-action,
+#p121-calc-box-spread,
+#p121-calc-box-best {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -291,34 +289,34 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
-#calc-title-action,
-#calc-title-spread,
-#calc-title-best {
+#p121-calc-title-action,
+#p121-calc-title-spread,
+#p121-calc-title-best {
   font-size: 9px;
   font-weight: 800;
   color: #717182;
   text-transform: uppercase;
 }
 
-#calc-val-action,
-#calc-val-spread,
-#calc-val-best {
+#p121-calc-val-action,
+#p121-calc-val-spread,
+#p121-calc-val-best {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
-  color: #ffffff;
 }
 
-#calc-val-action { color: #38bdf8; }
-#calc-val-spread { color: #c084fc; }
-#calc-val-best { color: #4ade80; }
+#p121-calc-val-action { color: #38bdf8; }
+#p121-calc-val-spread { color: #c084fc; }
+#p121-calc-val-best { color: #4ade80; }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p121-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -332,9 +330,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p121-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -342,7 +341,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p121-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -350,8 +349,143 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p121-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p121-bars-container {
+    gap: 12px;
+  }
+
+  [id^="p121-col-wrapper-"] {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  [id^="p121-bar-"] {
+    width: 40px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p121-stock-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p121-metrics-bar {
+    gap: 6px;
+  }
+
+  #p121-metric-day,
+  #p121-metric-min-buy,
+  #p121-metric-cur-profit,
+  #p121-metric-max {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p121-calc-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  #p121-bars-viewport {
+    justify-content: flex-start;
+    padding: 16px 8px 8px 8px;
+  }
+
+  #p121-bars-container {
+    justify-content: flex-start;
+    gap: 10px;
+    height: 180px;
+  }
+
+  [id^="p121-col-wrapper-"] {
+    width: 54px;
+    min-width: 54px;
+  }
+
+  [id^="p121-bar-"] {
+    width: 36px;
+  }
+
+  [id^="p121-price-label-"] {
+    font-size: 12px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p121-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p121-metric-day,
+  #p121-metric-min-buy,
+  #p121-metric-cur-profit,
+  #p121-metric-max {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p121-chart-card-header,
+  #p121-calc-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p121-bars-container {
+    height: 160px;
+    gap: 8px;
+  }
+
+  [id^="p121-col-wrapper-"] {
+    width: 46px;
+    min-width: 46px;
+  }
+
+  [id^="p121-bar-slot-"] {
+    height: 110px;
+  }
+
+  [id^="p121-bar-"] {
+    width: 30px;
+    border-radius: 6px 6px 2px 2px;
+  }
+
+  [id^="p121-price-label-"] {
+    font-size: 11px;
+  }
+
+  [id^="p121-day-label-"] {
+    font-size: 8px;
+  }
+
+  #p121-buy-pointer-badge,
+  #p121-sell-pointer-badge,
+  [id^="p121-win-badge-"] {
+    font-size: 7px;
+    padding: 1px 4px;
+  }
+
+  #p121-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p121-callout-detail-text {
+    font-size: 11px;
+  }
 }

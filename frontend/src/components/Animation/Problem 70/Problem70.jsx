@@ -17,34 +17,34 @@ export default function Problem70({ stepData }) {
   const totalSteps = Array.from({ length: n }, (_, idx) => idx + 1);
 
   return (
-    <div className="canvas-wrapper climb-canvas">
+    <div id="p70-climb-canvas">
       {/* Dynamic Status Badges */}
-      <div className="metrics-row">
-        <span className="metric-chip target-chip">
+      <div id="p70-metrics-row">
+        <span id="p70-metric-chip-target">
           Target Stairs: <b>n = {n}</b>
         </span>
         {one !== null && (
-          <span className="metric-chip one-chip">
+          <span id="p70-metric-chip-one">
             one (i - 2): <b>{one}</b>
           </span>
         )}
         {two !== null && (
-          <span className="metric-chip two-chip">
+          <span id="p70-metric-chip-two">
             two (i - 1): <b>{two}</b>
           </span>
         )}
-        <span className="metric-chip current-chip">
+        <span id="p70-metric-chip-current">
           Evaluating: <b>Step {currentStep}</b>
         </span>
         {ways && (
-          <span className="metric-chip ways-chip">
+          <span id="p70-metric-chip-ways">
             Total Ways: <b>{ways}</b>
           </span>
         )}
       </div>
 
       {/* Ascending Stairs Track */}
-      <div className="stairs-track">
+      <div id="p70-stairs-track">
         {totalSteps.map((stepNum) => {
           const computedWays = stepsList[stepNum - 1];
           const isCurrent = stepNum === currentStep;
@@ -53,21 +53,67 @@ export default function Problem70({ stepData }) {
           const isOne = !isComplete && currentStep > 2 && stepNum === currentStep - 2;
           const isTwo = !isComplete && currentStep > 2 && stepNum === currentStep - 1;
 
+          let nodeState = "idle";
+          if (isTarget && isComplete) nodeState = "complete";
+          else if (computedWays !== undefined) nodeState = "computed";
+
           return (
-            <div key={stepNum} className="stair-column">
+            <div key={`p70-col-${stepNum}`} id={`p70-stair-column-${stepNum}`}>
               {/* Pointer Badges */}
-              <div className="ptrs-track">
-                {isOne && <span className="ptr-pill ptr-one">one</span>}
-                {isTwo && <span className="ptr-pill ptr-two">two</span>}
-                {isCurrent && !isComplete && <span className="ptr-pill ptr-curr">curr</span>}
+              <div id={`p70-ptrs-track-${stepNum}`}>
+                <AnimatePresence mode="popLayout">
+                  {isOne && (
+                    <motion.span
+                      key={`p70-ptr-one-${stepNum}`}
+                      id={`p70-ptr-pill-one-${stepNum}`}
+                      data-ptr="one"
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      one
+                    </motion.span>
+                  )}
+                  {isTwo && (
+                    <motion.span
+                      key={`p70-ptr-two-${stepNum}`}
+                      id={`p70-ptr-pill-two-${stepNum}`}
+                      data-ptr="two"
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      two
+                    </motion.span>
+                  )}
+                  {isCurrent && !isComplete && (
+                    <motion.span
+                      key={`p70-ptr-curr-${stepNum}`}
+                      id={`p70-ptr-pill-curr-${stepNum}`}
+                      data-ptr="curr"
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      curr
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Step Pillar */}
               <motion.div
-                className={`stair-node ${computedWays ? "stair-computed" : "stair-idle"} ${
-                  isTarget && isComplete ? "stair-complete" : ""
-                }`}
-                style={{ height: `${48 + stepNum * 26}px` }}
+                id={`p70-stair-node-${stepNum}`}
+                data-state={nodeState}
+                data-active={isCurrent ? "true" : "false"}
+                layout
+                style={{ "--step-index": stepNum }}
                 animate={{
                   scale: isCurrent ? 1.05 : 1,
                   borderColor:
@@ -75,16 +121,16 @@ export default function Problem70({ stepData }) {
                       ? "#22c55e"
                       : isCurrent
                       ? "#38bdf8"
-                      : computedWays
+                      : computedWays !== undefined
                       ? "#3f3f46"
                       : "#27272a"
                 }}
                 transition={{ duration: 0.25, ease: "easeInOut" }}
               >
-                <div className="stair-ways">
+                <div id={`p70-stair-ways-${stepNum}`}>
                   {computedWays !== undefined ? `${computedWays} ways` : "..."}
                 </div>
-                <div className="stair-label">Step {stepNum}</div>
+                <div id={`p70-stair-label-${stepNum}`}>Step {stepNum}</div>
               </motion.div>
             </div>
           );
@@ -95,14 +141,14 @@ export default function Problem70({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p70-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p70-callout-header-text">{output.label}</div>
+            <div id="p70-callout-val-text">{output.value}</div>
+            <div id="p70-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

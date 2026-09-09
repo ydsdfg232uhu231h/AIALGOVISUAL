@@ -31,58 +31,62 @@ export default function Problem4({ stepData }) {
     (maxLeft2 === "-INF" || maxLeft2 <= (minRight1 === "INF" ? Infinity : minRight1));
 
   const renderPartitionedArray = (arr, partitionIndex, label, cutVarName, arrayKey) => (
-    <div key={arrayKey} id={`array-row-${arrayKey}`}>
-      <div id={`array-label-box-${arrayKey}`}>
-        <span id={`array-label-name-${arrayKey}`}>{label}</span>
-        <span id={`cut-indicator-${arrayKey}`}>
+    <div key={`p4-row-${arrayKey}`} id={`p4-array-row-${arrayKey}`}>
+      <div id={`p4-array-label-box-${arrayKey}`}>
+        <span id={`p4-array-label-name-${arrayKey}`}>{label}</span>
+        <span id={`p4-cut-indicator-${arrayKey}`}>
           {cutVarName} = {partitionIndex}
         </span>
       </div>
 
-      <div id={`partition-track-${arrayKey}`}>
+      <div id={`p4-partition-track-${arrayKey}`}>
         {/* Left half before partition */}
-        <div id={`partition-half-left-${arrayKey}`}>
+        <div id={`p4-partition-half-left-${arrayKey}`}>
           {arr.slice(0, partitionIndex).map((val, idx) => (
             <motion.div
-              key={`left-${arrayKey}-${idx}-${val}`}
-              id={`number-box-left-${arrayKey}-${idx}`}
+              key={`p4-left-${arrayKey}-${idx}-${val}`}
+              id={`p4-number-box-left-${arrayKey}-${idx}`}
+              data-side="left"
+              layout
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.2 }}
             >
-              {val}
-              <span id={`box-idx-left-${arrayKey}-${idx}`}>[{idx}]</span>
+              <span id={`p4-box-val-left-${arrayKey}-${idx}`}>{val}</span>
+              <span id={`p4-box-idx-left-${arrayKey}-${idx}`}>[{idx}]</span>
             </motion.div>
           ))}
           {partitionIndex === 0 && (
-            <span id={`empty-slot-left-${arrayKey}`}>-INF</span>
+            <span id={`p4-empty-slot-left-${arrayKey}`}>-INF</span>
           )}
         </div>
 
         {/* Partition Divider Line */}
-        <div id={`partition-line-${arrayKey}`}>
-          <span id={`line-bar-top-${arrayKey}`} />
-          <span id={`cut-tag-${arrayKey}`}>Cut</span>
-          <span id={`line-bar-bottom-${arrayKey}`} />
+        <div id={`p4-partition-line-${arrayKey}`}>
+          <span id={`p4-line-bar-top-${arrayKey}`} />
+          <span id={`p4-cut-tag-${arrayKey}`}>Cut</span>
+          <span id={`p4-line-bar-bottom-${arrayKey}`} />
         </div>
 
         {/* Right half after partition */}
-        <div id={`partition-half-right-${arrayKey}`}>
+        <div id={`p4-partition-half-right-${arrayKey}`}>
           {arr.slice(partitionIndex).map((val, idx) => {
             const actualIdx = partitionIndex + idx;
             return (
               <motion.div
-                key={`right-${arrayKey}-${actualIdx}-${val}`}
-                id={`number-box-right-${arrayKey}-${actualIdx}`}
+                key={`p4-right-${arrayKey}-${actualIdx}-${val}`}
+                id={`p4-number-box-right-${arrayKey}-${actualIdx}`}
+                data-side="right"
+                layout
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                {val}
-                <span id={`box-idx-right-${arrayKey}-${actualIdx}`}>[{actualIdx}]</span>
+                <span id={`p4-box-val-right-${arrayKey}-${actualIdx}`}>{val}</span>
+                <span id={`p4-box-idx-right-${arrayKey}-${actualIdx}`}>[{actualIdx}]</span>
               </motion.div>
             );
           })}
           {partitionIndex === arr.length && (
-            <span id={`empty-slot-right-${arrayKey}`}>+INF</span>
+            <span id={`p4-empty-slot-right-${arrayKey}`}>+INF</span>
           )}
         </div>
       </div>
@@ -90,37 +94,37 @@ export default function Problem4({ stepData }) {
   );
 
   return (
-    <div id="partition-canvas">
+    <div id="p4-partition-canvas">
       {/* Search Range & Boundary Status Banner */}
-      <div id="metrics-banner">
+      <div id="p4-metrics-banner">
         {low !== undefined && high !== undefined && (
-          <span id="metric-chip-range">
+          <span id="p4-metric-chip-range">
             Search Range: low = <b>{low}</b>, high = <b>{high}</b>
           </span>
         )}
         {maxLeft1 !== undefined && (
-          <span id="metric-chip-bounds-1">
+          <span id="p4-metric-chip-bounds-1">
             maxLeft1: <b>{String(maxLeft1)}</b> | minRight1: <b>{String(minRight1)}</b>
           </span>
         )}
         {maxLeft2 !== undefined && (
-          <span id="metric-chip-bounds-2">
+          <span id="p4-metric-chip-bounds-2">
             maxLeft2: <b>{String(maxLeft2)}</b> | minRight2: <b>{String(minRight2)}</b>
           </span>
         )}
       </div>
 
       {/* Dual Partitioned Arrays */}
-      <div id="arrays-container">
+      <div id="p4-arrays-container">
         {renderPartitionedArray(nums1, partition1, "nums1 (Smaller)", "i", "nums1")}
         {renderPartitionedArray(nums2, partition2, "nums2", "j", "nums2")}
       </div>
 
       {/* Condition Check */}
       {maxLeft1 !== undefined && minRight2 !== undefined && (
-        <div id="condition-indicator-card">
-          <span id="condition-prefix-label">Condition: </span>
-          <b id={isValidCondition ? "condition-check-valid" : "condition-check-invalid"}>
+        <div id="p4-condition-indicator-card">
+          <span id="p4-condition-prefix-label">Condition: </span>
+          <b id={isValidCondition ? "p4-condition-check-valid" : "p4-condition-check-invalid"}>
             {maxLeft1} ≤ {minRight2} &amp; {maxLeft2} ≤ {minRight1}
           </b>
         </div>
@@ -130,14 +134,14 @@ export default function Problem4({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p4-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p4-callout-header-text">{output.label}</div>
+            <div id="p4-callout-val-text">{output.value}</div>
+            <div id="p4-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -22,56 +22,57 @@ export default function Problem51({ stepData }) {
   const n = board.length;
 
   return (
-    <div className="canvas-wrapper nqueens-canvas">
+    <div id="p51-nqueens-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip row-chip">
+      <div id="p51-metrics-row">
+        <span id="p51-metric-chip-row">
           Evaluating Row: <b>{r !== null ? `r = ${r}` : "Complete"}</b>
         </span>
-        <span className="metric-chip col-chip">
+        <span id="p51-metric-chip-col">
           Blocked Cols: <b>{cols}</b>
         </span>
-        <span className="metric-chip diag-chip">
+        <span id="p51-metric-chip-posdiag">
           Pos Diags (r+c): <b>{posDiag}</b>
         </span>
-        <span className="metric-chip diag-chip">
+        <span id="p51-metric-chip-negdiag">
           Neg Diags (r-c): <b>{negDiag}</b>
         </span>
       </div>
 
       {/* Action Banner */}
-      <div className="action-feedback-bar">
+      <div id="p51-action-feedback-bar">
         {action === "conflict" && (
-          <span className="feedback-tag tag-conflict">
+          <span id="p51-feedback-tag-conflict">
             ✖ Conflict at ({activeRow}, {activeCol}): {conflict || "Attacked by existing queen"}
           </span>
         )}
         {action === "placed" && (
-          <span className="feedback-tag tag-placed">
+          <span id="p51-feedback-tag-placed">
             ✔ Safe cell! Placed Queen at ({activeRow}, {activeCol})
           </span>
         )}
         {action === "backtracking" && (
-          <span className="feedback-tag tag-backtrack">
+          <span id="p51-feedback-tag-backtrack">
             ↺ Backtrack: Removed Queen at ({activeRow}, {activeCol})
           </span>
         )}
         {action === "testing" && activeRow !== null && (
-          <span className="feedback-tag tag-testing">
+          <span id="p51-feedback-tag-testing">
             Testing square ({activeRow}, {activeCol})...
           </span>
         )}
       </div>
 
       {/* Chessboard Container */}
-      <div className="board-outer-card">
+      <div id="p51-board-outer-card">
         {/* Column Index Markers */}
-        <div className="board-col-indices">
-          <div className="corner-spacer" />
+        <div id="p51-board-col-indices">
+          <div id="p51-corner-spacer" />
           {Array.from({ length: n }).map((_, cIdx) => (
             <span
-              key={`col-idx-${cIdx}`}
-              className={`col-idx-label ${c === cIdx ? "active-idx" : ""}`}
+              key={`p51-col-idx-${cIdx}`}
+              id={`p51-col-idx-label-${cIdx}`}
+              data-active={c === cIdx ? "true" : "false"}
             >
               c{cIdx}
             </span>
@@ -79,14 +80,17 @@ export default function Problem51({ stepData }) {
         </div>
 
         {/* Board Rows */}
-        <div className="board-grid">
+        <div id="p51-board-grid">
           {board.map((row, rIdx) => {
             const isCurrentRow = r === rIdx;
 
             return (
-              <div key={`row-${rIdx}`} className="board-row">
+              <div key={`p51-row-${rIdx}`} id={`p51-board-row-${rIdx}`}>
                 {/* Row Index Marker */}
-                <span className={`row-idx-label ${isCurrentRow ? "active-idx" : ""}`}>
+                <span
+                  id={`p51-row-idx-label-${rIdx}`}
+                  data-active={isCurrentRow ? "true" : "false"}
+                >
                   r{rIdx}
                 </span>
 
@@ -97,36 +101,40 @@ export default function Problem51({ stepData }) {
                   const isCurrentSquare = activeRow === rIdx && activeCol === cIdx;
                   const isConflictSquare = isCurrentSquare && action === "conflict";
 
+                  let squareState = "empty";
+                  if (hasQueen) squareState = "queen";
+                  else if (isConflictSquare) squareState = "conflict";
+                  else if (isCurrentSquare) squareState = "candidate";
+
                   return (
                     <motion.div
-                      key={`cell-${rIdx}-${cIdx}`}
-                      className={`chess-square ${isDarkSquare ? "sq-dark" : "sq-light"} ${
-                        hasQueen ? "sq-queen" : ""
-                      } ${isCurrentSquare && !hasQueen ? "sq-candidate" : ""} ${
-                        isConflictSquare ? "sq-conflict" : ""
-                      }`}
+                      key={`p51-cell-${rIdx}-${cIdx}`}
+                      id={`p51-cell-${rIdx}-${cIdx}`}
+                      data-theme={isDarkSquare ? "dark" : "light"}
+                      data-state={squareState}
+                      layout
                       animate={{
                         scale: hasQueen || isCurrentSquare ? 1.06 : 1
                       }}
                       transition={{ duration: 0.2 }}
                     >
-                      <AnimatePresence>
+                      <AnimatePresence mode="popLayout">
                         {hasQueen && (
-                          <motion.div
-                            key={`queen-${rIdx}-${cIdx}`}
-                            className="queen-piece"
+                          <motion.span
+                            key={`p51-queen-${rIdx}-${cIdx}`}
+                            id={`p51-queen-piece-${rIdx}-${cIdx}`}
                             initial={{ scale: 0, rotate: -20 }}
                             animate={{ scale: 1, rotate: 0 }}
                             exit={{ scale: 0 }}
                             transition={{ type: "spring", stiffness: 350, damping: 20 }}
                           >
                             ♛
-                          </motion.div>
+                          </motion.span>
                         )}
                         {isConflictSquare && (
                           <motion.span
-                            key={`conflict-${rIdx}-${cIdx}`}
-                            className="conflict-marker"
+                            key={`p51-conflict-${rIdx}-${cIdx}`}
+                            id={`p51-conflict-marker-${rIdx}-${cIdx}`}
                             initial={{ scale: 0.6, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0 }}
@@ -136,8 +144,8 @@ export default function Problem51({ stepData }) {
                         )}
                         {isCurrentSquare && !hasQueen && !isConflictSquare && (
                           <motion.span
-                            key={`dot-${rIdx}-${cIdx}`}
-                            className="candidate-marker"
+                            key={`p51-dot-${rIdx}-${cIdx}`}
+                            id={`p51-candidate-marker-${rIdx}-${cIdx}`}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -159,14 +167,14 @@ export default function Problem51({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p51-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p51-callout-header-text">{output.label}</div>
+            <div id="p51-callout-val-text">{output.value}</div>
+            <div id="p51-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

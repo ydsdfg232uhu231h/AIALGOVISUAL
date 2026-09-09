@@ -17,44 +17,71 @@ export default function Problem76({ stepData }) {
   const isValid = have === need;
 
   return (
-    <div id="min-window-canvas">
+    <div id="p76-min-window-canvas">
       {/* Metric Indicators */}
-      <div id="metrics-bar">
-        <span id={isValid ? "status-pill-match-valid" : "status-pill-match-idle"}>
+      <div id="p76-metrics-bar">
+        <span
+          id="p76-status-pill-match"
+          data-valid={isValid ? "true" : "false"}
+        >
           Match Status: <b>{have} / {need} targets</b>
         </span>
-        <span id="status-pill-min-len">
+        <span id="p76-status-pill-min-len">
           Min Window Length: <b>{resLen}</b>
         </span>
         {sub && (
-          <span id="status-pill-best-sub">
+          <span id="p76-status-pill-best-sub">
             Current Best: <b>"{sub}"</b>
           </span>
         )}
       </div>
 
       {/* String Ribbon with L/R Pointers */}
-      <div id="string-ribbon-track">
+      <div id="p76-string-ribbon-track">
         {s.map((char, idx) => {
           const inWindow = idx >= left && idx <= right;
           const isLeft = idx === left;
           const isRight = idx === right;
           const isTarget = targetChars.includes(char);
 
-          // Semantic ID encoding for state isolation
-          const windowState = inWindow ? "in" : "out";
-          const targetState = isTarget ? "target" : "norm";
-          const tileId = `char-tile-${windowState}-${targetState}-${idx}`;
-
           return (
-            <div key={`cell-${idx}`} id={`char-cell-${idx}`}>
-              <div id={`ptr-track-${idx}`}>
-                {isLeft && <span id={`ptr-badge-l-${idx}`}>L</span>}
-                {isRight && <span id={`ptr-badge-r-${idx}`}>R</span>}
+            <div key={`p76-cell-${idx}`} id={`p76-char-cell-${idx}`}>
+              <div id={`p76-ptr-track-${idx}`}>
+                <AnimatePresence mode="popLayout">
+                  {isLeft && (
+                    <motion.span
+                      key={`p76-ptr-l-${idx}`}
+                      id={`p76-ptr-badge-l-${idx}`}
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      L
+                    </motion.span>
+                  )}
+                  {isRight && (
+                    <motion.span
+                      key={`p76-ptr-r-${idx}`}
+                      id={`p76-ptr-badge-r-${idx}`}
+                      layout
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                    >
+                      R
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
 
               <motion.div
-                id={tileId}
+                id={`p76-char-tile-${idx}`}
+                data-window={inWindow ? "in" : "out"}
+                data-target={isTarget ? "true" : "false"}
+                layout
                 animate={{
                   scale: inWindow ? 1.05 : 0.95,
                   opacity: inWindow ? 1 : 0.35
@@ -64,26 +91,31 @@ export default function Problem76({ stepData }) {
                 {char}
               </motion.div>
 
-              <span id={`idx-tag-${idx}`}>[{idx}]</span>
+              <span id={`p76-idx-tag-${idx}`}>[{idx}]</span>
             </div>
           );
         })}
       </div>
 
       {/* Window Character Counts Inspector */}
-      <div id="counts-inspector-card">
-        <span id="inspector-title-label">Target Frequencies (t = "ABC"):</span>
-        <div id="counts-list-row">
+      <div id="p76-counts-inspector-card">
+        <span id="p76-inspector-title-label">Target Frequencies (t = "ABC"):</span>
+        <div id="p76-counts-list-row">
           {targetChars.map((char) => {
             const count = windowCounts[char] || 0;
             const satisfied = count >= 1;
-            const chipId = satisfied ? `count-chip-satisfied-${char}` : `count-chip-idle-${char}`;
 
             return (
-              <div key={`count-${char}`} id={chipId}>
-                <span id={`chip-char-${char}`}>{char}</span>
-                <span id={`chip-val-${char}`}>{count} / 1</span>
-              </div>
+              <motion.div
+                key={`p76-count-${char}`}
+                id={`p76-count-chip-${char}`}
+                data-satisfied={satisfied ? "true" : "false"}
+                layout
+                transition={{ duration: 0.2 }}
+              >
+                <span id={`p76-chip-char-${char}`}>{char}</span>
+                <span id={`p76-chip-val-${char}`}>{count} / 1</span>
+              </motion.div>
             );
           })}
         </div>
@@ -93,14 +125,14 @@ export default function Problem76({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p76-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p76-callout-header-text">{output.label}</div>
+            <div id="p76-callout-val-text">{output.value}</div>
+            <div id="p76-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

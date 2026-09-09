@@ -1,12 +1,13 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#matrix-bs-canvas {
+#p74-matrix-bs-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   min-height: 420px;
   position: relative;
   gap: 24px;
@@ -14,80 +15,92 @@
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  overflow: hidden;
-  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 16px 65px 16px;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p74-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 2;
 }
 
-[id^="metric-chip-"] {
+#p74-metric-chip-target,
+#p74-metric-chip-range,
+#p74-metric-chip-mid,
+#p74-metric-chip-success {
   background: #18181b;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-[id^="metric-chip-"] b {
-  color: #fff;
+#p74-metric-chip-target b {
+  color: #facc15;
   font-family: ui-monospace, monospace;
 }
 
-#metric-chip-target b {
-  color: #facc15;
-}
-
-#metric-chip-range b {
+#p74-metric-chip-range b {
   color: #ff7324;
+  font-family: ui-monospace, monospace;
 }
 
-#metric-chip-mid b {
+#p74-metric-chip-mid b {
   color: #38bdf8;
+  font-family: ui-monospace, monospace;
 }
 
-#metric-chip-success {
+#p74-metric-chip-success {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.12) !important;
 }
 
-#metric-chip-success b {
+#p74-metric-chip-success b {
   color: #4ade80 !important;
+  font-family: ui-monospace, monospace;
 }
 
 /* ============================================================
    2D MATRIX GRID
    ============================================================ */
-#matrix-container {
+#p74-matrix-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 16px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 100%;
+  overflow-x: auto;
   box-sizing: border-box;
 }
 
-[id^="matrix-row-"] {
+[id^="p74-matrix-row-"] {
   display: flex;
   gap: 10px;
 }
 
 /* Node Elements Base */
-[id^="matrix-node-"] {
+[id^="p74-matrix-node-"] {
   width: 64px;
   height: 64px;
   border-radius: 8px;
@@ -100,101 +113,228 @@
   position: relative;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-[id*="-node-in-range-"] {
+/* In-range vs Out-of-range states */
+[id^="p74-matrix-node-"][data-state="in-range"] {
   border-color: #3f3f46;
 }
 
-[id*="-node-out-range-"] {
+[id^="p74-matrix-node-"][data-state="out-range"] {
   border-color: #1f1f23;
   color: #52525b;
 }
 
-[id*="-node-mid-"] {
+/* Mid element highlighted */
+[id^="p74-matrix-node-"][data-state="mid"] {
   border-color: #38bdf8 !important;
   background: rgba(56, 189, 248, 0.18) !important;
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.4) !important;
 }
 
-[id*="-node-match-"] {
+/* Target Match state */
+[id^="p74-matrix-node-"][data-state="match"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.25) !important;
   box-shadow: 0 0 18px rgba(34, 197, 94, 0.5) !important;
 }
 
+[id^="p74-matrix-node-"][data-state="match"] [id^="p74-node-val-"] {
+  color: #4ade80 !important;
+}
+
 /* Cell Subscript Indices */
-[id^="cell-indices-"] {
+[id^="p74-cell-indices-"] {
   position: absolute;
   top: 4px;
   left: 6px;
   right: 6px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 9px;
   color: #71717a;
   font-family: ui-monospace, monospace;
 }
 
-[id^="flat-idx-"] {
+[id^="p74-flat-idx-"] {
   color: #eab308;
 }
 
-[id^="node-val-"] {
+[id^="p74-node-val-"] {
   font-size: 18px;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
   margin-top: 6px;
   font-family: ui-monospace, monospace;
 }
 
-[id^="mid-tag-"] {
+[id^="p74-mid-tag-"] {
   position: absolute;
   bottom: -9px;
   background: #38bdf8;
-  color: #000;
+  color: #0c0c10;
   font-size: 8px;
-  font-weight: 800;
+  font-weight: 900;
   padding: 1px 4px;
   border-radius: 3px;
   text-transform: uppercase;
   font-family: ui-monospace, monospace;
   box-shadow: 0 2px 6px rgba(56, 189, 248, 0.4);
+  line-height: 1;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p74-result-callout-box {
   position: absolute;
   bottom: 12px;
   background: rgba(17, 24, 39, 0.95);
   backdrop-filter: blur(8px);
-  border: 1px solid #16a34a;
+  border: 1.5px solid #16a34a;
   border-radius: 8px;
-  padding: 10px 18px;
+  padding: 8px 18px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   z-index: 10;
+  max-width: 90%;
 }
 
-#callout-header-text {
-  font-size: 11px;
+#p74-callout-header-text {
+  font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
 }
 
-#callout-val-text {
+#p74-callout-val-text {
   font-size: 18px;
-  color: #fff;
-  font-weight: 800;
+  color: #4ade80;
+  font-weight: 900;
   margin: 2px 0;
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
-  font-size: 12px;
+#p74-callout-detail-text {
+  font-size: 11px;
   color: #9ca3af;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  [id^="p74-matrix-node-"] {
+    width: 58px;
+    height: 58px;
+  }
+
+  [id^="p74-node-val-"] {
+    font-size: 17px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p74-matrix-bs-canvas {
+    padding: 16px 12px 70px 12px;
+    gap: 16px;
+  }
+
+  #p74-metrics-bar {
+    gap: 6px;
+  }
+
+  #p74-metric-chip-target,
+  #p74-metric-chip-range,
+  #p74-metric-chip-mid,
+  #p74-metric-chip-success {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  #p74-matrix-container {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  [id^="p74-matrix-row-"] {
+    gap: 8px;
+  }
+
+  [id^="p74-matrix-node-"] {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+  }
+
+  [id^="p74-node-val-"] {
+    font-size: 15px;
+  }
+
+  [id^="p74-cell-indices-"] {
+    font-size: 8px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p74-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p74-metric-chip-target,
+  #p74-metric-chip-range,
+  #p74-metric-chip-mid,
+  #p74-metric-chip-success {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p74-matrix-container {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  [id^="p74-matrix-row-"] {
+    gap: 6px;
+  }
+
+  [id^="p74-matrix-node-"] {
+    width: 42px;
+    height: 42px;
+  }
+
+  [id^="p74-node-val-"] {
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  [id^="p74-cell-indices-"] {
+    font-size: 7px;
+    top: 2px;
+    left: 4px;
+    right: 4px;
+  }
+
+  [id^="p74-mid-tag-"] {
+    font-size: 7px;
+    bottom: -7px;
+    padding: 0 3px;
+  }
+
+  #p74-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p74-callout-detail-text {
+    font-size: 10px;
+  }
 }

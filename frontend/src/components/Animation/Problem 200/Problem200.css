@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#islands-canvas {
+#p200-islands-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 480px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    TOP METRICS BAR
    ============================================================ */
-#metrics-bar {
+#p200-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,9 +32,13 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-.metric-chip {
+#p200-metric-grid-dim,
+#p200-metric-scan-pos,
+#p200-metric-island-count,
+#p200-metric-status {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -46,34 +51,39 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.metric-chip b {
+#p200-metric-grid-dim b,
+#p200-metric-scan-pos b,
+#p200-metric-island-count b,
+#p200-metric-status b {
   color: #f4f4f5;
   font-weight: 800;
 }
 
-#metric-grid-dim b { color: #c084fc; }
-#metric-scan-pos b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p200-metric-grid-dim b { color: #c084fc; font-family: ui-monospace, monospace; }
+#p200-metric-scan-pos b { color: #38bdf8; font-family: ui-monospace, monospace; }
 
-#metric-island-count {
+#p200-metric-island-count {
   border-color: rgba(34, 197, 94, 0.4) !important;
   background: rgba(34, 197, 94, 0.1) !important;
 }
-#metric-island-count b { color: #4ade80; }
+#p200-metric-island-count b { color: #4ade80; font-family: ui-monospace, monospace; }
 
-#metric-status-scanning b { color: #fb923c; }
+#p200-metric-status[data-status="scanning"] b { color: #fb923c; }
 
-#metric-status-flooding {
+#p200-metric-status[data-status="flooding"] {
   border-color: #38bdf8 !important;
   background: rgba(56, 189, 248, 0.15) !important;
 }
-#metric-status-flooding b { color: #7dd3fc !important; }
+#p200-metric-status[data-status="flooding"] b { color: #7dd3fc !important; }
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#islands-stage {
+#p200-islands-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -83,7 +93,7 @@
   flex-shrink: 0;
 }
 
-.track-card {
+#p200-terrain-card {
   width: 100%;
   background: #121218;
   border: 1.5px solid #242430;
@@ -97,7 +107,7 @@
   flex-shrink: 0;
 }
 
-.card-header-bar {
+#p200-card-header-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -111,7 +121,7 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-.card-sub {
+#p200-card-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -122,7 +132,7 @@
 /* ============================================================
    GRID VIEWPORT & CELLS
    ============================================================ */
-#grid-viewport {
+#p200-grid-viewport {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,7 +142,7 @@
   overflow-x: auto;
 }
 
-#cells-grid {
+#p200-cells-grid {
   display: grid;
   gap: 8px;
   padding: 8px;
@@ -141,7 +151,7 @@
   border-radius: 12px;
 }
 
-.cell-wrapper {
+[id^="p200-cell-wrapper-"] {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -149,16 +159,17 @@
   justify-content: center;
 }
 
-#scan-cursor-badge {
+#p200-scan-cursor-badge {
   position: absolute;
   top: -14px;
   font-size: 11px;
   color: #38bdf8;
   font-weight: 900;
   z-index: 10;
+  line-height: 1;
 }
 
-.island-cell {
+[id^="p200-cell-"] {
   width: 64px;
   height: 64px;
   min-width: 64px;
@@ -173,14 +184,14 @@
   transition: all 0.25s ease;
 }
 
-.cell-val {
+[id^="p200-cell-val-"] {
   font-size: 20px;
   font-weight: 900;
   font-family: ui-monospace, monospace;
   line-height: 1;
 }
 
-.cell-coords {
+[id^="p200-cell-coords-"] {
   font-size: 8px;
   font-weight: 700;
   color: #636374;
@@ -189,43 +200,51 @@
 }
 
 /* Dynamic State Styles */
-.cell-land {
+[id^="p200-cell-"][data-cell-state="land"] {
   background: #252418;
   border: 2px solid #facc15;
   box-shadow: 0 0 10px rgba(250, 204, 21, 0.25);
 }
-.cell-land .cell-val { color: #fef08a; }
+[id^="p200-cell-"][data-cell-state="land"] [id^="p200-cell-val-"] {
+  color: #fef08a;
+}
 
-.cell-flooding {
+[id^="p200-cell-"][data-cell-state="flooding"] {
   background: rgba(56, 189, 248, 0.25) !important;
   border: 2px solid #38bdf8 !important;
   box-shadow: 0 0 18px rgba(56, 189, 248, 0.5) !important;
 }
-.cell-flooding .cell-val { color: #7dd3fc !important; }
+[id^="p200-cell-"][data-cell-state="flooding"] [id^="p200-cell-val-"] {
+  color: #7dd3fc !important;
+}
 
-.cell-sunk {
+[id^="p200-cell-"][data-cell-state="sunk"] {
   background: radial-gradient(circle at center, rgba(34, 197, 94, 0.3) 0%, #13241b 90%) !important;
   border: 2px solid #22c55e !important;
   box-shadow: 0 0 14px rgba(34, 197, 94, 0.4) !important;
 }
-.cell-sunk .cell-val { color: #4ade80 !important; }
+[id^="p200-cell-"][data-cell-state="sunk"] [id^="p200-cell-val-"] {
+  color: #4ade80 !important;
+}
 
-.cell-water {
+[id^="p200-cell-"][data-cell-state="water"] {
   background: #14141c;
   border: 1.5px solid #252534;
 }
-.cell-water .cell-val { color: #525262; }
+[id^="p200-cell-"][data-cell-state="water"] [id^="p200-cell-val-"] {
+  color: #525262;
+}
 
-.cell-flood-ring {
+[id^="p200-cell-flood-ring-"] {
   position: absolute;
   inset: -5px;
   border: 2px solid #38bdf8;
   border-radius: 14px;
-  animation: pulse-ring 1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation: p200-pulse-ring 1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   pointer-events: none;
 }
 
-@keyframes pulse-ring {
+@keyframes p200-pulse-ring {
   0% { transform: scale(0.96); opacity: 0.9; }
   100% { transform: scale(1.2); opacity: 0; }
 }
@@ -233,7 +252,7 @@
 /* ============================================================
    LEGEND
    ============================================================ */
-#islands-legend {
+#p200-islands-legend {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -242,7 +261,10 @@
   border-top: 1px solid #1a1a24;
 }
 
-.legend-item {
+#p200-legend-item-land,
+#p200-legend-item-flooding,
+#p200-legend-item-sunk,
+#p200-legend-item-water {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -251,20 +273,35 @@
   color: #8b8b99;
 }
 
-.dot {
+[id^="p200-dot-"] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
+  display: inline-block;
 }
-.dot-land { background: #facc15; }
-.dot-flooding { background: #38bdf8; box-shadow: 0 0 6px rgba(56, 189, 248, 0.6); }
-.dot-sunk { background: #22c55e; box-shadow: 0 0 6px rgba(34, 197, 94, 0.6); }
-.dot-water { background: #3f3f50; }
+
+#p200-dot-land[data-dot="land"] {
+  background: #facc15;
+}
+
+#p200-dot-flooding[data-dot="flooding"] {
+  background: #38bdf8;
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+}
+
+#p200-dot-sunk[data-dot="sunk"] {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+}
+
+#p200-dot-water[data-dot="water"] {
+  background: #3f3f50;
+}
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p200-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -278,9 +315,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p200-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -288,7 +326,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p200-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -296,8 +334,129 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p200-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  [id^="p200-cell-"] {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    min-height: 58px;
+  }
+
+  [id^="p200-cell-val-"] {
+    font-size: 18px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p200-islands-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p200-metrics-bar {
+    gap: 6px;
+  }
+
+  #p200-metric-grid-dim,
+  #p200-metric-scan-pos,
+  #p200-metric-island-count,
+  #p200-metric-status {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p200-grid-viewport {
+    justify-content: flex-start;
+    padding: 14px 6px;
+  }
+
+  [id^="p200-cell-"] {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+  }
+
+  [id^="p200-cell-val-"] {
+    font-size: 16px;
+  }
+
+  [id^="p200-cell-coords-"] {
+    font-size: 7.5px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p200-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p200-metric-grid-dim,
+  #p200-metric-scan-pos,
+  #p200-metric-island-count,
+  #p200-metric-status {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p200-card-header-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p200-cells-grid {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  [id^="p200-cell-"] {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 8px;
+  }
+
+  [id^="p200-cell-val-"] {
+    font-size: 14px;
+  }
+
+  [id^="p200-cell-coords-"] {
+    font-size: 7px;
+  }
+
+  #p200-scan-cursor-badge {
+    font-size: 9px;
+    top: -12px;
+  }
+
+  #p200-islands-legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  #p200-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p200-callout-detail-text {
+    font-size: 11px;
+  }
 }

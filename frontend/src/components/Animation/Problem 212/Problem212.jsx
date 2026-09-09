@@ -29,41 +29,47 @@ export default function Problem212({ stepData }) {
   const isCellInPath = (r, c) => path.some(([pr, pc]) => pr === r && pc === c);
 
   return (
-    <div className="canvas-wrapper wordsearch-canvas">
+    <div id="p212-wordsearch-canvas">
       {/* Top Status Metrics */}
-      <div className="metrics-row">
-        <span className="metric-chip trie-chip">
+      <div id="p212-metrics-row">
+        <span id="p212-metric-target-words">
           Target Words: <b>{targetWords.length}</b>
         </span>
+
         {activeCell ? (
-          <span className="metric-chip active-chip">
+          <span id="p212-metric-exploring">
             Exploring Cell: <b>({activeRow}, {activeCol}) = '{grid[activeRow][activeCol]}'</b>
           </span>
         ) : (
-          <span className="metric-chip idle-chip">Status: <b>Idle / Traversal Done</b></span>
+          <span id="p212-metric-idle">
+            Status: <b>Idle / Traversal Done</b>
+          </span>
         )}
-        <span className="metric-chip path-chip">
+
+        <span id="p212-metric-prefix">
           Current Prefix: <b>"{currentWord}"</b>
         </span>
-        <span className="metric-chip found-chip">
+
+        <span id="p212-metric-found">
           Found: <b>{foundWords.length}</b>
         </span>
-        <span className="metric-chip failed-chip">
+
+        <span id="p212-metric-failed">
           Pruned/Failed: <b>{failedWords.length}</b>
         </span>
       </div>
 
-      <div className="wordsearch-stage">
+      <div id="p212-wordsearch-stage">
         {/* 2D Board Section */}
-        <div className="track-card grid-card">
-          <div className="card-header-bar">
-            <span>2D Board (4×4 DFS Traversal)</span>
-            <span className="card-sub">
+        <div id="p212-grid-card">
+          <div id="p212-grid-card-header">
+            <span id="p212-grid-header-title">2D Board (4×4 DFS Traversal)</span>
+            <span id="p212-grid-header-sub">
               {path.length > 0 ? `Stack Depth: ${path.length}` : "Grid ready"}
             </span>
           </div>
 
-          <div className="board-grid">
+          <div id="p212-board-grid">
             {grid.map((row, rIdx) =>
               row.map((ch, cIdx) => {
                 const isActiveHead = activeRow === rIdx && activeCol === cIdx;
@@ -71,30 +77,33 @@ export default function Problem212({ stepData }) {
                 const isPruned = prunedRow === rIdx && prunedCol === cIdx;
                 const pathIndex = path.findIndex(([pr, pc]) => pr === rIdx && pc === cIdx);
 
+                let cellState = "idle";
+                if (isPruned) cellState = "pruned";
+                else if (isActiveHead) cellState = "head";
+                else if (inCurrentPath) cellState = "path";
+
+                const targetScale = isPruned || isActiveHead ? 1.1 : inCurrentPath ? 1.04 : 1;
+
                 return (
                   <motion.div
-                    key={`cell-${rIdx}-${cIdx}`}
-                    className={`board-cell ${
-                      isPruned
-                        ? "cell-pruned"
-                        : isActiveHead
-                        ? "cell-head"
-                        : inCurrentPath
-                        ? "cell-in-path"
-                        : ""
-                    }`}
+                    key={`p212-cell-${rIdx}-${cIdx}`}
+                    id={`p212-board-cell-${rIdx}-${cIdx}`}
+                    data-cell-state={cellState}
+                    layout
                     animate={{
-                      scale: isPruned || isActiveHead ? 1.12 : inCurrentPath ? 1.04 : 1,
+                      scale: targetScale,
                       y: isPruned || isActiveHead ? -2 : 0
                     }}
                     transition={{ type: "spring", stiffness: 350, damping: 20 }}
                   >
-                    <span className="cell-char">{ch}</span>
-                    <span className="cell-pos">{rIdx},{cIdx}</span>
+                    <span id={`p212-cell-char-${rIdx}-${cIdx}`}>{ch}</span>
+                    <span id={`p212-cell-pos-${rIdx}-${cIdx}`}>{rIdx},{cIdx}</span>
                     {inCurrentPath && !isPruned && (
-                      <span className="path-order-tag">#{pathIndex + 1}</span>
+                      <span id={`p212-path-order-tag-${rIdx}-${cIdx}`}>#{pathIndex + 1}</span>
                     )}
-                    {isPruned && <span className="dead-end-tag">PRUNED</span>}
+                    {isPruned && (
+                      <span id={`p212-dead-end-tag-${rIdx}-${cIdx}`}>PRUNED</span>
+                    )}
                   </motion.div>
                 );
               })
@@ -103,38 +112,39 @@ export default function Problem212({ stepData }) {
         </div>
 
         {/* Dictionary Word Status Track */}
-        <div className="track-card side-card">
-          <div className="card-header-bar">
-            <span>Trie Target Words Verification</span>
-            <span className="card-sub">{targetWords.length} dictionary words</span>
+        <div id="p212-side-card">
+          <div id="p212-side-card-header">
+            <span id="p212-side-header-title">Trie Target Words Verification</span>
+            <span id="p212-side-header-sub">{targetWords.length} dictionary words</span>
           </div>
 
-          <div className="words-stream">
+          <div id="p212-words-stream">
             {targetWords.map((word) => {
               const isFound = foundWords.includes(word);
               const isFailed = failedWords.includes(word);
               const isMatching = currentWord === word && !isFound;
 
+              let wordState = "pending";
+              if (isFound) wordState = "found";
+              else if (isFailed) wordState = "failed";
+              else if (isMatching) wordState = "current";
+
               return (
                 <motion.div
-                  key={`dict-${word}`}
+                  key={`p212-dict-${word}`}
+                  id={`p212-dict-pill-${word}`}
+                  data-word-state={wordState}
                   layout
-                  className={`dict-pill ${
-                    isFound
-                      ? "pill-found"
-                      : isFailed
-                      ? "pill-failed"
-                      : isMatching
-                      ? "pill-current"
-                      : ""
-                  }`}
                   animate={{ scale: isFound || isFailed ? 1.03 : 1 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 24 }}
                 >
-                  <div className="word-meta">
-                    <span className="word-text">{word}</span>
-                    {isFailed && <span className="reason-hint">not constructible</span>}
+                  <div id={`p212-word-meta-${word}`}>
+                    <span id={`p212-word-text-${word}`}>{word}</span>
+                    {isFailed && (
+                      <span id={`p212-reason-hint-${word}`}>not constructible</span>
+                    )}
                   </div>
-                  <span className="word-status">
+                  <span id={`p212-word-status-${word}`}>
                     {isFound ? "✓ FOUND" : isFailed ? "✕ NO MATCH" : isMatching ? "MATCHING..." : "PENDING"}
                   </span>
                 </motion.div>
@@ -143,19 +153,21 @@ export default function Problem212({ stepData }) {
           </div>
 
           {/* Current Search Path Tracker */}
-          <div className="prefix-tracker">
-            <span className="tracker-label">Active DFS Search Chain:</span>
-            <div className="tracker-path">
+          <div id="p212-prefix-tracker">
+            <span id="p212-tracker-label">Active DFS Search Chain:</span>
+            <div id="p212-tracker-path">
               {path.length > 0 ? (
                 path.map(([pr, pc], idx) => (
-                  <span key={idx} className="path-letter">
+                  <span key={`p212-path-${pr}-${pc}-${idx}`} id={`p212-path-letter-${idx}`}>
                     {grid[pr][pc]}
-                    <span className="path-coord">({pr},{pc})</span>
-                    {idx < path.length - 1 && <span className="path-sep">➔</span>}
+                    <span id={`p212-path-coord-${idx}`}>({pr},{pc})</span>
+                    {idx < path.length - 1 && (
+                      <span id={`p212-path-sep-${idx}`}>➔</span>
+                    )}
                   </span>
                 ))
               ) : (
-                <span className="empty-state-text">No active branch (at root)</span>
+                <span id="p212-empty-state-text">No active branch (at root)</span>
               )}
             </div>
           </div>
@@ -166,17 +178,18 @@ export default function Problem212({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p212-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p212-callout-header-text">{output.label}</div>
+            <div id="p212-callout-val-text">{output.value}</div>
+            <div id="p212-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-}
+} 

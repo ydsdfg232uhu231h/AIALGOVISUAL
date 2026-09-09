@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#ll-canvas-wrapper {
+#p19-ll-canvas-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,160 +10,269 @@
   height: 100%;
   min-height: 480px;
   position: relative;
-  gap: 32px;
-  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  gap: 28px;
+  box-sizing: border-box;
+  padding: 24px 16px 70px 16px;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  user-select: none;
 }
 
-#nodes-chain-container {
+#p19-nodes-chain-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  min-height: 500px;
-  min-width: 800px;
-  padding-left: 50px;
+  min-height: 120px;
+  max-width: 100%;
+  padding: 30px 16px 12px 16px;
+  overflow-x: auto;
+  box-sizing: border-box;
 }
 
-[id^="node-container-"] {
+[id^="p19-node-container-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  flex-shrink: 0;
 }
 
 /* ============================================================
    POINTER BADGES
    ============================================================ */
-[id^="pointers-row-"] {
+[id^="p19-pointers-row-"] {
   position: absolute;
   top: -24px;
   display: flex;
   gap: 4px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-[id^="ptr-badge-"] {
+[id^="p19-ptr-badge-"] {
   font-size: 10px;
   font-weight: 800;
   padding: 1px 6px;
   border-radius: 4px;
   text-transform: uppercase;
   font-family: ui-monospace, monospace;
+  line-height: 1;
 }
 
-[id^="ptr-badge-slow-"] {
+[id^="p19-ptr-badge-slow-"] {
   background: #ff7324;
-  color: #000;
+  color: #0c0c10;
   box-shadow: 0 2px 6px rgba(255, 115, 36, 0.4);
 }
 
-[id^="ptr-badge-fast-"] {
+[id^="p19-ptr-badge-fast-"] {
   background: #38bdf8;
-  color: #000;
+  color: #0c0c10;
   box-shadow: 0 2px 6px rgba(56, 189, 248, 0.4);
 }
 
 /* ============================================================
    NODE CIRCLES & STATES
    ============================================================ */
-[id^="node-circle-"] {
+[id^="p19-node-circle-"] {
   width: 48px;
   height: 48px;
   border-radius: 50%;
   background: #141416;
   border: 2px solid #2d2d32;
-  color: #fff;
+  color: #ffffff;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   font-family: ui-monospace, monospace;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
   box-sizing: border-box;
 }
 
 /* Dummy Node Styles */
-[id^="node-circle-dummy-"] {
+[id^="p19-node-circle-"][data-type="dummy"] {
   border-style: dashed;
   border-color: #52525b;
   color: #a1a1aa;
 }
 
-/* Active State Overrides (Using Substring Matching) */
-[id^="node-circle-"][id*="-slow-"] {
+/* Active State Selectors */
+[id^="p19-node-circle-"][data-state="slow"] {
   border-color: #ff7324 !important;
-  box-shadow: 0 0 12px rgba(255, 115, 36, 0.4);
+  background: rgba(255, 115, 36, 0.14) !important;
+  box-shadow: 0 0 14px rgba(255, 115, 36, 0.4);
 }
 
-[id^="node-circle-"][id*="-fast-"] {
+[id^="p19-node-circle-"][data-state="fast"] {
   border-color: #38bdf8 !important;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  background: rgba(56, 189, 248, 0.14) !important;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
 }
 
-[id^="node-circle-"][id*="-both-"] {
-  border-color: #c084fc !important; /* Purple when both slow and fast point here */
-  box-shadow: 0 0 14px rgba(192, 132, 252, 0.6);
+[id^="p19-node-circle-"][data-state="both"] {
+  border-color: #c084fc !important;
+  background: rgba(192, 132, 252, 0.18) !important;
+  box-shadow: 0 0 16px rgba(192, 132, 252, 0.6);
 }
 
-[id^="node-circle-"][id*="-deleted-"] {
+[id^="p19-node-circle-"][data-state="deleted"] {
   border-color: #ef4444 !important;
-  background: rgba(239, 68, 68, 0.15) !important;
+  background: rgba(239, 68, 68, 0.18) !important;
   text-decoration: line-through;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.4);
 }
 
 /* ============================================================
    NODE LABELS & ARROWS
    ============================================================ */
-[id^="node-idx-"] {
+[id^="p19-node-idx-"] {
   margin-top: 6px;
   font-size: 11px;
   color: #71717a;
   font-family: ui-monospace, monospace;
 }
 
-[id^="arrow-sym-"] {
+[id^="p19-arrow-sym-"] {
   color: #52525b;
   font-size: 20px;
   font-weight: bold;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
 }
 
-[id^="arrow-sym-dimmed-"] {
-  opacity: 0.3;
+[id^="p19-arrow-sym-"][data-dimmed="true"] {
+  opacity: 0.25;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p19-result-callout-box {
   position: absolute;
-  bottom: 24px;
+  bottom: 16px;
   background: rgba(17, 24, 39, 0.95);
   backdrop-filter: blur(8px);
-  border: 1px solid #16a34a;
+  border: 1.5px solid #16a34a;
   border-radius: 8px;
-  padding: 10px 18px;
+  padding: 8px 18px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  max-width: 90%;
 }
 
-#callout-header-text {
-  font-size: 11px;
+#p19-callout-header-text {
+  font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 
-#callout-val-text {
-  font-size: 18px;
-  color: #fff;
+#p19-callout-val-text {
+  font-size: 16px;
+  color: #ffffff;
   font-weight: 800;
   margin: 2px 0;
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
-  font-size: 12px;
+#p19-callout-detail-text {
+  font-size: 11px;
   color: #9ca3af;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p19-nodes-chain-container {
+    gap: 10px;
+  }
+
+  [id^="p19-node-circle-"] {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
+
+  [id^="p19-arrow-sym-"] {
+    font-size: 18px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p19-ll-canvas-wrapper {
+    padding: 16px 10px 65px 10px;
+    gap: 20px;
+  }
+
+  #p19-nodes-chain-container {
+    justify-content: flex-start;
+    padding: 24px 8px 10px 8px;
+    gap: 8px;
+  }
+
+  [id^="p19-node-circle-"] {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  [id^="p19-node-idx-"] {
+    font-size: 10px;
+  }
+
+  [id^="p19-arrow-sym-"] {
+    font-size: 16px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p19-ll-canvas-wrapper {
+    gap: 16px;
+  }
+
+  #p19-nodes-chain-container {
+    padding: 22px 6px 8px 6px;
+    gap: 6px;
+  }
+
+  [id^="p19-node-circle-"] {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  [id^="p19-ptr-badge-"] {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  [id^="p19-node-idx-"] {
+    font-size: 8px;
+  }
+
+  [id^="p19-arrow-sym-"] {
+    font-size: 14px;
+  }
+
+  #p19-callout-val-text {
+    font-size: 14px;
+  }
+
+  #p19-callout-detail-text {
+    font-size: 10px;
+  }
 }

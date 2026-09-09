@@ -19,68 +19,90 @@ export default function Problem150({ stepData }) {
   const { op, a, b, result } = state;
 
   return (
-    <div id="rpn-eval-canvas">
+    <div id="p150-rpn-eval-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-pointer">
+      <div id="p150-metrics-bar">
+        <span id="p150-metric-pointer">
           Current Token:{" "}
           <b>{currentToken !== null ? `"${currentToken}" (index ${tokenIdx})` : "None"}</b>
         </span>
 
-        <span id="metric-stack-count">
+        <span id="p150-metric-stack-count">
           Stack Size: <b>{stack.length} operands</b>
         </span>
 
         {op ? (
-          <span id="metric-eval-active">
+          <span id="p150-metric-eval-active">
             Active Math: <b>{a} {op} {b} = {result}</b>
           </span>
         ) : (
-          <span id="metric-eval-idle">
+          <span id="p150-metric-eval-idle">
             Active Math: <b>Waiting</b>
           </span>
         )}
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p150-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "EVALUATION COMPLETE ✓" : actionType}</b>
         </span>
       </div>
 
-      <div id="rpn-stage">
+      <div id="p150-rpn-stage">
         {/* Track 1: Postfix Tokens Ribbon */}
-        <div id="tokens-track-card">
-          <div id="tokens-card-header">
-            <span id="tokens-header-title">1. Postfix Tokens Stream (`tokens`)</span>
-            <span id="tokens-header-sub">Sequential Left-to-Right Scan</span>
+        <div id="p150-tokens-track-card">
+          <div id="p150-tokens-card-header">
+            <span id="p150-tokens-header-title">1. Postfix Tokens Stream (`tokens`)</span>
+            <span id="p150-tokens-header-sub">Sequential Left-to-Right Scan</span>
           </div>
 
-          <div id="tokens-elements-track">
+          <div id="p150-tokens-elements-track">
             {tokens.map((token, idx) => {
               const isCurrent = idx === tokenIdx && !isCompleted;
               const isProcessed = idx < tokenIdx;
               const isOp = isOperator(token);
 
-              let boxId = `token-box-idle-${idx}`;
-              if (isCurrent && isOp) boxId = `token-box-active-op-${idx}`;
-              else if (isCurrent) boxId = `token-box-active-num-${idx}`;
-              else if (isProcessed) boxId = `token-box-passed-${idx}`;
-              else if (isOp) boxId = `token-box-op-${idx}`;
+              let tokenState = "idle";
+              if (isCurrent && isOp) tokenState = "active-op";
+              else if (isCurrent) tokenState = "active-num";
+              else if (isProcessed) tokenState = "passed";
+              else if (isOp) tokenState = "op";
 
               return (
                 <motion.div
-                  key={`token-${idx}`}
-                  id={`token-col-${idx}`}
+                  key={`p150-token-${idx}`}
+                  id={`p150-token-col-${idx}`}
+                  layout
                   animate={{
-                    scale: isCurrent ? 1.12 : 1,
+                    scale: isCurrent ? 1.1 : 1,
                     opacity: isProcessed && !isCurrent ? 0.4 : 1
                   }}
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
                 >
-                  <div id={boxId}>
+                  <div
+                    id={`p150-token-box-${idx}`}
+                    data-token-state={tokenState}
+                  >
                     {token}
                   </div>
-                  <span id={`token-idx-tag-${idx}`}>[{idx}]</span>
-                  {isCurrent && <span id="token-pointer-tag">CURR</span>}
+                  <span id={`p150-token-idx-tag-${idx}`}>[{idx}]</span>
+
+                  <AnimatePresence mode="popLayout">
+                    {isCurrent && (
+                      <motion.span
+                        key="p150-active-token-ptr"
+                        layoutId="p150-curr-token-pointer"
+                        id={`p150-token-pointer-tag-${idx}`}
+                        initial={{ y: 6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        CURR
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             })}
@@ -88,48 +110,48 @@ export default function Problem150({ stepData }) {
         </div>
 
         {/* Lower Row: Math Operation Unit & LIFO Stack */}
-        <div id="middle-stage-grid">
+        <div id="p150-middle-stage-grid">
           {/* Operation Engine */}
-          <div id="op-engine-card">
-            <div id="op-card-header">
-              <span id="op-header-title">2. Arithmetic ALU Unit</span>
-              <span id="op-header-sub">Pop b, pop a &rarr; Compute a OP b</span>
+          <div id="p150-op-engine-card">
+            <div id="p150-op-card-header">
+              <span id="p150-op-header-title">2. Arithmetic ALU Unit</span>
+              <span id="p150-op-header-sub">Pop b, pop a &rarr; Compute a OP b</span>
             </div>
 
-            <div id="op-viewport">
+            <div id="p150-op-viewport">
               <AnimatePresence mode="wait">
                 {op ? (
                   <motion.div
-                    key={`math-${a}-${op}-${b}`}
-                    id="alu-calc-flow"
+                    key={`p150-math-${a}-${op}-${b}`}
+                    id="p150-alu-calc-flow"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ type: "spring", stiffness: 350, damping: 22 }}
                   >
-                    <div id="alu-operand-a">
-                      <span id="alu-label-a">a (1st pop)</span>
-                      <span id="alu-val-a">{a}</span>
+                    <div id="p150-alu-operand-a">
+                      <span id="p150-alu-label-a">a (1st pop)</span>
+                      <span id="p150-alu-val-a">{a}</span>
                     </div>
 
-                    <div id="alu-operator-badge">{op}</div>
+                    <div id="p150-alu-operator-badge">{op}</div>
 
-                    <div id="alu-operand-b">
-                      <span id="alu-label-b">b (2nd pop)</span>
-                      <span id="alu-val-b">{b}</span>
+                    <div id="p150-alu-operand-b">
+                      <span id="p150-alu-label-b">b (2nd pop)</span>
+                      <span id="p150-alu-val-b">{b}</span>
                     </div>
 
-                    <div id="alu-equal-sign">=</div>
+                    <div id="p150-alu-equal-sign">=</div>
 
-                    <div id="alu-result-box">
-                      <span id="alu-label-res">Push Result</span>
-                      <span id="alu-val-res">{result}</span>
+                    <div id="p150-alu-result-box">
+                      <span id="p150-alu-label-res">Push Result</span>
+                      <span id="p150-alu-val-res">{result}</span>
                     </div>
                   </motion.div>
                 ) : (
-                  <span id="op-empty-text">
+                  <span id="p150-op-empty-text">
                     {currentToken && !isOperator(currentToken)
-                      ? `Reading operand "${currentToken}" &rarr; Pushing directly to stack`
+                      ? `Reading operand "${currentToken}" → Pushing directly to stack`
                       : "Awaiting operator trigger..."}
                   </span>
                 )}
@@ -138,39 +160,40 @@ export default function Problem150({ stepData }) {
           </div>
 
           {/* LIFO Operand Stack */}
-          <div id="stack-card">
-            <div id="stack-card-header">
-              <span id="stack-header-title">3. Evaluation Stack (LIFO)</span>
-              <span id="stack-header-sub">Top element holds final result</span>
+          <div id="p150-stack-card">
+            <div id="p150-stack-card-header">
+              <span id="p150-stack-header-title">3. Evaluation Stack (LIFO)</span>
+              <span id="p150-stack-header-sub">Top element holds final result</span>
             </div>
 
-            <div id="stack-viewport">
+            <div id="p150-stack-viewport">
               <AnimatePresence mode="popLayout">
                 {stack.length === 0 ? (
-                  <span id="stack-empty-text">Stack is empty</span>
+                  <span id="p150-stack-empty-text">Stack is empty</span>
                 ) : (
-                  <div id="stack-vertical-list">
+                  <div id="p150-stack-vertical-list">
                     {stack.slice().reverse().map((val, revIdx) => {
                       const actualIdx = stack.length - 1 - revIdx;
                       const isTop = actualIdx === stack.length - 1;
 
-                      let pillId = `stack-node-idle-${actualIdx}`;
-                      if (isCompleted && isTop) pillId = `stack-node-winner-${actualIdx}`;
-                      else if (isTop) pillId = `stack-node-top-${actualIdx}`;
+                      let nodeState = "idle";
+                      if (isCompleted && isTop) nodeState = "winner";
+                      else if (isTop) nodeState = "top";
 
                       return (
                         <motion.div
-                          key={`stack-node-${actualIdx}-${val}`}
-                          id={pillId}
+                          key={`p150-stack-node-${actualIdx}-${val}`}
+                          id={`p150-stack-node-${actualIdx}`}
+                          data-node-state={nodeState}
                           layout
                           initial={{ opacity: 0, scale: 0.5, y: -20 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.5, y: 20 }}
                           transition={{ type: "spring", stiffness: 350, damping: 24 }}
                         >
-                          <span id={`stack-val-${actualIdx}`}>{val}</span>
+                          <span id={`p150-stack-val-${actualIdx}`}>{val}</span>
                           {isTop && (
-                            <span id="stack-top-badge">
+                            <span id={`p150-stack-top-badge-${actualIdx}`}>
                               {isCompleted ? "RESULT" : "TOP"}
                             </span>
                           )}
@@ -189,14 +212,15 @@ export default function Problem150({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p150-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p150-callout-header-text">{output.label}</div>
+            <div id="p150-callout-val-text">{output.value}</div>
+            <div id="p150-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

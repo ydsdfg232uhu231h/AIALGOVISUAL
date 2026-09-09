@@ -25,41 +25,43 @@ export default function Problem39({ stepData }) {
   const isExactMatch = sum === target;
   const isExceeded = sum > target;
 
+  let sumState = "idle";
+  if (isExactMatch) sumState = "match";
+  else if (isExceeded) sumState = "exceeded";
+
   return (
-    <div className="canvas-wrapper combo-sum-canvas">
+    <div id="p39-combo-sum-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip target-chip">
+      <div id="p39-metrics-row">
+        <span id="p39-metric-chip-target">
           Target Sum: <b>{target}</b>
         </span>
-        <span
-          className={`metric-chip sum-chip ${
-            isExactMatch ? "chip-match" : isExceeded ? "chip-exceeded" : ""
-          }`}
-        >
+        <span id="p39-metric-chip-sum" data-state={sumState}>
           Running Sum: <b>{sum}</b> / {target}
         </span>
         {activeCandidateIdx !== null && activeCandidateIdx < candidates.length && (
-          <span className="metric-chip candidate-chip">
+          <span id="p39-metric-chip-candidate">
             Active: <b>{candidates[activeCandidateIdx]} (Index {activeCandidateIdx})</b>
           </span>
         )}
       </div>
 
       {/* 6-Element Candidate Selection Bar */}
-      <div className="candidates-selection-bar">
-        <span className="bar-label">Candidates:</span>
-        <div className="candidates-list">
+      <div id="p39-candidates-selection-bar">
+        <span id="p39-bar-label">Candidates:</span>
+        <div id="p39-candidates-list">
           {candidates.map((c, idx) => {
             const isSelected = activeCandidateIdx === idx;
             return (
               <motion.div
-                key={`cand-${idx}-${c}`}
-                className={`candidate-badge ${isSelected ? "candidate-active" : ""}`}
+                key={`p39-cand-${idx}-${c}`}
+                id={`p39-candidate-badge-${idx}`}
+                data-selected={isSelected ? "true" : "false"}
+                layout
                 animate={{ scale: isSelected ? 1.15 : 1 }}
                 transition={{ type: "spring", stiffness: 350, damping: 20 }}
               >
-                {c}
+                <span id={`p39-candidate-val-${idx}`}>{c}</span>
               </motion.div>
             );
           })}
@@ -67,29 +69,31 @@ export default function Problem39({ stepData }) {
       </div>
 
       {/* Current Branch Container */}
-      <div className="current-bag-container">
-        <div className="bag-header">
-          <span>Current Path:</span>
-          <span className="bag-equation">
+      <div id="p39-current-bag-container">
+        <div id="p39-bag-header">
+          <span id="p39-bag-title">Current Path:</span>
+          <span id="p39-bag-equation">
             {current.length > 0 ? `${current.join(" + ")} = ${sum}` : "Empty"}
           </span>
         </div>
 
-        <div className="bag-slots-stream">
-          <AnimatePresence>
+        <div id="p39-bag-slots-stream">
+          <AnimatePresence mode="popLayout">
             {current.length === 0 ? (
-              <span className="bag-empty-hint">No numbers chosen</span>
+              <span id="p39-bag-empty-hint">No numbers chosen</span>
             ) : (
               current.map((val, i) => (
                 <motion.div
-                  key={`chosen-${i}-${val}`}
-                  className={`chosen-chip ${isExactMatch ? "chip-success" : ""}`}
+                  key={`p39-chosen-${i}-${val}`}
+                  id={`p39-chosen-chip-${i}`}
+                  data-state={isExactMatch ? "match" : "idle"}
+                  layout
                   initial={{ scale: 0.7, opacity: 0, y: -8 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.7, opacity: 0, y: 8 }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
                 >
-                  {val}
+                  <span id={`p39-chosen-val-${i}`}>{val}</span>
                 </motion.div>
               ))
             )}
@@ -98,19 +102,20 @@ export default function Problem39({ stepData }) {
       </div>
 
       {/* Combinations Pool */}
-      <div className="results-reel-card">
-        <div className="reel-header">
-          <span className="reel-title">Discovered Combinations</span>
-          <span className="reel-count">Total: {combinationsList.length}</span>
+      <div id="p39-results-reel-card">
+        <div id="p39-reel-header">
+          <span id="p39-reel-title">Discovered Combinations</span>
+          <span id="p39-reel-count">Total: {combinationsList.length}</span>
         </div>
-        <div className="reel-chips-stream">
+        <div id="p39-reel-chips-stream">
           {combinationsList.length === 0 ? (
-            <span className="reel-empty-text">Backtracking in progress...</span>
+            <span id="p39-reel-empty-text">Backtracking in progress...</span>
           ) : (
             combinationsList.map((combo, idx) => (
               <motion.span
-                key={`${JSON.stringify(combo)}-${idx}`}
-                className="combo-chip"
+                key={`p39-combo-${JSON.stringify(combo)}-${idx}`}
+                id={`p39-combo-chip-${idx}`}
+                layout
                 initial={{ opacity: 0, scale: 0.8, y: 4 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
@@ -126,14 +131,14 @@ export default function Problem39({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p39-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p39-callout-header-text">{output.label}</div>
+            <div id="p39-callout-val-text">{output.value}</div>
+            <div id="p39-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

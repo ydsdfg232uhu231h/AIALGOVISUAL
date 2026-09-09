@@ -1,37 +1,51 @@
-.threesum-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p15-threesum-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   min-height: 440px;
   position: relative;
   gap: 18px;
   box-sizing: border-box;
-  overflow: hidden;
+  padding: 16px 16px 65px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
-/* LIVE FORMULA BANNER */
-.sum-formula-banner {
+/* ============================================================
+   LIVE FORMULA BANNER
+   ============================================================ */
+#p15-sum-formula-banner {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 10px;
   padding: 8px 18px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   transition: all 0.25s ease;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
-.sum-formula-banner.banner-match {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.08);
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.25);
+#p15-sum-formula-banner[data-match="true"] {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.08) !important;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.25) !important;
 }
 
-.formula-terms {
+#p15-formula-terms {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -39,129 +53,149 @@
   color: #a1a1aa;
 }
 
-.term b {
+#p15-term-i b,
+#p15-term-l b,
+#p15-term-r b {
   font-size: 15px;
+  font-family: ui-monospace, monospace;
 }
 
-.term-i b {
+#p15-term-i b {
   color: #38bdf8;
 }
 
-.term-l b {
+#p15-term-l b {
   color: #facc15;
 }
 
-.term-r b {
+#p15-term-r b {
   color: #c084fc;
 }
 
-.operator {
+#p15-operator-plus-1,
+#p15-operator-plus-2,
+#p15-operator-equals {
   color: #52525b;
   font-weight: 700;
 }
 
-.sum-result {
-  font-size: 17px;
+#p15-sum-result {
+  font-size: 16px;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
   background: #18181b;
   padding: 2px 10px;
   border-radius: 6px;
   border: 1px solid #3f3f46;
+  font-family: ui-monospace, monospace;
 }
 
-.res-zero {
-  color: #86efac;
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.2);
+#p15-sum-result[data-zero="true"] {
+  color: #86efac !important;
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.2) !important;
 }
 
-.formula-decision {
+#p15-formula-decision {
   display: flex;
   align-items: center;
 }
 
-.decision-tag {
+#p15-decision-tag {
   font-size: 10px;
   font-weight: 800;
   padding: 2px 8px;
   border-radius: 4px;
   text-transform: uppercase;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.5px;
 }
 
-.tag-hit {
+#p15-decision-tag[data-status="hit"] {
   background: #22c55e;
-  color: #000;
+  color: #0c0c10;
 }
 
-.tag-low {
+#p15-decision-tag[data-status="low"] {
   background: rgba(250, 204, 21, 0.15);
   color: #fde047;
   border: 1px solid rgba(250, 204, 21, 0.3);
 }
 
-.tag-high {
+#p15-decision-tag[data-status="high"] {
   background: rgba(192, 132, 252, 0.15);
   color: #e9d5ff;
   border: 1px solid rgba(192, 132, 252, 0.3);
 }
 
-/* TRACK STRIP */
-.threesum-track {
+/* ============================================================
+   TRACK STRIP & COLUMNS
+   ============================================================ */
+#p15-threesum-track {
   display: flex;
   gap: 10px;
   align-items: flex-end;
   justify-content: center;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
   padding: 34px 20px 18px 20px;
   max-width: 95%;
+  overflow-x: auto;
   box-sizing: border-box;
 }
 
-.threesum-col {
+[id^="p15-col-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  flex-shrink: 0;
+  width: 50px;
 }
 
-.ptrs-slot {
+[id^="p15-ptrs-slot-"] {
   position: absolute;
   top: -26px;
   display: flex;
   gap: 2px;
   height: 20px;
   z-index: 2;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-.pointer-badge {
+[id^="p15-pointer-badge-"] {
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 900;
   padding: 1px 6px;
   border-radius: 4px;
   text-transform: uppercase;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  font-family: ui-monospace, monospace;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  line-height: 1;
 }
 
-.badge-i {
+[id^="p15-pointer-badge-i-"] {
   background: #38bdf8;
-  color: #000;
+  color: #0c0c10;
 }
 
-.badge-l {
+[id^="p15-pointer-badge-l-"] {
   background: #facc15;
-  color: #000;
+  color: #0c0c10;
 }
 
-.badge-r {
+[id^="p15-pointer-badge-r-"] {
   background: #c084fc;
-  color: #000;
+  color: #0c0c10;
 }
 
-/* BOX CARDS */
-.threesum-box {
+/* ============================================================
+   BOX CARDS & STATES
+   ============================================================ */
+[id^="p15-box-"] {
   width: 48px;
   height: 52px;
   border-radius: 8px;
@@ -172,69 +206,79 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: border-color 0.2s, background-color 0.2s, opacity 0.2s;
+  box-sizing: border-box;
+  transition: border-color 0.2s, background-color 0.2s, opacity 0.2s, box-shadow 0.2s;
 }
 
-.num-val {
+[id^="p15-num-val-"] {
   font-size: 16px;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
 }
 
-.idx-tag {
+[id^="p15-idx-tag-"] {
   font-size: 8px;
   color: #71717a;
   position: absolute;
   bottom: 2px;
+  font-family: ui-monospace, monospace;
 }
 
-.box-dimmed {
+/* Dimmed Outside Active Window */
+[id^="p15-box-"][data-dimmed="true"] {
   opacity: 0.35;
 }
 
-.box-anchor {
+/* Selected States */
+[id^="p15-box-"][data-state="anchor"] {
   border-color: #38bdf8 !important;
   background: rgba(56, 189, 248, 0.16) !important;
   box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
 }
 
-.box-left {
+[id^="p15-box-"][data-state="left"] {
   border-color: #facc15 !important;
   background: rgba(250, 204, 21, 0.14) !important;
 }
 
-.box-right {
+[id^="p15-box-"][data-state="right"] {
   border-color: #c084fc !important;
   background: rgba(192, 132, 252, 0.14) !important;
 }
 
-.box-matched {
+/* Matched Target State (Green Glow) */
+[id^="p15-box-"][data-state="matched"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.25) !important;
   box-shadow: 0 0 18px rgba(34, 197, 94, 0.5) !important;
 }
 
-.box-matched .num-val {
-  color: #86efac;
+[id^="p15-box-"][data-state="matched"] [id^="p15-num-val-"] {
+  color: #86efac !important;
 }
 
-/* TRIPLETS REEL */
-.triplets-pool-wrapper {
+/* ============================================================
+   TRIPLETS REEL
+   ============================================================ */
+#p15-triplets-pool-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-.pool-title {
+#p15-pool-title {
   font-size: 11px;
   color: #71717a;
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.triplets-list {
+#p15-triplets-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -242,13 +286,14 @@
   min-height: 28px;
 }
 
-.no-triplets-hint {
+#p15-no-triplets-hint {
   font-size: 12px;
   color: #52525b;
   font-style: italic;
+  font-family: ui-monospace, monospace;
 }
 
-.triplet-capsule {
+[id^="p15-triplet-capsule-"] {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -256,48 +301,188 @@
   border: 1px solid #22c55e;
   border-radius: 6px;
   padding: 3px 10px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
 }
 
-.check-icon {
+[id^="p15-check-icon-"] {
   font-size: 11px;
   color: #22c55e;
   font-weight: 800;
 }
 
-.triplet-vals {
+[id^="p15-triplet-vals-"] {
   font-size: 13px;
   font-weight: 800;
   color: #86efac;
+  font-family: ui-monospace, monospace;
 }
 
-/* RESULT CALLOUT */
-.result-callout {
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#p15-result-callout-box {
   position: absolute;
   bottom: 8px;
-  background: #111827;
-  border: 1px solid #16a34a;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid #16a34a;
   border-radius: 8px;
-  padding: 6px 14px;
+  padding: 6px 16px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   z-index: 5;
+  max-width: 90%;
 }
 
-.callout-header {
+#p15-callout-header-text {
   font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
-  font-weight: 700;
-}
-
-.callout-val {
-  font-size: 15px;
-  color: #fff;
   font-weight: 800;
-  margin: 1px 0;
+  letter-spacing: 0.6px;
 }
 
-.callout-detail {
+#p15-callout-val-text {
+  font-size: 15px;
+  color: #4ade80;
+  font-weight: 900;
+  margin: 1px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#p15-callout-detail-text {
   font-size: 11px;
   color: #9ca3af;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p15-threesum-track {
+    padding: 30px 16px 16px 16px;
+    gap: 8px;
+  }
+
+  [id^="p15-col-"] {
+    width: 44px;
+  }
+
+  [id^="p15-box-"] {
+    width: 42px;
+    height: 46px;
+  }
+
+  [id^="p15-num-val-"] {
+    font-size: 15px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p15-threesum-canvas {
+    padding: 14px 10px 65px 10px;
+    gap: 14px;
+  }
+
+  #p15-formula-terms {
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  #p15-term-i b,
+  #p15-term-l b,
+  #p15-term-r b {
+    font-size: 13px;
+  }
+
+  #p15-sum-result {
+    font-size: 14px;
+    padding: 1px 8px;
+  }
+
+  #p15-threesum-track {
+    justify-content: flex-start;
+    padding: 28px 12px 14px 12px;
+    gap: 8px;
+  }
+
+  [id^="p15-col-"] {
+    width: 40px;
+  }
+
+  [id^="p15-box-"] {
+    width: 38px;
+    height: 42px;
+  }
+
+  [id^="p15-num-val-"] {
+    font-size: 14px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p15-sum-formula-banner {
+    width: 100%;
+    padding: 6px 10px;
+  }
+
+  #p15-formula-terms {
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  #p15-decision-tag {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  #p15-threesum-track {
+    gap: 6px;
+    padding: 26px 8px 12px 8px;
+  }
+
+  [id^="p15-col-"] {
+    width: 34px;
+  }
+
+  [id^="p15-box-"] {
+    width: 32px;
+    height: 36px;
+    border-radius: 6px;
+  }
+
+  [id^="p15-num-val-"] {
+    font-size: 13px;
+  }
+
+  [id^="p15-idx-tag-"] {
+    font-size: 7px;
+  }
+
+  [id^="p15-pointer-badge-"] {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  [id^="p15-triplet-capsule-"] {
+    padding: 2px 8px;
+  }
+
+  [id^="p15-triplet-vals-"] {
+    font-size: 11px;
+  }
+
+  #p15-callout-val-text {
+    font-size: 14px;
+  }
+
+  #p15-callout-detail-text {
+    font-size: 10px;
+  }
 }

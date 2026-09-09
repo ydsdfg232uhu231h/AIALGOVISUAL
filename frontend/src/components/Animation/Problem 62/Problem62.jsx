@@ -16,33 +16,33 @@ export default function Problem62({ stepData }) {
   const isComplete = status === "COMPLETED";
 
   return (
-    <div className="canvas-wrapper grid-paths-canvas">
+    <div id="p62-grid-paths-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip size-chip">
+      <div id="p62-metrics-row">
+        <span id="p62-metric-chip-size">
           Grid Size: <b>{numRows} × {numCols}</b>
         </span>
         {currentRow !== null && (
-          <span className="metric-chip row-chip">
+          <span id="p62-metric-chip-row">
             Active DP Row: <b>Row {currentRow}</b>
           </span>
         )}
         {dpRowStr && (
-          <span className="metric-chip dp-chip">
+          <span id="p62-metric-chip-dp">
             1D DP Array: <b>{dpRowStr}</b>
           </span>
         )}
         {uniquePaths && (
-          <span className="metric-chip paths-chip">
+          <span id="p62-metric-chip-paths">
             Total Paths: <b>{uniquePaths}</b>
           </span>
         )}
       </div>
 
       {/* 2D Grid Representation */}
-      <div className="dp-grid-container">
+      <div id="p62-dp-grid-container">
         {grid.map((row, r) => (
-          <div key={`row-${r}`} className="dp-grid-row">
+          <div key={`p62-row-${r}`} id={`p62-dp-grid-row-${r}`}>
             {row.map((val, c) => {
               const isStart = r === 0 && c === 0;
               const isTarget = r === numRows - 1 && c === numCols - 1;
@@ -51,10 +51,12 @@ export default function Problem62({ stepData }) {
 
               return (
                 <motion.div
-                  key={`cell-${r}-${c}`}
-                  className={`dp-cell ${isActiveRow ? "active-row-cell" : ""} ${
-                    hasComputed ? "computed-cell" : "uncomputed-cell"
-                  } ${isTarget && isComplete ? "target-complete" : ""}`}
+                  key={`p62-cell-${r}-${c}`}
+                  id={`p62-cell-${r}-${c}`}
+                  data-state={hasComputed ? "computed" : "uncomputed"}
+                  data-active-row={isActiveRow ? "true" : "false"}
+                  data-target-complete={isTarget && isComplete ? "true" : "false"}
+                  layout
                   animate={{
                     scale: isTarget && isComplete ? 1.12 : isActiveRow && val > 0 ? 1.05 : 1,
                     borderColor:
@@ -68,15 +70,25 @@ export default function Problem62({ stepData }) {
                   }}
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                 >
-                  <div className="cell-badges">
-                    <span className="coord-tag">
+                  <div id={`p62-cell-badges-${r}-${c}`}>
+                    <span id={`p62-coord-tag-${r}-${c}`}>
                       {r},{c}
                     </span>
-                    {isStart && <span className="role-tag start-tag">START</span>}
-                    {isTarget && <span className="role-tag end-tag">GOAL</span>}
+                    {isStart && (
+                      <span id={`p62-role-tag-${r}-${c}`} data-role="start">
+                        START
+                      </span>
+                    )}
+                    {isTarget && (
+                      <span id={`p62-role-tag-${r}-${c}`} data-role="end">
+                        GOAL
+                      </span>
+                    )}
                   </div>
 
-                  <span className="dp-value">{val > 0 ? val : "·"}</span>
+                  <span id={`p62-dp-value-${r}-${c}`}>
+                    {val > 0 ? val : "·"}
+                  </span>
                 </motion.div>
               );
             })}
@@ -88,14 +100,14 @@ export default function Problem62({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p62-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p62-callout-header-text">{output.label}</div>
+            <div id="p62-callout-val-text">{output.value}</div>
+            <div id="p62-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#tree-depth-canvas {
+#p104-tree-depth-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p104-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,13 +32,13 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-inspecting,
-#metric-subdepths,
-#metric-cur-depth,
-#metric-max-active,
-#metric-max-done {
+#p104-metric-inspecting,
+#p104-metric-subdepths,
+#p104-metric-cur-depth,
+#p104-metric-max {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -50,23 +51,25 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-#metric-inspecting b { color: #facc15; }
-#metric-subdepths b { color: #38bdf8; }
-#metric-cur-depth b { color: #c084fc; }
-#metric-max-active b { color: #38bdf8; }
+#p104-metric-inspecting b { color: #facc15; font-family: ui-monospace, monospace; }
+#p104-metric-subdepths b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p104-metric-cur-depth b { color: #c084fc; font-family: ui-monospace, monospace; }
+#p104-metric-max b { color: #38bdf8; }
 
-#metric-max-done {
+#p104-metric-max[data-status="done"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-max-done b { color: #4ade80 !important; }
+#p104-metric-max[data-status="done"] b { color: #4ade80 !important; }
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#depth-stage {
+#p104-depth-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -76,8 +79,8 @@
   flex-shrink: 0;
 }
 
-#tree-depth-card,
-#calc-inspector-card {
+#p104-tree-depth-card,
+#p104-calc-inspector-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -89,8 +92,8 @@
   box-sizing: border-box;
 }
 
-#tree-card-header,
-#calc-card-header {
+#p104-tree-card-header,
+#p104-calc-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,8 +102,8 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#tree-header-title,
-#calc-header-title {
+#p104-tree-header-title,
+#p104-calc-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -108,8 +111,8 @@
   letter-spacing: 0.7px;
 }
 
-#tree-header-sub,
-#calc-header-sub {
+#p104-tree-header-sub,
+#p104-calc-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -119,7 +122,7 @@
 /* ============================================================
    SVG TREE SURFACE
    ============================================================ */
-#tree-viewport {
+#p104-tree-viewport {
   width: 100%;
   height: 240px;
   background: #0f0f14;
@@ -128,79 +131,80 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
-#tree-svg-surface {
+#p104-tree-svg-surface {
   width: 100%;
   height: 100%;
   display: block;
 }
 
 /* Edges */
-[id^="edge-normal-"] {
+[id^="p104-edge-"][data-edge-state="normal"] {
   stroke: #2a2a3a;
   stroke-width: 2.5;
 }
 
-[id^="edge-path-"] {
+[id^="p104-edge-"][data-edge-state="path"] {
   stroke: #22c55e !important;
   stroke-width: 3.5;
   filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.8));
 }
 
 /* Nodes */
-[id^="node-idle-"] {
+[id^="p104-node-"][data-node-state="idle"] {
   fill: #181822;
   stroke: #2e2e40;
   stroke-width: 2;
 }
 
-[id^="node-active-"] {
+[id^="p104-node-"][data-node-state="active"] {
   fill: #262214;
   stroke: #facc15;
   stroke-width: 3;
   filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.8));
 }
 
-[id^="node-resolved-"] {
+[id^="p104-node-"][data-node-state="resolved"] {
   fill: #15222d;
   stroke: #38bdf8;
   stroke-width: 2.5;
   filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
 }
 
-[id^="node-longest-"] {
+[id^="p104-node-"][data-node-state="longest"] {
   fill: #13241b;
   stroke: #22c55e;
   stroke-width: 3;
   filter: drop-shadow(0 0 14px rgba(34, 197, 94, 0.7));
 }
 
-[id^="halo-active-"] {
+[id^="p104-halo-active-"] {
   fill: transparent;
   stroke: #facc15;
   stroke-width: 1.5;
-  animation: halo-pulse-active 1.2s infinite ease-out;
+  animation: p104-halo-pulse-active 1.2s infinite ease-out;
 }
 
-@keyframes halo-pulse-active {
+@keyframes p104-halo-pulse-active {
   0% { r: 23px; opacity: 0.9; }
   100% { r: 31px; opacity: 0; }
 }
 
-[id^="halo-longest-"] {
+[id^="p104-halo-longest-"] {
   fill: transparent;
   stroke: #22c55e;
   stroke-width: 1.5;
-  animation: halo-pulse-done 1.4s infinite ease-out;
+  animation: p104-halo-pulse-done 1.4s infinite ease-out;
 }
 
-@keyframes halo-pulse-done {
+@keyframes p104-halo-pulse-done {
   0% { r: 24px; opacity: 0.8; }
   100% { r: 32px; opacity: 0; }
 }
 
-[id^="text-val-"] {
+[id^="p104-text-val-"] {
   fill: #ffffff;
   font-size: 15px;
   font-weight: 900;
@@ -209,11 +213,11 @@
   dominant-baseline: middle;
 }
 
-[id^="node-longest-"] ~ [id^="text-val-"] {
+[id^="p104-g-"]:has([id^="p104-node-"][data-node-state="longest"]) [id^="p104-text-val-"] {
   fill: #4ade80 !important;
 }
 
-[id^="text-sub-"] {
+[id^="p104-text-sub-"] {
   fill: #717182;
   font-size: 8px;
   font-weight: 700;
@@ -221,7 +225,7 @@
   text-anchor: middle;
 }
 
-[id^="node-longest-"] ~ [id^="text-sub-"] {
+[id^="p104-g-"]:has([id^="p104-node-"][data-node-state="longest"]) [id^="p104-text-sub-"] {
   fill: #86efac !important;
   font-weight: 900;
 }
@@ -229,23 +233,17 @@
 /* ============================================================
    CALCULATION INSPECTOR
    ============================================================ */
-#calc-grid {
+#p104-calc-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 680px) {
-  #calc-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-#calc-box-left,
-#calc-box-right,
-#calc-box-formula,
-#calc-box-return {
+#p104-calc-box-left,
+#p104-calc-box-right,
+#p104-calc-box-formula,
+#p104-calc-box-return {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -253,51 +251,53 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
-#calc-title-left,
-#calc-title-right,
-#calc-title-formula,
-#calc-title-return {
+#p104-calc-title-left,
+#p104-calc-title-right,
+#p104-calc-title-formula,
+#p104-calc-title-return {
   font-size: 9px;
   font-weight: 800;
   color: #717182;
   text-transform: uppercase;
 }
 
-#calc-val-left,
-#calc-val-right {
+#p104-calc-val-left,
+#p104-calc-val-right {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
   color: #38bdf8;
 }
 
-#calc-val-formula {
+#p104-calc-val-formula {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
   color: #facc15;
 }
 
-#calc-val-return-wait {
+#p104-calc-val-return {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
+}
+
+#p104-calc-val-return[data-state="wait"] {
   color: #717182;
 }
 
-#calc-val-return-done {
-  font-size: 12px;
+#p104-calc-val-return[data-state="done"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #4ade80;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p104-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -311,9 +311,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p104-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -321,7 +322,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p104-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -329,8 +330,97 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p104-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p104-tree-viewport {
+    height: 220px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p104-tree-depth-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p104-metrics-bar {
+    gap: 6px;
+  }
+
+  #p104-metric-inspecting,
+  #p104-metric-subdepths,
+  #p104-metric-cur-depth,
+  #p104-metric-max {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p104-calc-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  #p104-tree-viewport {
+    height: 200px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p104-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p104-metric-inspecting,
+  #p104-metric-subdepths,
+  #p104-metric-cur-depth,
+  #p104-metric-max {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p104-tree-card-header,
+  #p104-calc-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p104-calc-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  #p104-tree-viewport {
+    height: 185px;
+  }
+
+  [id^="p104-text-val-"] {
+    font-size: 13px;
+  }
+
+  [id^="p104-text-sub-"] {
+    font-size: 7px;
+  }
+
+  #p104-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p104-callout-detail-text {
+    font-size: 11px;
+  }
 }

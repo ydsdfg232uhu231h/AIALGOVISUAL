@@ -28,53 +28,60 @@ export default function Problem22({ stepData }) {
   const canAddClose = closeCount < openCount;
 
   return (
-    <div className="canvas-wrapper paren-canvas">
+    <div id="p22-paren-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip target-chip">
+      <div id="p22-metrics-row">
+        <span id="p22-metric-target">
           Target Pairs: <b>n = {n}</b> (Length: {2 * n})
         </span>
-        <span className="metric-chip count-chip open-count">
+        <span id="p22-metric-open-count">
           Open '(': <b>{openCount}</b>
         </span>
-        <span className="metric-chip count-chip close-count">
+        <span id="p22-metric-close-count">
           Close ')': <b>{closeCount}</b>
         </span>
       </div>
 
       {/* Decision Rules Panel */}
-      <div className="rules-panel">
-        <div className={`rule-card ${canAddOpen ? "rule-valid" : "rule-invalid"}`}>
-          <div className="rule-header">Can add '(' ?</div>
-          <div className="rule-equation">open ({openCount}) &lt; n ({n})</div>
-          <div className="rule-status">{canAddOpen ? "✔ YES" : "✖ NO"}</div>
+      <div id="p22-rules-panel">
+        <div
+          id="p22-rule-card-open"
+          data-valid={canAddOpen ? "true" : "false"}
+        >
+          <div id="p22-rule-header-open">Can add '(' ?</div>
+          <div id="p22-rule-equation-open">open ({openCount}) &lt; n ({n})</div>
+          <div id="p22-rule-status-open">{canAddOpen ? "✔ YES" : "✖ NO"}</div>
         </div>
-        <div className={`rule-card ${canAddClose ? "rule-valid" : "rule-invalid"}`}>
-          <div className="rule-header">Can add ')' ?</div>
-          <div className="rule-equation">close ({closeCount}) &lt; open ({openCount})</div>
-          <div className="rule-status">{canAddClose ? "✔ YES" : "✖ NO"}</div>
+        <div
+          id="p22-rule-card-close"
+          data-valid={canAddClose ? "true" : "false"}
+        >
+          <div id="p22-rule-header-close">Can add ')' ?</div>
+          <div id="p22-rule-equation-close">close ({closeCount}) &lt; open ({openCount})</div>
+          <div id="p22-rule-status-close">{canAddClose ? "✔ YES" : "✖ NO"}</div>
         </div>
       </div>
 
       {/* String Builder Track */}
-      <div className="builder-track">
-        <div className="builder-title">Current String Generation</div>
-        <div className="slots-container">
+      <div id="p22-builder-track">
+        <div id="p22-builder-title">Current String Generation</div>
+        <div id="p22-slots-container">
           {slots.map((char, idx) => {
-            const isFilled = char !== null;
-            const isOpenChar = char === "(";
-            
+            let slotState = "empty";
+            if (char === "(") slotState = "open";
+            else if (char === ")") slotState = "close";
+
             return (
               <motion.div
-                key={`slot-${idx}-${char}`}
-                className={`string-slot ${isFilled ? "slot-filled" : ""} ${
-                  isOpenChar ? "slot-open" : char === ")" ? "slot-close" : ""
-                }`}
+                key={`p22-slot-${idx}`}
+                id={`p22-string-slot-${idx}`}
+                data-state={slotState}
+                layout
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 350, damping: 20 }}
               >
-                {char || ""}
+                <span id={`p22-slot-char-${idx}`}>{char || ""}</span>
               </motion.div>
             );
           })}
@@ -82,19 +89,20 @@ export default function Problem22({ stepData }) {
       </div>
 
       {/* Accumulated Results Reel */}
-      <div className="results-reel-card">
-        <div className="reel-header">
-          <span className="reel-title">Valid Combinations Found</span>
-          <span className="reel-count">{resultsList.length} / 5</span>
+      <div id="p22-results-reel-card">
+        <div id="p22-reel-header">
+          <span id="p22-reel-title">Valid Combinations Found</span>
+          <span id="p22-reel-count">{resultsList.length} / 5</span>
         </div>
-        <div className="reel-chips-stream">
+        <div id="p22-reel-chips-stream">
           {resultsList.length === 0 ? (
-            <span className="reel-empty-text">Backtracking in progress...</span>
+            <span id="p22-reel-empty-text">Backtracking in progress...</span>
           ) : (
             resultsList.map((combo, idx) => (
               <motion.span
-                key={`${combo}-${idx}`}
-                className="combo-chip"
+                key={`p22-combo-${combo}-${idx}`}
+                id={`p22-combo-chip-${idx}`}
+                layout
                 initial={{ opacity: 0, scale: 0.8, y: 5 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
@@ -110,14 +118,14 @@ export default function Problem22({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p22-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p22-callout-header-text">{output.label}</div>
+            <div id="p22-callout-val-text">{output.value}</div>
+            <div id="p22-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

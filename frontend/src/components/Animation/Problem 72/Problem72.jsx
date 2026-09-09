@@ -18,47 +18,54 @@ export default function Problem72({ stepData }) {
   const isComplete = status === "COMPLETED";
 
   return (
-    <div className="canvas-wrapper edit-distance-canvas">
+    <div id="p72-edit-distance-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip word-chip">
+      <div id="p72-metrics-row">
+        <span id="p72-metric-chip-word">
           Transform: <b>"horse" ➔ "ros"</b>
         </span>
         {char1 && char2 && (
-          <span className="metric-chip compare-chip">
+          <span id="p72-metric-chip-compare">
             Comparing: <b>'{char1}' vs '{char2}'</b> {char1 === char2 ? "(Match!)" : "(Mismatch)"}
           </span>
         )}
-        <span className="metric-chip cell-chip">
+        <span id="p72-metric-chip-cell">
           Active Cell: <b>dp[{currentI}][{currentJ}] {val !== undefined ? `= ${val}` : ""}</b>
         </span>
         {minDistance !== undefined && (
-          <span className="metric-chip result-chip">
+          <span id="p72-metric-chip-result">
             Min Operations: <b>{minDistance}</b>
           </span>
         )}
       </div>
 
       {/* 2D DP Levenshtein Table */}
-      <div className="table-wrapper">
+      <div id="p72-table-wrapper">
         {/* Column Headers: word2 */}
-        <div className="table-header-row">
-          <div className="header-cell corner-cell">w1 \ w2</div>
+        <div id="p72-table-header-row">
+          <div id="p72-header-cell-corner">w1 \ w2</div>
           {word2.map((ch, j) => (
-            <div key={`head-${j}`} className={`header-cell col-header ${currentJ === j ? "active-header" : ""}`}>
-              <span className="header-char">{ch === "" ? "ε" : ch}</span>
-              <span className="header-idx">[{j}]</span>
+            <div
+              key={`p72-head-${j}`}
+              id={`p72-col-header-${j}`}
+              data-active={currentJ === j ? "true" : "false"}
+            >
+              <span id={`p72-col-header-char-${j}`}>{ch === "" ? "ε" : ch}</span>
+              <span id={`p72-col-header-idx-${j}`}>[{j}]</span>
             </div>
           ))}
         </div>
 
         {/* Table Body: word1 rows */}
         {table.map((row, i) => (
-          <div key={`row-${i}`} className="table-data-row">
+          <div key={`p72-row-${i}`} id={`p72-table-data-row-${i}`}>
             {/* Row Header */}
-            <div className={`header-cell row-header ${currentI === i ? "active-header" : ""}`}>
-              <span className="header-char">{word1[i] === "" ? "ε" : word1[i]}</span>
-              <span className="header-idx">[{i}]</span>
+            <div
+              id={`p72-row-header-${i}`}
+              data-active={currentI === i ? "true" : "false"}
+            >
+              <span id={`p72-row-header-char-${i}`}>{word1[i] === "" ? "ε" : word1[i]}</span>
+              <span id={`p72-row-header-idx-${i}`}>[{i}]</span>
             </div>
 
             {/* Row Cells */}
@@ -69,19 +76,39 @@ export default function Problem72({ stepData }) {
               const isLeft = currentJ > 0 && i === currentI && j === currentJ - 1; // Insert
               const isDiag = currentI > 0 && currentJ > 0 && i === currentI - 1 && j === currentJ - 1; // Replace/Match
 
+              let cellState = "idle";
+              if (isTarget && isComplete) cellState = "target-complete";
+              else if (isCurrent) cellState = "current";
+              else if (isDiag) cellState = "diag";
+              else if (isTop) cellState = "top";
+              else if (isLeft) cellState = "left";
+
               return (
                 <motion.div
-                  key={`cell-${i}-${j}`}
-                  className={`dp-table-cell ${isCurrent ? "cell-current" : ""} ${
-                    isDiag ? "cell-diag" : isTop ? "cell-top" : isLeft ? "cell-left" : ""
-                  } ${isTarget && isComplete ? "cell-target-complete" : ""}`}
+                  key={`p72-cell-${i}-${j}`}
+                  id={`p72-dp-table-cell-${i}-${j}`}
+                  data-cell-state={cellState}
+                  layout
                   animate={{
                     scale: isCurrent || (isTarget && isComplete) ? 1.1 : 1
                   }}
                   transition={{ duration: 0.2 }}
                 >
-                  <span className="cell-num">{cellVal}</span>
-                  {isCurrent && <span className="cell-badge">CURR</span>}
+                  <span id={`p72-cell-num-${i}-${j}`}>{cellVal}</span>
+                  <AnimatePresence mode="popLayout">
+                    {isCurrent && (
+                      <motion.span
+                        key={`p72-badge-${i}-${j}`}
+                        id={`p72-cell-badge-${i}-${j}`}
+                        layout
+                        initial={{ opacity: 0, scale: 0.7 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.7 }}
+                      >
+                        CURR
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             })}
@@ -90,24 +117,30 @@ export default function Problem72({ stepData }) {
       </div>
 
       {/* Dependency Legend */}
-      <div className="dependency-legend">
-        <span className="legend-item"><span className="legend-dot diag-dot" /> Diag (Replace/Match)</span>
-        <span className="legend-item"><span className="legend-dot top-dot" /> Top (Delete)</span>
-        <span className="legend-item"><span className="legend-dot left-dot" /> Left (Insert)</span>
+      <div id="p72-dependency-legend">
+        <span id="p72-legend-item-diag">
+          <span id="p72-legend-dot-diag" data-dot="diag" /> Diag (Replace/Match)
+        </span>
+        <span id="p72-legend-item-top">
+          <span id="p72-legend-dot-top" data-dot="top" /> Top (Delete)
+        </span>
+        <span id="p72-legend-item-left">
+          <span id="p72-legend-dot-left" data-dot="left" /> Left (Insert)
+        </span>
       </div>
 
       {/* Result Callout */}
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p72-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p72-callout-header-text">{output.label}</div>
+            <div id="p72-callout-val-text">{output.value}</div>
+            <div id="p72-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

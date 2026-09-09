@@ -16,14 +16,14 @@ export default function Problem128({ stepData }) {
   const isCompleted = checkType === "COMPLETED";
 
   return (
-    <div id="consecutive-canvas">
+    <div id="p128-consecutive-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-current-num">
+      <div id="p128-metrics-bar">
+        <span id="p128-metric-current-num">
           Inspecting: <b>{currentNum !== null ? currentNum : "None"}</b>
         </span>
 
-        <span id="metric-check-status">
+        <span id="p128-metric-check-status">
           {currentNum !== null ? (
             <>
               Has (num - 1 = {currentNum - 1})?{" "}
@@ -34,54 +34,58 @@ export default function Problem128({ stepData }) {
           )}
         </span>
 
-        <span id="metric-chain-len">
+        <span id="p128-metric-chain-len">
           Current Streak: <b>{currentChain.length}</b>
         </span>
 
-        <span id={isCompleted ? "metric-best-done" : "metric-best-active"}>
+        <span
+          id="p128-metric-best"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Max Longest: <b>{longest}</b>
         </span>
       </div>
 
-      <div id="consecutive-stage">
+      <div id="p128-consecutive-stage">
         {/* Track 1: Hash Set Pool */}
-        <div id="hashset-card">
-          <div id="set-card-header">
-            <span id="set-header-title">1. Hash Set Pool (`numSet`)</span>
-            <span id="set-header-sub">O(1) lookups for (num - 1) and (num + length)</span>
+        <div id="p128-hashset-card">
+          <div id="p128-set-card-header">
+            <span id="p128-set-header-title">1. Hash Set Pool (`numSet`)</span>
+            <span id="p128-set-header-sub">O(1) lookups for (num - 1) and (num + length)</span>
           </div>
 
-          <div id="hashset-pool-grid">
+          <div id="p128-hashset-pool-grid">
             {numSet.map((val) => {
               const isCurrent = currentNum === val;
               const isInActiveChain = currentChain.includes(val);
               const isInBest = isCompleted && bestChain.includes(val);
 
-              let nodeId = `set-node-idle-${val}`;
+              let nodeState = "idle";
               if (isInBest) {
-                nodeId = `set-node-best-${val}`;
+                nodeState = "best";
               } else if (isInActiveChain) {
-                nodeId = `set-node-chain-${val}`;
+                nodeState = "chain";
               } else if (isCurrent) {
-                nodeId = `set-node-active-${val}`;
+                nodeState = "active";
               }
+
+              const targetScale = isInBest ? 1.08 : isCurrent || isInActiveChain ? 1.04 : 1;
 
               return (
                 <motion.div
-                  key={`numset-cell-${val}`}
-                  id={nodeId}
-                  animate={{
-                    scale: isInBest ? [1, 1.1, 1] : isCurrent || isInActiveChain ? 1.08 : 1
-                  }}
+                  key={`p128-numset-cell-${val}`}
+                  id={`p128-set-node-${val}`}
+                  data-node-state={nodeState}
+                  layout
+                  animate={{ scale: targetScale }}
                   transition={{
                     type: "spring",
                     stiffness: 350,
-                    damping: 22,
-                    scale: isInBest ? { repeat: Infinity, duration: 1.2 } : undefined
+                    damping: 24
                   }}
                 >
-                  <span id={`set-val-${val}`}>{val}</span>
-                  <span id={`set-tag-${val}`}>
+                  <span id={`p128-set-val-${val}`}>{val}</span>
+                  <span id={`p128-set-tag-${val}`}>
                     {isInBest
                       ? "WINNER"
                       : isInActiveChain
@@ -97,49 +101,52 @@ export default function Problem128({ stepData }) {
         </div>
 
         {/* Track 2: Consecutive Sequence Chain Builder */}
-        <div id="chain-card">
-          <div id="chain-card-header">
-            <span id="chain-header-title">2. Active Consecutive Sequence Builder</span>
-            <span id="chain-header-sub">
+        <div id="p128-chain-card">
+          <div id="p128-chain-card-header">
+            <span id="p128-chain-header-title">2. Active Consecutive Sequence Builder</span>
+            <span id="p128-chain-header-sub">
               {currentChain.length > 0
                 ? `Extending from start node: ${currentChain[0]}`
                 : "Awaiting sequence start element"}
             </span>
           </div>
 
-          <div id="chain-viewport">
+          <div id="p128-chain-viewport">
             <AnimatePresence mode="popLayout">
               {currentChain.length === 0 ? (
-                <span id="chain-empty-text">
+                <span id="p128-chain-empty-text">
                   {checkType === "SKIPPED"
                     ? `(num - 1 = ${currentNum - 1}) exists in set. Not a sequence root, skipping!`
                     : "No active streak being built"}
                 </span>
               ) : (
-                <div id="chain-nodes-row">
+                <div id="p128-chain-nodes-row">
                   {currentChain.map((num, idx) => {
-                    const isLastAdded = idx === currentChain.length - 1;
                     const isWinner = isCompleted;
 
                     return (
-                      <React.Fragment key={`chain-elem-${num}`}>
+                      <React.Fragment key={`p128-chain-elem-${num}`}>
                         <motion.div
-                          id={isWinner ? `chain-node-winner-${num}` : `chain-node-${num}`}
+                          id={`p128-chain-node-${num}`}
+                          data-winner={isWinner ? "true" : "false"}
+                          layout
                           initial={{ opacity: 0, scale: 0.6, y: 15 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.6 }}
                           transition={{ type: "spring", stiffness: 400, damping: 24 }}
                         >
-                          <span id={`chain-val-${num}`}>{num}</span>
-                          <span id={`chain-seq-idx-${num}`}>+{idx}</span>
-                          {isWinner && <div id={`chain-halo-${num}`} />}
+                          <span id={`p128-chain-val-${num}`}>{num}</span>
+                          <span id={`p128-chain-seq-idx-${num}`}>+{idx}</span>
+                          {isWinner && <div id={`p128-chain-halo-${num}`} />}
                         </motion.div>
 
                         {idx < currentChain.length - 1 && (
                           <motion.div
-                            id={`chain-arrow-${num}`}
+                            id={`p128-chain-arrow-${num}`}
+                            layout
                             initial={{ opacity: 0, scaleX: 0 }}
                             animate={{ opacity: 1, scaleX: 1 }}
+                            exit={{ opacity: 0, scaleX: 0 }}
                             transition={{ duration: 0.2 }}
                           >
                             ➔
@@ -159,14 +166,14 @@ export default function Problem128({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p128-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p128-callout-header-text">{output.label}</div>
+            <div id="p128-callout-val-text">{output.value}</div>
+            <div id="p128-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

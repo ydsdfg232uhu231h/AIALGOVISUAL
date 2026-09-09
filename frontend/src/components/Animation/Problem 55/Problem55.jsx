@@ -13,56 +13,67 @@ export default function Problem55({ stepData }) {
     output
   } = stepData || {};
 
+  let statusType = "active";
+  if (isCompleted) {
+    statusType = output?.value === "True" ? "done" : "fail";
+  }
+
+  let actionState = "idle";
+  if (actionType === "UPDATE_MAX") actionState = "expand";
+  else if (actionType === "FAIL") actionState = "fail";
+  else if (actionType === "DONE") actionState = "done";
+
   return (
-    <div id="jump-game-canvas">
+    <div id="p55-jump-game-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-pointer">
+      <div id="p55-metrics-bar">
+        <span id="p55-metric-pointer">
           Pointer (`i`): <b>{currentIndex !== null && currentIndex < array.length ? `i = ${currentIndex}` : "Done"}</b>
         </span>
 
-        <span id="metric-val">
+        <span id="p55-metric-val">
           Jump Power (`nums[i]`): <b>{currentIndex !== null && array[currentIndex] !== undefined ? array[currentIndex] : "None"}</b>
         </span>
 
-        <span id="metric-max-reach">
+        <span id="p55-metric-max-reach">
           Furthest Reach (`maxReach`): <b>Index {maxReach}</b>
         </span>
 
-        <span id={isCompleted ? (output?.value === "True" ? "metric-status-done" : "metric-status-fail") : "metric-status-active"}>
+        <span id="p55-metric-status" data-status={statusType}>
           Status: <b>{isCompleted ? "SWEEP COMPLETED" : "GREEDY SCAN"}</b>
         </span>
       </div>
 
-      <div id="jump-stage">
+      <div id="p55-jump-stage">
         {/* Track 1: Jump Array Track */}
-        <div id="array-track-card">
-          <div id="array-card-header">
-            <span id="array-header-title">1. Jump Array (`nums`)</span>
-            <span id="array-header-sub">Tracking the maximum reachable index</span>
+        <div id="p55-array-track-card">
+          <div id="p55-array-card-header">
+            <span id="p55-array-header-title">1. Jump Array (`nums`)</span>
+            <span id="p55-array-header-sub">Tracking the maximum reachable index</span>
           </div>
 
-          <div id="array-elements-track">
+          <div id="p55-array-elements-track">
             {array.map((val, idx) => {
               const isCurrent = idx === currentIndex && !isCompleted;
               const isReachable = idx <= maxReach;
               const isMaxBoundary = idx === maxReach;
-              
-              let boxId = `box-unreachable-${idx}`;
+
+              let boxState = "unreachable";
               if (isCompleted && output?.value === "True") {
-                boxId = `box-done-${idx}`;
+                boxState = "done";
               } else if (isCompleted && output?.value === "False") {
-                boxId = isReachable ? `box-reachable-${idx}` : `box-fail-${idx}`;
+                boxState = isReachable ? "reachable" : "fail";
               } else if (isCurrent) {
-                boxId = `box-active-${idx}`;
+                boxState = "active";
               } else if (isReachable) {
-                boxId = `box-reachable-${idx}`;
+                boxState = "reachable";
               }
 
               return (
                 <motion.div
-                  key={`jump-${idx}`}
-                  id={`jump-col-${idx}`}
+                  key={`p55-jump-${idx}`}
+                  id={`p55-jump-col-${idx}`}
+                  layout
                   animate={{
                     scale: isCurrent ? 1.08 : 1,
                     opacity: isReachable ? 1 : 0.3
@@ -70,18 +81,44 @@ export default function Problem55({ stepData }) {
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
                 >
                   {/* Top Pointer for Max Reach Boundary */}
-                  {isMaxBoundary && (
-                    <span id="pointer-tag-max">MAX REACH</span>
-                  )}
+                  <AnimatePresence mode="popLayout">
+                    {isMaxBoundary && (
+                      <motion.span
+                        key={`p55-max-ptr-${idx}`}
+                        id={`p55-pointer-tag-max-${idx}`}
+                        layout
+                        initial={{ y: -6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                      >
+                        MAX REACH
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
 
-                  <div id={boxId}>
+                  <div id={`p55-jump-box-${idx}`} data-state={boxState}>
                     {val}
                   </div>
-                  
-                  <span id={`idx-tag-${idx}`}>[{idx}]</span>
-                  
+
+                  <span id={`p55-idx-tag-${idx}`}>[{idx}]</span>
+
                   {/* Bottom Pointer for Current Index */}
-                  {isCurrent && <span id="pointer-tag-i">i</span>}
+                  <AnimatePresence mode="popLayout">
+                    {isCurrent && (
+                      <motion.span
+                        key={`p55-curr-ptr-${idx}`}
+                        id={`p55-pointer-tag-i-${idx}`}
+                        layout
+                        initial={{ y: 6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                      >
+                        i
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               );
             })}
@@ -89,33 +126,23 @@ export default function Problem55({ stepData }) {
         </div>
 
         {/* Greedy Logic Inspector */}
-        <div id="decision-inspector-card">
-          <div id="decision-card-header">
-            <span id="decision-header-title">Greedy Reach Logic</span>
-            <span id="decision-header-sub">maxReach = MAX(maxReach, i + nums[i])</span>
+        <div id="p55-decision-inspector-card">
+          <div id="p55-decision-card-header">
+            <span id="p55-decision-header-title">Greedy Reach Logic</span>
+            <span id="p55-decision-header-sub">maxReach = MAX(maxReach, i + nums[i])</span>
           </div>
 
-          <div id="decision-grid">
-            <div id="decision-box-rule">
-              <span id="decision-title-rule">Current Reach Evaluation:</span>
-              <span id="decision-val-rule">
+          <div id="p55-decision-grid">
+            <div id="p55-decision-box-rule">
+              <span id="p55-decision-title-rule">Current Reach Evaluation:</span>
+              <span id="p55-decision-val-rule">
                 {comparisonText || "Evaluating jump range..."}
               </span>
             </div>
 
-            <div id="decision-box-action">
-              <span id="decision-title-action">Action / State:</span>
-              <span
-                id={
-                  actionType === "UPDATE_MAX"
-                    ? "decision-val-expand"
-                    : actionType === "FAIL"
-                    ? "decision-val-fail"
-                    : actionType === "DONE"
-                    ? "decision-val-done"
-                    : "decision-val-idle"
-                }
-              >
+            <div id="p55-decision-box-action">
+              <span id="p55-decision-title-action">Action / State:</span>
+              <span id="p55-decision-val-action" data-action={actionState}>
                 {actionType === "UPDATE_MAX" && "EXPAND: Furthest reach updated!"}
                 {actionType === "EVALUATE" && "CONTINUE: Within reachable zone."}
                 {actionType === "FAIL" && "TRAPPED: i > maxReach. Cannot proceed."}
@@ -131,14 +158,14 @@ export default function Problem55({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p55-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p55-callout-header-text">{output.label}</div>
+            <div id="p55-callout-val-text">{output.value}</div>
+            <div id="p55-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

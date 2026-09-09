@@ -38,36 +38,39 @@ export default function Problem124({ stepData }) {
     winningPathEdges.some(([a, b]) => (a === u && b === v) || (a === v && b === u));
 
   return (
-    <div id="tree-path-canvas">
+    <div id="p124-tree-path-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-active-node">
+      <div id="p124-metrics-bar">
+        <span id="p124-metric-active-node">
           Visiting: <b>{activeNodeId ? activeNodeId.replace("node-", "Node ") : "None"}</b>
         </span>
 
-        <span id="metric-gains">
+        <span id="p124-metric-gains">
           Gains (L / R): <b>{leftGain !== null ? leftGain : "—"} / {rightGain !== null ? rightGain : "—"}</b>
         </span>
 
-        <span id="metric-local-sum">
+        <span id="p124-metric-local-sum">
           Local Path: <b>{localPathSum !== null ? localPathSum : "—"}</b>
         </span>
 
-        <span id={isCompleted ? "metric-max-done" : "metric-max-active"}>
+        <span
+          id="p124-metric-max"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Global Max: <b>{maxSum}</b>
         </span>
       </div>
 
-      <div id="tree-stage">
+      <div id="p124-tree-stage">
         {/* Main Tree Card */}
-        <div id="tree-visual-card">
-          <div id="tree-card-header">
-            <span id="tree-header-title">Post-Order Traversal & Maximum Path Tree</span>
-            <span id="tree-header-sub">Local Arch = val + max(L, 0) + max(R, 0)</span>
+        <div id="p124-tree-visual-card">
+          <div id="p124-tree-card-header">
+            <span id="p124-tree-header-title">Post-Order Traversal & Maximum Path Tree</span>
+            <span id="p124-tree-header-sub">Local Arch = val + max(L, 0) + max(R, 0)</span>
           </div>
 
-          <div id="tree-viewport">
-            <svg id="tree-svg-surface" viewBox="0 0 400 240">
+          <div id="p124-tree-viewport">
+            <svg id="p124-tree-svg-surface" viewBox="0 0 400 240">
               {/* Tree Edges */}
               {treeEdges.map(({ from, to }) => {
                 const p1 = treeNodes.find((n) => n.id === from);
@@ -76,8 +79,9 @@ export default function Problem124({ stepData }) {
 
                 return (
                   <line
-                    key={`edge-${from}-${to}`}
-                    id={isWinner ? `edge-winner-${from}-${to}` : `edge-normal-${from}-${to}`}
+                    key={`p124-edge-${from}-${to}`}
+                    id={`p124-edge-${from}-${to}`}
+                    data-edge-state={isWinner ? "winner" : "normal"}
                     x1={p1.cx}
                     y1={p1.cy}
                     x2={p2.cx}
@@ -91,20 +95,40 @@ export default function Problem124({ stepData }) {
                 const isActive = activeNodeId === node.id;
                 const isWinner = winningPathNodes.includes(node.id);
 
-                let circleId = `node-idle-${node.val}`;
+                let nodeState = "idle";
                 if (isWinner) {
-                  circleId = `node-winner-${node.val}`;
+                  nodeState = "winner";
                 } else if (isActive) {
-                  circleId = `node-active-${node.val}`;
+                  nodeState = "active";
                 }
 
                 return (
-                  <g key={`tree-g-${node.id}`} id={`g-${node.id}`}>
-                    {isWinner && (
-                      <circle id={`halo-${node.val}`} cx={node.cx} cy={node.cy} r="28" />
-                    )}
-                    <circle id={circleId} cx={node.cx} cy={node.cy} r="22" />
-                    <text id={`text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
+                  <g key={`p124-tree-g-${node.id}`} id={`p124-g-${node.id}`}>
+                    <AnimatePresence mode="popLayout">
+                      {isWinner && (
+                        <circle
+                          key={`p124-halo-${node.val}`}
+                          id={`p124-halo-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r="28"
+                        />
+                      )}
+                    </AnimatePresence>
+
+                    <circle
+                      id={`p124-node-${node.val}`}
+                      data-node-state={nodeState}
+                      cx={node.cx}
+                      cy={node.cy}
+                      r="22"
+                    />
+
+                    <text
+                      id={`p124-text-val-${node.val}`}
+                      x={node.cx}
+                      y={node.cy + 1}
+                    >
                       {node.val}
                     </text>
                   </g>
@@ -115,37 +139,37 @@ export default function Problem124({ stepData }) {
         </div>
 
         {/* Recursive Evaluation Trace */}
-        <div id="trace-calc-card">
-          <div id="trace-card-header">
-            <span id="trace-header-title">Post-Order Math Inspector</span>
-            <span id="trace-header-sub">Calculates sub-tree contribution vs global path</span>
+        <div id="p124-trace-calc-card">
+          <div id="p124-trace-card-header">
+            <span id="p124-trace-header-title">Post-Order Math Inspector</span>
+            <span id="p124-trace-header-sub">Calculates sub-tree contribution vs global path</span>
           </div>
 
-          <div id="calc-readout-grid">
-            <div id="calc-box-left">
-              <span id="calc-title-left">Max Left Gain:</span>
-              <span id="calc-val-left">
+          <div id="p124-calc-readout-grid">
+            <div id="p124-calc-box-left">
+              <span id="p124-calc-title-left">Max Left Gain:</span>
+              <span id="p124-calc-val-left">
                 {leftGain !== null ? `max(0, ${leftGain}) = ${Math.max(0, leftGain)}` : "Pending"}
               </span>
             </div>
 
-            <div id="calc-box-right">
-              <span id="calc-title-right">Max Right Gain:</span>
-              <span id="calc-val-right">
+            <div id="p124-calc-box-right">
+              <span id="p124-calc-title-right">Max Right Gain:</span>
+              <span id="p124-calc-val-right">
                 {rightGain !== null ? `max(0, ${rightGain}) = ${Math.max(0, rightGain)}` : "Pending"}
               </span>
             </div>
 
-            <div id="calc-box-arch">
-              <span id="calc-title-arch">Arch Path Sum (Local Root):</span>
-              <span id="calc-val-arch">
+            <div id="p124-calc-box-arch">
+              <span id="p124-calc-title-arch">Arch Path Sum (Local Root):</span>
+              <span id="p124-calc-val-arch">
                 {localPathSum !== null ? `${localPathSum}` : "Pending"}
               </span>
             </div>
 
-            <div id="calc-box-return">
-              <span id="calc-title-return">Return Gain Upward:</span>
-              <span id="calc-val-return">
+            <div id="p124-calc-box-return">
+              <span id="p124-calc-title-return">Return Gain Upward:</span>
+              <span id="p124-calc-val-return">
                 {returnedGain !== null ? `${returnedGain}` : "Pending"}
               </span>
             </div>
@@ -157,14 +181,14 @@ export default function Problem124({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p124-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p124-callout-header-text">{output.label}</div>
+            <div id="p124-callout-val-text">{output.value}</div>
+            <div id="p124-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

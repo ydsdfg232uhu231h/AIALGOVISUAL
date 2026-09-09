@@ -29,7 +29,7 @@ export default function Problem100({ stepData }) {
     const activeVal = treeKey === "P" ? activeP : activeQ;
 
     return (
-      <svg id={`svg-surface-${treeKey}`} viewBox="0 0 280 210">
+      <svg id={`p100-svg-surface-${treeKey}`} viewBox="0 0 280 210">
         {/* Edges */}
         {treeEdges.map(({ from, to }) => {
           const p1 = treeNodes.find((n) => n.id === from);
@@ -39,8 +39,9 @@ export default function Problem100({ stepData }) {
 
           return (
             <line
-              key={`edge-${treeKey}-${from}-${to}`}
-              id={isEdgeMatched ? `edge-matched-${treeKey}-${from}-${to}` : `edge-normal-${treeKey}-${from}-${to}`}
+              key={`p100-edge-${treeKey}-${from}-${to}`}
+              id={`p100-edge-${treeKey}-${from}-${to}`}
+              data-edge-state={isEdgeMatched ? "matched" : "normal"}
               x1={p1.cx}
               y1={p1.cy}
               x2={p2.cx}
@@ -54,28 +55,44 @@ export default function Problem100({ stepData }) {
           const isActive = activeVal === node.val;
           const isPassed = comparedNodes.includes(node.val);
 
-          let circleId = `node-idle-${treeKey}-${node.val}`;
+          let nodeState = "idle";
           if (isActive) {
-            circleId = `node-active-${treeKey}-${node.val}`;
+            nodeState = "active";
           } else if (isPassed || isCompleted) {
-            circleId = `node-matched-${treeKey}-${node.val}`;
+            nodeState = "matched";
           }
 
           return (
-            <g key={`g-${treeKey}-${node.id}`} id={`g-${treeKey}-${node.id}`}>
+            <g key={`p100-g-${treeKey}-${node.id}`} id={`p100-g-${treeKey}-${node.id}`}>
               {isActive && (
-                <circle id={`halo-active-${treeKey}-${node.val}`} cx={node.cx} cy={node.cy} r="28" />
+                <circle
+                  id={`p100-halo-active-${treeKey}-${node.val}`}
+                  cx={node.cx}
+                  cy={node.cy}
+                  r="28"
+                />
               )}
               {(isPassed || isCompleted) && (
-                <circle id={`halo-matched-${treeKey}-${node.val}`} cx={node.cx} cy={node.cy} r="25" />
+                <circle
+                  id={`p100-halo-matched-${treeKey}-${node.val}`}
+                  cx={node.cx}
+                  cy={node.cy}
+                  r="25"
+                />
               )}
-              
-              <circle id={circleId} cx={node.cx} cy={node.cy} r="21" />
-              
-              <text id={`text-val-${treeKey}-${node.val}`} x={node.cx} y={node.cy + 1}>
+
+              <circle
+                id={`p100-node-${treeKey}-${node.val}`}
+                data-node-state={nodeState}
+                cx={node.cx}
+                cy={node.cy}
+                r="21"
+              />
+
+              <text id={`p100-text-val-${treeKey}-${node.val}`} x={node.cx} y={node.cy + 1}>
                 {node.val}
               </text>
-              <text id={`text-sub-${treeKey}-${node.val}`} x={node.cx} y={node.cy + 30}>
+              <text id={`p100-text-sub-${treeKey}-${node.val}`} x={node.cx} y={node.cy + 30}>
                 {node.val === 1 ? "root" : node.val === 2 ? "left" : "right"}
               </text>
             </g>
@@ -86,78 +103,79 @@ export default function Problem100({ stepData }) {
   };
 
   return (
-    <div id="same-tree-canvas">
+    <div id="p100-same-tree-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-p-node">
+      <div id="p100-metrics-bar">
+        <span id="p100-metric-p-node">
           Tree P Node: <b>{activeP !== null ? `Node (${activeP})` : "None"}</b>
         </span>
 
-        <span id="metric-q-node">
+        <span id="p100-metric-q-node">
           Tree Q Node: <b>{activeQ !== null ? `Node (${activeQ})` : "None"}</b>
         </span>
 
         <span
-          id={
-            matchStatus === "MATCH"
-              ? "metric-match-pass"
-              : matchStatus === "MISMATCH"
-              ? "metric-match-fail"
-              : "metric-match-inspect"
-          }
+          id="p100-metric-match"
+          data-match-status={matchStatus}
         >
           Check: <b>{matchStatus === "MATCH" ? "EQUAL (p.val == q.val)" : matchStatus === "MISMATCH" ? "MISMATCH" : "INSPECTING"}</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p100-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "TREES ARE IDENTICAL" : "SYNCHRONIZED DFS"}</b>
         </span>
       </div>
 
       {/* Dual Tree Stages */}
-      <div id="dual-tree-stage">
+      <div id="p100-dual-tree-stage">
         {/* Left Tree: P */}
-        <div id="tree-p-card">
-          <div id="header-tree-p">
-            <span id="title-tree-p">Tree P (Target)</span>
-            <span id="badge-tree-p">BINARY TREE P</span>
+        <div id="p100-tree-p-card">
+          <div id="p100-header-tree-p">
+            <span id="p100-title-tree-p">Tree P (Target)</span>
+            <span id="p100-badge-tree-p">BINARY TREE P</span>
           </div>
-          <div id="viewport-tree-p">{renderTreeSvg("P")}</div>
+          <div id="p100-viewport-tree-p">{renderTreeSvg("P")}</div>
         </div>
 
         {/* Right Tree: Q */}
-        <div id="tree-q-card">
-          <div id="header-tree-q">
-            <span id="title-tree-q">Tree Q (Candidate)</span>
-            <span id="badge-tree-q">BINARY TREE Q</span>
+        <div id="p100-tree-q-card">
+          <div id="p100-header-tree-q">
+            <span id="p100-title-tree-q">Tree Q (Candidate)</span>
+            <span id="p100-badge-tree-q">BINARY TREE Q</span>
           </div>
-          <div id="viewport-tree-q">{renderTreeSvg("Q")}</div>
+          <div id="p100-viewport-tree-q">{renderTreeSvg("Q")}</div>
         </div>
       </div>
 
       {/* Comparison Engine Inspector */}
-      <div id="comparison-card">
-        <div id="comparison-card-header">
-          <span id="comparison-header-title">Recursive DFS Comparison Formula</span>
-          <span id="comparison-header-sub">Checks equality of structure and node values</span>
+      <div id="p100-comparison-card">
+        <div id="p100-comparison-card-header">
+          <span id="p100-comparison-header-title">Recursive DFS Comparison Formula</span>
+          <span id="p100-comparison-header-sub">Checks equality of structure and node values</span>
         </div>
 
-        <div id="comparison-grid">
-          <div id="comp-box-nodes">
-            <span id="comp-title-nodes">Current Pair:</span>
-            <span id="comp-val-nodes">
+        <div id="p100-comparison-grid">
+          <div id="p100-comp-box-nodes">
+            <span id="p100-comp-title-nodes">Current Pair:</span>
+            <span id="p100-comp-val-nodes">
               {activeP !== null && activeQ !== null ? `p(${activeP}) vs q(${activeQ})` : "None"}
             </span>
           </div>
 
-          <div id="comp-box-condition">
-            <span id="comp-title-condition">Recursive Assertion:</span>
-            <span id="comp-val-condition">{comparisonExpr || "Awaiting step"}</span>
+          <div id="p100-comp-box-condition">
+            <span id="p100-comp-title-condition">Recursive Assertion:</span>
+            <span id="p100-comp-val-condition">{comparisonExpr || "Awaiting step"}</span>
           </div>
 
-          <div id="comp-box-result">
-            <span id="comp-title-result">Step Equality:</span>
-            <span id={matchStatus === "MATCH" ? "comp-val-pass" : matchStatus === "MISMATCH" ? "comp-val-fail" : "comp-val-inspect"}>
+          <div id="p100-comp-box-result">
+            <span id="p100-comp-title-result">Step Equality:</span>
+            <span
+              id="p100-comp-val-result"
+              data-match-status={matchStatus}
+            >
               {matchStatus === "MATCH" ? "MATCH CONFIRMED ✓" : matchStatus === "MISMATCH" ? "MISMATCH ✗" : "COMPARING..."}
             </span>
           </div>
@@ -168,14 +186,14 @@ export default function Problem100({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p100-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p100-callout-header-text">{output.label}</div>
+            <div id="p100-callout-val-text">{output.value}</div>
+            <div id="p100-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

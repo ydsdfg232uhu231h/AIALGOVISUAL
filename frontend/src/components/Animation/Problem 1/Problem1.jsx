@@ -17,57 +17,54 @@ export default function Problem1({ stepData }) {
   const currentVal = nums[currentIndex];
 
   return (
-    <div id="twosum-canvas">
+    <div id="p1-twosum-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-target" className="metric-chip">
+      <div id="p1-metrics-bar">
+        <span id="p1-metric-target">
           Target: <b>{target}</b>
         </span>
 
-        <span id="metric-index" className="metric-chip">
+        <span id="p1-metric-index">
           Index: <b>i = {currentIndex} ({currentVal})</b>
         </span>
 
-        <span id="metric-complement" className="metric-chip">
+        <span id="p1-metric-complement">
           Complement: <b>{target} - {currentVal} = {complement}</b>
         </span>
 
         <span
-          id={matchFound ? "metric-status-matched" : "metric-status-pending"}
-          className="metric-chip"
+          id={matchFound ? "p1-metric-status-matched" : "p1-metric-status-pending"}
         >
           Status: <b>{matchFound ? "MATCH FOUND IN MAP" : "SEARCHING MAP"}</b>
         </span>
       </div>
 
-      <div id="twosum-stage">
+      <div id="p1-twosum-stage">
         {/* Track 1: Array Nodes */}
-        <div id="array-container" className="track-card">
-          <div className="card-header-bar">
-            <span>1. Array Scan (Pointer i)</span>
-            <span className="card-sub">Checking each element for its complement</span>
+        <div id="p1-array-container">
+          <div id="p1-array-card-header">
+            <span id="p1-array-card-title">1. Array Scan (Pointer i)</span>
+            <span id="p1-array-card-sub">Checking each element for its complement</span>
           </div>
 
-          <div id="array-nodes-row">
+          <div id="p1-array-nodes-row">
             {nums.map((val, idx) => {
               const isCurrent = currentIndex === idx;
               const isMatch = matchFound && matchPair && matchPair.includes(idx);
 
-              const nodeId = isMatch
-                ? `node-matched-${idx}`
-                : isCurrent
-                ? `node-current-${idx}`
-                : `node-idle-${idx}`;
+              let nodeState = "idle";
+              if (isMatch) nodeState = "matched";
+              else if (isCurrent) nodeState = "current";
 
               return (
-                <div key={`elem-${idx}`} className="cell-carrier">
+                <div key={`p1-elem-${idx}`} id={`p1-cell-carrier-${idx}`}>
                   {/* Top Pointer Badge */}
-                  <div className="ptr-lane">
-                    <AnimatePresence>
+                  <div id={`p1-ptr-lane-${idx}`}>
+                    <AnimatePresence mode="popLayout">
                       {isCurrent && (
                         <motion.div
-                          id="active-i-pointer"
-                          layoutId="ptr-i-tag"
+                          id={`p1-active-i-pointer-${idx}`}
+                          layout
                           initial={{ y: -8, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
                           exit={{ y: -8, opacity: 0 }}
@@ -79,24 +76,25 @@ export default function Problem1({ stepData }) {
                     </AnimatePresence>
                   </div>
 
-                  {/* Array Node Box */}
+                  {/* Array Node Box with Stable Scoped ID & Dynamic data-state */}
                   <motion.div
-                    id={nodeId}
-                    className="array-node-box"
+                    id={`p1-node-box-${idx}`}
+                    data-state={nodeState}
+                    layout
                     animate={{
-                      scale: isMatch ? [1, 1.12, 1] : isCurrent ? 1.06 : 1
+                      scale: isMatch ? [1, 1.1, 1] : isCurrent ? 1.05 : 1
                     }}
                     transition={{
                       type: "spring",
                       stiffness: 350,
                       damping: 22,
-                      scale: isMatch ? { repeat: Infinity, duration: 1 } : undefined
+                      scale: isMatch ? { repeat: Infinity, duration: 1.2 } : undefined
                     }}
                   >
-                    <span className="node-val">{val}</span>
-                    <span className="node-idx-sub">idx [{idx}]</span>
+                    <span id={`p1-node-val-${idx}`}>{val}</span>
+                    <span id={`p1-node-idx-sub-${idx}`}>idx [{idx}]</span>
 
-                    {isMatch && <div id="match-glow-ring" />}
+                    {isMatch && <div id={`p1-match-glow-ring-${idx}`} />}
                   </motion.div>
                 </div>
               );
@@ -105,31 +103,31 @@ export default function Problem1({ stepData }) {
         </div>
 
         {/* Track 2: Hash Map (Key-Value Lookups) */}
-        <div id="map-container" className="track-card">
-          <div className="card-header-bar">
-            <span>2. Hash Map Storage (`seen[val] ➔ index`)</span>
-            <span className="card-sub">Provides O(1) instantaneous complement lookup</span>
+        <div id="p1-map-container">
+          <div id="p1-map-card-header">
+            <span id="p1-map-card-title">2. Hash Map Storage (seen[val] ➔ index)</span>
+            <span id="p1-map-card-sub">Provides O(1) instantaneous complement lookup</span>
           </div>
 
-          <div id="hashmap-grid">
+          <div id="p1-hashmap-grid">
             {Object.keys(hashMap).length === 0 ? (
-              <span id="map-empty-text">Hash Map is currently empty</span>
+              <span id="p1-map-empty-text">Hash Map is currently empty</span>
             ) : (
               Object.entries(hashMap).map(([numKey, storedIdx]) => {
                 const isComplementHit = matchFound && Number(numKey) === complement;
-                const pillId = isComplementHit ? "map-pill-hit" : `map-pill-${numKey}`;
+                const hitState = isComplementHit ? "hit" : "idle";
 
                 return (
                   <motion.div
-                    key={`map-${numKey}`}
-                    id={pillId}
+                    key={`p1-map-${numKey}`}
+                    id={`p1-map-entry-pill-${numKey}`}
+                    data-hit={hitState}
                     layout
-                    className="map-entry-pill"
                   >
-                    <span className="map-key">Key ({numKey})</span>
-                    <span className="map-arrow">➔</span>
-                    <span className="map-idx">Index [{storedIdx}]</span>
-                    {isComplementHit && <span id="complement-hit-badge">HIT ✓</span>}
+                    <span id={`p1-map-key-${numKey}`}>Key ({numKey})</span>
+                    <span id={`p1-map-arrow-${numKey}`}>➔</span>
+                    <span id={`p1-map-idx-${numKey}`}>Index [{storedIdx}]</span>
+                    {isComplementHit && <span id={`p1-complement-hit-badge-${numKey}`}>HIT ✓</span>}
                   </motion.div>
                 );
               })
@@ -142,14 +140,14 @@ export default function Problem1({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p1-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 15 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p1-callout-header-text">{output.label}</div>
+            <div id="p1-callout-val-text">{output.value}</div>
+            <div id="p1-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

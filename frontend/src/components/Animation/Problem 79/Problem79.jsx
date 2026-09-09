@@ -22,69 +22,90 @@ export default function Problem79({ stepData }) {
   const headCoord = path.length > 0 ? path[path.length - 1] : null;
 
   return (
-    <div className="canvas-wrapper word-search-canvas">
+    <div id="p79-word-search-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip word-chip">
+      <div id="p79-metrics-row">
+        <span id="p79-metric-chip-word">
           Target Word: <b>"{targetWord}"</b>
         </span>
-        <span className="metric-chip match-chip">
+        <span id="p79-metric-chip-match">
           Matched: <b>"{matched || targetWord.slice(0, path.length) || "Ø"}"</b> ({path.length} / {targetWord.length})
         </span>
         {r !== null && c !== null && (
-          <span className="metric-chip head-chip">
+          <span id="p79-metric-chip-head">
             Examining Cell: <b>({r}, {c})</b>
           </span>
         )}
       </div>
 
       {/* Target Word Character Tracker */}
-      <div className="word-tracker-bar">
+      <div id="p79-word-tracker-bar">
         {targetWord.split("").map((ch, idx) => {
           const isMatched = idx < path.length;
           const isCurrentTarget = idx === path.length;
 
+          let slotState = "idle";
+          if (isMatched) slotState = "matched";
+          else if (isCurrentTarget) slotState = "current";
+
           return (
             <div
-              key={`target-${idx}`}
-              className={`target-letter-slot ${isMatched ? "slot-matched" : ""} ${
-                isCurrentTarget ? "slot-current" : ""
-              }`}
+              key={`p79-target-${idx}`}
+              id={`p79-target-letter-slot-${idx}`}
+              data-slot-state={slotState}
             >
-              <span className="target-char">{ch}</span>
-              <span className="target-idx">[{idx}]</span>
+              <span id={`p79-target-char-${idx}`}>{ch}</span>
+              <span id={`p79-target-idx-${idx}`}>[{idx}]</span>
             </div>
           );
         })}
       </div>
 
-      {/* 2D Grid Board (Larger Size) */}
-      <div className="board-container">
+      {/* 2D Grid Board */}
+      <div id="p79-board-container">
         {grid.map((row, rIdx) => (
-          <div key={`row-${rIdx}`} className="board-row">
+          <div key={`p79-row-${rIdx}`} id={`p79-board-row-${rIdx}`}>
             {row.map((val, cIdx) => {
               const isHead = headCoord && headCoord[0] === rIdx && headCoord[1] === cIdx;
               const isPath = pathSet.has(`${rIdx},${cIdx}`);
               const isCurrentCell = r === rIdx && c === cIdx;
               const pathIndex = path.findIndex(([pr, pc]) => pr === rIdx && pc === cIdx);
 
-              let cellClass = "grid-cell";
-              if (isHead) cellClass += " cell-head";
-              else if (isPath) cellClass += " cell-path";
-              else if (isCurrentCell && statusType === "conflict") cellClass += " cell-conflict";
+              let cellState = "idle";
+              if (isHead) cellState = "head";
+              else if (isPath) cellState = "path";
+              else if (isCurrentCell && statusType === "conflict") cellState = "conflict";
 
               return (
                 <motion.div
-                  key={`cell-${rIdx}-${cIdx}`}
-                  className={cellClass}
+                  key={`p79-cell-${rIdx}-${cIdx}`}
+                  id={`p79-grid-cell-${rIdx}-${cIdx}`}
+                  data-state={cellState}
+                  layout
                   animate={{
                     scale: isHead ? 1.08 : isPath ? 1.03 : 1
                   }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
                 >
-                  <span className="cell-letter">{val}</span>
-                  {isPath && <span className="cell-order">{pathIndex + 1}</span>}
-                  <span className="coord-tag">({rIdx},{cIdx})</span>
+                  <span id={`p79-cell-letter-${rIdx}-${cIdx}`}>{val}</span>
+
+                  <AnimatePresence mode="popLayout">
+                    {isPath && (
+                      <motion.span
+                        key={`p79-order-${rIdx}-${cIdx}`}
+                        id={`p79-cell-order-${rIdx}-${cIdx}`}
+                        layout
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 22 }}
+                      >
+                        {pathIndex + 1}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+
+                  <span id={`p79-coord-tag-${rIdx}-${cIdx}`}>({rIdx},{cIdx})</span>
                 </motion.div>
               );
             })}
@@ -96,14 +117,14 @@ export default function Problem79({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p79-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p79-callout-header-text">{output.label}</div>
+            <div id="p79-callout-val-text">{output.value}</div>
+            <div id="p79-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

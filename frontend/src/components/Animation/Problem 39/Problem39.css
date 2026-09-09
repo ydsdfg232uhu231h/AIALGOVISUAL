@@ -1,94 +1,119 @@
-.combo-sum-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p39-combo-sum-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   min-height: 460px;
   position: relative;
   gap: 16px;
   box-sizing: border-box;
-  overflow: hidden;
+  padding: 16px 16px 65px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
-/* TOP METRICS */
-.metrics-row {
+/* ============================================================
+   TOP METRICS ROW
+   ============================================================ */
+#p39-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
   max-width: 95%;
+  z-index: 2;
 }
 
-.metric-chip {
+#p39-metric-chip-target,
+#p39-metric-chip-sum,
+#p39-metric-chip-candidate {
   background: #141417;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
   padding: 5px 14px;
   border-radius: 9999px;
   font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-.metric-chip b {
-  color: #fff;
-}
-
-.target-chip b {
+#p39-metric-chip-target b {
   color: #facc15;
+  font-family: ui-monospace, monospace;
 }
 
-.sum-chip b {
+#p39-metric-chip-sum b {
   color: #38bdf8;
+  font-family: ui-monospace, monospace;
 }
 
-.chip-match {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.12);
-}
-
-.chip-match b {
-  color: #86efac;
-}
-
-.chip-exceeded {
-  border-color: #ef4444;
-  background: rgba(239, 68, 68, 0.12);
-}
-
-.chip-exceeded b {
-  color: #fca5a5;
-}
-
-.candidate-chip b {
+#p39-metric-chip-candidate b {
   color: #c084fc;
+  font-family: ui-monospace, monospace;
 }
 
-/* CANDIDATES SELECTION BAR */
-.candidates-selection-bar {
+/* Sum State Selectors */
+#p39-metric-chip-sum[data-state="match"] {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.12) !important;
+}
+
+#p39-metric-chip-sum[data-state="match"] b {
+  color: #86efac !important;
+}
+
+#p39-metric-chip-sum[data-state="exceeded"] {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+}
+
+#p39-metric-chip-sum[data-state="exceeded"] b {
+  color: #fca5a5 !important;
+}
+
+/* ============================================================
+   CANDIDATES SELECTION BAR
+   ============================================================ */
+#p39-candidates-selection-bar {
   display: flex;
   align-items: center;
   gap: 10px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
   padding: 8px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
 }
 
-.bar-label {
+#p39-bar-label {
   font-size: 11px;
   font-weight: 700;
   color: #71717a;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.candidates-list {
+#p39-candidates-list {
   display: flex;
   gap: 6px;
 }
 
-.candidate-badge {
+[id^="p39-candidate-badge-"] {
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -100,31 +125,36 @@
   font-size: 14px;
   font-weight: 800;
   color: #d4d4d8;
+  font-family: ui-monospace, monospace;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.candidate-active {
-  border-color: #38bdf8;
-  background: rgba(56, 189, 248, 0.18);
-  color: #38bdf8;
+[id^="p39-candidate-badge-"][data-selected="true"] {
+  border-color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.18) !important;
+  color: #38bdf8 !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
 }
 
-/* CURRENT BAG CONTAINER */
-.current-bag-container {
+/* ============================================================
+   CURRENT BAG CONTAINER
+   ============================================================ */
+#p39-current-bag-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 14px;
   padding: 16px 20px;
   width: 440px;
   max-width: 95%;
   box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-.bag-header {
+#p39-bag-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,12 +164,12 @@
   font-weight: 700;
 }
 
-.bag-equation {
+#p39-bag-equation {
   color: #a1a1aa;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.bag-slots-stream {
+#p39-bag-slots-stream {
   display: flex;
   gap: 8px;
   align-items: center;
@@ -147,41 +177,47 @@
   flex-wrap: wrap;
 }
 
-.bag-empty-hint {
+#p39-bag-empty-hint {
   font-size: 12px;
   color: #52525b;
   font-style: italic;
+  font-family: ui-monospace, monospace;
 }
 
-.chosen-chip {
+[id^="p39-chosen-chip-"] {
   width: 42px;
   height: 42px;
   border-radius: 8px;
   background: #18181b;
   border: 2px solid #38bdf8;
-  color: #fff;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: ui-monospace, monospace;
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.chip-success {
+[id^="p39-chosen-chip-"][data-state="match"] {
   border-color: #22c55e !important;
   color: #86efac !important;
   background: rgba(34, 197, 94, 0.15) !important;
   box-shadow: 0 0 14px rgba(34, 197, 94, 0.4) !important;
 }
 
-/* RESULTS REEL */
-.results-reel-card {
+/* ============================================================
+   RESULTS REEL
+   ============================================================ */
+#p39-results-reel-card {
   display: flex;
   flex-direction: column;
   gap: 6px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
   padding: 10px 16px;
   max-width: 95%;
@@ -189,39 +225,42 @@
   box-sizing: border-box;
 }
 
-.reel-header {
+#p39-reel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.reel-title {
+#p39-reel-title {
   font-size: 10px;
   color: #71717a;
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.reel-count {
+#p39-reel-count {
   font-size: 11px;
   font-weight: 800;
   color: #22c55e;
+  font-family: ui-monospace, monospace;
 }
 
-.reel-chips-stream {
+#p39-reel-chips-stream {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   min-height: 26px;
 }
 
-.reel-empty-text {
+#p39-reel-empty-text {
   font-size: 11px;
   color: #52525b;
   font-style: italic;
+  font-family: ui-monospace, monospace;
 }
 
-.combo-chip {
+[id^="p39-combo-chip-"] {
   background: #18181b;
   border: 1px solid #22c55e;
   color: #86efac;
@@ -229,36 +268,160 @@
   font-weight: 800;
   padding: 3px 8px;
   border-radius: 5px;
+  font-family: ui-monospace, monospace;
 }
 
-/* RESULT CALLOUT */
-.result-callout {
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#p39-result-callout-box {
   position: absolute;
   bottom: 8px;
   background: #0f172a;
-  border: 1px solid #22c55e;
+  border: 1.5px solid #22c55e;
   border-radius: 10px;
-  padding: 6px 14px;
+  padding: 6px 16px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
   z-index: 5;
+  max-width: 90%;
 }
 
-.callout-header {
+#p39-callout-header-text {
   font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.6px;
 }
 
-.callout-val {
+#p39-callout-val-text {
   font-size: 15px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 800;
   margin: 1px 0;
+  font-family: ui-monospace, monospace;
 }
 
-.callout-detail {
+#p39-callout-detail-text {
   font-size: 11px;
   color: #94a3b8;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p39-current-bag-container,
+  #p39-results-reel-card {
+    width: 400px;
+  }
+
+  [id^="p39-chosen-chip-"] {
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p39-combo-sum-canvas {
+    padding: 14px 12px 65px 12px;
+    gap: 14px;
+  }
+
+  #p39-metrics-row {
+    gap: 6px;
+  }
+
+  #p39-metric-chip-target,
+  #p39-metric-chip-sum,
+  #p39-metric-chip-candidate {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  #p39-candidates-selection-bar {
+    padding: 6px 12px;
+  }
+
+  [id^="p39-candidate-badge-"] {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  #p39-current-bag-container,
+  #p39-results-reel-card {
+    width: 100%;
+    max-width: 360px;
+    padding: 12px 14px;
+  }
+
+  [id^="p39-chosen-chip-"] {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p39-combo-sum-canvas {
+    gap: 12px;
+  }
+
+  #p39-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p39-metric-chip-target,
+  #p39-metric-chip-sum,
+  #p39-metric-chip-candidate {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p39-candidates-selection-bar {
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    align-items: center;
+  }
+
+  [id^="p39-candidate-badge-"] {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  #p39-current-bag-container,
+  #p39-results-reel-card {
+    max-width: 100%;
+    padding: 10px 12px;
+  }
+
+  [id^="p39-chosen-chip-"] {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  [id^="p39-combo-chip-"] {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+
+  #p39-callout-val-text {
+    font-size: 14px;
+  }
+
+  #p39-callout-detail-text {
+    font-size: 10px;
+  }
 }

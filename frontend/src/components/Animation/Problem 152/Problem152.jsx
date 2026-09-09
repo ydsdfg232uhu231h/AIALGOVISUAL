@@ -10,63 +10,76 @@ export default function Problem152({ stepData }) {
     output
   } = stepData || {};
 
-  const { curMin = 1, curMax = 1, res = 0, n = null, status } = state;
-  const isComplete = status === "COMPLETED";
+  const { curMin = 1, curMax = 1, res = 0, n = null } = state;
 
   return (
-    <div className="canvas-wrapper kadane-prod-canvas">
+    <div id="p152-kadane-prod-canvas">
       {/* Metric State Banner */}
-      <div className="metrics-row">
+      <div id="p152-metrics-row">
         {n !== null && (
-          <span className="metric-chip current-chip">
+          <span id="p152-metric-current">
             Current Num (n): <b>{n}</b>
           </span>
         )}
-        <span className="metric-chip max-chip">
+        <span id="p152-metric-max">
           curMax: <b>{curMax}</b>
         </span>
-        <span className="metric-chip min-chip">
+        <span id="p152-metric-min">
           curMin: <b>{curMin}</b>
         </span>
-        <span className="metric-chip res-chip">
+        <span id="p152-metric-res">
           Global Best (res): <b>{res}</b>
         </span>
       </div>
 
       {/* Number Array Track */}
-      <div className="elements-track">
+      <div id="p152-elements-track">
         {nums.map((val, idx) => {
           const isCurrent = idx === currentIndex;
           const isPast = idx < currentIndex;
           const isNegative = val < 0;
 
+          let nodeState = "idle";
+          if (isCurrent) nodeState = "curr";
+          else if (isPast) nodeState = "active";
+
           return (
-            <div key={idx} className="box-column">
+            <div key={`p152-num-${idx}`} id={`p152-box-column-${idx}`}>
               {/* Pointer Badge */}
-              <div className="ptrs-group">
-                {isCurrent && <span className="pointer-tag ptr-curr">n</span>}
+              <div id={`p152-ptrs-group-${idx}`}>
+                <AnimatePresence mode="popLayout">
+                  {isCurrent && (
+                    <motion.span
+                      key="p152-ptr-n"
+                      layoutId="p152-curr-pointer"
+                      id={`p152-pointer-tag-${idx}`}
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      n
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Number Box */}
               <motion.div
-                className={`box-node ${isCurrent ? "node-curr" : ""} ${
-                  isNegative ? "node-neg" : ""
-                } ${isPast || isCurrent ? "node-active" : "node-idle"}`}
+                id={`p152-box-node-${idx}`}
+                data-node-state={nodeState}
+                data-sign={isNegative ? "negative" : "positive"}
+                layout
                 animate={{
-                  scale: isCurrent ? 1.12 : 1,
-                  opacity: isPast || isCurrent ? 1 : 0.35,
-                  borderColor: isCurrent
-                    ? "#38bdf8"
-                    : isNegative
-                    ? "#f87171"
-                    : "#27272a"
+                  scale: isCurrent ? 1.1 : 1,
+                  opacity: isPast || isCurrent ? 1 : 0.35
                 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
+                transition={{ type: "spring", stiffness: 350, damping: 24 }}
               >
                 {val}
               </motion.div>
 
-              <span className="idx-tag">[{idx}]</span>
+              <span id={`p152-idx-tag-${idx}`}>[{idx}]</span>
             </div>
           );
         })}
@@ -74,7 +87,7 @@ export default function Problem152({ stepData }) {
 
       {/* Formula Transition Callout */}
       {n !== null && (
-        <div className="calc-banner">
+        <div id="p152-calc-banner">
           <span>
             Candidate products: <b>{n}</b>, <b>curMax × {n}</b>, <b>curMin × {n}</b>
           </span>
@@ -85,14 +98,15 @@ export default function Problem152({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p152-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p152-callout-header-text">{output.label}</div>
+            <div id="p152-callout-val-text">{output.value}</div>
+            <div id="p152-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

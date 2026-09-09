@@ -19,79 +19,102 @@ export default function Problem138({ stepData }) {
     4: "7"
   };
 
-  const renderChain = (nodeList, title, isCloned = false) => (
-    <div className="list-row">
-      <span className="list-title">{title}:</span>
-      <div className="nodes-chain">
-        {nodeList.map((val, idx) => {
-          const randomTarget = randomPointerMap[idx];
-          // Use state.curr to detect if the pointer is currently on this node
-          const isCurrent = !isCloned && state.curr === val;
+  const renderChain = (nodeList, title, isCloned = false) => {
+    const chainType = isCloned ? "clone" : "orig";
 
-          return (
-            <React.Fragment key={idx}>
-              <motion.div
-                className="node-container"
-                initial={isCloned ? { scale: 0, opacity: 0 } : false}
-                animate={{ scale: isCurrent ? 1.15 : 1, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              >
-                {/* Active Traversal Pointer from state.curr */}
-                {isCurrent && <span className="curr-pointer-badge">curr</span>}
+    return (
+      <div id={`p138-list-row-${chainType}`}>
+        <span id={`p138-list-title-${chainType}`}>{title}:</span>
+        <div id={`p138-nodes-chain-${chainType}`}>
+          {nodeList.map((val, idx) => {
+            const randomTarget = randomPointerMap[idx];
+            // Use state.curr to detect if the pointer is currently on this node
+            const isCurrent = !isCloned && state.curr === val;
+            const isLinkedRandom = isCloned && state.pass === 2;
 
-                {/* Random Pointer Tag */}
-                {randomTarget && (
-                  <span
-                    className={`random-badge ${
-                      isCloned && state.pass === 2 ? "linked-random" : ""
-                    }`}
-                  >
-                    rnd ➔ [{randomTarget}]
-                  </span>
-                )}
-
-                <div
-                  className={`node-circle ${
-                    isCloned ? "cloned-node" : "orig-node"
-                  } ${isCurrent ? "active-curr" : ""}`}
+            return (
+              <React.Fragment key={`p138-chain-${chainType}-${idx}`}>
+                <motion.div
+                  id={`p138-node-container-${chainType}-${idx}`}
+                  layout
+                  initial={isCloned ? { scale: 0, opacity: 0 } : false}
+                  animate={{ scale: isCurrent ? 1.1 : 1, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
                 >
-                  {val}
-                </div>
-                <span className="node-idx">[{idx}]</span>
-              </motion.div>
+                  {/* Active Traversal Pointer from state.curr */}
+                  <AnimatePresence mode="popLayout">
+                    {isCurrent && (
+                      <motion.span
+                        key="p138-active-ptr"
+                        layoutId="p138-curr-pointer"
+                        id={`p138-curr-pointer-badge-${idx}`}
+                        initial={{ y: -8, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -8, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        curr
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
 
-              {idx < nodeList.length - 1 && <span className="arrow-sym">→</span>}
-            </React.Fragment>
-          );
-        })}
+                  {/* Random Pointer Tag */}
+                  {randomTarget && (
+                    <span
+                      id={`p138-random-badge-${chainType}-${idx}`}
+                      data-linked={isLinkedRandom ? "true" : "false"}
+                    >
+                      rnd ➔ [{randomTarget}]
+                    </span>
+                  )}
+
+                  <div
+                    id={`p138-node-${chainType}-${idx}`}
+                    data-cloned={isCloned ? "true" : "false"}
+                    data-current={isCurrent ? "true" : "false"}
+                  >
+                    <span id={`p138-node-val-${chainType}-${idx}`}>{val}</span>
+                  </div>
+
+                  <span id={`p138-node-idx-${chainType}-${idx}`}>[{idx}]</span>
+                </motion.div>
+
+                {idx < nodeList.length - 1 && (
+                  <span id={`p138-arrow-sym-${chainType}-${idx}`}>→</span>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  const statusText = state.links
+    ? state.links
+    : state.clonedCount
+    ? `Cloned ${state.clonedCount} nodes into map`
+    : state.curr !== undefined
+    ? `Visiting Node ${state.curr}`
+    : "Cloning in progress";
 
   return (
-    <div className="canvas-wrapper random-ll-canvas">
-      {/* Dynamic Status Bar using state properties */}
-      <div className="status-badge">
-        <span>Pass {state.pass ?? pass}:</span>{" "}
-        <b>
-          {state.links
-            ? state.links
-            : state.clonedCount
-            ? `Cloned ${state.clonedCount} nodes into map`
-            : state.curr !== undefined
-            ? `Visiting Node ${state.curr}`
-            : "Cloning in progress"}
-        </b>
+    <div id="p138-random-ll-canvas">
+      {/* Top Metrics Row */}
+      <div id="p138-metrics-bar">
+        <span id="p138-status-badge">
+          Pass {state.pass ?? pass}: <b>{statusText}</b>
+        </span>
       </div>
 
       {/* Main Lists Track */}
-      <div className="lists-track">
-        {renderChain(nodes, "Original List")}
+      <div id="p138-lists-track">
+        {renderChain(nodes, "Original List", false)}
 
-        <div className="vertical-divider" />
+        <div id="p138-vertical-divider" />
 
         {clonedNodes.length === 0 ? (
-          <div className="placeholder-box">
+          <div id="p138-placeholder-box">
             <span>Pass 1 executing: Cloned nodes will appear in hash map...</span>
           </div>
         ) : (
@@ -103,14 +126,15 @@ export default function Problem138({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p138-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p138-callout-header-text">{output.label}</div>
+            <div id="p138-callout-val-text">{output.value}</div>
+            <div id="p138-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -138,11 +138,13 @@
 [id^="p567-ptr-badge-l-"] {
   background: #ff7324;
   color: #000;
+  margin: 2px;
 }
 
 [id^="p567-ptr-badge-r-"] {
   background: #38bdf8;
   color: #000;
+  margin: 2px;
 }
 
 /* Character Tile Base */

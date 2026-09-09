@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#rpn-eval-canvas {
+#p150-rpn-eval-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p150-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,14 +32,14 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-pointer,
-#metric-stack-count,
-#metric-eval-active,
-#metric-eval-idle,
-#metric-status-active,
-#metric-status-done {
+#p150-metric-pointer,
+#p150-metric-stack-count,
+#p150-metric-eval-active,
+#p150-metric-eval-idle,
+#p150-metric-status {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -51,30 +52,32 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-#metric-pointer b { color: #facc15; font-family: ui-monospace, monospace; }
-#metric-stack-count b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p150-metric-pointer b { color: #facc15; font-family: ui-monospace, monospace; }
+#p150-metric-stack-count b { color: #38bdf8; font-family: ui-monospace, monospace; }
 
-#metric-eval-active {
+#p150-metric-eval-active {
   border-color: #f97316 !important;
   background: rgba(249, 115, 22, 0.15) !important;
 }
-#metric-eval-active b { color: #fb923c !important; font-family: ui-monospace, monospace; }
+#p150-metric-eval-active b { color: #fb923c !important; font-family: ui-monospace, monospace; }
 
-#metric-eval-idle b { color: #636374; }
-#metric-status-active b { color: #c084fc; }
+#p150-metric-eval-idle b { color: #636374; font-family: ui-monospace, monospace; }
+#p150-metric-status b { color: #c084fc; }
 
-#metric-status-done {
+#p150-metric-status[data-status="done"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-status-done b { color: #4ade80 !important; }
+#p150-metric-status[data-status="done"] b { color: #4ade80 !important; }
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#rpn-stage {
+#p150-rpn-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -84,9 +87,9 @@
   flex-shrink: 0;
 }
 
-#tokens-track-card,
-#op-engine-card,
-#stack-card {
+#p150-tokens-track-card,
+#p150-op-engine-card,
+#p150-stack-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -98,21 +101,15 @@
   box-sizing: border-box;
 }
 
-#middle-stage-grid {
+#p150-middle-stage-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   gap: 12px;
 }
 
-@media (max-width: 680px) {
-  #middle-stage-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#tokens-card-header,
-#op-card-header,
-#stack-card-header {
+#p150-tokens-card-header,
+#p150-op-card-header,
+#p150-stack-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -121,9 +118,9 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#tokens-header-title,
-#op-header-title,
-#stack-header-title {
+#p150-tokens-header-title,
+#p150-op-header-title,
+#p150-stack-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -131,9 +128,9 @@
   letter-spacing: 0.7px;
 }
 
-#tokens-header-sub,
-#op-header-sub,
-#stack-header-sub {
+#p150-tokens-header-sub,
+#p150-op-header-sub,
+#p150-stack-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -143,7 +140,7 @@
 /* ============================================================
    TOKENS TRACK VIEWPORT
    ============================================================ */
-#tokens-elements-track {
+#p150-tokens-elements-track {
   width: 100%;
   min-height: 95px;
   background: #0f0f14;
@@ -158,7 +155,7 @@
   box-sizing: border-box;
 }
 
-[id^="token-col-"] {
+[id^="p150-token-col-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,7 +164,7 @@
   flex-shrink: 0;
 }
 
-[id^="token-box-"] {
+[id^="p150-token-box-"] {
   width: 52px;
   height: 52px;
   border-radius: 12px;
@@ -181,39 +178,39 @@
   transition: all 0.25s ease;
 }
 
-[id^="token-box-idle-"] {
+[id^="p150-token-box-"][data-token-state="idle"] {
   background: #181822;
   border: 2px solid #2e2e40;
   color: #a1a1aa;
 }
 
-[id^="token-box-op-"] {
+[id^="p150-token-box-"][data-token-state="op"] {
   background: #20140e;
   border: 2px solid #542d1a;
   color: #fdba74;
 }
 
-[id^="token-box-active-num-"] {
+[id^="p150-token-box-"][data-token-state="active-num"] {
   background: #262214 !important;
   border: 2px solid #facc15 !important;
   color: #fef08a !important;
   box-shadow: 0 0 14px rgba(250, 204, 21, 0.7);
 }
 
-[id^="token-box-active-op-"] {
+[id^="p150-token-box-"][data-token-state="active-op"] {
   background: #27140e !important;
   border: 2px solid #f97316 !important;
   color: #fb923c !important;
   box-shadow: 0 0 16px rgba(249, 115, 22, 0.8) !important;
 }
 
-[id^="token-box-passed-"] {
+[id^="p150-token-box-"][data-token-state="passed"] {
   background: #111116;
   border: 1.5px solid #22222d;
   color: #525266;
 }
 
-[id^="token-idx-tag-"] {
+[id^="p150-token-idx-tag-"] {
   font-size: 8px;
   font-weight: 700;
   color: #717182;
@@ -221,7 +218,7 @@
   margin-top: 4px;
 }
 
-#token-pointer-tag {
+[id^="p150-token-pointer-tag-"] {
   position: absolute;
   bottom: -20px;
   left: 50%;
@@ -236,12 +233,13 @@
   color: #0c0c10;
   box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
   z-index: 5;
+  white-space: nowrap;
 }
 
 /* ============================================================
    ARITHMETIC ENGINE VIEWPORT
    ============================================================ */
-#op-viewport {
+#p150-op-viewport {
   width: 100%;
   min-height: 140px;
   background: #0f0f14;
@@ -254,7 +252,7 @@
   box-sizing: border-box;
 }
 
-#op-empty-text {
+#p150-op-empty-text {
   font-size: 11px;
   color: #636374;
   font-style: italic;
@@ -262,7 +260,7 @@
   text-align: center;
 }
 
-#alu-calc-flow {
+#p150-alu-calc-flow {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -270,26 +268,26 @@
   flex-wrap: wrap;
 }
 
-#alu-operand-a,
-#alu-operand-b,
-#alu-result-box {
+#p150-alu-operand-a,
+#p150-alu-operand-b,
+#p150-alu-result-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
 }
 
-#alu-label-a,
-#alu-label-b,
-#alu-label-res {
+#p150-alu-label-a,
+#p150-alu-label-b,
+#p150-alu-label-res {
   font-size: 8.5px;
   font-weight: 800;
   text-transform: uppercase;
   color: #717182;
 }
 
-#alu-val-a,
-#alu-val-b {
+#p150-alu-val-a,
+#p150-alu-val-b {
   font-size: 20px;
   font-weight: 900;
   color: #7dd3fc;
@@ -300,7 +298,7 @@
   padding: 6px 14px;
 }
 
-#alu-val-res {
+#p150-alu-val-res {
   font-size: 22px;
   font-weight: 900;
   color: #4ade80;
@@ -312,7 +310,7 @@
   box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
 }
 
-#alu-operator-badge {
+#p150-alu-operator-badge {
   font-size: 22px;
   font-weight: 900;
   color: #fb923c;
@@ -327,7 +325,7 @@
   justify-content: center;
 }
 
-#alu-equal-sign {
+#p150-alu-equal-sign {
   font-size: 22px;
   font-weight: 900;
   color: #636374;
@@ -336,7 +334,7 @@
 /* ============================================================
    STACK VIEWPORT (VERTICAL TOWER)
    ============================================================ */
-#stack-viewport {
+#p150-stack-viewport {
   width: 100%;
   min-height: 140px;
   background: #0f0f14;
@@ -349,14 +347,14 @@
   box-sizing: border-box;
 }
 
-#stack-empty-text {
+#p150-stack-empty-text {
   font-size: 11px;
   color: #636374;
   font-style: italic;
   font-family: ui-monospace, monospace;
 }
 
-#stack-vertical-list {
+#p150-stack-vertical-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -364,7 +362,7 @@
   max-width: 180px;
 }
 
-[id^="stack-node-"] {
+[id^="p150-stack-node-"] {
   position: relative;
   width: 100%;
   height: 36px;
@@ -379,27 +377,27 @@
   transition: all 0.25s ease;
 }
 
-[id^="stack-node-idle-"] {
+[id^="p150-stack-node-"][data-node-state="idle"] {
   background: #151e26;
   border: 1.5px solid #283848;
   color: #7dd3fc;
 }
 
-[id^="stack-node-top-"] {
+[id^="p150-stack-node-"][data-node-state="top"] {
   background: #201430 !important;
   border: 2px solid #8b5cf6 !important;
   color: #d8b4fe !important;
   box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
 }
 
-[id^="stack-node-winner-"] {
+[id^="p150-stack-node-"][data-node-state="winner"] {
   background: #13241b !important;
   border: 2px solid #22c55e !important;
   color: #4ade80 !important;
   box-shadow: 0 0 14px rgba(34, 197, 94, 0.7) !important;
 }
 
-#stack-top-badge {
+[id^="p150-stack-top-badge-"] {
   position: absolute;
   right: 8px;
   font-size: 7.5px;
@@ -409,16 +407,17 @@
   letter-spacing: 0.5px;
   background: #8b5cf6;
   color: #0c0c10;
+  font-family: ui-monospace, monospace;
 }
 
-[id^="stack-node-winner-"] > #stack-top-badge {
+[id^="p150-stack-node-"][data-node-state="winner"] > [id^="p150-stack-top-badge-"] {
   background: #22c55e !important;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p150-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -432,9 +431,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p150-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -442,7 +442,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p150-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -450,8 +450,160 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p150-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  [id^="p150-token-box-"] {
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+  }
+
+  #p150-alu-val-a,
+  #p150-alu-val-b {
+    font-size: 18px;
+    padding: 5px 12px;
+  }
+
+  #p150-alu-val-res {
+    font-size: 20px;
+    padding: 5px 14px;
+  }
+
+  #p150-alu-operator-badge {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p150-rpn-eval-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p150-metrics-bar {
+    gap: 6px;
+  }
+
+  #p150-metric-pointer,
+  #p150-metric-stack-count,
+  #p150-metric-eval-active,
+  #p150-metric-eval-idle,
+  #p150-metric-status {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p150-middle-stage-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  #p150-tokens-elements-track {
+    gap: 10px;
+    padding: 10px 12px 24px 12px;
+  }
+
+  [id^="p150-token-box-"] {
+    width: 44px;
+    height: 44px;
+    font-size: 15px;
+  }
+
+  #p150-stack-vertical-list {
+    max-width: 100%;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p150-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p150-metric-pointer,
+  #p150-metric-stack-count,
+  #p150-metric-eval-active,
+  #p150-metric-eval-idle,
+  #p150-metric-status {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p150-tokens-card-header,
+  #p150-op-card-header,
+  #p150-stack-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  [id^="p150-token-box-"] {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+
+  [id^="p150-token-idx-tag-"] {
+    font-size: 7px;
+  }
+
+  [id^="p150-token-pointer-tag-"] {
+    font-size: 7px;
+    padding: 1px 4px;
+    bottom: -18px;
+  }
+
+  #p150-alu-calc-flow {
+    gap: 8px;
+  }
+
+  #p150-alu-val-a,
+  #p150-alu-val-b {
+    font-size: 15px;
+    padding: 4px 8px;
+  }
+
+  #p150-alu-val-res {
+    font-size: 16px;
+    padding: 4px 10px;
+  }
+
+  #p150-alu-operator-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+  }
+
+  #p150-alu-equal-sign {
+    font-size: 16px;
+  }
+
+  [id^="p150-stack-node-"] {
+    height: 32px;
+    font-size: 14px;
+  }
+
+  #p150-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p150-callout-detail-text {
+    font-size: 11px;
+  }
 }

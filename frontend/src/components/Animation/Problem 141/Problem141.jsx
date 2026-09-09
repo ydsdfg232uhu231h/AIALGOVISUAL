@@ -57,41 +57,46 @@ export default function Problem141({ stepData }) {
   }, [nodes.length, cycleEntryIdx]);
 
   return (
-    <div className="canvas-wrapper cycle-canvas">
+    <div id="p141-cycle-canvas">
       {/* Top Telemetry Header */}
-      <div className="metrics-row">
-        <span className="metric-chip total-chip">
+      <div id="p141-metrics-row">
+        <span id="p141-metric-total">
           Chain: <b>{nodes.length} Nodes</b>
         </span>
 
-        <span className="metric-chip slow-chip">
+        <span id="p141-metric-slow">
           Slow (🐢): <b>Node[{slowIdx}] = {nodes[slowIdx]?.val}</b>
         </span>
 
-        <span className="metric-chip fast-chip">
+        <span id="p141-metric-fast">
           Fast (🐇): <b>Node[{fastIdx}] = {nodes[fastIdx]?.val}</b>
         </span>
 
-        <span className={`metric-chip status-chip ${isMatched ? "status-collision" : ""}`}>
+        <span
+          id="p141-metric-status"
+          data-status={isMatched ? "collision" : "active"}
+        >
           Status: <b>{isMatched ? "COLLISION DETECTED" : "ADVANCING POINTERS"}</b>
         </span>
       </div>
 
-      <div className="cycle-stage">
+      <div id="p141-cycle-stage">
         {/* Main Linked List Track */}
-        <div className="track-card visual-card" id="mytrack">
-          <div className="card-header-bar">
+        <div id="p141-track-card">
+          <div id="p141-card-header-bar">
             <span>Linked List Racetrack</span>
-            <span className="card-sub">Cycle points from Tail Node[{nodes.length - 1}] back into Node[{cycleEntryIdx}]</span>
+            <span id="p141-card-sub">
+              Cycle points from Tail Node[{nodes.length - 1}] back into Node[{cycleEntryIdx}]
+            </span>
           </div>
 
-          <div className="racetrack-viewport" ref={containerRef}>
+          <div id="p141-racetrack-viewport" ref={containerRef}>
             {/* Dynamic Connecting SVG Curve */}
             {curvePath && (
-              <svg className="dynamic-cycle-svg">
+              <svg id="p141-dynamic-cycle-svg">
                 <defs>
                   <marker
-                    id="cycle-head"
+                    id="p141-cycle-head"
                     viewBox="0 0 10 10"
                     refX="5"
                     refY="5"
@@ -104,13 +109,13 @@ export default function Problem141({ stepData }) {
                 </defs>
 
                 {/* Subtle track guide */}
-                <path d={curvePath} className="cycle-back-track" />
+                <path d={curvePath} id="p141-cycle-back-track" />
 
                 {/* Flowing animated laser */}
                 <motion.path
                   d={curvePath}
-                  className="cycle-laser-path"
-                  markerEnd="url(#cycle-head)"
+                  id="p141-cycle-laser-path"
+                  markerEnd="url(#p141-cycle-head)"
                   animate={{ strokeDashoffset: [-32, 0] }}
                   transition={{ repeat: Infinity, ease: "linear", duration: 1.2 }}
                 />
@@ -118,7 +123,7 @@ export default function Problem141({ stepData }) {
             )}
 
             {/* Linear Linked List Nodes */}
-            <div className="nodes-track">
+            <div id="p141-nodes-track">
               {nodes.map((node, idx) => {
                 const isSlow = slowIdx === idx;
                 const isFast = fastIdx === idx;
@@ -126,23 +131,33 @@ export default function Problem141({ stepData }) {
                 const isCycleEntry = idx === cycleEntryIdx;
                 const isTail = idx === nodes.length - 1;
 
+                let nodeState = "idle";
+                if (isCollisionNode) nodeState = "collide";
+                else if (isFast && isSlow) nodeState = "both";
+                else if (isFast) nodeState = "fast";
+                else if (isSlow) nodeState = "slow";
+                else if (isCycleEntry) nodeState = "entry";
+
+                const targetScale = isCollisionNode ? 1.1 : isFast || isSlow ? 1.05 : 1;
+
                 return (
                   <div
                     key={node.id}
                     ref={(el) => (nodeRefs.current[idx] = el)}
-                    className="node-unit-carrier"
+                    id={`p141-node-unit-carrier-${idx}`}
                   >
                     {/* Top Tier: Fast Pointer Zone */}
-                    <div className="pointer-lane lane-top">
-                      <AnimatePresence>
+                    <div id={`p141-pointer-lane-top-${idx}`} data-lane="top">
+                      <AnimatePresence mode="popLayout">
                         {isFast && (
                           <motion.div
-                            layoutId="fast-bunny"
+                            key="p141-fast-badge"
+                            layoutId="p141-fast-bunny"
+                            id={`p141-fast-badge-${idx}`}
                             initial={{ scale: 0.8, opacity: 0, y: -6 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.8, opacity: 0 }}
                             transition={{ type: "spring", stiffness: 450, damping: 28 }}
-                            className="pointer-badge fast-badge"
                           >
                             <span>🐇 Fast (+2)</span>
                           </motion.div>
@@ -152,52 +167,40 @@ export default function Problem141({ stepData }) {
 
                     {/* Middle: Node Capsule */}
                     <motion.div
-                      className={`list-node ${
-                        isCollisionNode
-                          ? "node-collide"
-                          : isFast && isSlow
-                          ? "node-both"
-                          : isFast
-                          ? "node-fast"
-                          : isSlow
-                          ? "node-slow"
-                          : isCycleEntry
-                          ? "node-entry"
-                          : ""
-                      }`}
-                      animate={{
-                        scale: isCollisionNode ? [1, 1.14, 1] : isFast || isSlow ? 1.05 : 1
-                      }}
+                      id={`p141-list-node-${idx}`}
+                      data-state={nodeState}
+                      layout
+                      animate={{ scale: targetScale }}
                       transition={{
                         type: "spring",
                         stiffness: 350,
-                        damping: 22,
-                        scale: isCollisionNode ? { repeat: Infinity, duration: 0.9 } : undefined
+                        damping: 24
                       }}
                     >
-                      <span className="node-val">{node.val}</span>
-                      <span className="node-index">[{idx}]</span>
+                      <span id={`p141-node-val-${idx}`}>{node.val}</span>
+                      <span id={`p141-node-index-${idx}`}>[{idx}]</span>
 
                       {/* Informational badges */}
-                      {isCycleEntry && <span className="entry-tag">CYCLE IN</span>}
-                      {isTail && <span className="tail-tag">LOOP START</span>}
+                      {isCycleEntry && <span id={`p141-entry-tag-${idx}`}>CYCLE IN</span>}
+                      {isTail && <span id={`p141-tail-tag-${idx}`}>LOOP START</span>}
 
                       {isCollisionNode && (
-                        <div className="shockwave-ring" />
+                        <div id={`p141-shockwave-ring-${idx}`} />
                       )}
                     </motion.div>
 
                     {/* Bottom Tier: Slow Pointer Zone */}
-                    <div className="pointer-lane lane-bottom">
-                      <AnimatePresence>
+                    <div id={`p141-pointer-lane-bottom-${idx}`} data-lane="bottom">
+                      <AnimatePresence mode="popLayout">
                         {isSlow && (
                           <motion.div
-                            layoutId="slow-turtle"
+                            key="p141-slow-badge"
+                            layoutId="p141-slow-turtle"
+                            id={`p141-slow-badge-${idx}`}
                             initial={{ scale: 0.8, opacity: 0, y: 6 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.8, opacity: 0 }}
                             transition={{ type: "spring", stiffness: 450, damping: 28 }}
-                            className="pointer-badge slow-badge"
                           >
                             <span>🐢 Slow (+1)</span>
                           </motion.div>
@@ -207,9 +210,8 @@ export default function Problem141({ stepData }) {
 
                     {/* Forward Pointer Connector */}
                     {idx < nodes.length - 1 && (
-                      <div className="forward-connector">
-                        <span className="con-line" />
-                        <span className="con-arrow">➔</span>
+                      <div id={`p141-forward-connector-${idx}`}>
+                        <span id={`p141-con-arrow-${idx}`}>➔</span>
                       </div>
                     )}
                   </div>
@@ -219,46 +221,60 @@ export default function Problem141({ stepData }) {
           </div>
 
           {/* Color Key */}
-          <div className="dependency-legend">
-            <span className="legend-item"><span className="dot dot-slow" /> Slow Pointer (1 hop/turn)</span>
-            <span className="legend-item"><span className="dot dot-fast" /> Fast Pointer (2 hops/turn)</span>
-            <span className="legend-item"><span className="dot dot-entry" /> Cycle Entry Point (Node[{cycleEntryIdx}])</span>
-            <span className="legend-item"><span className="dot dot-collision" /> Overlap Collision (Cycle Confirmed)</span>
+          <div id="p141-dependency-legend">
+            <span id="p141-legend-item-slow">
+              <span id="p141-dot-slow" data-dot="slow" /> Slow Pointer (1 hop/turn)
+            </span>
+            <span id="p141-legend-item-fast">
+              <span id="p141-dot-fast" data-dot="fast" /> Fast Pointer (2 hops/turn)
+            </span>
+            <span id="p141-legend-item-entry">
+              <span id="p141-dot-entry" data-dot="entry" /> Cycle Entry Point (Node[{cycleEntryIdx}])
+            </span>
+            <span id="p141-legend-item-collision">
+              <span id="p141-dot-collision" data-dot="collision" /> Overlap Collision (Cycle Confirmed)
+            </span>
           </div>
         </div>
 
         {/* Pointer Position Trace Dashboard */}
-        <div className="track-card trace-card" id="mytrace">
-          <div className="card-header-bar">
+        <div id="p141-trace-card">
+          <div id="p141-trace-header-bar">
             <span>Algorithm Mechanics & Relative Distance</span>
-            <span className="card-sub">At each step, Fast gains 1 node on Slow until distance reaches 0</span>
+            <span id="p141-trace-sub">At each step, Fast gains 1 node on Slow until distance reaches 0</span>
           </div>
 
-          <div className="trace-grid">
-            <div className="trace-pill">
-              <span className="pill-title">Slow Pointer</span>
-              <span className="pill-val val-slow">
+          <div id="p141-trace-grid">
+            <div id="p141-trace-pill-slow">
+              <span id="p141-pill-title-slow">Slow Pointer</span>
+              <span id="p141-pill-val-slow" data-val-type="slow">
                 {slowIdx !== null ? `Node[${slowIdx}] (${nodes[slowIdx]?.val})` : "None"}
               </span>
             </div>
 
-            <div className="trace-pill">
-              <span className="pill-title">Fast Pointer</span>
-              <span className="pill-val val-fast">
+            <div id="p141-trace-pill-fast">
+              <span id="p141-pill-title-fast">Fast Pointer</span>
+              <span id="p141-pill-val-fast" data-val-type="fast">
                 {fastIdx !== null ? `Node[${fastIdx}] (${nodes[fastIdx]?.val})` : "None"}
               </span>
             </div>
 
-            <div className="trace-pill">
-              <span className="pill-title">Gap (Fast ➔ Slow)</span>
-              <span className={`pill-val ${isMatched ? "val-match" : ""}`}>
+            <div id="p141-trace-pill-gap">
+              <span id="p141-pill-title-gap">Gap (Fast ➔ Slow)</span>
+              <span
+                id="p141-pill-val-gap"
+                data-val-type={isMatched ? "match" : "idle"}
+              >
                 {isMatched ? "0 Nodes (Collision)" : `${Math.abs((fastIdx || 0) - (slowIdx || 0))} Hop(s)`}
               </span>
             </div>
 
-            <div className="trace-pill">
-              <span className="pill-title">Cycle Verified?</span>
-              <span className={`pill-val ${isMatched ? "val-match" : ""}`}>
+            <div id="p141-trace-pill-verify">
+              <span id="p141-pill-title-verify">Cycle Verified?</span>
+              <span
+                id="p141-pill-val-verify"
+                data-val-type={isMatched ? "match" : "idle"}
+              >
                 {isMatched ? "TRUE (Loop detected)" : "IN PROGRESS"}
               </span>
             </div>
@@ -270,14 +286,16 @@ export default function Problem141({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p141-result-callout-box"
+            data-callout-state={output.value === "True" ? "success" : "error"}
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className={`result-callout ${output.value === "True" ? "callout-success" : "callout-error"}`}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p141-callout-header-text">{output.label}</div>
+            <div id="p141-callout-val-text">{output.value}</div>
+            <div id="p141-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -17,92 +17,131 @@ export default function Problem139({ stepData }) {
   const matchLen = matchedWord ? matchedWord.length : checkedWord ? checkedWord.length : 0;
 
   return (
-    <div className="canvas-wrapper word-break-canvas">
-      {/* Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip str-chip">
+    <div id="p139-word-break-canvas">
+      {/* Top Metrics Row */}
+      <div id="p139-metrics-row">
+        <span id="p139-metric-chip-str">
           String: <b>"{s}"</b> (len: {s.length})
         </span>
-        <span className="metric-chip dict-chip">
+        <span id="p139-metric-chip-dict">
           Dict: <b>[{wordDict.map((w) => `"${w}"`).join(", ")}]</b>
         </span>
         {i !== undefined && (
-          <span className="metric-chip idx-chip">
+          <span id="p139-metric-chip-idx">
             Checking Index: <b>i = {i}</b>
           </span>
         )}
         {matchedWord ? (
-          <span className="metric-chip match-chip">
+          <span id="p139-metric-chip-match">
             Matched: <b>"{matchedWord}"</b> ➔ dp[{i}] = dp[{i + matchLen}] ({String(dp[i + matchLen])})
           </span>
         ) : checkedWord ? (
-          <span className="metric-chip test-chip">
+          <span id="p139-metric-chip-test">
             Testing: <b>"{checkedWord}"</b> (Mismatch)
           </span>
         ) : null}
         {canSegment !== undefined && (
-          <span className="metric-chip success-chip">
+          <span id="p139-metric-chip-success">
             Segmentable: <b>{canSegment}</b>
           </span>
         )}
       </div>
 
       {/* String & DP Track Container */}
-      <div className="word-break-container">
+      <div id="p139-word-break-container">
         {/* String Characters Track */}
-        <div className="track-row">
-          <div className="row-title">s[k]:</div>
-          <div className="cells-stream">
+        <div id="p139-track-row-chars">
+          <div id="p139-row-title-chars">s[k]:</div>
+          <div id="p139-cells-stream-chars">
             {strChars.map((ch, idx) => {
               const inMatchSpan =
                 i !== undefined && matchLen > 0 && idx >= i && idx < i + matchLen;
 
+              let charState = "idle";
+              if (inMatchSpan) {
+                charState = matchedWord ? "match" : "test";
+              }
+
               return (
                 <div
-                  key={`char-${idx}`}
-                  className={`wb-char-box ${inMatchSpan ? (matchedWord ? "char-match" : "char-test") : ""}`}
+                  key={`p139-char-${idx}`}
+                  id={`p139-char-box-${idx}`}
+                  data-char-state={charState}
                 >
-                  <span className="char-val">{ch}</span>
-                  <span className="char-idx">[{idx}]</span>
+                  <span id={`p139-char-val-${idx}`}>{ch}</span>
+                  <span id={`p139-char-idx-${idx}`}>[{idx}]</span>
                 </div>
               );
             })}
             {/* Virtual end-of-string cell for n */}
-            <div className="wb-char-box end-anchor">
-              <span className="char-val">ε</span>
-              <span className="char-idx">[{s.length}]</span>
+            <div id="p139-char-box-anchor" data-char-state="anchor">
+              <span id="p139-char-val-anchor">ε</span>
+              <span id="p139-char-idx-anchor">[{s.length}]</span>
             </div>
           </div>
         </div>
 
         {/* DP Array Track */}
-        <div className="track-row">
-          <div className="row-title">dp[k]:</div>
-          <div className="cells-stream">
+        <div id="p139-track-row-dp">
+          <div id="p139-row-title-dp">dp[k]:</div>
+          <div id="p139-cells-stream-dp">
             {dp.map((val, idx) => {
               const isCurrent = idx === currentIdx;
               const isJumpTarget =
                 i !== undefined && matchLen > 0 && idx === i + matchLen;
               const isTarget = isComplete && idx === 0;
 
+              let activeState = "idle";
+              if (isTarget) activeState = "complete";
+              else if (isCurrent) activeState = "current";
+
               return (
-                <div key={`dp-node-${idx}`} className="dp-col">
-                  <div className="dp-ptr-slot">
-                    {isCurrent && !isComplete && <span className="dp-badge badge-curr">i</span>}
-                    {isJumpTarget && <span className="dp-badge badge-jump">i+len</span>}
+                <div key={`p139-dp-col-${idx}`} id={`p139-dp-col-${idx}`}>
+                  <div id={`p139-dp-ptr-slot-${idx}`}>
+                    <AnimatePresence mode="popLayout">
+                      {isCurrent && !isComplete && (
+                        <motion.span
+                          key={`p139-badge-curr-${idx}`}
+                          id={`p139-dp-badge-curr-${idx}`}
+                          data-ptr="curr"
+                          layout
+                          initial={{ y: -6, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: -6, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                        >
+                          i
+                        </motion.span>
+                      )}
+                      {isJumpTarget && (
+                        <motion.span
+                          key={`p139-badge-jump-${idx}`}
+                          id={`p139-dp-badge-jump-${idx}`}
+                          data-ptr="jump"
+                          layout
+                          initial={{ y: -6, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: -6, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                        >
+                          i+len
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <motion.div
-                    className={`wb-dp-box ${val ? "dp-true" : "dp-false"} ${
-                      isCurrent ? "dp-current" : ""
-                    } ${isTarget ? "dp-complete" : ""}`}
+                    id={`p139-dp-box-${idx}`}
+                    data-dp-state={val ? "true" : "false"}
+                    data-active-state={activeState}
+                    layout
                     animate={{
                       scale: isCurrent || isTarget ? 1.08 : 1
                     }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 24 }}
                   >
-                    <span className="dp-val">{val ? "T" : "F"}</span>
-                    <span className="dp-sub">dp[{idx}]</span>
+                    <span id={`p139-dp-val-${idx}`}>{val ? "T" : "F"}</span>
+                    <span id={`p139-dp-sub-${idx}`}>dp[{idx}]</span>
                   </motion.div>
                 </div>
               );
@@ -115,14 +154,15 @@ export default function Problem139({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p139-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p139-callout-header-text">{output.label}</div>
+            <div id="p139-callout-val-text">{output.value}</div>
+            <div id="p139-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

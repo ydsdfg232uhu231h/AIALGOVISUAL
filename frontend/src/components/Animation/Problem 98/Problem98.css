@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#dual-bst-canvas {
+#p98-dual-bst-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS BAR
    ============================================================ */
-#metrics-bar {
+#p98-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,13 +32,12 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-inspecting,
-#metric-bounds,
-#metric-verdict-active,
-#metric-verdict-pass,
-#metric-verdict-fail {
+#p98-metric-inspecting,
+#p98-metric-bounds,
+#p98-metric-verdict {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -50,28 +50,43 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
 }
 
-#metric-inspecting b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#metric-bounds b { color: #facc15; font-family: ui-monospace, monospace; }
-#metric-verdict-active b { color: #38bdf8; }
+#p98-metric-inspecting b {
+  color: #38bdf8;
+  font-family: ui-monospace, monospace;
+}
 
-#metric-verdict-pass {
+#p98-metric-bounds b {
+  color: #facc15;
+  font-family: ui-monospace, monospace;
+}
+
+#p98-metric-verdict b {
+  color: #38bdf8;
+}
+
+#p98-metric-verdict[data-verdict="PASS"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-verdict-pass b { color: #4ade80 !important; }
+#p98-metric-verdict[data-verdict="PASS"] b {
+  color: #4ade80 !important;
+}
 
-#metric-verdict-fail {
+#p98-metric-verdict[data-verdict="FAIL"] {
   border-color: #ef4444 !important;
   background: rgba(239, 68, 68, 0.16) !important;
 }
-#metric-verdict-fail b { color: #f87171 !important; }
+#p98-metric-verdict[data-verdict="FAIL"] b {
+  color: #f87171 !important;
+}
 
 /* ============================================================
    DUAL STAGE
    ============================================================ */
-#dual-stage {
+#p98-dual-stage {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
@@ -79,16 +94,9 @@
   max-width: 860px;
 }
 
-@media (max-width: 700px) {
-  #dual-stage {
-    grid-template-columns: 1fr;
-  }
-}
-
-#tree-card-valid,
-#tree-card-valid-complete,
-#tree-card-invalid,
-#calc-inspector-card {
+#p98-tree-card-valid,
+#p98-tree-card-invalid,
+#p98-calc-inspector-card {
   background: #121218;
   border-radius: 14px;
   padding: 12px 16px;
@@ -99,22 +107,23 @@
   box-sizing: border-box;
 }
 
-#tree-card-valid {
+#p98-tree-card-valid {
   border: 1.5px solid #272736;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-#tree-card-valid-complete {
+#p98-tree-card-valid[data-complete="true"] {
   border: 1.5px solid #22c55e !important;
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.25) !important;
 }
 
-#tree-card-invalid {
+#p98-tree-card-invalid {
   border: 1.5px solid rgba(239, 68, 68, 0.4);
 }
 
-#header-valid,
-#header-invalid,
-#calc-card-header {
+#p98-header-valid,
+#p98-header-invalid,
+#p98-calc-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -123,7 +132,7 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#title-valid {
+#p98-title-valid {
   font-size: 10px;
   font-weight: 800;
   color: #4ade80;
@@ -131,7 +140,7 @@
   letter-spacing: 0.7px;
 }
 
-#badge-valid-status-active {
+#p98-badge-valid-status {
   font-size: 8px;
   font-weight: 800;
   color: #38bdf8;
@@ -141,17 +150,14 @@
   border-radius: 4px;
 }
 
-#badge-valid-status-done {
-  font-size: 8px;
+#p98-badge-valid-status[data-complete="true"] {
   font-weight: 900;
   color: #22c55e;
   background: rgba(34, 197, 94, 0.2);
-  border: 1px solid #22c55e;
-  padding: 1px 6px;
-  border-radius: 4px;
+  border-color: #22c55e;
 }
 
-#title-invalid {
+#p98-title-invalid {
   font-size: 10px;
   font-weight: 800;
   color: #f87171;
@@ -159,7 +165,7 @@
   letter-spacing: 0.7px;
 }
 
-#badge-invalid-status-pending {
+#p98-badge-invalid-status {
   font-size: 8px;
   font-weight: 800;
   color: #8b8b99;
@@ -169,21 +175,18 @@
   border-radius: 4px;
 }
 
-#badge-invalid-status-fail {
-  font-size: 8px;
+#p98-badge-invalid-status[data-verdict="FAIL"] {
   font-weight: 900;
   color: #ef4444;
   background: rgba(239, 68, 68, 0.2);
-  border: 1px solid #ef4444;
-  padding: 1px 6px;
-  border-radius: 4px;
+  border-color: #ef4444;
 }
 
 /* ============================================================
    SVG VIEWPORTS
    ============================================================ */
-#viewport-valid,
-#viewport-invalid {
+#p98-viewport-valid,
+#p98-viewport-invalid {
   width: 100%;
   height: 220px;
   background: #0f0f14;
@@ -192,28 +195,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
-#svg-surface-A,
-#svg-surface-B {
+#p98-svg-surface-A,
+#p98-svg-surface-B {
   width: 100%;
   height: 100%;
   display: block;
 }
 
 /* Edges */
-[id^="edge-normal-"] {
+[id^="p98-edge-"][data-edge-state="normal"] {
   stroke: #2a2a3a;
   stroke-width: 2.2;
 }
 
-[id^="edge-passed-"] {
+[id^="p98-edge-"][data-edge-state="passed"] {
   stroke: #22c55e !important;
   stroke-width: 2.6;
   filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.6));
 }
 
-[id^="edge-broken-"] {
+[id^="p98-edge-"][data-edge-state="broken"] {
   stroke: #ef4444 !important;
   stroke-width: 3.5;
   stroke-dasharray: 6 4;
@@ -221,72 +225,77 @@
 }
 
 /* Nodes */
-[id^="node-idle-"] {
+[id^="p98-node-"][data-state="idle"] {
   fill: #181822;
   stroke: #2e2e40;
   stroke-width: 2;
 }
 
-/* Currently inspecting node (Bright Yellow/Cyan outline) */
-[id^="node-active-inspect-"] {
+/* Inspecting Node */
+[id^="p98-node-"][data-state="active"] {
   fill: #262214;
   stroke: #facc15;
   stroke-width: 3;
   filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.85));
 }
-[id^="node-active-inspect-"] ~ [id^="text-val-"] {
+
+[id^="p98-g-"]:has([id^="p98-node-"][data-state="active"]) [id^="p98-text-val-"] {
   fill: #fef08a !important;
 }
 
-/* Confirmed Valid Node in Tree A (Green Glow) */
-[id^="node-pass-"] {
+/* Confirmed Valid Node (Tree A) */
+[id^="p98-node-"][data-state="pass"] {
   fill: #13241b !important;
   stroke: #22c55e !important;
   stroke-width: 2.5;
   filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.7));
 }
-[id^="node-pass-"] ~ [id^="text-val-"] {
+
+[id^="p98-g-"]:has([id^="p98-node-"][data-state="pass"]) [id^="p98-text-val-"] {
   fill: #4ade80 !important;
 }
-[id^="node-pass-"] ~ [id^="text-bounds-"] {
+
+[id^="p98-g-"]:has([id^="p98-node-"][data-state="pass"]) [id^="p98-text-bounds-"] {
   fill: #86efac !important;
 }
 
-/* Confirmed Failed Node in Tree B (Red Glow) */
-[id^="node-violation-"] {
+/* Violation Node (Tree B) */
+[id^="p98-node-"][data-state="violation"] {
   fill: #291518 !important;
   stroke: #ef4444 !important;
   stroke-width: 3.5;
   filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.9));
 }
-[id^="node-violation-"] ~ [id^="text-val-"] {
+
+[id^="p98-g-"]:has([id^="p98-node-"][data-state="violation"]) [id^="p98-text-val-"] {
   fill: #f87171 !important;
 }
-[id^="node-violation-"] ~ [id^="text-bounds-"] {
+
+[id^="p98-g-"]:has([id^="p98-node-"][data-state="violation"]) [id^="p98-text-bounds-"] {
   fill: #f87171 !important;
   font-weight: 900;
 }
 
-[id^="halo-valid-"] {
+[id^="p98-halo-valid-"] {
   fill: transparent;
   stroke: #22c55e;
   stroke-width: 1.5;
   opacity: 0.6;
 }
 
-[id^="halo-violation-"] {
+[id^="p98-halo-violation-"] {
   fill: transparent;
   stroke: #ef4444;
   stroke-width: 2;
-  animation: pulse-red 1.2s infinite ease-out;
+  animation: p98-pulse-red 1.2s infinite ease-out;
 }
 
-@keyframes pulse-red {
+@keyframes p98-pulse-red {
   0% { r: 22px; opacity: 0.9; }
   100% { r: 32px; opacity: 0; }
 }
 
-[id^="text-val-"] {
+[id^="p98-text-val-"] {
   fill: #ffffff;
   font-size: 14px;
   font-weight: 900;
@@ -295,7 +304,7 @@
   dominant-baseline: middle;
 }
 
-[id^="text-bounds-"] {
+[id^="p98-text-bounds-"] {
   fill: #717182;
   font-size: 7.5px;
   font-weight: 700;
@@ -303,19 +312,32 @@
   text-anchor: middle;
 }
 
-#footer-valid-note { color: #86efac; font-size: 9px; font-family: ui-monospace, monospace; text-align: center; }
-#footer-invalid-note { color: #fca5a5; font-size: 9px; font-family: ui-monospace, monospace; text-align: center; }
+#p98-footer-valid-note {
+  color: #86efac;
+  font-size: 9px;
+  font-family: ui-monospace, monospace;
+  text-align: center;
+  display: block;
+}
+
+#p98-footer-invalid-note {
+  color: #fca5a5;
+  font-size: 9px;
+  font-family: ui-monospace, monospace;
+  text-align: center;
+  display: block;
+}
 
 /* ============================================================
    CALCULATION INSPECTOR
    ============================================================ */
-#calc-inspector-card {
+#p98-calc-inspector-card {
   width: 100%;
   max-width: 860px;
   border: 1.5px solid #242430;
 }
 
-#calc-header-title {
+#p98-calc-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -323,29 +345,23 @@
   letter-spacing: 0.7px;
 }
 
-#calc-header-sub {
+#p98-calc-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
   font-family: ui-monospace, monospace;
 }
 
-#calc-grid {
+#p98-calc-grid {
   display: grid;
   grid-template-columns: 1fr 2fr 1.5fr;
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 680px) {
-  #calc-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#calc-box-target,
-#calc-box-formula,
-#calc-box-result {
+#p98-calc-box-target,
+#p98-calc-box-formula,
+#p98-calc-box-result {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -353,49 +369,51 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
-#calc-title-target,
-#calc-title-formula,
-#calc-title-result {
+#p98-calc-title-target,
+#p98-calc-title-formula,
+#p98-calc-title-result {
   font-size: 9px;
   font-weight: 800;
   color: #717182;
   text-transform: uppercase;
 }
 
-#calc-val-target {
+#p98-calc-val-target {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
   color: #38bdf8;
 }
 
-#calc-val-formula {
+#p98-calc-val-formula {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
   color: #facc15;
 }
 
-#calc-val-pass {
+#p98-calc-val-result {
   font-size: 12px;
   font-weight: 900;
   font-family: ui-monospace, monospace;
+  color: #38bdf8;
+}
+
+#p98-calc-val-result[data-verdict="PASS"] {
   color: #4ade80;
 }
 
-#calc-val-fail {
-  font-size: 12px;
-  font-weight: 900;
-  font-family: ui-monospace, monospace;
+#p98-calc-val-result[data-verdict="FAIL"] {
   color: #f87171;
 }
 
 /* ============================================================
    CALLOUT MODALS
    ============================================================ */
-#result-callout-box {
+#p98-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -409,48 +427,136 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#result-callout-fail {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
+#p98-result-callout-box[data-verdict="FAIL"] {
   background: rgba(24, 14, 16, 0.96);
-  backdrop-filter: blur(12px);
-  border: 2px solid #ef4444;
-  border-radius: 12px;
-  padding: 10px 24px;
-  text-align: center;
+  border-color: #ef4444;
   box-shadow: 0 8px 30px rgba(239, 68, 68, 0.45);
-  z-index: 100;
-  max-width: 90%;
 }
 
-#callout-header-text {
+#p98-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: 0.8px;
+  color: #86efac;
 }
 
-#result-callout-box #callout-header-text { color: #86efac; }
-#result-callout-fail #callout-header-text { color: #fca5a5; }
+#p98-result-callout-box[data-verdict="FAIL"] #p98-callout-header-text {
+  color: #fca5a5;
+}
 
-#callout-val-text {
+#p98-callout-val-text {
   font-size: 18px;
   font-weight: 900;
   margin: 2px 0;
   font-family: ui-monospace, monospace;
+  color: #4ade80;
 }
 
-#result-callout-box #callout-val-text { color: #4ade80; }
-#result-callout-fail #callout-val-text { color: #ef4444; }
+#p98-result-callout-box[data-verdict="FAIL"] #p98-callout-val-text {
+  color: #ef4444;
+}
 
-#callout-detail-text {
+#p98-callout-detail-text {
   font-size: 12px;
   font-weight: 500;
+  color: #dcfce7;
 }
 
-#result-callout-box #callout-detail-text { color: #dcfce7; }
-#result-callout-fail #callout-detail-text { color: #fee2e2; }
+#p98-result-callout-box[data-verdict="FAIL"] #p98-callout-detail-text {
+  color: #fee2e2;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p98-viewport-valid,
+  #p98-viewport-invalid {
+    height: 200px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p98-dual-bst-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p98-metrics-bar {
+    gap: 6px;
+  }
+
+  #p98-metric-inspecting,
+  #p98-metric-bounds,
+  #p98-metric-verdict {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p98-dual-stage {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  #p98-calc-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  #p98-viewport-valid,
+  #p98-viewport-invalid {
+    height: 190px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p98-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p98-metric-inspecting,
+  #p98-metric-bounds,
+  #p98-metric-verdict {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p98-header-valid,
+  #p98-header-invalid,
+  #p98-calc-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p98-viewport-valid,
+  #p98-viewport-invalid {
+    height: 175px;
+  }
+
+  [id^="p98-text-val-"] {
+    font-size: 12px;
+  }
+
+  [id^="p98-text-bounds-"] {
+    font-size: 6.5px;
+  }
+
+  #p98-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p98-callout-detail-text {
+    font-size: 11px;
+  }
+}

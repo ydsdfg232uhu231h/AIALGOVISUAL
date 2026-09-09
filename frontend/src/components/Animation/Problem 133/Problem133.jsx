@@ -33,7 +33,10 @@ export default function Problem133({ stepData }) {
 
   const renderGraphSvg = (isClonedGraph) => {
     return (
-      <svg id={isClonedGraph ? "cloned-svg-surface" : "orig-svg-surface"} viewBox="0 0 300 240">
+      <svg
+        id={isClonedGraph ? "p133-cloned-svg-surface" : "p133-orig-svg-surface"}
+        viewBox="0 0 300 240"
+      >
         {/* Render Edges */}
         {graphEdges.map(([u, v]) => {
           const p1 = nodeCoords[u];
@@ -47,17 +50,18 @@ export default function Problem133({ stepData }) {
             isClonedGraph &&
             clonedEdges.some(([a, b]) => (a === u && b === v) || (a === v && b === u));
 
-          let edgeId = `orig-edge-${u}-${v}`;
+          let edgeState = "normal";
           if (isClonedGraph) {
-            edgeId = isEdgeBuilt ? `cloned-edge-solid-${u}-${v}` : `cloned-edge-ghost-${u}-${v}`;
+            edgeState = isEdgeBuilt ? "solid" : "ghost";
           } else if (isTraversing) {
-            edgeId = `orig-edge-active-${u}-${v}`;
+            edgeState = "active";
           }
 
           return (
             <line
-              key={`edge-${isClonedGraph ? "c" : "o"}-${u}-${v}`}
-              id={edgeId}
+              key={`p133-edge-${isClonedGraph ? "c" : "o"}-${u}-${v}`}
+              id={isClonedGraph ? `p133-clone-edge-${u}-${v}` : `p133-orig-edge-${u}-${v}`}
+              data-edge-state={edgeState}
               x1={p1.cx}
               y1={p1.cy}
               x2={p2.cx}
@@ -73,19 +77,23 @@ export default function Problem133({ stepData }) {
           const isCloned = clonedNodes.includes(val);
 
           if (!isClonedGraph) {
-            const nodeId = isCurrent
-              ? `orig-node-active-${val}`
-              : isCloned
-              ? `orig-node-visited-${val}`
-              : `orig-node-idle-${val}`;
+            let origNodeState = "idle";
+            if (isCurrent) origNodeState = "active";
+            else if (isCloned) origNodeState = "visited";
 
             return (
-              <g key={`orig-group-${val}`} id={`orig-g-${val}`}>
-                <circle id={nodeId} cx={pos.cx} cy={pos.cy} r="25" />
-                <text id={`orig-text-val-${val}`} x={pos.cx} y={pos.cy - 1}>
+              <g key={`p133-orig-group-${val}`} id={`p133-orig-g-${val}`}>
+                <circle
+                  id={`p133-orig-node-${val}`}
+                  data-node-state={origNodeState}
+                  cx={pos.cx}
+                  cy={pos.cy}
+                  r="25"
+                />
+                <text id={`p133-orig-text-val-${val}`} x={pos.cx} y={pos.cy - 1}>
                   {val}
                 </text>
-                <text id={`orig-text-sub-${val}`} x={pos.cx} y={pos.cy + 13}>
+                <text id={`p133-orig-text-sub-${val}`} x={pos.cx} y={pos.cy + 13}>
                   @orig_{val}
                 </text>
               </g>
@@ -95,31 +103,49 @@ export default function Problem133({ stepData }) {
           // Cloned side
           if (!isCloned) {
             return (
-              <g key={`clone-ghost-group-${val}`} id={`clone-ghost-${val}`}>
-                <circle id={`ghost-circle-${val}`} cx={pos.cx} cy={pos.cy} r="25" />
-                <text id={`ghost-text-${val}`} x={pos.cx} y={pos.cy + 5}>
+              <g key={`p133-clone-ghost-group-${val}`} id={`p133-clone-ghost-${val}`}>
+                <circle
+                  id={`p133-ghost-circle-${val}`}
+                  data-node-state="ghost"
+                  cx={pos.cx}
+                  cy={pos.cy}
+                  r="25"
+                />
+                <text id={`p133-ghost-text-${val}`} x={pos.cx} y={pos.cy + 5}>
                   {val}
                 </text>
               </g>
             );
           }
 
-          const cloneNodeId = isCurrent
-            ? `cloned-node-active-${val}`
-            : isCompleted
-            ? `cloned-node-done-${val}`
-            : `cloned-node-created-${val}`;
+          let cloneNodeState = "created";
+          if (isCurrent) cloneNodeState = "active";
+          else if (isCompleted) cloneNodeState = "done";
 
           return (
-            <g key={`clone-solid-group-${val}`} id={`clone-g-${val}`}>
-              {isCompleted && (
-                <circle id={`clone-halo-${val}`} cx={pos.cx} cy={pos.cy} r="30" />
-              )}
-              <circle id={cloneNodeId} cx={pos.cx} cy={pos.cy} r="25" />
-              <text id={`cloned-text-val-${val}`} x={pos.cx} y={pos.cy - 1}>
+            <g key={`p133-clone-solid-group-${val}`} id={`p133-clone-g-${val}`}>
+              <AnimatePresence mode="popLayout">
+                {isCompleted && (
+                  <circle
+                    key={`p133-clone-halo-${val}`}
+                    id={`p133-clone-halo-${val}`}
+                    cx={pos.cx}
+                    cy={pos.cy}
+                    r="30"
+                  />
+                )}
+              </AnimatePresence>
+              <circle
+                id={`p133-clone-node-${val}`}
+                data-node-state={cloneNodeState}
+                cx={pos.cx}
+                cy={pos.cy}
+                r="25"
+              />
+              <text id={`p133-cloned-text-val-${val}`} x={pos.cx} y={pos.cy - 1}>
                 {val}'
               </text>
-              <text id={`cloned-text-sub-${val}`} x={pos.cx} y={pos.cy + 13}>
+              <text id={`p133-cloned-text-sub-${val}`} x={pos.cx} y={pos.cy + 13}>
                 @clone_{val}
               </text>
             </g>
@@ -130,64 +156,74 @@ export default function Problem133({ stepData }) {
   };
 
   return (
-    <div id="clone-graph-canvas">
+    <div id="p133-clone-graph-canvas">
       {/* Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-current">
+      <div id="p133-metrics-bar">
+        <span id="p133-metric-current">
           DFS Pointer: <b>{currentVisit ? `Node (${currentVisit})` : "Idle"}</b>
         </span>
 
-        <span id="metric-cloned-count">
+        <span id="p133-metric-cloned-count">
           Cloned Nodes: <b>{clonedNodes.length} / 4</b>
         </span>
 
-        <span id="metric-visited-count">
+        <span id="p133-metric-visited-count">
           Map Entries: <b>{Object.keys(visitedMap).length}</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p133-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "DEEP COPY FINISHED" : "RECURSIVE DFS"}</b>
         </span>
       </div>
 
       {/* Symmetrical Dual Graph Stage */}
-      <div id="graphs-stage">
+      <div id="p133-graphs-stage">
         {/* Left: Original Graph */}
-        <div id="orig-graph-card">
-          <div id="orig-card-header">
-            <span id="orig-header-title">1. Original Graph</span>
-            <span id="orig-header-sub">Adjacency: 1-[2,4], 2-[1,3], 3-[2,4], 4-[1,3]</span>
+        <div id="p133-orig-graph-card">
+          <div id="p133-orig-card-header">
+            <span id="p133-orig-header-title">1. Original Graph</span>
+            <span id="p133-orig-header-sub">Adjacency: 1-[2,4], 2-[1,3], 3-[2,4], 4-[1,3]</span>
           </div>
-          <div id="orig-graph-viewport">{renderGraphSvg(false)}</div>
+          <div id="p133-orig-graph-viewport">{renderGraphSvg(false)}</div>
         </div>
 
         {/* Right: Cloned Graph */}
-        <div id="cloned-graph-card">
-          <div id="cloned-card-header">
-            <span id="cloned-header-title">2. Cloned Deep Copy</span>
-            <span id="cloned-header-sub">New memory allocations and cloned pointers</span>
+        <div id="p133-cloned-graph-card">
+          <div id="p133-cloned-card-header">
+            <span id="p133-cloned-header-title">2. Cloned Deep Copy</span>
+            <span id="p133-cloned-header-sub">New memory allocations and cloned pointers</span>
           </div>
-          <div id="cloned-graph-viewport">{renderGraphSvg(true)}</div>
+          <div id="p133-cloned-graph-viewport">{renderGraphSvg(true)}</div>
         </div>
       </div>
 
       {/* Visited Hash Map Lookups */}
-      <div id="map-track-card">
-        <div id="map-card-header">
-          <span id="map-header-title">Visited Clone Hash Map (`visited[orig_node] ➔ copy_node`)</span>
-          <span id="map-header-sub">Prevents infinite cycles on undirected edges</span>
+      <div id="p133-map-track-card">
+        <div id="p133-map-card-header">
+          <span id="p133-map-header-title">Visited Clone Hash Map (`visited[orig_node] ➔ copy_node`)</span>
+          <span id="p133-map-header-sub">Prevents infinite cycles on undirected edges</span>
         </div>
 
-        <div id="clone-map-grid">
+        <div id="p133-clone-map-grid">
           {Object.keys(visitedMap).length === 0 ? (
-            <span id="map-empty-text">Map is empty: no nodes cloned yet</span>
+            <span id="p133-map-empty-text">Map is empty: no nodes cloned yet</span>
           ) : (
             Object.entries(visitedMap).map(([orig, copy]) => (
-              <div key={`map-entry-${orig}`} id={`map-pill-${orig}`}>
-                <span id={`map-token-orig-${orig}`}>Orig({orig}) [@orig_{orig}]</span>
-                <span id={`map-arrow-${orig}`}>➔</span>
-                <span id={`map-token-copy-${orig}`}>Copy({copy}) [@clone_{copy}]</span>
-              </div>
+              <motion.div
+                key={`p133-map-entry-${orig}`}
+                id={`p133-map-pill-${orig}`}
+                layout
+                initial={{ opacity: 0, scale: 0.85, y: 8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
+                <span id={`p133-map-token-orig-${orig}`}>Orig({orig}) [@orig_{orig}]</span>
+                <span id={`p133-map-arrow-${orig}`}>➔</span>
+                <span id={`p133-map-token-copy-${orig}`}>Copy({copy}) [@clone_{copy}]</span>
+              </motion.div>
             ))
           )}
         </div>
@@ -197,14 +233,14 @@ export default function Problem133({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p133-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p133-callout-header-text">{output.label}</div>
+            <div id="p133-callout-val-text">{output.value}</div>
+            <div id="p133-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

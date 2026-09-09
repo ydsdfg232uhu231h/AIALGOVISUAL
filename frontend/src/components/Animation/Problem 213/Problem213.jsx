@@ -38,28 +38,71 @@ export default function Problem213({ stepData }) {
     const isR2AtBase2 = !isComplete && relIndex === 0;
 
     return [
-      <div key="base-col-1" className="house-column base-column">
-        <div className="ptrs-group">
-          {isR1AtBase1 && <span className="pointer-tag ptr-r1">r1: ${r1}</span>}
+      <div key="p213-base-col-1" id="p213-base-column-1" data-house-state="base">
+        <div id="p213-ptrs-group-base-1">
+          <AnimatePresence mode="popLayout">
+            {isR1AtBase1 && (
+              <motion.span
+                key="p213-ptr-r1-b1"
+                layoutId="p213-ptr-r1"
+                id="p213-pointer-tag-r1-b1"
+                data-ptr="r1"
+                initial={{ y: -6, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -6, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 450, damping: 26 }}
+              >
+                r1: ${r1}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
-        <div className="house-node house-base-node">
-          <div className="roof-shape base-roof" />
-          <div className="house-body base-body">
-            <span className="loot-val">$0</span>
-            <span className="house-idx">B[-2]</span>
+        <div id="p213-house-node-base-1">
+          <div id="p213-roof-shape-base-1" />
+          <div id="p213-house-body-base-1">
+            <span id="p213-loot-val-base-1">$0</span>
+            <span id="p213-house-idx-base-1">B[-2]</span>
           </div>
         </div>
       </div>,
-      <div key="base-col-2" className="house-column base-column">
-        <div className="ptrs-group">
-          {isR1AtBase2 && <span className="pointer-tag ptr-r1">r1: ${r1}</span>}
-          {isR2AtBase2 && <span className="pointer-tag ptr-r2">r2: ${r2}</span>}
+      <div key="p213-base-col-2" id="p213-base-column-2" data-house-state="base">
+        <div id="p213-ptrs-group-base-2">
+          <AnimatePresence mode="popLayout">
+            {isR1AtBase2 && (
+              <motion.span
+                key="p213-ptr-r1-b2"
+                layoutId="p213-ptr-r1"
+                id="p213-pointer-tag-r1-b2"
+                data-ptr="r1"
+                initial={{ y: -6, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -6, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 450, damping: 26 }}
+              >
+                r1: ${r1}
+              </motion.span>
+            )}
+            {isR2AtBase2 && (
+              <motion.span
+                key="p213-ptr-r2-b2"
+                layoutId="p213-ptr-r2"
+                id="p213-pointer-tag-r2-b2"
+                data-ptr="r2"
+                initial={{ y: -6, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -6, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 450, damping: 26 }}
+              >
+                r2: ${r2}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </div>
-        <div className="house-node house-base-node">
-          <div className="roof-shape base-roof" />
-          <div className="house-body base-body">
-            <span className="loot-val">$0</span>
-            <span className="house-idx">B[-1]</span>
+        <div id="p213-house-node-base-2">
+          <div id="p213-roof-shape-base-2" />
+          <div id="p213-house-body-base-2">
+            <span id="p213-loot-val-base-2">$0</span>
+            <span id="p213-house-idx-base-2">B[-1]</span>
           </div>
         </div>
       </div>
@@ -67,51 +110,54 @@ export default function Problem213({ stepData }) {
   };
 
   return (
-    <div className="canvas-wrapper circular-robber-canvas">
+    <div id="p213-circular-robber-canvas">
       {/* State & Metrics Ribbon */}
-      <div className="metrics-row">
-        <span className={`metric-chip pass-chip ${currentPass === 1 ? "pass-one" : "pass-two"}`}>
+      <div id="p213-metrics-row">
+        <span
+          id="p213-metric-phase"
+          data-pass-type={currentPass === 1 ? "one" : "two"}
+        >
           Phase: <b>{isComplete ? "Completed" : `Pass ${currentPass}: Range [${rangeStart}..${rangeEnd}]`}</b>
         </span>
         {currentHouse >= 0 && val !== undefined && (
-          <span className="metric-chip curr-chip">
+          <span id="p213-metric-curr">
             House {currentHouse}: <b>${val}</b>
           </span>
         )}
         {!isComplete && currentHouse >= 0 && (
           <>
-            <span className="metric-chip r1-chip">
+            <span id="p213-metric-r1">
               r1 (i - 2): <b>${r1}</b>
             </span>
-            <span className="metric-chip r2-chip">
+            <span id="p213-metric-r2">
               r2 (i - 1): <b>${r2}</b>
             </span>
           </>
         )}
         {maxPass1 !== undefined && (
-          <span className="metric-chip pass1-res-chip">
+          <span id="p213-metric-pass1-res">
             Pass 1 Max: <b>${maxPass1}</b>
           </span>
         )}
         {maxPass2 !== undefined && (
-          <span className="metric-chip pass2-res-chip">
+          <span id="p213-metric-pass2-res">
             Pass 2 Max: <b>${maxPass2}</b>
           </span>
         )}
         {maxLoot !== undefined && (
-          <span className="metric-chip total-chip">
+          <span id="p213-metric-total">
             Best Loot: <b>${maxLoot}</b>
           </span>
         )}
       </div>
 
       {/* Circular Link Indicator */}
-      <div className="circular-link-banner">
+      <div id="p213-circular-link-banner">
         <span>🔄 Circular Street: H[0] and H[{houses.length - 1}] are adjacent</span>
       </div>
 
       {/* Street Track */}
-      <div className="houses-track">
+      <div id="p213-houses-track">
         {houses.map((loot, idx) => {
           const inRange = rangeStart !== -1 && idx >= rangeStart && idx <= rangeEnd;
           const isCurrent = idx === currentHouse;
@@ -136,31 +182,81 @@ export default function Problem213({ stepData }) {
             elements.push(...renderVirtualBases());
           }
 
+          let houseState = "idle";
+          if (isCurrent) houseState = "curr";
+          else if (isExcluded) houseState = "excluded";
+          else if (inRange) houseState = "range";
+
           elements.push(
-            <div key={idx} className="house-column">
+            <div key={`p213-house-col-${idx}`} id={`p213-house-column-${idx}`}>
               {/* Pointer Badges */}
-              <div className="ptrs-group">
-                {isR1 && inRange && <span className="pointer-tag ptr-r1">r1: ${r1}</span>}
-                {isR2 && inRange && <span className="pointer-tag ptr-r2">r2: ${r2}</span>}
-                {isCurrent && !isComplete && <span className="pointer-tag ptr-curr">curr</span>}
-                {isExcluded && <span className="pointer-tag ptr-excl">EXCLUDED</span>}
+              <div id={`p213-ptrs-group-${idx}`}>
+                <AnimatePresence mode="popLayout">
+                  {isR1 && inRange && (
+                    <motion.span
+                      key="p213-ptr-r1"
+                      layoutId="p213-ptr-r1"
+                      id={`p213-pointer-tag-r1-${idx}`}
+                      data-ptr="r1"
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      r1: ${r1}
+                    </motion.span>
+                  )}
+                  {isR2 && inRange && (
+                    <motion.span
+                      key="p213-ptr-r2"
+                      layoutId="p213-ptr-r2"
+                      id={`p213-pointer-tag-r2-${idx}`}
+                      data-ptr="r2"
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      r2: ${r2}
+                    </motion.span>
+                  )}
+                  {isCurrent && !isComplete && (
+                    <motion.span
+                      key="p213-ptr-curr"
+                      layoutId="p213-ptr-curr"
+                      id={`p213-pointer-tag-curr-${idx}`}
+                      data-ptr="curr"
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      curr
+                    </motion.span>
+                  )}
+                  {isExcluded && (
+                    <span id={`p213-pointer-tag-excl-${idx}`} data-ptr="excl">
+                      EXCLUDED
+                    </span>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* House Node */}
               <motion.div
-                className={`house-node ${isCurrent ? "house-curr" : ""} ${
-                  isExcluded ? "house-excluded" : inRange ? "house-in-range" : ""
-                }`}
+                id={`p213-house-node-${idx}`}
+                data-house-state={houseState}
+                layout
                 animate={{
                   scale: isCurrent ? 1.08 : 1,
                   opacity: isExcluded ? 0.35 : 1
                 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
+                transition={{ type: "spring", stiffness: 350, damping: 24 }}
               >
-                <div className="roof-shape" />
-                <div className="house-body">
-                  <span className="loot-val">${loot}</span>
-                  <span className="house-idx">H[{idx}]</span>
+                <div id={`p213-roof-shape-${idx}`} />
+                <div id={`p213-house-body-${idx}`}>
+                  <span id={`p213-loot-val-${idx}`}>${loot}</span>
+                  <span id={`p213-house-idx-${idx}`}>H[{idx}]</span>
                 </div>
               </motion.div>
             </div>
@@ -174,14 +270,15 @@ export default function Problem213({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p213-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p213-callout-header-text">{output.label}</div>
+            <div id="p213-callout-val-text">{output.value}</div>
+            <div id="p213-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

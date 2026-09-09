@@ -36,36 +36,39 @@ export default function Problem104({ stepData }) {
     longestPathEdges.some(([a, b]) => (a === u && b === v) || (a === v && b === u));
 
   return (
-    <div id="tree-depth-canvas">
+    <div id="p104-tree-depth-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-inspecting">
+      <div id="p104-metrics-bar">
+        <span id="p104-metric-inspecting">
           Visiting: <b>{activeNode !== null ? `Node (${activeNode})` : "None"}</b>
         </span>
 
-        <span id="metric-subdepths">
+        <span id="p104-metric-subdepths">
           Child Depths (L / R): <b>{leftDepth !== null ? leftDepth : "—"} / {rightDepth !== null ? rightDepth : "—"}</b>
         </span>
 
-        <span id="metric-cur-depth">
+        <span id="p104-metric-cur-depth">
           Node Depth: <b>{computedDepth !== null ? `${computedDepth}` : "Calculating"}</b>
         </span>
 
-        <span id={isCompleted ? "metric-max-done" : "metric-max-active"}>
+        <span
+          id="p104-metric-max"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Max Depth: <b>{maxDepth !== null ? `${maxDepth} levels` : "In Progress"}</b>
         </span>
       </div>
 
-      <div id="depth-stage">
+      <div id="p104-depth-stage">
         {/* Main Tree Card */}
-        <div id="tree-depth-card">
-          <div id="tree-card-header">
-            <span id="tree-header-title">Binary Tree Bottom-Up Depth Traversal</span>
-            <span id="tree-header-sub">Formula: 1 + max(leftDepth, rightDepth)</span>
+        <div id="p104-tree-depth-card">
+          <div id="p104-tree-card-header">
+            <span id="p104-tree-header-title">Binary Tree Bottom-Up Depth Traversal</span>
+            <span id="p104-tree-header-sub">Formula: 1 + max(leftDepth, rightDepth)</span>
           </div>
 
-          <div id="tree-viewport">
-            <svg id="tree-svg-surface" viewBox="0 0 400 240">
+          <div id="p104-tree-viewport">
+            <svg id="p104-tree-svg-surface" viewBox="0 0 400 240">
               {/* Tree Edges */}
               {treeEdges.map(({ from, to }) => {
                 const p1 = treeNodes.find((n) => n.val === from);
@@ -74,8 +77,9 @@ export default function Problem104({ stepData }) {
 
                 return (
                   <line
-                    key={`edge-${from}-${to}`}
-                    id={isPathEdge ? `edge-path-${from}-${to}` : `edge-normal-${from}-${to}`}
+                    key={`p104-edge-${from}-${to}`}
+                    id={`p104-edge-${from}-${to}`}
+                    data-edge-state={isPathEdge ? "path" : "normal"}
                     x1={p1.cx}
                     y1={p1.cy}
                     x2={p2.cx}
@@ -90,30 +94,50 @@ export default function Problem104({ stepData }) {
                 const isResolved = calculatedNodes[node.val] !== undefined;
                 const isLongest = isCompleted && longestPathNodes.includes(node.val);
 
-                let circleId = `node-idle-${node.val}`;
+                let nodeState = "idle";
                 if (isLongest) {
-                  circleId = `node-longest-${node.val}`;
+                  nodeState = "longest";
                 } else if (isActive) {
-                  circleId = `node-active-${node.val}`;
+                  nodeState = "active";
                 } else if (isResolved) {
-                  circleId = `node-resolved-${node.val}`;
+                  nodeState = "resolved";
                 }
 
                 return (
-                  <g key={`tree-g-${node.id}`} id={`g-${node.id}`}>
-                    {isLongest && (
-                      <circle id={`halo-longest-${node.val}`} cx={node.cx} cy={node.cy} r="28" />
-                    )}
-                    {isActive && (
-                      <circle id={`halo-active-${node.val}`} cx={node.cx} cy={node.cy} r="26" />
-                    )}
-                    
-                    <circle id={circleId} cx={node.cx} cy={node.cy} r="22" />
-                    
-                    <text id={`text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
+                  <g key={`p104-tree-g-${node.id}`} id={`p104-g-${node.id}`}>
+                    <AnimatePresence mode="popLayout">
+                      {isLongest && (
+                        <circle
+                          key={`p104-halo-longest-${node.val}`}
+                          id={`p104-halo-longest-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r="28"
+                        />
+                      )}
+                      {isActive && !isLongest && (
+                        <circle
+                          key={`p104-halo-active-${node.val}`}
+                          id={`p104-halo-active-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r="26"
+                        />
+                      )}
+                    </AnimatePresence>
+
+                    <circle
+                      id={`p104-node-${node.val}`}
+                      data-node-state={nodeState}
+                      cx={node.cx}
+                      cy={node.cy}
+                      r="22"
+                    />
+
+                    <text id={`p104-text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
                       {node.val}
                     </text>
-                    <text id={`text-sub-${node.val}`} x={node.cx} y={node.cy + 32}>
+                    <text id={`p104-text-sub-${node.val}`} x={node.cx} y={node.cy + 32}>
                       {calculatedNodes[node.val] !== undefined
                         ? `d = ${calculatedNodes[node.val]}`
                         : "d = ?"}
@@ -126,39 +150,42 @@ export default function Problem104({ stepData }) {
         </div>
 
         {/* Calculation Inspector Dashboard */}
-        <div id="calc-inspector-card">
-          <div id="calc-card-header">
-            <span id="calc-header-title">Post-Order Depth Logic</span>
-            <span id="calc-header-sub">Depth calculation for current stack frame</span>
+        <div id="p104-calc-inspector-card">
+          <div id="p104-calc-card-header">
+            <span id="p104-calc-header-title">Post-Order Depth Logic</span>
+            <span id="p104-calc-header-sub">Depth calculation for current stack frame</span>
           </div>
 
-          <div id="calc-grid">
-            <div id="calc-box-left">
-              <span id="calc-title-left">Left Subtree:</span>
-              <span id="calc-val-left">
+          <div id="p104-calc-grid">
+            <div id="p104-calc-box-left">
+              <span id="p104-calc-title-left">Left Subtree:</span>
+              <span id="p104-calc-val-left">
                 {leftDepth !== null ? `depth = ${leftDepth}` : "Pending"}
               </span>
             </div>
 
-            <div id="calc-box-right">
-              <span id="calc-title-right">Right Subtree:</span>
-              <span id="calc-val-right">
+            <div id="p104-calc-box-right">
+              <span id="p104-calc-title-right">Right Subtree:</span>
+              <span id="p104-calc-val-right">
                 {rightDepth !== null ? `depth = ${rightDepth}` : "Pending"}
               </span>
             </div>
 
-            <div id="calc-box-formula">
-              <span id="calc-title-formula">Local Calculation:</span>
-              <span id="calc-val-formula">
+            <div id="p104-calc-box-formula">
+              <span id="p104-calc-title-formula">Local Calculation:</span>
+              <span id="p104-calc-val-formula">
                 {leftDepth !== null && rightDepth !== null
                   ? `1 + max(${leftDepth}, ${rightDepth}) = ${1 + Math.max(leftDepth, rightDepth)}`
                   : "Traversing children"}
               </span>
             </div>
 
-            <div id="calc-box-return">
-              <span id="calc-title-return">Return Upward:</span>
-              <span id={computedDepth !== null ? "calc-val-return-done" : "calc-val-return-wait"}>
+            <div id="p104-calc-box-return">
+              <span id="p104-calc-title-return">Return Upward:</span>
+              <span
+                id="p104-calc-val-return"
+                data-state={computedDepth !== null ? "done" : "wait"}
+              >
                 {computedDepth !== null ? `Depth = ${computedDepth}` : "Pending"}
               </span>
             </div>
@@ -170,14 +197,14 @@ export default function Problem104({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p104-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p104-callout-header-text">{output.label}</div>
+            <div id="p104-callout-val-text">{output.value}</div>
+            <div id="p104-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,128 +1,163 @@
-.paren-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p22-paren-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   min-height: 480px;
   position: relative;
   gap: 16px;
   box-sizing: border-box;
-  overflow: hidden;
+  padding: 16px 16px 65px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
-/* METRICS */
-.metrics-row {
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#p22-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
   max-width: 95%;
+  z-index: 2;
 }
 
-.metric-chip {
+#p22-metric-target,
+#p22-metric-open-count,
+#p22-metric-close-count {
   background: #141417;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
   padding: 5px 14px;
-  border-radius: 8px;
+  border-radius: 9999px;
   font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
-.metric-chip b {
-  color: #fff;
-}
-
-.target-chip b {
+#p22-metric-target b {
   color: #facc15;
+  font-family: ui-monospace, monospace;
 }
 
-.open-count b {
+#p22-metric-open-count b {
   color: #38bdf8;
+  font-family: ui-monospace, monospace;
 }
 
-.close-count b {
+#p22-metric-close-count b {
   color: #c084fc;
+  font-family: ui-monospace, monospace;
 }
 
-/* RULES PANEL */
-.rules-panel {
+/* ============================================================
+   RULES PANEL
+   ============================================================ */
+#p22-rules-panel {
   display: flex;
   gap: 16px;
   justify-content: center;
   align-items: center;
   width: 95%;
   max-width: 440px;
+  box-sizing: border-box;
 }
 
-.rule-card {
+#p22-rule-card-open,
+#p22-rule-card-close {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
   padding: 12px;
   transition: all 0.25s ease;
+  box-sizing: border-box;
 }
 
-.rule-header {
+#p22-rule-header-open,
+#p22-rule-header-close {
   font-size: 11px;
   color: #71717a;
   text-transform: uppercase;
   font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
-.rule-equation {
+#p22-rule-equation-open,
+#p22-rule-equation-close {
   font-size: 12px;
   color: #e4e4e7;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.rule-status {
+#p22-rule-status-open,
+#p22-rule-status-close {
   font-size: 13px;
   font-weight: 800;
   margin-top: 2px;
+  font-family: ui-monospace, monospace;
 }
 
-.rule-valid {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.1);
+/* Rule Valid State */
+[id^="p22-rule-card-"][data-valid="true"] {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.1) !important;
   box-shadow: 0 0 16px rgba(34, 197, 94, 0.2);
 }
 
-.rule-valid .rule-status {
+[id^="p22-rule-card-"][data-valid="true"] [id^="p22-rule-status-"] {
   color: #86efac;
 }
 
-.rule-invalid {
-  border-color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
+/* Rule Invalid State */
+[id^="p22-rule-card-"][data-valid="false"] {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
 }
 
-.rule-invalid .rule-status {
+[id^="p22-rule-card-"][data-valid="false"] [id^="p22-rule-status-"] {
   color: #fca5a5;
 }
 
-/* STRING BUILDER TRACK */
-.builder-track {
+/* ============================================================
+   STRING BUILDER TRACK
+   ============================================================ */
+#p22-builder-track {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
   background: #18181b;
-  border: 1px solid #3f3f46;
+  border: 1.5px solid #3f3f46;
   border-radius: 16px;
   padding: 20px 24px;
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
   margin-top: 4px;
+  max-width: 95%;
+  box-sizing: border-box;
 }
 
-.builder-title {
+#p22-builder-title {
   font-size: 11px;
   color: #a1a1aa;
   text-transform: uppercase;
@@ -130,12 +165,18 @@
   letter-spacing: 0.5px;
 }
 
-.slots-container {
+#p22-slots-container {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  max-width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
 }
 
-.string-slot {
+[id^="p22-string-slot-"] {
   width: 44px;
   height: 52px;
   background: #111215;
@@ -148,32 +189,40 @@
   font-weight: 800;
   color: #52525b;
   transition: all 0.2s ease;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-family: ui-monospace, monospace;
 }
 
-.slot-filled {
-  border-style: solid;
-  background: #27272a;
-}
-
-.slot-open {
-  border-color: #38bdf8;
-  color: #38bdf8;
+[id^="p22-string-slot-"][data-state="open"] {
+  border-style: solid !important;
+  background: #27272a !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
 }
 
-.slot-close {
-  border-color: #c084fc;
-  color: #c084fc;
+[id^="p22-string-slot-"][data-state="close"] {
+  border-style: solid !important;
+  background: #27272a !important;
+  border-color: #c084fc !important;
+  color: #c084fc !important;
   box-shadow: 0 0 12px rgba(192, 132, 252, 0.3);
 }
 
-/* ACCUMULATED RESULTS REEL */
-.results-reel-card {
+[id^="p22-slot-char-"] {
+  line-height: 1;
+}
+
+/* ============================================================
+   ACCUMULATED RESULTS REEL
+   ============================================================ */
+#p22-results-reel-card {
   display: flex;
   flex-direction: column;
   gap: 6px;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
   padding: 12px 16px;
   max-width: 95%;
@@ -181,26 +230,28 @@
   box-sizing: border-box;
 }
 
-.reel-header {
+#p22-reel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.reel-title {
+#p22-reel-title {
   font-size: 10px;
   color: #71717a;
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.reel-count {
+#p22-reel-count {
   font-size: 11px;
   font-weight: 800;
   color: #22c55e;
+  font-family: ui-monospace, monospace;
 }
 
-.reel-chips-stream {
+#p22-reel-chips-stream {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -208,52 +259,184 @@
   min-height: 26px;
 }
 
-.reel-empty-text {
+#p22-reel-empty-text {
   font-size: 11px;
   color: #52525b;
   font-style: italic;
   margin-top: 4px;
+  font-family: ui-monospace, monospace;
 }
 
-.combo-chip {
+[id^="p22-combo-chip-"] {
   background: #18181b;
   border: 1px solid #22c55e;
   color: #86efac;
   font-size: 14px;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
   font-weight: 800;
   padding: 4px 10px;
   border-radius: 6px;
 }
 
-/* RESULT CALLOUT */
-.result-callout {
+/* ============================================================
+   RESULT CALLOUT (GREEN ANSWER)
+   ============================================================ */
+#p22-result-callout-box {
   position: absolute;
   bottom: 10px;
   background: #0f172a;
-  border: 1px solid #22c55e;
+  border: 1.5px solid #22c55e;
   border-radius: 10px;
   padding: 8px 18px;
   text-align: center;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 16px rgba(34, 197, 94, 0.25);
   z-index: 5;
+  max-width: 90%;
 }
 
-.callout-header {
+#p22-callout-header-text {
   font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
   font-weight: 800;
+  letter-spacing: 0.6px;
 }
 
-.callout-val {
+#p22-callout-val-text {
   font-size: 16px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 800;
   margin: 2px 0;
+  font-family: ui-monospace, monospace;
 }
 
-.callout-detail {
+#p22-callout-detail-text {
   font-size: 11px;
   color: #94a3b8;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p22-builder-track {
+    padding: 16px 20px;
+  }
+
+  [id^="p22-string-slot-"] {
+    width: 40px;
+    height: 48px;
+    font-size: 22px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p22-paren-canvas {
+    padding: 14px 12px 65px 12px;
+    gap: 14px;
+  }
+
+  #p22-metrics-row {
+    gap: 6px;
+  }
+
+  #p22-metric-target,
+  #p22-metric-open-count,
+  #p22-metric-close-count {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  #p22-rules-panel {
+    gap: 10px;
+  }
+
+  #p22-rule-card-open,
+  #p22-rule-card-close {
+    padding: 8px 10px;
+  }
+
+  #p22-rule-equation-open,
+  #p22-rule-equation-close {
+    font-size: 11px;
+  }
+
+  #p22-rule-status-open,
+  #p22-rule-status-close {
+    font-size: 12px;
+  }
+
+  #p22-builder-track {
+    padding: 14px 16px;
+    width: 100%;
+  }
+
+  [id^="p22-string-slot-"] {
+    width: 36px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  #p22-results-reel-card {
+    width: 100%;
+    max-width: 380px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p22-paren-canvas {
+    gap: 12px;
+  }
+
+  #p22-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p22-metric-target,
+  #p22-metric-open-count,
+  #p22-metric-close-count {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p22-rules-panel {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  #p22-rule-card-open,
+  #p22-rule-card-close {
+    width: 100%;
+  }
+
+  #p22-slots-container {
+    gap: 4px;
+  }
+
+  [id^="p22-string-slot-"] {
+    width: 30px;
+    height: 38px;
+    font-size: 17px;
+    border-radius: 6px;
+  }
+
+  [id^="p22-combo-chip-"] {
+    font-size: 12px;
+    padding: 2px 8px;
+  }
+
+  #p22-callout-val-text {
+    font-size: 14px;
+  }
+
+  #p22-callout-detail-text {
+    font-size: 10px;
+  }
 }

@@ -17,24 +17,24 @@ export default function Problem153({ stepData }) {
   const minIdx = isComplete ? array.indexOf(state.min ?? currentRes) : null;
 
   return (
-    <div id="find-min-canvas">
+    <div id="p153-find-min-canvas">
       {/* Metrics Header */}
-      <div id="metrics-row">
-        <span id="metric-chip-range">
+      <div id="p153-metrics-row">
+        <span id="p153-metric-chip-range">
           Search Window: l = <b>{l}</b>, r = <b>{r}</b>
         </span>
         {m !== null && (
-          <span id="metric-chip-mid">
+          <span id="p153-metric-chip-mid">
             m = <b>{m}</b> (val: {array[m]})
           </span>
         )}
-        <span id="metric-chip-res">
+        <span id="p153-metric-chip-res">
           Current Min (res): <b>{currentRes ?? "-"}</b>
         </span>
       </div>
 
       {/* Elements Ribbon */}
-      <div id="elements-track">
+      <div id="p153-elements-track">
         {array.map((val, idx) => {
           const inRange = idx >= l && idx <= r;
           const isMid = idx === m;
@@ -45,36 +45,73 @@ export default function Problem153({ stepData }) {
           let nodeState = "idle";
           if (isFoundMin) nodeState = "min";
           else if (isMid) nodeState = "mid";
+          else if (inRange) nodeState = "in-range";
 
           return (
-            <div key={`col-${idx}`} id={`box-column-${idx}`}>
+            <div key={`p153-col-${idx}`} id={`p153-box-column-${idx}`}>
               {/* Pointer Badges */}
-              <div id={`ptrs-group-${idx}`}>
-                {isLeft && <span id={`pointer-tag-l-${idx}`}>l</span>}
-                {isMid && <span id={`pointer-tag-m-${idx}`}>m</span>}
-                {isRight && <span id={`pointer-tag-r-${idx}`}>r</span>}
+              <div id={`p153-ptrs-group-${idx}`}>
+                <AnimatePresence mode="popLayout">
+                  {isLeft && (
+                    <motion.span
+                      key="p153-ptr-left"
+                      layoutId="p153-ptr-l"
+                      id={`p153-pointer-tag-l-${idx}`}
+                      data-ptr="l"
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      l
+                    </motion.span>
+                  )}
+                  {isMid && (
+                    <motion.span
+                      key="p153-ptr-mid"
+                      layoutId="p153-ptr-m"
+                      id={`p153-pointer-tag-m-${idx}`}
+                      data-ptr="m"
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      m
+                    </motion.span>
+                  )}
+                  {isRight && (
+                    <motion.span
+                      key="p153-ptr-right"
+                      layoutId="p153-ptr-r"
+                      id={`p153-pointer-tag-r-${idx}`}
+                      data-ptr="r"
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      r
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Element Box */}
               <motion.div
-                id={`box-node-${nodeState}-${idx}`}
+                id={`p153-box-node-${idx}`}
+                data-node-state={nodeState}
+                layout
                 animate={{
                   opacity: inRange || isFoundMin ? 1 : 0.25,
-                  scale: isFoundMin ? 1.15 : isMid ? 1.08 : 1,
-                  borderColor: isFoundMin
-                    ? "#22c55e"
-                    : isMid
-                    ? "#38bdf8"
-                    : inRange
-                    ? "#52525b"
-                    : "#27272a"
+                  scale: isFoundMin ? 1.12 : isMid ? 1.06 : 1
                 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
+                transition={{ type: "spring", stiffness: 350, damping: 24 }}
               >
                 {val}
               </motion.div>
 
-              <span id={`idx-tag-${idx}`}>[{idx}]</span>
+              <span id={`p153-idx-tag-${idx}`}>[{idx}]</span>
             </div>
           );
         })}
@@ -84,14 +121,15 @@ export default function Problem153({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p153-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p153-callout-header-text">{output.label}</div>
+            <div id="p153-callout-val-text">{output.value}</div>
+            <div id="p153-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

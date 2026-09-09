@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#trapping-water-canvas {
+#p42-trapping-water-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 14px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p42-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,13 +32,14 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-left-max,
-#metric-right-max,
-#metric-total-water,
-#metric-status-active,
-#metric-status-done {
+#p42-metric-left-max,
+#p42-metric-right-max,
+#p42-metric-total-water,
+#p42-metric-status-active,
+#p42-metric-status-done {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -50,23 +52,24 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
 }
 
-#metric-left-max b { color: #facc15; font-family: ui-monospace, monospace; }
-#metric-right-max b { color: #c084fc; font-family: ui-monospace, monospace; }
-#metric-total-water b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#metric-status-active b { color: #f87171; }
+#p42-metric-left-max b { color: #facc15; font-family: ui-monospace, monospace; }
+#p42-metric-right-max b { color: #c084fc; font-family: ui-monospace, monospace; }
+#p42-metric-total-water b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p42-metric-status-active b { color: #f87171; }
 
-#metric-status-done {
+#p42-metric-status-done {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-status-done b { color: #4ade80 !important; }
+#p42-metric-status-done b { color: #4ade80 !important; }
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#water-stage {
+#p42-water-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -76,8 +79,8 @@
   flex-shrink: 0;
 }
 
-#terrain-track-card,
-#decision-inspector-card {
+#p42-terrain-track-card,
+#p42-decision-inspector-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -89,8 +92,8 @@
   box-sizing: border-box;
 }
 
-#terrain-card-header,
-#decision-card-header {
+#p42-terrain-card-header,
+#p42-decision-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,8 +102,8 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#terrain-header-title,
-#decision-header-title {
+#p42-terrain-header-title,
+#p42-decision-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -108,8 +111,8 @@
   letter-spacing: 0.7px;
 }
 
-#terrain-header-sub,
-#decision-header-sub {
+#p42-terrain-header-sub,
+#p42-decision-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -119,47 +122,47 @@
 /* ============================================================
    ELEVATION MAP VIEWPORT
    ============================================================ */
-#terrain-viewport {
+#p42-terrain-viewport {
   width: 100%;
   min-height: 180px;
   background: #0f0f14;
   border: 1px solid #1e1e28;
   border-radius: 12px;
   display: flex;
-  align-items: flex-end; /* Align columns to bottom */
+  align-items: flex-end;
   justify-content: center;
-  padding: 24px 16px 36px 16px; /* Extra bottom padding for pointer tags */
+  padding: 24px 16px 36px 16px;
   box-sizing: border-box;
   overflow-x: auto;
 }
 
-#terrain-grid-container {
+#p42-terrain-grid-container {
   display: flex;
   align-items: flex-end;
   gap: 8px;
 }
 
 /* Base Column layout - stacks contents from bottom to top via column-reverse */
-[id^="terrain-col-idle-"],
-[id^="terrain-col-left-"],
-[id^="terrain-col-right-"] {
+[id^="p42-terrain-col-"] {
   display: flex;
-  flex-direction: column-reverse; /* Puts terrain at bottom, water on top */
+  flex-direction: column-reverse;
   align-items: center;
   position: relative;
   width: 44px;
-  height: 140px; /* Fixed container height to allow absolute tags at bottom */
+  height: 140px;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
 }
 
 /* Column Highlight States */
-[id^="terrain-col-left-"] {
+[id^="p42-terrain-col-"][data-active="left"] {
   background: rgba(250, 204, 21, 0.05);
   border-radius: 8px 8px 0 0;
   border: 1px dashed #facc15;
   border-bottom: none;
 }
 
-[id^="terrain-col-right-"] {
+[id^="p42-terrain-col-"][data-active="right"] {
   background: rgba(192, 132, 252, 0.05);
   border-radius: 8px 8px 0 0;
   border: 1px dashed #c084fc;
@@ -167,7 +170,7 @@
 }
 
 /* Terrain Solid Blocks */
-[id^="terrain-block-"] {
+[id^="p42-terrain-block-"] {
   width: 100%;
   background: #3f3f46;
   border-top: 2px solid #52525b;
@@ -177,10 +180,10 @@
   justify-content: center;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  min-height: 2px; /* For 0 height elements so they exist */
+  min-height: 2px;
 }
 
-[id^="terrain-val-"] {
+[id^="p42-terrain-val-"] {
   font-size: 11px;
   font-weight: 800;
   color: #a1a1aa;
@@ -189,18 +192,18 @@
 }
 
 /* Active Highlight on Terrain */
-[id^="terrain-col-left-"] > [id^="terrain-block-"] {
+[id^="p42-terrain-col-"][data-active="left"] > [id^="p42-terrain-block-"] {
   background: #713f12 !important;
   border-top-color: #facc15 !important;
 }
 
-[id^="terrain-col-right-"] > [id^="terrain-block-"] {
+[id^="p42-terrain-col-"][data-active="right"] > [id^="p42-terrain-block-"] {
   background: #4c1d95 !important;
   border-top-color: #c084fc !important;
 }
 
 /* Trapped Water Blocks */
-[id^="water-block-"] {
+[id^="p42-water-block-"] {
   width: 100%;
   background: rgba(56, 189, 248, 0.55);
   border-top: 2px solid #38bdf8;
@@ -211,16 +214,16 @@
   box-sizing: border-box;
 }
 
-[id^="water-val-"] {
+[id^="p42-water-val-"] {
   font-size: 10px;
   font-weight: 900;
   color: #bae6fd;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
   font-family: ui-monospace, monospace;
 }
 
 /* Coordinate / Index Tags */
-[id^="idx-tag-"] {
+[id^="p42-idx-tag-"] {
   position: absolute;
   top: -18px;
   font-size: 8.5px;
@@ -230,8 +233,8 @@
 }
 
 /* Pointers L & R */
-#pointer-tag-l,
-#pointer-tag-r {
+#p42-pointer-tag-l,
+#p42-pointer-tag-r {
   position: absolute;
   bottom: -22px;
   font-size: 10px;
@@ -243,13 +246,13 @@
   z-index: 5;
 }
 
-#pointer-tag-l {
+#p42-pointer-tag-l {
   background: #facc15;
   color: #0c0c10;
   box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
 }
 
-#pointer-tag-r {
+#p42-pointer-tag-r {
   background: #c084fc;
   color: #0c0c10;
   box-shadow: 0 2px 8px rgba(192, 132, 252, 0.4);
@@ -258,21 +261,15 @@
 /* ============================================================
    DECISION INSPECTOR
    ============================================================ */
-#decision-grid {
+#p42-decision-grid {
   display: grid;
   grid-template-columns: 1.2fr 1.8fr;
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 680px) {
-  #decision-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#decision-box-rule,
-#decision-box-action {
+#p42-decision-box-rule,
+#p42-decision-box-action {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -280,56 +277,51 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
-#decision-title-rule,
-#decision-title-action {
+#p42-decision-title-rule,
+#p42-decision-title-action {
   font-size: 9px;
   font-weight: 800;
   color: #717182;
   text-transform: uppercase;
 }
 
-#decision-val-rule {
+#p42-decision-val-rule {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
   color: #a1a1aa;
 }
 
-#decision-val-idle {
+#p42-decision-val-action {
   font-size: 12px;
   font-weight: 700;
   font-family: ui-monospace, monospace;
   color: #a1a1aa;
 }
 
-#decision-val-update {
-  font-size: 12px;
+#p42-decision-val-action[data-action="update"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #c084fc;
 }
 
-#decision-val-trap {
-  font-size: 12px;
+#p42-decision-val-action[data-action="trap"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #38bdf8;
   text-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
 }
 
-#decision-val-done {
-  font-size: 12px;
+#p42-decision-val-action[data-action="done"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #4ade80;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p42-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -343,9 +335,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p42-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -353,7 +346,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p42-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -361,8 +354,122 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p42-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p42-water-stage {
+    max-width: 100%;
+  }
+
+  [id^="p42-terrain-col-"] {
+    width: 38px;
+    height: 130px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p42-trapping-water-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p42-metrics-bar {
+    gap: 6px;
+  }
+
+  #p42-metric-left-max,
+  #p42-metric-right-max,
+  #p42-metric-total-water,
+  #p42-metric-status-active,
+  #p42-metric-status-done {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p42-terrain-viewport {
+    justify-content: flex-start;
+    padding: 20px 10px 32px 10px;
+  }
+
+  [id^="p42-terrain-col-"] {
+    width: 34px;
+    height: 120px;
+  }
+
+  #p42-decision-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p42-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p42-metric-left-max,
+  #p42-metric-right-max,
+  #p42-metric-total-water,
+  #p42-metric-status-active,
+  #p42-metric-status-done {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p42-terrain-card-header,
+  #p42-decision-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p42-terrain-grid-container {
+    gap: 6px;
+  }
+
+  [id^="p42-terrain-col-"] {
+    width: 28px;
+    height: 100px;
+  }
+
+  [id^="p42-idx-tag-"] {
+    font-size: 7.5px;
+    top: -16px;
+  }
+
+  [id^="p42-terrain-val-"] {
+    font-size: 9px;
+  }
+
+  [id^="p42-water-val-"] {
+    font-size: 8.5px;
+  }
+
+  #p42-pointer-tag-l,
+  #p42-pointer-tag-r {
+    font-size: 8px;
+    padding: 1px 5px;
+    bottom: -18px;
+  }
+
+  #p42-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p42-callout-detail-text {
+    font-size: 11px;
+  }
 }

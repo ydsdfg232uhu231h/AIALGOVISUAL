@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#jump-game-canvas {
+#p55-jump-game-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p55-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,14 +32,13 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-pointer,
-#metric-val,
-#metric-max-reach,
-#metric-status-active,
-#metric-status-done,
-#metric-status-fail {
+#p55-metric-pointer,
+#p55-metric-val,
+#p55-metric-max-reach,
+#p55-metric-status {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -51,29 +51,50 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
 }
 
-#metric-pointer b { color: #facc15; font-family: ui-monospace, monospace; }
-#metric-val b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#metric-max-reach b { color: #c084fc; font-family: ui-monospace, monospace; }
-#metric-status-active b { color: #38bdf8; }
+#p55-metric-pointer b {
+  color: #facc15;
+  font-family: ui-monospace, monospace;
+}
 
-#metric-status-done {
+#p55-metric-val b {
+  color: #38bdf8;
+  font-family: ui-monospace, monospace;
+}
+
+#p55-metric-max-reach b {
+  color: #c084fc;
+  font-family: ui-monospace, monospace;
+}
+
+#p55-metric-status[data-status="active"] b {
+  color: #38bdf8;
+}
+
+#p55-metric-status[data-status="done"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-status-done b { color: #4ade80 !important; }
 
-#metric-status-fail {
+#p55-metric-status[data-status="done"] b {
+  color: #4ade80 !important;
+}
+
+#p55-metric-status[data-status="fail"] {
   border-color: #ef4444 !important;
   background: rgba(239, 68, 68, 0.16) !important;
 }
-#metric-status-fail b { color: #f87171 !important; }
+
+#p55-metric-status[data-status="fail"] b {
+  color: #f87171 !important;
+}
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#jump-stage {
+#p55-jump-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -83,8 +104,8 @@
   flex-shrink: 0;
 }
 
-#array-track-card,
-#decision-inspector-card {
+#p55-array-track-card,
+#p55-decision-inspector-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -96,8 +117,8 @@
   box-sizing: border-box;
 }
 
-#array-card-header,
-#decision-card-header {
+#p55-array-card-header,
+#p55-decision-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -106,8 +127,8 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#array-header-title,
-#decision-header-title {
+#p55-array-header-title,
+#p55-decision-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -115,8 +136,8 @@
   letter-spacing: 0.7px;
 }
 
-#array-header-sub,
-#decision-header-sub {
+#p55-array-header-sub,
+#p55-decision-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -126,7 +147,7 @@
 /* ============================================================
    TRACK VIEWPORTS
    ============================================================ */
-#array-elements-track {
+#p55-array-elements-track {
   width: 100%;
   min-height: 120px;
   background: #0f0f14;
@@ -135,13 +156,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 28px 16px 30px 16px; /* Extra padding for top/bottom absolute tags */
+  padding: 28px 16px 30px 16px;
   gap: 14px;
   overflow-x: auto;
   box-sizing: border-box;
 }
 
-[id^="jump-col-"] {
+[id^="p55-jump-col-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,11 +171,7 @@
   flex-shrink: 0;
 }
 
-[id^="box-unreachable-"],
-[id^="box-reachable-"],
-[id^="box-active-"],
-[id^="box-done-"],
-[id^="box-fail-"] {
+[id^="p55-jump-box-"] {
   width: 60px;
   height: 60px;
   border-radius: 12px;
@@ -169,14 +186,14 @@
 }
 
 /* Unreachable (Greyed out) */
-[id^="box-unreachable-"] {
+[id^="p55-jump-box-"][data-state="unreachable"] {
   background: #181822;
   border: 1.5px solid #2e2e40;
   color: #525266;
 }
 
 /* Reachable Zone */
-[id^="box-reachable-"] {
+[id^="p55-jump-box-"][data-state="reachable"] {
   background: rgba(192, 132, 252, 0.1);
   border: 1.5px solid #8b5cf6;
   color: #d8b4fe;
@@ -184,7 +201,7 @@
 }
 
 /* Active Index (i) */
-[id^="box-active-"] {
+[id^="p55-jump-box-"][data-state="active"] {
   background: #262214 !important;
   border: 2px solid #facc15 !important;
   color: #fef08a !important;
@@ -192,7 +209,7 @@
 }
 
 /* Successfully completed all (Green) */
-[id^="box-done-"] {
+[id^="p55-jump-box-"][data-state="done"] {
   background: #13241b !important;
   border: 2px solid #22c55e !important;
   color: #4ade80 !important;
@@ -200,14 +217,14 @@
 }
 
 /* Failed trapped state (Red) */
-[id^="box-fail-"] {
+[id^="p55-jump-box-"][data-state="fail"] {
   background: #2a1215 !important;
   border: 2px solid #ef4444 !important;
   color: #fca5a5 !important;
   box-shadow: 0 0 12px rgba(239, 68, 68, 0.65) !important;
 }
 
-[id^="idx-tag-"] {
+[id^="p55-idx-tag-"] {
   font-size: 8.5px;
   font-weight: 700;
   color: #717182;
@@ -215,11 +232,11 @@
   margin-top: 6px;
 }
 
-/* Perfect Center Pointer Alignments */
-#pointer-tag-i {
+/* Pointers */
+[id^="p55-pointer-tag-i-"] {
   position: absolute;
   bottom: -22px;
-  left: 33%;
+  left: 50%;
   transform: translateX(-50%);
   font-size: 9px;
   font-weight: 900;
@@ -233,7 +250,7 @@
   z-index: 5;
 }
 
-#pointer-tag-max {
+[id^="p55-pointer-tag-max-"] {
   position: absolute;
   top: -24px;
   left: 50%;
@@ -254,21 +271,15 @@
 /* ============================================================
    DECISION INSPECTOR
    ============================================================ */
-#decision-grid {
+#p55-decision-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 680px) {
-  #decision-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#decision-box-rule,
-#decision-box-action {
+#p55-decision-box-rule,
+#p55-decision-box-action {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -276,55 +287,50 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
-#decision-title-rule,
-#decision-title-action {
+#p55-decision-title-rule,
+#p55-decision-title-action {
   font-size: 9px;
   font-weight: 800;
   color: #717182;
   text-transform: uppercase;
 }
 
-#decision-val-rule {
+#p55-decision-val-rule {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
   color: #c084fc;
 }
 
-#decision-val-idle {
+#p55-decision-val-action {
   font-size: 12px;
   font-weight: 700;
   font-family: ui-monospace, monospace;
   color: #a1a1aa;
 }
 
-#decision-val-expand {
-  font-size: 12px;
+#p55-decision-val-action[data-action="expand"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #facc15;
 }
 
-#decision-val-done {
-  font-size: 12px;
+#p55-decision-val-action[data-action="done"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #4ade80;
 }
 
-#decision-val-fail {
-  font-size: 12px;
+#p55-decision-val-action[data-action="fail"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #ef4444;
 }
 
 /* ============================================================
-   RESULT CALLOUT
+   RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p55-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -338,9 +344,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p55-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -348,7 +355,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p55-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -356,8 +363,122 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p55-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p55-jump-stage {
+    max-width: 100%;
+  }
+
+  [id^="p55-jump-box-"] {
+    width: 54px;
+    height: 54px;
+    font-size: 16px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p55-jump-game-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p55-metrics-bar {
+    gap: 6px;
+  }
+
+  #p55-metric-pointer,
+  #p55-metric-val,
+  #p55-metric-max-reach,
+  #p55-metric-status {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p55-array-elements-track {
+    padding: 24px 12px 26px 12px;
+    gap: 10px;
+  }
+
+  [id^="p55-jump-box-"] {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  #p55-decision-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p55-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p55-metric-pointer,
+  #p55-metric-val,
+  #p55-metric-max-reach,
+  #p55-metric-status {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p55-array-card-header,
+  #p55-decision-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p55-array-elements-track {
+    padding: 22px 8px 24px 8px;
+    gap: 8px;
+  }
+
+  [id^="p55-jump-box-"] {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+
+  [id^="p55-pointer-tag-max-"] {
+    font-size: 7.5px;
+    padding: 1px 4px;
+    top: -20px;
+  }
+
+  [id^="p55-pointer-tag-i-"] {
+    font-size: 8px;
+    padding: 1px 6px;
+    bottom: -18px;
+  }
+
+  [id^="p55-idx-tag-"] {
+    font-size: 7.5px;
+  }
+
+  #p55-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p55-callout-detail-text {
+    font-size: 11px;
+  }
 }

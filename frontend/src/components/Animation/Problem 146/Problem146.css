@@ -1,27 +1,29 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-.lru-canvas {
+#p146-lru-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   height: 100%;
+  min-height: 520px;
   box-sizing: border-box;
-  padding: 10px 16px 60px 16px;
+  padding: 10px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    TOP METRICS ROW
    ============================================================ */
-.metrics-row {
+#p146-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -30,9 +32,13 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-.metric-chip {
+#p146-metric-op,
+#p146-metric-target,
+#p146-metric-cap,
+#p146-metric-evict {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -45,30 +51,35 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.metric-chip b {
+#p146-metric-op b,
+#p146-metric-target b,
+#p146-metric-cap b,
+#p146-metric-evict b {
   color: #f4f4f5;
   font-weight: 800;
 }
 
-.op-put b { color: #38bdf8; }
-.op-get b { color: #4ade80; }
-.op-init b { color: #c084fc; }
+#p146-metric-op[data-op="put"] b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p146-metric-op[data-op="get"] b { color: #4ade80; font-family: ui-monospace, monospace; }
+#p146-metric-op[data-op="init"] b { color: #c084fc; font-family: ui-monospace, monospace; }
 
-.target-chip b { color: #facc15; }
-.cap-chip b { color: #c084fc; }
+#p146-metric-target b { color: #facc15; font-family: ui-monospace, monospace; }
+#p146-metric-cap b { color: #c084fc; font-family: ui-monospace, monospace; }
 
-.evict-chip {
+#p146-metric-evict {
   border-color: #ef4444 !important;
   background: rgba(239, 68, 68, 0.15) !important;
 }
-.evict-chip b { color: #f87171 !important; }
+#p146-metric-evict b { color: #f87171 !important; font-family: ui-monospace, monospace; }
 
 /* ============================================================
    STAGE & CARDS
    ============================================================ */
-.lru-stage {
+#p146-lru-stage {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -78,7 +89,8 @@
   flex-shrink: 0;
 }
 
-.track-card {
+#p146-dll-card,
+#p146-map-card {
   width: 100%;
   background: #121218;
   border: 1.5px solid #242430;
@@ -92,7 +104,12 @@
   flex-shrink: 0;
 }
 
-.card-header-bar {
+#p146-dll-card {
+  min-height: 200px;
+}
+
+#p146-dll-card-header,
+#p146-map-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -106,18 +123,19 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-.card-sub {
+#p146-dll-header-sub,
+#p146-map-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
   text-transform: none;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
 }
 
 /* ============================================================
    1. DOUBLY LINKED LIST TRACK
    ============================================================ */
-.dll-track-viewport {
+#p146-dll-track-viewport {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,7 +145,8 @@
   box-sizing: border-box;
 }
 
-.sentinel-box {
+#p146-sentinel-left,
+#p146-sentinel-right {
   width: 66px;
   height: 68px;
   background: #181822;
@@ -141,30 +160,40 @@
   flex-shrink: 0;
 }
 
-.sentinel-tag {
+#p146-sentinel-tag-left,
+#p146-sentinel-tag-right {
   font-size: 7px;
   font-weight: 800;
   color: #636374;
   letter-spacing: 0.5px;
+  font-family: ui-monospace, monospace;
 }
 
-.sentinel-title {
+#p146-sentinel-title-left,
+#p146-sentinel-title-right {
   font-size: 13px;
   font-weight: 900;
   color: #e4e4e7;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.sentinel-sub {
+#p146-sentinel-sub-left {
   font-size: 8px;
   font-weight: 800;
-  color: #facc15;
+  color: #f87171;
+  font-family: ui-monospace, monospace;
 }
 
-.sentinel-left .sentinel-sub { color: #f87171; }
-.sentinel-right .sentinel-sub { color: #4ade80; }
+#p146-sentinel-sub-right {
+  font-size: 8px;
+  font-weight: 800;
+  color: #4ade80;
+  font-family: ui-monospace, monospace;
+}
 
-.conduit-arrow-pair {
+#p146-conduit-left,
+#p146-conduit-right,
+[id^="p146-conduit-mid-"] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,29 +201,32 @@
   flex-shrink: 0;
 }
 
-.arrow-next {
+#p146-arrow-next-left,
+#p146-arrow-next-right,
+[id^="p146-arrow-next-mid-"] {
   font-size: 14px;
   color: #5d5d6d;
   font-weight: 900;
+  font-family: ui-monospace, monospace;
 }
 
-.dll-nodes-wrapper {
+#p146-dll-nodes-wrapper {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
 }
 
-.empty-dll-placeholder {
+#p146-empty-dll-placeholder {
   font-size: 11px;
   color: #5d5d6d;
   font-style: italic;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
   padding: 0 10px;
 }
 
 /* Cache Node Capsule */
-.dll-node-card {
+[id^="p146-dll-node-"] {
   width: 108px;
   height: 68px;
   background: #181822;
@@ -209,83 +241,86 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   box-sizing: border-box;
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.node-pos-badge {
+[id^="p146-node-pos-"] {
   font-size: 8px;
   font-weight: 900;
   color: #717182;
   letter-spacing: 0.5px;
+  font-family: ui-monospace, monospace;
 }
 
-.node-kv-content {
+[id^="p146-node-kv-"] {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
   font-size: 14px;
   color: #ffffff;
 }
 
-.kv-divider {
+[id^="p146-kv-divider-"] {
   color: #3f3f50;
   font-size: 12px;
 }
 
-.node-addr-tag {
+[id^="p146-node-addr-"] {
   font-size: 8px;
   font-weight: 600;
   color: #525262;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
 }
 
 /* Node Dynamic Modifiers */
-.node-active {
+[id^="p146-dll-node-"][data-node-state="active"] {
   border-color: #facc15 !important;
   background: #232219 !important;
   box-shadow: 0 0 16px rgba(250, 204, 21, 0.45) !important;
 }
-.node-active .kv-key b,
-.node-active .kv-val b { color: #fef08a; }
-.node-active .node-pos-badge { color: #facc15; }
+[id^="p146-dll-node-"][data-node-state="active"] [id^="p146-kv-key-"] b,
+[id^="p146-dll-node-"][data-node-state="active"] [id^="p146-kv-val-"] b {
+  color: #fef08a;
+}
+[id^="p146-dll-node-"][data-node-state="active"] [id^="p146-node-pos-"] {
+  color: #facc15;
+}
 
-.node-mru {
+[id^="p146-dll-node-"][data-node-state="mru"] {
   border-color: #22c55e !important;
   background: #13241b !important;
 }
-.node-mru .node-pos-badge { color: #4ade80; }
+[id^="p146-dll-node-"][data-node-state="mru"] [id^="p146-node-pos-"] {
+  color: #4ade80;
+}
 
-.node-lru {
+[id^="p146-dll-node-"][data-node-state="lru"] {
   border-color: #ef4444 !important;
   background: #231719 !important;
 }
-.node-lru .node-pos-badge { color: #f87171; }
+[id^="p146-dll-node-"][data-node-state="lru"] [id^="p146-node-pos-"] {
+  color: #f87171;
+}
 
 /* ============================================================
    2. HASH MAP CARDS
    ============================================================ */
-.map-cards-grid {
+#p146-map-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 650px) {
-  .map-cards-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.empty-map-placeholder {
+#p146-empty-map-placeholder {
   font-size: 11px;
   color: #5d5d6d;
   font-style: italic;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.map-token-pill {
+[id^="p146-map-entry-"] {
   background: #161620;
   border: 1.5px solid #252534;
   border-radius: 8px;
@@ -293,37 +328,40 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.token-key {
+[id^="p146-token-key-"] {
   font-size: 12px;
   font-weight: 800;
   color: #ffffff;
 }
 
-.token-arrow {
+[id^="p146-token-arrow-"] {
   color: #717182;
   font-size: 11px;
 }
 
-.token-ptr {
+[id^="p146-token-ptr-"] {
   font-size: 11px;
   font-weight: 700;
   color: #38bdf8;
 }
 
-.map-token-active {
+[id^="p146-map-entry-"][data-token-active="true"] {
   border-color: rgba(250, 204, 21, 0.6) !important;
   background: rgba(250, 204, 21, 0.1) !important;
 }
-.map-token-active .token-ptr { color: #facc15; }
+[id^="p146-map-entry-"][data-token-active="true"] [id^="p146-token-ptr-"] {
+  color: #facc15;
+}
 
 /* ============================================================
    RESULT CALLOUT MODAL
    ============================================================ */
-.result-callout {
+#p146-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -337,9 +375,10 @@
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-.callout-header {
+#p146-callout-header-text {
   font-size: 9px;
   text-transform: uppercase;
   font-weight: 800;
@@ -347,19 +386,134 @@
   letter-spacing: 0.8px;
 }
 
-.callout-val {
+#p146-callout-val-text {
   font-size: 15px;
   color: #ffffff;
   font-weight: 900;
   margin: 1px 0;
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.callout-detail {
+#p146-callout-detail-text {
   font-size: 11px;
   color: #a1a1aa;
   font-weight: 500;
 }
-#mydillcard{
-  height: 200px !important;
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  [id^="p146-dll-node-"] {
+    width: 98px;
+    height: 64px;
+  }
+
+  [id^="p146-node-kv-"] {
+    font-size: 13px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p146-lru-canvas {
+    padding: 10px 10px 75px 10px;
+    gap: 10px;
+  }
+
+  #p146-metrics-row {
+    gap: 6px;
+  }
+
+  #p146-metric-op,
+  #p146-metric-target,
+  #p146-metric-cap,
+  #p146-metric-evict {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p146-dll-track-viewport {
+    justify-content: flex-start;
+  }
+
+  #p146-map-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  [id^="p146-dll-node-"] {
+    width: 90px;
+    height: 60px;
+  }
+
+  [id^="p146-node-kv-"] {
+    font-size: 12px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p146-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p146-metric-op,
+  #p146-metric-target,
+  #p146-metric-cap,
+  #p146-metric-evict {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p146-dll-card-header,
+  #p146-map-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p146-sentinel-left,
+  #p146-sentinel-right {
+    width: 54px;
+    height: 56px;
+  }
+
+  #p146-sentinel-title-left,
+  #p146-sentinel-title-right {
+    font-size: 11px;
+  }
+
+  [id^="p146-dll-node-"] {
+    width: 84px;
+    height: 58px;
+    padding: 4px 6px;
+  }
+
+  [id^="p146-node-kv-"] {
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  [id^="p146-node-pos-"],
+  [id^="p146-node-addr-"] {
+    font-size: 7px;
+  }
+
+  [id^="p146-token-key-"],
+  [id^="p146-token-ptr-"] {
+    font-size: 10px;
+  }
+
+  #p146-callout-val-text {
+    font-size: 14px;
+  }
+
+  #p146-callout-detail-text {
+    font-size: 10px;
+  }
 }

@@ -18,74 +18,79 @@ export default function Problem210({ stepData }) {
   const courses = Array.from({ length: numCourses }, (_, i) => i);
 
   return (
-    <div className="canvas-wrapper topo-canvas">
+    <div id="p210-topo-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip total-chip">
+      <div id="p210-metrics-bar">
+        <span id="p210-metric-total">
           Courses: <b>{numCourses}</b>
         </span>
 
         {currentCourse !== null ? (
-          <span className="metric-chip active-chip">
+          <span id="p210-metric-active">
             Processing: <b>Course {currentCourse}</b>
           </span>
         ) : (
-          <span className="metric-chip idle-chip">Status: <b>Idle</b></span>
+          <span id="p210-metric-idle">
+            Status: <b>Idle</b>
+          </span>
         )}
 
-        <span className="metric-chip queue-chip">
+        <span id="p210-metric-queue">
           BFS Queue: <b>{queue.length > 0 ? `[ ${queue.map((c) => `C${c}`).join(", ")} ]` : "Empty"}</b>
         </span>
 
-        <span className="metric-chip order-chip">
+        <span id="p210-metric-order">
           Ordered: <b>{order.length} / {numCourses}</b>
         </span>
       </div>
 
       {/* Main Visual Stage */}
-      <div className="topo-stage">
+      <div id="p210-topo-stage">
         {/* Track 1: Graph Nodes & In-Degree Counters */}
-        <div className="track-card " id="mygraphcard">
-          <div className="card-header-bar">
-            <span>1. Dependency Graph & In-Degree State</span>
-            <span className="card-sub">In-Degree = remaining prerequisites to satisfy</span>
+        <div id="p210-graph-card">
+          <div id="p210-graph-card-header">
+            <span id="p210-graph-header-title">1. Dependency Graph &amp; In-Degree State</span>
+            <span id="p210-graph-header-sub">In-Degree = remaining prerequisites to satisfy</span>
           </div>
 
-          <div className="nodes-graph-row">
+          <div id="p210-nodes-graph-row">
             {courses.map((crs) => {
               const inDeg = inDegrees[crs] ?? 0;
               const isProcessing = currentCourse === crs;
               const inQueue = queue.includes(crs);
               const isResolved = order.includes(crs);
 
+              let nodeState = "locked";
+              if (isProcessing) nodeState = "processing";
+              else if (isResolved) nodeState = "resolved";
+              else if (inQueue) nodeState = "queued";
+              else if (inDeg === 0) nodeState = "zero-indeg";
+
+              const targetScale = isProcessing ? 1.1 : isResolved ? 1.02 : 1;
+
               return (
-                <div key={`crs-unit-${crs}`} className="node-unit-wrapper">
+                <div key={`p210-node-unit-${crs}`} id={`p210-node-unit-wrapper-${crs}`}>
                   <motion.div
-                    className={`course-node ${
-                      isProcessing
-                        ? "node-processing"
-                        : isResolved
-                        ? "node-resolved"
-                        : inQueue
-                        ? "node-queued"
-                        : inDeg === 0
-                        ? "node-zero-indeg"
-                        : ""
-                    }`}
+                    id={`p210-course-node-${crs}`}
+                    data-node-state={nodeState}
+                    layout
                     animate={{
-                      scale: isProcessing ? 1.1 : isResolved ? 1.02 : 1,
+                      scale: targetScale,
                       y: isProcessing ? -4 : 0
                     }}
                     transition={{ type: "spring", stiffness: 350, damping: 22 }}
                   >
-                    <span className="node-top-lbl">COURSE</span>
-                    <span className="node-id">C{crs}</span>
+                    <span id={`p210-node-top-lbl-${crs}`}>COURSE</span>
+                    <span id={`p210-node-id-${crs}`}>C{crs}</span>
 
-                    <span className={`indeg-badge ${inDeg === 0 ? "indeg-zero" : ""}`}>
+                    <span
+                      id={`p210-indeg-badge-${crs}`}
+                      data-indeg={inDeg === 0 ? "zero" : "positive"}
+                    >
                       In-Deg: {inDeg}
                     </span>
 
-                    {isResolved && <span className="resolved-check">✓</span>}
+                    {isResolved && <span id={`p210-resolved-check-${crs}`}>✓</span>}
                   </motion.div>
                 </div>
               );
@@ -93,93 +98,116 @@ export default function Problem210({ stepData }) {
           </div>
 
           {/* Color Key */}
-          <div className="dependency-legend">
-            <span className="legend-item"><span className="dot dot-resolved" /> Completed / Ordered</span>
-            <span className="legend-item"><span className="dot dot-processing" /> Currently Dequeued</span>
-            <span className="legend-item"><span className="dot dot-queued" /> In BFS Queue</span>
-            <span className="legend-item"><span className="dot dot-locked" /> In-Degree &gt; 0 (Locked)</span>
+          <div id="p210-dependency-legend">
+            <span id="p210-legend-item-resolved">
+              <span id="p210-dot-resolved" data-dot="resolved" /> Completed / Ordered
+            </span>
+            <span id="p210-legend-item-processing">
+              <span id="p210-dot-processing" data-dot="processing" /> Currently Dequeued
+            </span>
+            <span id="p210-legend-item-queued">
+              <span id="p210-dot-queued" data-dot="queued" /> In BFS Queue
+            </span>
+            <span id="p210-legend-item-locked">
+              <span id="p210-dot-locked" data-dot="locked" /> In-Degree &gt; 0 (Locked)
+            </span>
           </div>
         </div>
 
         {/* Track 2: BFS Queue & Dynamic Order Bar */}
-        <div className="track-card execution-card" id="mycard">
-          <div className="card-header-bar">
-            <span>2. Kahn's Execution State</span>
-            <span className="card-sub">Queue feeds into Topological Result array</span>
+        <div id="p210-execution-card">
+          <div id="p210-exec-card-header">
+            <span id="p210-exec-header-title">2. Kahn's Execution State</span>
+            <span id="p210-exec-header-sub">Queue feeds into Topological Result array</span>
           </div>
 
-          <div className="execution-grid">
+          <div id="p210-execution-grid">
             {/* Queue Box */}
-            <div className="queue-box-panel">
-              <span className="panel-title">Active Queue (In-Degree = 0)</span>
-              <div className="queue-tokens-row">
-                {queue.length === 0 ? (
-                  <span className="empty-lbl">Queue Empty</span>
-                ) : (
-                  queue.map((c) => (
-                    <motion.span
-                      key={`queue-${c}`}
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className="queue-token"
-                    >
-                      C{c}
-                    </motion.span>
-                  ))
-                )}
+            <div id="p210-queue-box-panel">
+              <span id="p210-queue-panel-title">Active Queue (In-Degree = 0)</span>
+              <div id="p210-queue-tokens-row">
+                <AnimatePresence mode="popLayout">
+                  {queue.length === 0 ? (
+                    <span id="p210-empty-queue-lbl">Queue Empty</span>
+                  ) : (
+                    queue.map((c) => (
+                      <motion.span
+                        key={`p210-queue-${c}`}
+                        id={`p210-queue-token-${c}`}
+                        layout
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 24 }}
+                      >
+                        C{c}
+                      </motion.span>
+                    ))
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
             {/* Topological Output Sequence */}
-            <div className="order-box-panel">
-              <span className="panel-title">Topological Order (`res`)</span>
-              <div className="order-tokens-row">
-                {order.length === 0 ? (
-                  <span className="empty-lbl">No courses ordered yet</span>
-                ) : (
-                  order.map((c, idx) => (
-                    <React.Fragment key={`res-${c}`}>
-                      <motion.span
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="order-token"
-                      >
-                        C{c}
-                      </motion.span>
-                      {idx < order.length - 1 && <span className="order-sep">➔</span>}
-                    </React.Fragment>
-                  ))
-                )}
+            <div id="p210-order-box-panel">
+              <span id="p210-order-panel-title">Topological Order (`res`)</span>
+              <div id="p210-order-tokens-row">
+                <AnimatePresence mode="popLayout">
+                  {order.length === 0 ? (
+                    <span id="p210-empty-order-lbl">No courses ordered yet</span>
+                  ) : (
+                    order.map((c, idx) => (
+                      <React.Fragment key={`p210-res-${c}`}>
+                        <motion.span
+                          id={`p210-order-token-${c}`}
+                          layout
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 24 }}
+                        >
+                          C{c}
+                        </motion.span>
+                        {idx < order.length - 1 && (
+                          <span id={`p210-order-sep-${c}`}>➔</span>
+                        )}
+                      </React.Fragment>
+                    ))
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
         </div>
 
         {/* Track 3: Adjacency Forward Map */}
-        <div className="track-card adj-card" id="myadjcard">
-          <div className="card-header-bar">
-            <span>3. Forward Adjacency (`adj[u] ➔ v`)</span>
-            <span className="card-sub">Completing u unlocks edges to adjacent nodes v</span>
+        <div id="p210-adj-card">
+          <div id="p210-adj-card-header">
+            <span id="p210-adj-header-title">3. Forward Adjacency (`adj[u] ➔ v`)</span>
+            <span id="p210-adj-header-sub">Completing u unlocks edges to adjacent nodes v</span>
           </div>
 
-          <div className="adj-grid">
+          <div id="p210-adj-grid">
             {courses.map((crs) => {
               const targets = adj[crs] || [];
               const isCurrent = currentCourse === crs;
               const isCleared = order.includes(crs);
 
+              let adjState = "idle";
+              if (isCurrent) adjState = "active";
+              else if (isCleared) adjState = "cleared";
+
               return (
                 <div
-                  key={`adj-row-${crs}`}
-                  className={`adj-row-pill ${
-                    isCurrent ? "adj-active" : isCleared ? "adj-cleared" : ""
-                  }`}
+                  key={`p210-adj-row-${crs}`}
+                  id={`p210-adj-row-${crs}`}
+                  data-adj-state={adjState}
                 >
-                  <span className="adj-source">Course {crs}</span>
-                  <span className="adj-arrow">➔ Unlocks:</span>
-                  <span className="adj-targets">
+                  <span id={`p210-adj-source-${crs}`}>Course {crs}</span>
+                  <span id={`p210-adj-arrow-${crs}`}>➔ Unlocks:</span>
+                  <span id={`p210-adj-targets-${crs}`}>
                     {targets.length === 0 ? (
-                      <span className="val-empty">[] (No outbound targets)</span>
+                      <span id={`p210-val-empty-${crs}`}>[] (No outbound targets)</span>
                     ) : (
                       `[ ${targets.map((t) => `Course ${t}`).join(", ")} ]`
                     )}
@@ -195,16 +223,16 @@ export default function Problem210({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p210-result-callout-box"
+            data-callout-state={output.value === "[]" ? "error" : "success"}
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className={`result-callout ${
-              output.value === "[]" ? "callout-error" : "callout-success"
-            }`}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p210-callout-header-text">{output.label}</div>
+            <div id="p210-callout-val-text">{output.value}</div>
+            <div id="p210-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

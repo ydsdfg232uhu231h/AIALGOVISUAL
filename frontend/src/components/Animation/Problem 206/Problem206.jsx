@@ -14,51 +14,86 @@ export default function Problem206({ stepData }) {
   const { prev = "NULL", curr = "NULL" } = state;
 
   return (
-    <div className="canvas-wrapper reverse-canvas">
+    <div id="p206-reverse-canvas">
       {/* State Inspector Badges */}
-      <div className="state-badge-row">
-        <span className="state-chip prev-chip">prev: <b>{String(prev)}</b></span>
-        <span className="state-chip curr-chip">curr: <b>{String(curr)}</b></span>
+      <div id="p206-state-badge-row">
+        <span id="p206-prev-chip">
+          prev: <b>{String(prev)}</b>
+        </span>
+        <span id="p206-curr-chip">
+          curr: <b>{String(curr)}</b>
+        </span>
       </div>
 
       {/* Nodes Chain */}
-      <div className="nodes-chain">
+      <div id="p206-nodes-chain">
         {nodes.map((val, idx) => {
           const isCurr = currIdx !== -1 && idx === currIdx;
           const isPrev = prev !== "NULL" && val === prev;
+          const isReversed = reversedEdges.includes(idx);
+
+          let nodeState = "idle";
+          if (isCurr) nodeState = "curr";
+          else if (isPrev) nodeState = "prev";
 
           return (
-            <React.Fragment key={`${val}-${idx}`}>
+            <React.Fragment key={`p206-node-${val}-${idx}`}>
               <motion.div
+                id={`p206-node-container-${idx}`}
                 layout
-                className="node-container"
-                animate={{ scale: isCurr || isPrev ? 1.15 : 1 }}
+                animate={{ scale: isCurr || isPrev ? 1.1 : 1 }}
                 transition={{ type: "spring", stiffness: 350, damping: 25 }}
               >
                 {/* Pointer Tags */}
-                <div className="pointers-row">
-                  {isPrev && <span className="ptr-badge prev-badge">prev</span>}
-                  {isCurr && <span className="ptr-badge curr-badge">curr</span>}
+                <div id={`p206-pointers-row-${idx}`}>
+                  <AnimatePresence mode="popLayout">
+                    {isPrev && (
+                      <motion.span
+                        key="p206-ptr-prev"
+                        layoutId="p206-ptr-prev"
+                        id={`p206-ptr-badge-prev-${idx}`}
+                        data-ptr="prev"
+                        initial={{ y: -6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        prev
+                      </motion.span>
+                    )}
+                    {isCurr && (
+                      <motion.span
+                        key="p206-ptr-curr"
+                        layoutId="p206-ptr-curr"
+                        id={`p206-ptr-badge-curr-${idx}`}
+                        data-ptr="curr"
+                        initial={{ y: -6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        curr
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <div
-                  className={`node-circle ${isPrev ? "active-prev" : ""} ${
-                    isCurr ? "active-curr" : ""
-                  }`}
+                  id={`p206-node-circle-${idx}`}
+                  data-node-state={nodeState}
                 >
                   {val}
                 </div>
-                <span className="node-idx">[{idx}]</span>
+                <span id={`p206-node-idx-${idx}`}>[{idx}]</span>
               </motion.div>
 
               {/* Edge Arrow: Flips to ← once recorded in reversedEdges */}
               {idx < nodes.length - 1 && (
                 <span
-                  className={`arrow-sym ${
-                    reversedEdges.includes(idx) ? "reversed-arrow" : ""
-                  }`}
+                  id={`p206-arrow-sym-${idx}`}
+                  data-reversed={isReversed ? "true" : "false"}
                 >
-                  {reversedEdges.includes(idx) ? "←" : "→"}
+                  {isReversed ? "←" : "→"}
                 </span>
               )}
             </React.Fragment>
@@ -70,14 +105,15 @@ export default function Problem206({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p206-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p206-callout-header-text">{output.label}</div>
+            <div id="p206-callout-val-text">{output.value}</div>
+            <div id="p206-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

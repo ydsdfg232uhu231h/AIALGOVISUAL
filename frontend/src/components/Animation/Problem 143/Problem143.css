@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#reorder-list-canvas {
+#p143-reorder-list-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 540px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p143-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,12 +32,12 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-phase,
-#metric-pointers-mid,
-#metric-status-active,
-#metric-status-done {
+#p143-metric-phase,
+#p143-metric-pointers-mid,
+#p143-metric-status {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -49,22 +50,24 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-#metric-phase b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#metric-pointers-mid b { color: #facc15; font-family: ui-monospace, monospace; }
-#metric-status-active b { color: #c084fc; }
+#p143-metric-phase b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p143-metric-pointers-mid b { color: #facc15; font-family: ui-monospace, monospace; }
+#p143-metric-status b { color: #c084fc; }
 
-#metric-status-done {
+#p143-metric-status[data-status="done"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-status-done b { color: #4ade80 !important; }
+#p143-metric-status[data-status="done"] b { color: #4ade80 !important; }
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#reorder-stage {
+#p143-reorder-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -74,9 +77,9 @@
   flex-shrink: 0;
 }
 
-#first-track-card,
-#second-track-card,
-#merged-track-card {
+#p143-first-track-card,
+#p143-second-track-card,
+#p143-merged-track-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -88,9 +91,9 @@
   box-sizing: border-box;
 }
 
-#first-card-header,
-#second-card-header,
-#merged-card-header {
+#p143-first-card-header,
+#p143-second-card-header,
+#p143-merged-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,9 +102,9 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#first-header-title,
-#second-header-title,
-#merged-header-title {
+#p143-first-header-title,
+#p143-second-header-title,
+#p143-merged-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -109,9 +112,9 @@
   letter-spacing: 0.7px;
 }
 
-#first-header-sub,
-#second-header-sub,
-#merged-header-sub {
+#p143-first-header-sub,
+#p143-second-header-sub,
+#p143-merged-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -121,9 +124,9 @@
 /* ============================================================
    TRACK VIEWPORTS & CHAINS
    ============================================================ */
-#first-viewport,
-#second-viewport,
-#merged-viewport {
+#p143-first-viewport,
+#p143-second-viewport,
+#p143-merged-viewport {
   width: 100%;
   min-height: 80px;
   background: #0f0f14;
@@ -137,66 +140,66 @@
   overflow-x: auto;
 }
 
-#first-chain,
-#second-chain,
-#merged-chain {
+#p143-first-chain,
+#p143-second-chain,
+#p143-merged-chain {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-[id^="first-col-"],
-[id^="second-col-"] {
+[id^="p143-first-col-"],
+[id^="p143-second-col-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  flex-shrink: 0;
 }
 
-[id^="tag-anchor-"],
-[id^="second-tag-anchor-"] {
+[id^="p143-tag-anchor-"],
+[id^="p143-second-tag-anchor-"] {
   height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-#tag-slow,
-#tag-fast,
-#tag-first-ptr,
-#tag-second-ptr {
+[id^="p143-tag-"] {
   font-size: 8px;
   font-weight: 900;
   padding: 1px 5px;
   border-radius: 3px;
   letter-spacing: 0.5px;
   font-family: ui-monospace, monospace;
+  line-height: 1.1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-#tag-slow {
+[id^="p143-tag-"][data-ptr="slow"] {
   background: #facc15;
   color: #0c0c10;
 }
 
-#tag-fast {
+[id^="p143-tag-"][data-ptr="fast"] {
   background: #38bdf8;
   color: #0c0c10;
 }
 
-#tag-first-ptr {
+[id^="p143-tag-"][data-ptr="first"] {
   background: #38bdf8;
   color: #0c0c10;
 }
 
-#tag-second-ptr {
+[id^="p143-tag-"][data-ptr="second"] {
   background: #c084fc;
   color: #0c0c10;
 }
 
 /* Node Spheres */
-[id^="first-node-"],
-[id^="second-node-"],
-[id^="merged-node-"] {
+[id^="p143-first-node-"],
+[id^="p143-second-node-"],
+[id^="p143-merged-node-"] {
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -208,43 +211,44 @@
   font-family: ui-monospace, monospace;
   box-sizing: border-box;
   transition: all 0.25s ease;
+  flex-shrink: 0;
 }
 
 /* First Track Nodes */
-[id^="first-node-idle-"] {
+[id^="p143-first-node-"][data-node-state="idle"] {
   background: #181822;
   border: 2px solid #2e2e40;
   color: #a1a1aa;
 }
 
-[id^="first-node-slow-"] {
+[id^="p143-first-node-"][data-node-state="slow"] {
   background: #262214 !important;
   border: 2px solid #facc15 !important;
   color: #fef08a !important;
   box-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 }
 
-[id^="first-node-fast-"] {
+[id^="p143-first-node-"][data-node-state="fast"] {
   background: #102438 !important;
   border: 2px solid #38bdf8 !important;
   color: #bae6fd !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
 }
 
-[id^="first-node-ptr-"] {
+[id^="p143-first-node-"][data-node-state="ptr"] {
   background: #102438 !important;
   border: 2px solid #38bdf8 !important;
   color: #bae6fd !important;
 }
 
 /* Second Track Nodes */
-[id^="second-node-idle-"] {
+[id^="p143-second-node-"][data-node-state="idle"] {
   background: #201430;
   border: 2px solid #8b5cf6;
   color: #d8b4fe;
 }
 
-[id^="second-node-ptr-"] {
+[id^="p143-second-node-"][data-node-state="ptr"] {
   background: #2c1542 !important;
   border: 2px solid #c084fc !important;
   color: #f3e8ff !important;
@@ -252,20 +256,20 @@
 }
 
 /* Merged Track Nodes */
-[id^="merged-node-idle-"] {
+[id^="p143-merged-node-"][data-node-state="idle"] {
   background: #151e26;
   border: 2px solid #283848;
   color: #7dd3fc;
 }
 
-[id^="merged-node-latest-"] {
+[id^="p143-merged-node-"][data-node-state="latest"] {
   background: #262214 !important;
   border: 2px solid #facc15 !important;
   color: #fef08a !important;
   box-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
 }
 
-[id^="merged-node-done-"] {
+[id^="p143-merged-node-"][data-node-state="done"] {
   background: #13241b !important;
   border: 2px solid #22c55e !important;
   color: #4ade80 !important;
@@ -273,22 +277,24 @@
 }
 
 /* Arrows */
-[id^="first-arrow-"],
-[id^="second-arrow-"],
-[id^="merged-arrow-"] {
+[id^="p143-first-arrow-"],
+[id^="p143-second-arrow-"],
+[id^="p143-merged-arrow-"] {
   color: #525266;
   font-size: 16px;
   font-weight: bold;
+  flex-shrink: 0;
+  font-family: ui-monospace, monospace;
 }
 
-[id^="merged-arrow-"] {
+[id^="p143-merged-arrow-"] {
   color: #38bdf8;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p143-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -302,9 +308,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p143-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -312,7 +319,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p143-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -320,8 +327,114 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p143-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  [id^="p143-first-node-"],
+  [id^="p143-second-node-"],
+  [id^="p143-merged-node-"] {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p143-reorder-list-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p143-metrics-bar {
+    gap: 6px;
+  }
+
+  #p143-metric-phase,
+  #p143-metric-pointers-mid,
+  #p143-metric-status {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p143-first-viewport,
+  #p143-second-viewport,
+  #p143-merged-viewport {
+    padding: 10px 12px;
+    min-height: 70px;
+  }
+
+  [id^="p143-first-node-"],
+  [id^="p143-second-node-"],
+  [id^="p143-merged-node-"] {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  [id^="p143-first-arrow-"],
+  [id^="p143-second-arrow-"],
+  [id^="p143-merged-arrow-"] {
+    font-size: 14px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p143-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p143-metric-phase,
+  #p143-metric-pointers-mid,
+  #p143-metric-status {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p143-first-card-header,
+  #p143-second-card-header,
+  #p143-merged-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  [id^="p143-first-node-"],
+  [id^="p143-second-node-"],
+  [id^="p143-merged-node-"] {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  [id^="p143-first-arrow-"],
+  [id^="p143-second-arrow-"],
+  [id^="p143-merged-arrow-"] {
+    font-size: 12px;
+  }
+
+  [id^="p143-tag-"] {
+    font-size: 7px;
+    padding: 1px 3px;
+  }
+
+  #p143-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p143-callout-detail-text {
+    font-size: 11px;
+  }
 }

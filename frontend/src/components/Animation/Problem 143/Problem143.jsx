@@ -19,10 +19,10 @@ export default function Problem143({ stepData }) {
   const isCompleted = state.status === "COMPLETED" || !!output;
 
   return (
-    <div id="reorder-list-canvas">
+    <div id="p143-reorder-list-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-phase">
+      <div id="p143-metrics-bar">
+        <span id="p143-metric-phase">
           Phase:{" "}
           <b>
             {phase === "FIND_MID" && "1. Find Middle (Fast / Slow)"}
@@ -37,50 +37,96 @@ export default function Problem143({ stepData }) {
         </span>
 
         {slowIdx !== null && (
-          <span id="metric-pointers-mid">
+          <span id="p143-metric-pointers-mid">
             Pointers: <b>slow={firstList[slowIdx]}</b> | <b>fast={firstList[fastIdx] ?? "NULL"}</b>
           </span>
         )}
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p143-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "COMPLETED" : "IN PROGRESS"}</b>
         </span>
       </div>
 
-      <div id="reorder-stage">
+      <div id="p143-reorder-stage">
         {/* Track 1: First Half / Active Source List */}
         {firstList.length > 0 && (
-          <div id="first-track-card">
-            <div id="first-card-header">
-              <span id="first-header-title">
+          <div id="p143-first-track-card">
+            <div id="p143-first-card-header">
+              <span id="p143-first-header-title">
                 {secondList.length > 0 ? "First Half (L0)" : "Initial List Track"}
               </span>
-              <span id="first-header-sub">Original forward chain</span>
+              <span id="p143-first-header-sub">Original forward chain</span>
             </div>
 
-            <div id="first-viewport">
-              <div id="first-chain">
+            <div id="p143-first-viewport">
+              <div id="p143-first-chain">
                 {firstList.map((val, idx) => {
                   const isSlow = idx === slowIdx;
                   const isFast = idx === fastIdx;
                   const isPtr = idx === firstPtrIdx;
 
-                  let nodeId = `first-node-idle-${idx}`;
-                  if (isSlow) nodeId = `first-node-slow-${idx}`;
-                  else if (isFast) nodeId = `first-node-fast-${idx}`;
-                  else if (isPtr) nodeId = `first-node-ptr-${idx}`;
+                  let nodeState = "idle";
+                  if (isSlow) nodeState = "slow";
+                  else if (isFast) nodeState = "fast";
+                  else if (isPtr) nodeState = "ptr";
 
                   return (
-                    <React.Fragment key={`first-node-${idx}-${val}`}>
-                      <div id={`first-col-${idx}`}>
-                        <div id={`tag-anchor-${idx}`}>
-                          {isSlow && <span id="tag-slow">SLOW</span>}
-                          {isFast && <span id="tag-fast">FAST</span>}
-                          {isPtr && <span id="tag-first-ptr">FIRST</span>}
+                    <React.Fragment key={`p143-first-node-${idx}-${val}`}>
+                      <div id={`p143-first-col-${idx}`}>
+                        <div id={`p143-tag-anchor-${idx}`}>
+                          <AnimatePresence mode="popLayout">
+                            {isSlow && (
+                              <motion.span
+                                key="p143-slow-ptr"
+                                layoutId="p143-slow-pointer"
+                                id={`p143-tag-slow-${idx}`}
+                                data-ptr="slow"
+                                initial={{ y: -6, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -6, opacity: 0 }}
+                                transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                              >
+                                SLOW
+                              </motion.span>
+                            )}
+                            {isFast && (
+                              <motion.span
+                                key="p143-fast-ptr"
+                                layoutId="p143-fast-pointer"
+                                id={`p143-tag-fast-${idx}`}
+                                data-ptr="fast"
+                                initial={{ y: -6, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -6, opacity: 0 }}
+                                transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                              >
+                                FAST
+                              </motion.span>
+                            )}
+                            {isPtr && (
+                              <motion.span
+                                key="p143-first-ptr"
+                                layoutId="p143-first-pointer"
+                                id={`p143-tag-first-ptr-${idx}`}
+                                data-ptr="first"
+                                initial={{ y: -6, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -6, opacity: 0 }}
+                                transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                              >
+                                FIRST
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
                         </div>
 
                         <motion.div
-                          id={nodeId}
+                          id={`p143-first-node-${idx}`}
+                          data-node-state={nodeState}
+                          layout
                           animate={{ scale: isSlow || isFast || isPtr ? 1.12 : 1 }}
                           transition={{ type: "spring", stiffness: 350, damping: 25 }}
                         >
@@ -89,7 +135,7 @@ export default function Problem143({ stepData }) {
                       </div>
 
                       {idx < firstList.length - 1 && (
-                        <span id={`first-arrow-${idx}`}>&rarr;</span>
+                        <span id={`p143-first-arrow-${idx}`}>&rarr;</span>
                       )}
                     </React.Fragment>
                   );
@@ -101,30 +147,47 @@ export default function Problem143({ stepData }) {
 
         {/* Track 2: Second Half (Splitting & Reversing) */}
         {secondList.length > 0 && (
-          <div id="second-track-card">
-            <div id="second-card-header">
-              <span id="second-header-title">
+          <div id="p143-second-track-card">
+            <div id="p143-second-card-header">
+              <span id="p143-second-header-title">
                 {phase.includes("REVERS") ? "Reversing Second Half" : "Second Half (L1)"}
               </span>
-              <span id="second-header-sub">
+              <span id="p143-second-header-sub">
                 {phase === "REVERSED" ? "Reversed and ready for merge" : "Bypassed list"}
               </span>
             </div>
 
-            <div id="second-viewport">
-              <div id="second-chain">
+            <div id="p143-second-viewport">
+              <div id="p143-second-chain">
                 {secondList.map((val, idx) => {
                   const isPtr = idx === secondPtrIdx;
 
                   return (
-                    <React.Fragment key={`second-node-${idx}-${val}`}>
-                      <div id={`second-col-${idx}`}>
-                        <div id={`second-tag-anchor-${idx}`}>
-                          {isPtr && <span id="tag-second-ptr">SECOND</span>}
+                    <React.Fragment key={`p143-second-node-${idx}-${val}`}>
+                      <div id={`p143-second-col-${idx}`}>
+                        <div id={`p143-second-tag-anchor-${idx}`}>
+                          <AnimatePresence mode="popLayout">
+                            {isPtr && (
+                              <motion.span
+                                key="p143-second-ptr"
+                                layoutId="p143-second-pointer"
+                                id={`p143-tag-second-ptr-${idx}`}
+                                data-ptr="second"
+                                initial={{ y: -6, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -6, opacity: 0 }}
+                                transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                              >
+                                SECOND
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
                         </div>
 
                         <motion.div
-                          id={isPtr ? `second-node-ptr-${idx}` : `second-node-idle-${idx}`}
+                          id={`p143-second-node-${idx}`}
+                          data-node-state={isPtr ? "ptr" : "idle"}
+                          layout
                           animate={{ scale: isPtr ? 1.12 : 1 }}
                           transition={{ type: "spring", stiffness: 350, damping: 25 }}
                         >
@@ -133,7 +196,7 @@ export default function Problem143({ stepData }) {
                       </div>
 
                       {idx < secondList.length - 1 && (
-                        <span id={`second-arrow-${idx}`}>&rarr;</span>
+                        <span id={`p143-second-arrow-${idx}`}>&rarr;</span>
                       )}
                     </React.Fragment>
                   );
@@ -145,27 +208,26 @@ export default function Problem143({ stepData }) {
 
         {/* Track 3: Interleaved Result Chain */}
         {mergedList.length > 0 && (
-          <div id="merged-track-card">
-            <div id="merged-card-header">
-              <span id="merged-header-title">Interleaved Reordered List</span>
-              <span id="merged-header-sub">Alternate merge: First &harr; Second</span>
+          <div id="p143-merged-track-card">
+            <div id="p143-merged-card-header">
+              <span id="p143-merged-header-title">Interleaved Reordered List</span>
+              <span id="p143-merged-header-sub">Alternate merge: First &harr; Second</span>
             </div>
 
-            <div id="merged-viewport">
-              <div id="merged-chain">
+            <div id="p143-merged-viewport">
+              <div id="p143-merged-chain">
                 {mergedList.map((val, idx) => {
                   const isLatest = idx === mergedList.length - 1 && !isCompleted;
 
+                  let nodeState = "idle";
+                  if (isCompleted) nodeState = "done";
+                  else if (isLatest) nodeState = "latest";
+
                   return (
-                    <React.Fragment key={`merged-node-${idx}-${val}`}>
+                    <React.Fragment key={`p143-merged-node-${idx}-${val}`}>
                       <motion.div
-                        id={
-                          isCompleted
-                            ? `merged-node-done-${idx}`
-                            : isLatest
-                            ? `merged-node-latest-${idx}`
-                            : `merged-node-idle-${idx}`
-                        }
+                        id={`p143-merged-node-${idx}`}
+                        data-node-state={nodeState}
                         layout
                         initial={{ scale: 0.6, opacity: 0, y: 10 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -175,7 +237,7 @@ export default function Problem143({ stepData }) {
                       </motion.div>
 
                       {idx < mergedList.length - 1 && (
-                        <span id={`merged-arrow-${idx}`}>&rarr;</span>
+                        <span id={`p143-merged-arrow-${idx}`}>&rarr;</span>
                       )}
                     </React.Fragment>
                   );
@@ -190,14 +252,15 @@ export default function Problem143({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p143-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p143-callout-header-text">{output.label}</div>
+            <div id="p143-callout-val-text">{output.value}</div>
+            <div id="p143-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

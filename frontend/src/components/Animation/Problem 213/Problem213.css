@@ -1,4 +1,7 @@
-.circular-robber-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p213-circular-robber-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,75 +11,92 @@
   position: relative;
   gap: 18px;
   box-sizing: border-box;
-  overflow: hidden; /* Prevents outer canvas blowout */
+  overflow: hidden;
+  padding: 20px 16px 65px 16px;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
-.metrics-row {
+/* ============================================================
+   METRICS ROW
+   ============================================================ */
+#p213-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
+  align-items: center;
   max-width: 95%;
+  z-index: 2;
 }
 
-.metric-chip {
+#p213-metric-phase,
+#p213-metric-curr,
+#p213-metric-r1,
+#p213-metric-r2,
+#p213-metric-pass1-res,
+#p213-metric-pass2-res,
+#p213-metric-total {
   background: #18181b;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
-  padding: 4px 10px;
-  border-radius: 8px;
+  padding: 4px 12px;
+  border-radius: 9999px;
   font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.metric-chip b {
-  color: #fff;
+#p213-metric-phase b,
+#p213-metric-curr b,
+#p213-metric-r1 b,
+#p213-metric-r2 b,
+#p213-metric-pass1-res b,
+#p213-metric-pass2-res b,
+#p213-metric-total b {
+  color: #ffffff;
+  font-weight: 800;
+  font-family: ui-monospace, monospace;
 }
 
-.pass-one b {
-  color: #38bdf8;
-}
+#p213-metric-phase[data-pass-type="one"] b { color: #38bdf8; }
+#p213-metric-phase[data-pass-type="two"] b { color: #c084fc; }
 
-.pass-two b {
-  color: #c084fc;
-}
+#p213-metric-curr b { color: #facc15; }
+#p213-metric-r1 b { color: #ff7324; }
+#p213-metric-r2 b { color: #c084fc; }
+#p213-metric-pass1-res b { color: #38bdf8; }
+#p213-metric-pass2-res b { color: #c084fc; }
+#p213-metric-total b { color: #4ade80; }
 
-.curr-chip b {
-  color: #facc15;
-}
-
-.r1-chip b {
-  color: #ff7324;
-}
-
-.r2-chip b {
-  color: #c084fc;
-}
-
-.pass1-res-chip b {
-  color: #38bdf8;
-}
-
-.pass2-res-chip b {
-  color: #c084fc;
-}
-
-.total-chip b {
-  color: #4ade80;
-}
-
-.circular-link-banner {
+/* ============================================================
+   CIRCULAR LINK BANNER
+   ============================================================ */
+#p213-circular-link-banner {
   background: #141416;
   border: 1px dashed #3f3f46;
   padding: 4px 12px;
   border-radius: 8px;
   font-size: 12px;
   color: #a1a1aa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-align: center;
 }
 
-/* TRACK: Shrinks gap and suppresses visible scrollbars while centering */
-.houses-track {
+/* ============================================================
+   HOUSES TRACK
+   ============================================================ */
+#p213-houses-track {
   display: flex;
-  gap: 6px; /* reduced from 10px to save 40px across 10 items */
+  gap: 6px;
   align-items: flex-end;
   justify-content: center;
   padding: 30px 4px 8px 4px;
@@ -85,15 +105,17 @@
   max-width: 100%;
   box-sizing: border-box;
   overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.houses-track::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+#p213-houses-track::-webkit-scrollbar {
+  display: none;
 }
 
-.house-column {
+#p213-base-column-1,
+#p213-base-column-2,
+[id^="p213-house-column-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,54 +123,69 @@
   flex-shrink: 0;
 }
 
-.ptrs-group {
+#p213-ptrs-group-base-1,
+#p213-ptrs-group-base-2,
+[id^="p213-ptrs-group-"] {
   position: absolute;
   top: -26px;
   display: flex;
   gap: 3px;
   height: 20px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   z-index: 2;
 }
 
-.pointer-tag {
+[id^="p213-pointer-tag-"] {
   font-size: 8px;
-  font-weight: 800;
+  font-weight: 900;
   padding: 1px 4px;
   border-radius: 4px;
   text-transform: uppercase;
   white-space: nowrap;
+  font-family: ui-monospace, monospace;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
 }
 
-.ptr-r1 {
+[id^="p213-pointer-tag-"][data-ptr="r1"] {
   background: #ff7324;
-  color: #000;
+  color: #0c0c10;
 }
 
-.ptr-r2 {
+[id^="p213-pointer-tag-"][data-ptr="r2"] {
   background: #a855f7;
-  color: #fff;
+  color: #ffffff;
 }
 
-.ptr-curr {
+[id^="p213-pointer-tag-"][data-ptr="curr"] {
   background: #38bdf8;
-  color: #000;
+  color: #0c0c10;
 }
 
-.ptr-excl {
+[id^="p213-pointer-tag-"][data-ptr="excl"] {
   background: #ef4444;
-  color: #fff;
+  color: #ffffff;
 }
 
-/* HOUSE SIZING: Scaled down from 52px -> 42px to fit 10 houses comfortably */
-.house-node {
+/* House Node Sizing & Structure */
+#p213-house-node-base-1,
+#p213-house-node-base-2,
+[id^="p213-house-node-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 52px;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.roof-shape {
+#p213-roof-shape-base-1,
+#p213-roof-shape-base-2,
+[id^="p213-roof-shape-"] {
   width: 0;
   height: 0;
   border-left: 21px solid transparent;
@@ -157,7 +194,9 @@
   transition: border-bottom-color 0.2s ease;
 }
 
-.house-body {
+#p213-house-body-base-1,
+#p213-house-body-base-2,
+[id^="p213-house-body-"] {
   width: 38px;
   height: 44px;
   border-radius: 0 0 6px 6px;
@@ -170,80 +209,263 @@
   justify-content: center;
   position: relative;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.base-column .roof-shape {
+#p213-house-column-1[data-house-state="base"] #p213-roof-shape-base-1,
+#p213-house-column-2[data-house-state="base"] #p213-roof-shape-base-2 {
   border-bottom-color: #3f3f46;
 }
 
-.base-column .house-body {
+#p213-house-column-1[data-house-state="base"] #p213-house-body-base-1,
+#p213-house-column-2[data-house-state="base"] #p213-house-body-base-2 {
   border-color: #3f3f46;
   border-style: dashed;
   background: rgba(255, 255, 255, 0.02);
 }
 
-.loot-val {
+#p213-loot-val-base-1,
+#p213-loot-val-base-2,
+[id^="p213-loot-val-"] {
   font-size: 13px;
   font-weight: 800;
-  color: #fff;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
 }
 
-.house-idx {
+#p213-house-idx-base-1,
+#p213-house-idx-base-2,
+[id^="p213-house-idx-"] {
   font-size: 8px;
   color: #71717a;
   position: absolute;
   bottom: 2px;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
 }
 
-.house-in-range .house-body {
+/* House Dynamic States */
+[id^="p213-house-node-"][data-house-state="range"] [id^="p213-house-body-"] {
   background: #18181b;
 }
 
-.house-curr .roof-shape {
+[id^="p213-house-node-"][data-house-state="curr"] [id^="p213-roof-shape-"] {
   border-bottom-color: #38bdf8;
 }
 
-.house-curr .house-body {
+[id^="p213-house-node-"][data-house-state="curr"] [id^="p213-house-body-"] {
   border-color: #38bdf8;
   background: rgba(56, 189, 248, 0.18);
   box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
 }
 
-.house-excluded .roof-shape {
+[id^="p213-house-node-"][data-house-state="excluded"] [id^="p213-roof-shape-"] {
   border-bottom-color: #ef4444;
 }
 
-.house-excluded .house-body {
+[id^="p213-house-node-"][data-house-state="excluded"] [id^="p213-house-body-"] {
   border-color: #ef4444;
 }
 
-.result-callout {
-  position: absolute;
-  bottom: 8px;
-  background: #111827;
-  border: 1px solid #16a34a;
-  border-radius: 8px;
-  padding: 6px 14px;
+/* ============================================================
+   RESULT CALLOUT
+   ============================================================ */
+#p213-result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(17, 24, 39, 0.96);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid #16a34a;
+  border-radius: 12px;
+  padding: 8px 22px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  z-index: 5;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.85);
+  z-index: 100;
+  max-width: 90%;
+  box-sizing: border-box;
 }
 
-.callout-header {
+#p213-callout-header-text {
   font-size: 10px;
   color: #86efac;
   text-transform: uppercase;
-  font-weight: 700;
-}
-
-.callout-val {
-  font-size: 15px;
-  color: #fff;
   font-weight: 800;
-  margin: 1px 0;
+  letter-spacing: 0.8px;
 }
 
-.callout-detail {
+#p213-callout-val-text {
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 900;
+  margin: 1px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#p213-callout-detail-text {
   font-size: 11px;
   color: #9ca3af;
+  font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p213-house-node-base-1,
+  #p213-house-node-base-2,
+  [id^="p213-house-node-"] {
+    width: 48px;
+  }
+
+  #p213-roof-shape-base-1,
+  #p213-roof-shape-base-2,
+  [id^="p213-roof-shape-"] {
+    border-left-width: 19px;
+    border-right-width: 19px;
+    border-bottom-width: 11px;
+  }
+
+  #p213-house-body-base-1,
+  #p213-house-body-base-2,
+  [id^="p213-house-body-"] {
+    width: 34px;
+    height: 40px;
+  }
+
+  #p213-loot-val-base-1,
+  #p213-loot-val-base-2,
+  [id^="p213-loot-val-"] {
+    font-size: 12px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p213-circular-robber-canvas {
+    padding: 16px 12px 75px 12px;
+    gap: 14px;
+  }
+
+  #p213-metrics-row {
+    gap: 6px;
+  }
+
+  #p213-metric-phase,
+  #p213-metric-curr,
+  #p213-metric-r1,
+  #p213-metric-r2,
+  #p213-metric-pass1-res,
+  #p213-metric-pass2-res,
+  #p213-metric-total {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  #p213-houses-track {
+    justify-content: flex-start;
+    padding: 26px 10px 10px 10px;
+    gap: 5px;
+  }
+
+  #p213-house-node-base-1,
+  #p213-house-node-base-2,
+  [id^="p213-house-node-"] {
+    width: 44px;
+  }
+
+  #p213-roof-shape-base-1,
+  #p213-roof-shape-base-2,
+  [id^="p213-roof-shape-"] {
+    border-left-width: 17px;
+    border-right-width: 17px;
+    border-bottom-width: 10px;
+  }
+
+  #p213-house-body-base-1,
+  #p213-house-body-base-2,
+  [id^="p213-house-body-"] {
+    width: 32px;
+    height: 38px;
+  }
+
+  #p213-loot-val-base-1,
+  #p213-loot-val-base-2,
+  [id^="p213-loot-val-"] {
+    font-size: 11px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p213-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p213-metric-phase,
+  #p213-metric-curr,
+  #p213-metric-r1,
+  #p213-metric-r2,
+  #p213-metric-pass1-res,
+  #p213-metric-pass2-res,
+  #p213-metric-total {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p213-houses-track {
+    gap: 4px;
+  }
+
+  #p213-house-node-base-1,
+  #p213-house-node-base-2,
+  [id^="p213-house-node-"] {
+    width: 38px;
+  }
+
+  #p213-roof-shape-base-1,
+  #p213-roof-shape-base-2,
+  [id^="p213-roof-shape-"] {
+    border-left-width: 15px;
+    border-right-width: 15px;
+    border-bottom-width: 9px;
+  }
+
+  #p213-house-body-base-1,
+  #p213-house-body-base-2,
+  [id^="p213-house-body-"] {
+    width: 28px;
+    height: 34px;
+  }
+
+  #p213-loot-val-base-1,
+  #p213-loot-val-base-2,
+  [id^="p213-loot-val-"] {
+    font-size: 10px;
+  }
+
+  #p213-house-idx-base-1,
+  #p213-house-idx-base-2,
+  [id^="p213-house-idx-"] {
+    font-size: 7px;
+    bottom: 1px;
+  }
+
+  [id^="p213-pointer-tag-"] {
+    font-size: 7.5px;
+    padding: 1px 3px;
+  }
+
+  #p213-callout-val-text {
+    font-size: 15px;
+  }
+
+  #p213-callout-detail-text {
+    font-size: 10px;
+  }
 }

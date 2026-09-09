@@ -36,53 +36,74 @@ export default function Problem105({ stepData }) {
     builtEdges.some(([a, b]) => (a === u && b === v) || (a === v && b === u));
 
   return (
-    <div id="construct-tree-canvas">
+    <div id="p105-construct-tree-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-current-root">
+      <div id="p105-metrics-bar">
+        <span id="p105-metric-current-root">
           Active Root: <b>{currentRoot !== null ? `Node (${currentRoot})` : "None"}</b>
         </span>
 
-        <span id="metric-inorder-pivot">
+        <span id="p105-metric-inorder-pivot">
           Inorder Pivot Index: <b>{activeMid !== null ? `mid = ${activeMid}` : "—"}</b>
         </span>
 
-        <span id="metric-built-count">
+        <span id="p105-metric-built-count">
           Nodes Built: <b>{builtNodes.length} / {treeNodes.length}</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p105-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "RECONSTRUCTION COMPLETED" : "DIVIDE & CONQUER"}</b>
         </span>
       </div>
 
       {/* Main Reconstruction Stage */}
-      <div id="construct-stage">
+      <div id="p105-construct-stage">
         {/* Left: Dual Array Slice View */}
-        <div id="arrays-card">
-          <div id="arrays-card-header">
-            <span id="arrays-header-title">1. Traversal Array Partitions</span>
-            <span id="arrays-header-sub">Preorder picks root; Inorder splits left & right</span>
+        <div id="p105-arrays-card">
+          <div id="p105-arrays-card-header">
+            <span id="p105-arrays-header-title">1. Traversal Array Partitions</span>
+            <span id="p105-arrays-header-sub">Preorder picks root; Inorder splits left & right</span>
           </div>
 
-          <div id="arrays-viewport">
+          <div id="p105-arrays-viewport">
             {/* Preorder Array */}
-            <div id="preorder-strip-wrapper">
-              <span id="preorder-label">PREORDER:</span>
-              <div id="preorder-cells-row">
+            <div id="p105-preorder-strip-wrapper">
+              <span id="p105-preorder-label">PREORDER:</span>
+              <div id="p105-preorder-cells-row">
                 {preorder.map((val, idx) => {
                   const isRoot = currentRoot === val;
                   const isBuilt = builtNodes.includes(val);
 
-                  let cellId = `pre-cell-idle-${val}`;
-                  if (isRoot) cellId = `pre-cell-root-${val}`;
-                  else if (isBuilt) cellId = `pre-cell-built-${val}`;
+                  let cellState = "idle";
+                  if (isRoot) cellState = "root";
+                  else if (isBuilt) cellState = "built";
 
                   return (
-                    <div key={`pre-${val}`} id={cellId} className="traversal-cell">
-                      <span className="cell-val-text">{val}</span>
-                      <span className="cell-idx-sub">[{idx}]</span>
-                      {isRoot && <span id="pre-root-badge">ROOT</span>}
+                    <div
+                      key={`p105-pre-${val}`}
+                      id={`p105-pre-cell-${val}`}
+                      data-cell-state={cellState}
+                    >
+                      <span id={`p105-pre-val-${val}`}>{val}</span>
+                      <span id={`p105-pre-idx-${val}`}>[{idx}]</span>
+                      <AnimatePresence mode="popLayout">
+                        {isRoot && (
+                          <motion.span
+                            key={`p105-root-badge-${val}`}
+                            id="p105-pre-root-badge"
+                            layout
+                            initial={{ scale: 0.6, opacity: 0, y: -4 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.6, opacity: 0, y: -4 }}
+                            transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                          >
+                            ROOT
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
@@ -90,26 +111,44 @@ export default function Problem105({ stepData }) {
             </div>
 
             {/* Inorder Array */}
-            <div id="inorder-strip-wrapper">
-              <span id="inorder-label">INORDER:</span>
-              <div id="inorder-cells-row">
+            <div id="p105-inorder-strip-wrapper">
+              <span id="p105-inorder-label">INORDER:</span>
+              <div id="p105-inorder-cells-row">
                 {inorder.map((val, idx) => {
                   const isMid = currentRoot === val;
                   const isLeftSlice = leftSubInorder.includes(val);
                   const isRightSlice = rightSubInorder.includes(val);
                   const isBuilt = builtNodes.includes(val);
 
-                  let cellId = `in-cell-idle-${val}`;
-                  if (isMid) cellId = `in-cell-mid-${val}`;
-                  else if (isLeftSlice) cellId = `in-cell-left-${val}`;
-                  else if (isRightSlice) cellId = `in-cell-right-${val}`;
-                  else if (isBuilt) cellId = `in-cell-built-${val}`;
+                  let cellState = "idle";
+                  if (isMid) cellState = "mid";
+                  else if (isLeftSlice) cellState = "left";
+                  else if (isRightSlice) cellState = "right";
+                  else if (isBuilt) cellState = "built";
 
                   return (
-                    <div key={`in-${val}`} id={cellId} className="traversal-cell">
-                      <span className="cell-val-text">{val}</span>
-                      <span className="cell-idx-sub">[{idx}]</span>
-                      {isMid && <span id="in-mid-badge">MID</span>}
+                    <div
+                      key={`p105-in-${val}`}
+                      id={`p105-in-cell-${val}`}
+                      data-cell-state={cellState}
+                    >
+                      <span id={`p105-in-val-${val}`}>{val}</span>
+                      <span id={`p105-in-idx-${val}`}>[{idx}]</span>
+                      <AnimatePresence mode="popLayout">
+                        {isMid && (
+                          <motion.span
+                            key={`p105-mid-badge-${val}`}
+                            id="p105-in-mid-badge"
+                            layout
+                            initial={{ scale: 0.6, opacity: 0, y: -4 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.6, opacity: 0, y: -4 }}
+                            transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                          >
+                            MID
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
@@ -117,24 +156,32 @@ export default function Problem105({ stepData }) {
             </div>
 
             {/* Array Legend */}
-            <div id="arrays-legend">
-              <span className="legend-item"><span className="dot dot-root" /> Current Root (`preorder[0]`)</span>
-              <span className="legend-item"><span className="dot dot-left" /> Left Subtree Slice</span>
-              <span className="legend-item"><span className="dot dot-right" /> Right Subtree Slice</span>
-              <span className="legend-item"><span className="dot dot-built" /> Attached to Tree</span>
+            <div id="p105-arrays-legend">
+              <span id="p105-legend-item-root">
+                <span id="p105-dot-root" data-dot="root" /> Current Root (`preorder[0]`)
+              </span>
+              <span id="p105-legend-item-left">
+                <span id="p105-dot-left" data-dot="left" /> Left Subtree Slice
+              </span>
+              <span id="p105-legend-item-right">
+                <span id="p105-dot-right" data-dot="right" /> Right Subtree Slice
+              </span>
+              <span id="p105-legend-item-built">
+                <span id="p105-dot-built" data-dot="built" /> Attached to Tree
+              </span>
             </div>
           </div>
         </div>
 
         {/* Right: Progressive Tree Assembly */}
-        <div id="tree-assembly-card">
-          <div id="tree-assembly-header">
-            <span id="tree-assembly-title">2. Assembled Binary Tree</span>
-            <span id="tree-assembly-sub">Root attaches left and right recursive returns</span>
+        <div id="p105-tree-assembly-card">
+          <div id="p105-tree-assembly-header">
+            <span id="p105-tree-assembly-title">2. Assembled Binary Tree</span>
+            <span id="p105-tree-assembly-sub">Root attaches left and right recursive returns</span>
           </div>
 
-          <div id="tree-viewport">
-            <svg id="tree-svg-surface" viewBox="0 0 400 240">
+          <div id="p105-tree-viewport">
+            <svg id="p105-tree-svg-surface" viewBox="0 0 400 240">
               {/* Edges */}
               {treeEdges.map(({ from, to }) => {
                 const p1 = treeNodes.find((n) => n.id === from);
@@ -143,8 +190,9 @@ export default function Problem105({ stepData }) {
 
                 return (
                   <line
-                    key={`edge-${from}-${to}`}
-                    id={built ? `edge-built-${from}-${to}` : `edge-ghost-${from}-${to}`}
+                    key={`p105-edge-${from}-${to}`}
+                    id={`p105-edge-${from}-${to}`}
+                    data-edge-state={built ? "built" : "ghost"}
                     x1={p1.cx}
                     y1={p1.cy}
                     x2={p2.cx}
@@ -158,25 +206,45 @@ export default function Problem105({ stepData }) {
                 const isCurrent = currentRoot === node.val;
                 const isBuilt = builtNodes.includes(node.val);
 
-                let circleId = `node-ghost-${node.val}`;
+                let nodeState = "ghost";
                 if (isCompleted || (isBuilt && !isCurrent)) {
-                  circleId = `node-built-${node.val}`;
+                  nodeState = "built";
                 } else if (isCurrent) {
-                  circleId = `node-active-${node.val}`;
+                  nodeState = "active";
                 }
 
                 return (
-                  <g key={`g-node-${node.id}`} id={`g-node-${node.id}`}>
-                    {isCompleted && (
-                      <circle id={`halo-complete-${node.val}`} cx={node.cx} cy={node.cy} r="28" />
-                    )}
-                    {isCurrent && (
-                      <circle id={`halo-active-${node.val}`} cx={node.cx} cy={node.cy} r="26" />
-                    )}
+                  <g key={`p105-g-node-${node.id}`} id={`p105-g-node-${node.id}`}>
+                    <AnimatePresence mode="popLayout">
+                      {isCompleted && (
+                        <circle
+                          key={`p105-halo-complete-${node.val}`}
+                          id={`p105-halo-complete-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r="28"
+                        />
+                      )}
+                      {isCurrent && !isCompleted && (
+                        <circle
+                          key={`p105-halo-active-${node.val}`}
+                          id={`p105-halo-active-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r="26"
+                        />
+                      )}
+                    </AnimatePresence>
 
-                    <circle id={circleId} cx={node.cx} cy={node.cy} r="21" />
+                    <circle
+                      id={`p105-node-${node.val}`}
+                      data-node-state={nodeState}
+                      cx={node.cx}
+                      cy={node.cy}
+                      r="21"
+                    />
 
-                    <text id={`text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
+                    <text id={`p105-text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
                       {node.val}
                     </text>
                   </g>
@@ -191,14 +259,14 @@ export default function Problem105({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p105-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p105-callout-header-text">{output.label}</div>
+            <div id="p105-callout-val-text">{output.value}</div>
+            <div id="p105-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

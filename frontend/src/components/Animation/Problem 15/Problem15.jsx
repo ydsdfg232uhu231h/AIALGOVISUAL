@@ -27,48 +27,60 @@ export default function Problem15({ stepData }) {
     tripletsList = [];
   }
 
+  let decisionStatus = "none";
+  if (isZeroMatch) decisionStatus = "hit";
+  else if (currentSum !== null && currentSum < 0) decisionStatus = "low";
+  else if (currentSum !== null && currentSum > 0) decisionStatus = "high";
+
   return (
-    <div className="canvas-wrapper threesum-canvas">
+    <div id="p15-threesum-canvas">
       {/* Live Formula Display */}
       {i !== null && l !== null && r !== null && (
         <motion.div
-          className={`sum-formula-banner ${isZeroMatch ? "banner-match" : ""}`}
+          id="p15-sum-formula-banner"
+          data-match={isZeroMatch ? "true" : "false"}
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
         >
-          <div className="formula-terms">
-            <span className="term term-i">
+          <div id="p15-formula-terms">
+            <span id="p15-term-i">
               nums[{i}] = <b>{vi}</b>
             </span>
-            <span className="operator">+</span>
-            <span className="term term-l">
+            <span id="p15-operator-plus-1">+</span>
+            <span id="p15-term-l">
               nums[{l}] = <b>{vl}</b>
             </span>
-            <span className="operator">+</span>
-            <span className="term term-r">
+            <span id="p15-operator-plus-2">+</span>
+            <span id="p15-term-r">
               nums[{r}] = <b>{vr}</b>
             </span>
-            <span className="operator">=</span>
-            <span className={`sum-result ${isZeroMatch ? "res-zero" : ""}`}>
+            <span id="p15-operator-equals">=</span>
+            <span id="p15-sum-result" data-zero={isZeroMatch ? "true" : "false"}>
               {currentSum}
             </span>
           </div>
 
-          <div className="formula-decision">
+          <div id="p15-formula-decision">
             {isZeroMatch ? (
-              <span className="decision-tag tag-hit">★ TARGET REACHED (sum == 0)</span>
+              <span id="p15-decision-tag" data-status="hit">
+                ★ TARGET REACHED (sum == 0)
+              </span>
             ) : currentSum < 0 ? (
-              <span className="decision-tag tag-low">▲ Sum too small &rarr; advance L</span>
+              <span id="p15-decision-tag" data-status="low">
+                ▲ Sum too small &rarr; advance L
+              </span>
             ) : (
-              <span className="decision-tag tag-high">▼ Sum too high &rarr; decrement R</span>
+              <span id="p15-decision-tag" data-status="high">
+                ▼ Sum too high &rarr; decrement R
+              </span>
             )}
           </div>
         </motion.div>
       )}
 
       {/* Main Number Strip */}
-      <div className="threesum-track">
+      <div id="p15-threesum-track">
         {array.map((val, idx) => {
           const isI = idx === i;
           const isL = idx === l;
@@ -76,16 +88,24 @@ export default function Problem15({ stepData }) {
           const isSelected = isI || isL || isR;
           const isPastI = i !== null && idx < i;
           const isOutsideWindow = i !== null && l !== null && r !== null && (idx < l || idx > r) && !isI;
+          const isDimmed = isPastI || isOutsideWindow;
+
+          let nodeState = "idle";
+          if (isZeroMatch && isSelected) nodeState = "matched";
+          else if (isI) nodeState = "anchor";
+          else if (isL) nodeState = "left";
+          else if (isR) nodeState = "right";
 
           return (
-            <div key={idx} className="threesum-col">
+            <div key={`p15-col-${idx}`} id={`p15-col-${idx}`}>
               {/* Pointer Badges */}
-              <div className="ptrs-slot">
-                <AnimatePresence>
+              <div id={`p15-ptrs-slot-${idx}`}>
+                <AnimatePresence mode="popLayout">
                   {isI && (
                     <motion.span
-                      layoutId="ptr-i"
-                      className="pointer-badge badge-i"
+                      key={`p15-ptr-i-${idx}`}
+                      id={`p15-pointer-badge-i-${idx}`}
+                      layout
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
@@ -96,8 +116,9 @@ export default function Problem15({ stepData }) {
                   )}
                   {isL && (
                     <motion.span
-                      layoutId="ptr-l"
-                      className="pointer-badge badge-l"
+                      key={`p15-ptr-l-${idx}`}
+                      id={`p15-pointer-badge-l-${idx}`}
+                      layout
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
@@ -108,8 +129,9 @@ export default function Problem15({ stepData }) {
                   )}
                   {isR && (
                     <motion.span
-                      layoutId="ptr-r"
-                      className="pointer-badge badge-r"
+                      key={`p15-ptr-r-${idx}`}
+                      id={`p15-pointer-badge-r-${idx}`}
+                      layout
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
@@ -123,21 +145,18 @@ export default function Problem15({ stepData }) {
 
               {/* Box Element */}
               <motion.div
-                className={`threesum-box ${
-                  isSelected ? "box-selected" : ""
-                } ${isI ? "box-anchor" : ""} ${
-                  isL ? "box-left" : ""
-                } ${isR ? "box-right" : ""} ${
-                  isZeroMatch && isSelected ? "box-matched" : ""
-                } ${isPastI || isOutsideWindow ? "box-dimmed" : ""}`}
+                id={`p15-box-${idx}`}
+                data-state={nodeState}
+                data-dimmed={isDimmed ? "true" : "false"}
+                layout
                 animate={{
                   scale: isSelected ? 1.08 : 1,
                   y: isSelected ? -4 : 0
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <span className="num-val">{val}</span>
-                <span className="idx-tag">[{idx}]</span>
+                <span id={`p15-num-val-${idx}`}>{val}</span>
+                <span id={`p15-idx-tag-${idx}`}>[{idx}]</span>
               </motion.div>
             </div>
           );
@@ -145,22 +164,23 @@ export default function Problem15({ stepData }) {
       </div>
 
       {/* Discovered Triplets Feed */}
-      <div className="triplets-pool-wrapper">
-        <span className="pool-title">Unique Triplets Discovered:</span>
-        <div className="triplets-list">
+      <div id="p15-triplets-pool-wrapper">
+        <span id="p15-pool-title">Unique Triplets Discovered:</span>
+        <div id="p15-triplets-list">
           {tripletsList.length === 0 ? (
-            <span className="no-triplets-hint">No matches found yet</span>
+            <span id="p15-no-triplets-hint">No matches found yet</span>
           ) : (
             tripletsList.map((t, idx) => (
               <motion.div
-                key={idx}
-                className="triplet-capsule"
+                key={`p15-triplet-${idx}`}
+                id={`p15-triplet-capsule-${idx}`}
+                layout
                 initial={{ scale: 0.8, opacity: 0, y: 8 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
               >
-                <span className="check-icon">&#10003;</span>
-                <span className="triplet-vals">[{t.join(", ")}]</span>
+                <span id={`p15-check-icon-${idx}`}>&#10003;</span>
+                <span id={`p15-triplet-vals-${idx}`}>[{t.join(", ")}]</span>
               </motion.div>
             ))
           )}
@@ -171,14 +191,14 @@ export default function Problem15({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p15-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.9, y: 15 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p15-callout-header-text">{output.label}</div>
+            <div id="p15-callout-val-text">{output.value}</div>
+            <div id="p15-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

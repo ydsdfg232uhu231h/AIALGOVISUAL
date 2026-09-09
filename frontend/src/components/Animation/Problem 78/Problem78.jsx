@@ -23,46 +23,61 @@ export default function Problem78({ stepData }) {
   }
 
   return (
-    <div className="canvas-wrapper subsets-canvas">
+    <div id="p78-subsets-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip index-chip">
+      <div id="p78-metrics-row">
+        <span id="p78-metric-chip-index">
           Current Index: <b>{i !== null ? `i = ${i}` : "Complete"}</b>
         </span>
-        <span className="metric-chip decision-chip">
+        <span id="p78-metric-chip-decision">
           Branch Choice: <b>{decision.replace(/_/g, " ").toUpperCase()}</b>
         </span>
-        <span className="metric-chip count-chip">
+        <span id="p78-metric-chip-count">
           Subsets Generated: <b>{powerSet.length} / {Math.pow(2, nums.length)}</b>
         </span>
       </div>
 
       {/* Decision Pipeline for Input Elements */}
-      <div className="elements-decision-track">
-        <span className="track-title">Element Inclusion Status:</span>
-        <div className="elements-stream">
+      <div id="p78-elements-decision-track">
+        <span id="p78-track-title">Element Inclusion Status:</span>
+        <div id="p78-elements-stream">
           {nums.map((num, idx) => {
             const isEvaluating = idx === i;
             const isIncluded = currentPath.includes(num);
 
             return (
-              <div key={`elem-${idx}`} className="decision-node">
-                <div className="ptrs-group">
-                  {isEvaluating && <span className="pointer-tag ptr-curr">i = {idx}</span>}
+              <div key={`p78-elem-${idx}`} id={`p78-decision-node-${idx}`}>
+                <div id={`p78-ptrs-group-${idx}`}>
+                  <AnimatePresence mode="popLayout">
+                    {isEvaluating && (
+                      <motion.span
+                        key={`p78-ptr-${idx}`}
+                        id={`p78-pointer-tag-curr-${idx}`}
+                        layout
+                        initial={{ y: -6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                      >
+                        i = {idx}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <motion.div
-                  className={`element-card ${isIncluded ? "card-included" : "card-excluded"} ${
-                    isEvaluating ? "card-active" : ""
-                  }`}
+                  id={`p78-element-card-${idx}`}
+                  data-status={isIncluded ? "included" : "excluded"}
+                  data-evaluating={isEvaluating ? "true" : "false"}
+                  layout
                   animate={{
                     scale: isEvaluating ? 1.08 : 1,
                     y: isIncluded ? -4 : 0
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <span className="elem-val">{num}</span>
-                  <span className="elem-status">
+                  <span id={`p78-elem-val-${idx}`}>{num}</span>
+                  <span id={`p78-elem-status-${idx}`}>
                     {isIncluded ? "INCLUDED" : "EXCLUDED"}
                   </span>
                 </motion.div>
@@ -73,20 +88,21 @@ export default function Problem78({ stepData }) {
       </div>
 
       {/* Active Subset Bag */}
-      <div className="active-subset-container">
-        <div className="subset-header">
-          <span>Active Subset Path:</span>
-          <span className="subset-code">[{currentPath.join(", ")}]</span>
+      <div id="p78-active-subset-container">
+        <div id="p78-subset-header">
+          <span id="p78-subset-title">Active Subset Path:</span>
+          <span id="p78-subset-code">[{currentPath.join(", ")}]</span>
         </div>
-        <div className="subset-chips-row">
-          <AnimatePresence>
+        <div id="p78-subset-chips-row">
+          <AnimatePresence mode="popLayout">
             {currentPath.length === 0 ? (
-              <span className="empty-subset-hint">∅ (Empty Set)</span>
+              <span id="p78-empty-subset-hint">∅ (Empty Set)</span>
             ) : (
               currentPath.map((val) => (
                 <motion.span
-                  key={`chip-${val}`}
-                  className="path-chip"
+                  key={`p78-chip-${val}`}
+                  id={`p78-path-chip-${val}`}
+                  layout
                   initial={{ scale: 0.7, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.7, opacity: 0 }}
@@ -101,19 +117,20 @@ export default function Problem78({ stepData }) {
       </div>
 
       {/* Discovered Power Set Reel */}
-      <div className="results-reel-card">
-        <div className="reel-header">
-          <span className="reel-title">Collected Power Set</span>
-          <span className="reel-count">{powerSet.length} sets</span>
+      <div id="p78-results-reel-card">
+        <div id="p78-reel-header">
+          <span id="p78-reel-title">Collected Power Set</span>
+          <span id="p78-reel-count">{powerSet.length} sets</span>
         </div>
-        <div className="reel-chips-stream">
+        <div id="p78-reel-chips-stream">
           {powerSet.length === 0 ? (
-            <span className="reel-empty-text">Backtracking in progress...</span>
+            <span id="p78-reel-empty-text">Backtracking in progress...</span>
           ) : (
             powerSet.map((s, idx) => (
               <motion.span
-                key={`${JSON.stringify(s)}-${idx}`}
-                className="subset-badge"
+                key={`p78-subset-${JSON.stringify(s)}-${idx}`}
+                id={`p78-subset-badge-${idx}`}
+                layout
                 initial={{ opacity: 0, scale: 0.8, y: 3 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
@@ -129,14 +146,14 @@ export default function Problem78({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p78-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p78-callout-header-text">{output.label}</div>
+            <div id="p78-callout-val-text">{output.value}</div>
+            <div id="p78-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -14,53 +14,56 @@ export default function Problem110({ stepData }) {
     output
   } = stepData || {};
 
-  // Standard 3-level tree coordinates: root (3), left (9), right (20), leaves (15, 7)
- const treeNodes = [
-  { id: 1, val: 1, cx: 200, cy: 45 },
-  { id: 2, val: 2, cx: 120, cy: 120 },
-  { id: 3, val: 3, cx: 280, cy: 120 },
-  { id: 4, val: 4, cx: 70, cy: 195 },
-  { id: 5, val: 5, cx: 170, cy: 195 }
-];
+  // Standard 3-level tree coordinates: root (1), children (2, 3), leaves (4, 5)
+  const treeNodes = [
+    { id: 1, val: 1, cx: 200, cy: 45 },
+    { id: 2, val: 2, cx: 120, cy: 120 },
+    { id: 3, val: 3, cx: 280, cy: 120 },
+    { id: 4, val: 4, cx: 70, cy: 195 },
+    { id: 5, val: 5, cx: 170, cy: 195 }
+  ];
 
-const treeEdges = [
-  { from: 1, to: 2 },
-  { from: 1, to: 3 },
-  { from: 2, to: 4 },
-  { from: 2, to: 5 }
-];
+  const treeEdges = [
+    { from: 1, to: 2 },
+    { from: 1, to: 3 },
+    { from: 2, to: 4 },
+    { from: 2, to: 5 }
+  ];
 
   return (
-    <div id="balanced-tree-canvas">
+    <div id="p110-balanced-tree-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-inspecting">
+      <div id="p10-metrics-bar">
+        <span id="p110-metric-inspecting">
           Visiting: <b>{activeNode !== null ? `Node (${activeNode})` : "None"}</b>
         </span>
 
-        <span id="metric-heights">
+        <span id="p110-metric-heights">
           Heights (L / R): <b>{leftH !== null ? leftH : "—"} / {rightH !== null ? rightH : "—"}</b>
         </span>
 
-        <span id="metric-diff">
+        <span id="p110-metric-diff">
           |L - R| Diff: <b>{diff !== null ? diff : "—"} {diff !== null && (diff <= 1 ? "(≤ 1 ✓)" : "(> 1 ✗)")}</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p110-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "BALANCED TREE ✓" : "CHECKING HEIGHTS"}</b>
         </span>
       </div>
 
-      <div id="balanced-stage">
+      <div id="p110-balanced-stage">
         {/* Main Tree Card */}
-        <div id="tree-card">
-          <div id="tree-card-header">
-            <span id="tree-header-title">Binary Tree & Subtree Height Verification</span>
-            <span id="tree-header-sub">Invariant: |leftHeight - rightHeight| &le; 1</span>
+        <div id="p110-tree-card">
+          <div id="p110-tree-card-header">
+            <span id="p110-tree-header-title">Binary Tree & Subtree Height Verification</span>
+            <span id="p110-tree-header-sub">Invariant: |leftHeight - rightHeight| &le; 1</span>
           </div>
 
-          <div id="tree-viewport">
-            <svg id="tree-svg-surface" viewBox="0 0 400 240">
+          <div id="p110-tree-viewport">
+            <svg id="p110-tree-svg-surface" viewBox="0 0 400 240">
               {/* Edges */}
               {treeEdges.map(({ from, to }) => {
                 const p1 = treeNodes.find((n) => n.val === from);
@@ -70,8 +73,9 @@ const treeEdges = [
 
                 return (
                   <line
-                    key={`edge-${from}-${to}`}
-                    id={isCompleted || isEdgePassed ? `edge-passed-${from}-${to}` : `edge-normal-${from}-${to}`}
+                    key={`p110-edge-${from}-${to}`}
+                    id={`p110-edge-${from}-${to}`}
+                    data-edge-state={isCompleted || isEdgePassed ? "passed" : "normal"}
                     x1={p1.cx}
                     y1={p1.cy}
                     x2={p2.cx}
@@ -86,30 +90,50 @@ const treeEdges = [
                 const nodeHeight = heightsMap[node.val];
                 const isResolved = nodeHeight !== undefined;
 
-                let circleId = `node-idle-${node.val}`;
+                let nodeState = "idle";
                 if (isCompleted) {
-                  circleId = `node-complete-${node.val}`;
+                  nodeState = "complete";
                 } else if (isActive) {
-                  circleId = `node-active-${node.val}`;
+                  nodeState = "active";
                 } else if (isResolved) {
-                  circleId = `node-resolved-${node.val}`;
+                  nodeState = "resolved";
                 }
 
                 return (
-                  <g key={`tree-g-${node.id}`} id={`g-${node.id}`}>
-                    {isCompleted && (
-                      <circle id={`halo-complete-${node.val}`} cx={node.cx} cy={node.cy} r="28" />
-                    )}
-                    {isActive && (
-                      <circle id={`halo-active-${node.val}`} cx={node.cx} cy={node.cy} r="26" />
-                    )}
+                  <g key={`p110-tree-g-${node.id}`} id={`p110-g-${node.id}`}>
+                    <AnimatePresence mode="popLayout">
+                      {isCompleted && (
+                        <circle
+                          key={`p110-halo-complete-${node.val}`}
+                          id={`p110-halo-complete-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r="28"
+                        />
+                      )}
+                      {isActive && !isCompleted && (
+                        <circle
+                          key={`p110-halo-active-${node.val}`}
+                          id={`p110-halo-active-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r="26"
+                        />
+                      )}
+                    </AnimatePresence>
 
-                    <circle id={circleId} cx={node.cx} cy={node.cy} r="22" />
+                    <circle
+                      id={`p110-node-${node.val}`}
+                      data-node-state={nodeState}
+                      cx={node.cx}
+                      cy={node.cy}
+                      r="22"
+                    />
 
-                    <text id={`text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
+                    <text id={`p110-text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
                       {node.val}
                     </text>
-                    <text id={`text-height-${node.val}`} x={node.cx} y={node.cy + 32}>
+                    <text id={`p110-text-height-${node.val}`} x={node.cx} y={node.cy + 32}>
                       {nodeHeight !== undefined ? `h = ${nodeHeight}` : "h = ?"}
                     </text>
                   </g>
@@ -120,39 +144,42 @@ const treeEdges = [
         </div>
 
         {/* Calculation Inspector Dashboard */}
-        <div id="calc-inspector-card">
-          <div id="calc-card-header">
-            <span id="calc-header-title">Balance Evaluation Formula</span>
-            <span id="calc-header-sub">Height = 1 + max(leftH, rightH)</span>
+        <div id="p110-calc-inspector-card">
+          <div id="p110-calc-card-header">
+            <span id="p110-calc-header-title">Balance Evaluation Formula</span>
+            <span id="p110-calc-header-sub">Height = 1 + max(leftH, rightH)</span>
           </div>
 
-          <div id="calc-grid">
-            <div id="calc-box-left">
-              <span id="calc-title-left">Left Height:</span>
-              <span id="calc-val-left">
+          <div id="p110-calc-grid">
+            <div id="p110-calc-box-left">
+              <span id="p110-calc-title-left">Left Height:</span>
+              <span id="p110-calc-val-left">
                 {leftH !== null ? `leftH = ${leftH}` : "Pending"}
               </span>
             </div>
 
-            <div id="calc-box-right">
-              <span id="calc-title-right">Right Height:</span>
-              <span id="calc-val-right">
+            <div id="p110-calc-box-right">
+              <span id="p110-calc-title-right">Right Height:</span>
+              <span id="p110-calc-val-right">
                 {rightH !== null ? `rightH = ${rightH}` : "Pending"}
               </span>
             </div>
 
-            <div id="calc-box-diff">
-              <span id="calc-title-diff">Height Differential:</span>
-              <span id="calc-val-diff">
+            <div id="p110-calc-box-diff">
+              <span id="p110-calc-title-diff">Height Differential:</span>
+              <span id="p110-calc-val-diff">
                 {leftH !== null && rightH !== null
                   ? `|${leftH} - ${rightH}| = ${Math.abs(leftH - rightH)}`
                   : "Traversing"}
               </span>
             </div>
 
-            <div id="calc-box-verdict">
-              <span id="calc-title-verdict">Subtree Balance:</span>
-              <span id={isBalanced ? "calc-val-pass" : "calc-val-fail"}>
+            <div id="p110-calc-box-verdict">
+              <span id="p110-calc-title-verdict">Subtree Balance:</span>
+              <span
+                id="p110-calc-val-verdict"
+                data-balance={isBalanced ? "pass" : "fail"}
+              >
                 {leftH !== null && rightH !== null
                   ? Math.abs(leftH - rightH) <= 1
                     ? "BALANCED (≤ 1)"
@@ -168,14 +195,14 @@ const treeEdges = [
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p110-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p110-callout-header-text">{output.label}</div>
+            <div id="p110-callout-val-text">{output.value}</div>
+            <div id="p110-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>
