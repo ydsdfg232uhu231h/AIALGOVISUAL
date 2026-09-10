@@ -11,11 +11,12 @@
   min-height: 480px;
   position: relative;
   box-sizing: border-box;
-  padding: 24px 20px 20px 20px;
+  padding: 20px 16px 85px 16px;
   background: radial-gradient(circle at 50% 10%, #15151c 0%, #09090d 100%);
   color: #e4e4e7;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   user-select: none;
 }
 
@@ -29,7 +30,9 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  max-width: 860px;
   z-index: 2;
+  flex-shrink: 0;
 }
 
 #p704-metric-target-val,
@@ -44,10 +47,12 @@
   border-radius: 9999px;
   font-size: 12px;
   font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
 #p704-metric-target-val b {
@@ -84,6 +89,7 @@
   justify-content: center;
   width: 100%;
   flex: 1;
+  margin: 16px 0;
 }
 
 #p704-elements-track {
@@ -94,6 +100,13 @@
   padding: 20px 8px;
   max-width: 100%;
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+}
+
+#p704-elements-track::-webkit-scrollbar {
+  display: none;
 }
 
 [id^="p704-box-column-"] {
@@ -114,6 +127,7 @@
   gap: 4px;
   margin-bottom: 8px;
   width: 100%;
+  z-index: 3;
 }
 
 [id^="p704-pointer-tag-"] {
@@ -150,7 +164,7 @@
   border-radius: 12px;
   background: #14141a;
   border: 2px solid #272736;
-  color: #fff;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -213,18 +227,23 @@
 }
 
 /* ============================================================
-   RESULT CALLOUT (GREEN ANSWER)
+   RESULT CALLOUT (Elevated Safely Above Playback Controls)
    ============================================================ */
 #p704-result-callout-box {
-  background: rgba(15, 23, 20, 0.95);
-  backdrop-filter: blur(10px);
+  position: fixed;
+  bottom: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 20, 0.96);
+  backdrop-filter: blur(12px);
   border: 2px solid #22c55e;
   border-radius: 12px;
   padding: 10px 24px;
   text-align: center;
-  box-shadow: 0 8px 28px rgba(34, 197, 94, 0.35);
-  margin-bottom: 4px;
-  z-index: 10;
+  box-shadow: 0 10px 32px rgba(34, 197, 94, 0.35);
+  z-index: 100;
+  max-width: 90%;
+  box-sizing: border-box;
 }
 
 #p704-callout-header-text {
@@ -246,4 +265,111 @@
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  [id^="p704-box-column-"] {
+    width: 54px;
+  }
+
+  [id^="p704-box-node-"] {
+    width: 54px;
+    height: 58px;
+  }
+
+  [id^="p704-box-val-"] {
+    font-size: 18px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p704-binary-search-canvas {
+    padding: 16px 12px 95px 12px;
+  }
+
+  #p704-metrics-bar {
+    gap: 6px;
+  }
+
+  #p704-metric-target-val,
+  #p704-metric-range-bounds,
+  #p704-metric-mid-val,
+  #p704-metric-status-active,
+  #p704-metric-status-done {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  [id^="p704-box-column-"] {
+    width: 48px;
+  }
+
+  [id^="p704-box-node-"] {
+    width: 48px;
+    height: 52px;
+  }
+
+  [id^="p704-box-val-"] {
+    font-size: 16px;
+  }
+
+  #p704-result-callout-box {
+    bottom: 64px;
+    padding: 8px 18px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p704-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p704-metric-target-val,
+  #p704-metric-range-bounds,
+  #p704-metric-mid-val,
+  #p704-metric-status-active,
+  #p704-metric-status-done {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  [id^="p704-box-column-"] {
+    width: 42px;
+  }
+
+  [id^="p704-box-node-"] {
+    width: 42px;
+    height: 46px;
+    border-radius: 8px;
+  }
+
+  [id^="p704-box-val-"] {
+    font-size: 14px;
+  }
+
+  [id^="p704-box-idx-"] {
+    font-size: 8.5px;
+  }
+
+  #p704-result-callout-box {
+    bottom: 58px;
+    padding: 6px 16px;
+  }
+
+  #p704-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p704-callout-detail-text {
+    font-size: 10px;
+  }
 }

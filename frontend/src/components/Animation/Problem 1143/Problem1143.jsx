@@ -20,44 +20,51 @@ export default function Problem1143({ stepData }) {
   const isMatch = i !== null && j !== null && text1[i] === text2[j];
 
   return (
-    <div className="canvas-wrapper lcs-canvas">
+    <div id="p1143-lcs-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
+      <div id="p1143-metrics-bar">
         {i !== null && j !== null && (
           <>
-            <span className="metric-chip cell-chip">
+            <span id="p1143-metric-cell">
               Cell: <b>[{i}][{j}]</b>
             </span>
-            <span className={`metric-chip ${isMatch ? "match-chip" : "mismatch-chip"}`}>
+            <span
+              id="p1143-metric-match"
+              data-is-match={isMatch ? "true" : "false"}
+            >
               '{text1[i]}' vs '{text2[j]}':{" "}
               <b>{isMatch ? "MATCH (1 + dp[i+1][j+1])" : "MISMATCH (max(down, right))"}</b>
             </span>
           </>
         )}
         {lcsLength !== undefined && (
-          <span className="metric-chip result-chip">
+          <span id="p1143-metric-result">
             LCS Length: <b>{lcsLength}</b>
           </span>
         )}
       </div>
 
       {/* 2D DP Table */}
-      <div className="matrix-card">
+      <div id="p1143-matrix-card">
         {/* Column Headers: text2 chars */}
-        <div className="matrix-row col-headers-row">
-          <div className="header-cell corner-cell">t1 \ t2</div>
+        <div id="p1143-matrix-header-row">
+          <div id="p1143-corner-cell">t1 \ t2</div>
           {text2.split("").map((ch, colIdx) => (
             <div
-              key={`header-col-${colIdx}`}
-              className={`header-cell col-header ${j === colIdx ? "header-active" : ""}`}
+              key={`p1143-header-col-${colIdx}`}
+              id={`p1143-col-header-${colIdx}`}
+              data-is-active={j === colIdx ? "true" : "false"}
             >
-              <span className="char-letter">{ch}</span>
-              <span className="char-idx">[{colIdx}]</span>
+              <span id={`p1143-col-char-${colIdx}`}>{ch}</span>
+              <span id={`p1143-col-idx-${colIdx}`}>[{colIdx}]</span>
             </div>
           ))}
-          <div className="header-cell col-header base-header">
-            <span className="char-letter">Ø</span>
-            <span className="char-idx">[{text2.length}]</span>
+          <div
+            id="p1143-col-header-base"
+            data-is-base="true"
+          >
+            <span id="p1143-col-char-base">Ø</span>
+            <span id="p1143-col-idx-base">[{text2.length}]</span>
           </div>
         </div>
 
@@ -65,17 +72,18 @@ export default function Problem1143({ stepData }) {
         {dpTable.map((row, rowIdx) => {
           const rowChar = rowIdx < text1.length ? text1[rowIdx] : "Ø";
           const isCurrentRow = i === rowIdx;
+          const isBaseRow = rowIdx === text1.length;
 
           return (
-            <div key={`row-${rowIdx}`} className="matrix-row">
+            <div key={`p1143-row-${rowIdx}`} id={`p1143-matrix-row-${rowIdx}`}>
               {/* Row Header */}
               <div
-                className={`header-cell row-header ${isCurrentRow ? "header-active" : ""} ${
-                  rowIdx === text1.length ? "base-header" : ""
-                }`}
+                id={`p1143-row-header-${rowIdx}`}
+                data-is-active={isCurrentRow ? "true" : "false"}
+                data-is-base={isBaseRow ? "true" : "false"}
               >
-                <span className="char-letter">{rowChar}</span>
-                <span className="char-idx">[{rowIdx}]</span>
+                <span id={`p1143-row-char-${rowIdx}`}>{rowChar}</span>
+                <span id={`p1143-row-idx-${rowIdx}`}>[{rowIdx}]</span>
               </div>
 
               {/* Table Data Cells */}
@@ -85,21 +93,27 @@ export default function Problem1143({ stepData }) {
                 const isDownDependency = !isMatch && i !== null && i + 1 === rowIdx && j === colIdx;
                 const isRightDependency = !isMatch && j !== null && i === rowIdx && j + 1 === colIdx;
                 const isTargetCell = isComplete && rowIdx === 0 && colIdx === 0;
+                const isBaseCell = rowIdx === text1.length || colIdx === text2.length;
+
+                let cellState = "idle";
+                if (isTargetCell) cellState = "final";
+                else if (isCurrent) cellState = "curr";
+                else if (isDiagDependency) cellState = "dep-diag";
+                else if (isDownDependency || isRightDependency) cellState = "dep-max";
+                else if (isBaseCell) cellState = "base";
 
                 return (
                   <motion.div
-                    key={`cell-${rowIdx}-${colIdx}`}
-                    className={`dp-cell ${isCurrent ? "cell-curr" : ""} ${
-                      isDiagDependency ? "cell-dep-diag" : ""
-                    } ${isDownDependency || isRightDependency ? "cell-dep-max" : ""} ${
-                      isTargetCell ? "cell-final" : ""
-                    } ${rowIdx === text1.length || colIdx === text2.length ? "cell-base" : ""}`}
+                    key={`p1143-cell-${rowIdx}-${colIdx}`}
+                    id={`p1143-cell-${rowIdx}-${colIdx}`}
+                    data-cell-state={cellState}
+                    layout
                     animate={{
                       scale: isCurrent || isTargetCell ? 1.08 : 1
                     }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 24 }}
                   >
-                    <span className="cell-val">{val}</span>
+                    <span id={`p1143-cell-val-${rowIdx}-${colIdx}`}>{val}</span>
                   </motion.div>
                 );
               })}
@@ -108,18 +122,19 @@ export default function Problem1143({ stepData }) {
         })}
       </div>
 
-      {/* Output Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p1143-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p1143-callout-header-text">{output.label}</div>
+            <div id="p1143-callout-val-text">{output.value}</div>
+            <div id="p1143-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

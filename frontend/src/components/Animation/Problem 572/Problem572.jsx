@@ -42,50 +42,50 @@ export default function Problem572({ stepData }) {
     { from: "sub-4", to: "sub-2", fromVal: 4, toVal: 2 }
   ];
 
+  const matchStatusLower = equalityStatus.toLowerCase();
+
   return (
-    <div id="subtree-match-canvas">
+    <div id="p572-subtree-match-canvas">
       {/* Top Telemetry Header */}
-      <div id="metrics-bar">
-        <span id="metric-main-curr">
+      <div id="p572-metrics-bar">
+        <span id="p572-metric-main-curr">
           Main Tree Candidate: <b>{activeMainNode !== null ? `Node (${activeMainNode})` : "None"}</b>
         </span>
 
-        <span id="metric-sub-root">
+        <span id="p572-metric-sub-root">
           Target SubRoot: <b>Node ({activeSubNode})</b>
         </span>
 
         <span
-          id={
-            equalityStatus === "MATCH"
-              ? "metric-match-pass"
-              : equalityStatus === "MISMATCH"
-              ? "metric-match-fail"
-              : "metric-match-inspect"
-          }
+          id="p572-metric-match"
+          data-match-status={matchStatusLower}
         >
           Check: <b>{equalityStatus === "MATCH" ? "IDENTICAL SUBTREE ✓" : equalityStatus === "MISMATCH" ? "ROOT MISMATCH" : "EVALUATING EQUALITY"}</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p572-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "SUBTREE DETECTED" : "DFS RECURSIVE SCAN"}</b>
         </span>
       </div>
 
       {/* Side-by-Side Dual Tree Stage */}
-      <div id="subtree-stage">
+      <div id="p572-subtree-stage">
         {/* Left: Main Tree (Candidate Host) */}
-        <div id="main-tree-card">
-          <div id="main-tree-header">
-            <span id="main-header-title">1. Main Binary Tree (`root`)</span>
-            <span id="main-header-sub">Progressive node verification</span>
+        <div id="p572-main-tree-card">
+          <div id="p572-main-tree-header">
+            <span id="p572-main-header-title">1. Main Binary Tree (`root`)</span>
+            <span id="p572-main-header-sub">Progressive node verification</span>
           </div>
 
-          <div id="main-tree-viewport">
-            <svg id="main-tree-svg" viewBox="0 0 320 220">
-              {/* Optional dynamic boundary contour when fully confirmed */}
+          <div id="p572-main-tree-viewport">
+            <svg id="p572-main-tree-svg" viewBox="0 0 320 220">
+              {/* Boundary contour when fully confirmed */}
               {isSubtreeConfirmed && (
                 <path
-                  id="subtree-contour-box"
+                  id="p572-subtree-contour-box"
                   d="M 90 80 C 20 80, 20 205, 90 205 C 160 205, 160 80, 90 80 Z"
                 />
               )}
@@ -94,14 +94,14 @@ export default function Problem572({ stepData }) {
               {mainTreeEdges.map(({ from, to, fromVal, toVal }) => {
                 const p1 = mainTreeNodes.find((n) => n.id === from);
                 const p2 = mainTreeNodes.find((n) => n.id === to);
-                // Highlight edge progressively as both parent and child are verified in matchedNodes
                 const isProgressiveEdge =
                   matchedNodes.includes(fromVal) && matchedNodes.includes(toVal);
 
                 return (
                   <line
-                    key={`edge-${from}-${to}`}
-                    id={isProgressiveEdge ? `edge-sub-active-${from}-${to}` : `edge-idle-${from}-${to}`}
+                    key={`p572-edge-main-${from}-${to}`}
+                    id={`p572-edge-main-${fromVal}-${toVal}`}
+                    data-edge-state={isProgressiveEdge ? "active" : "idle"}
                     x1={p1.cx}
                     y1={p1.cy}
                     x2={p2.cx}
@@ -115,30 +115,71 @@ export default function Problem572({ stepData }) {
                 const isCurrentCandidate = activeMainNode === node.val;
                 const isMatched = matchedNodes.includes(node.val);
 
-                let circleId = `main-node-idle-${node.val}`;
-                if (isSubtreeConfirmed) {
-                  circleId = `main-node-winner-${node.val}`;
-                } else if (isMatched) {
-                  circleId = `main-node-matched-progressive-${node.val}`;
-                } else if (isCurrentCandidate) {
-                  circleId = `main-node-inspect-${node.val}`;
-                }
+                let nodeState = "idle";
+                if (isSubtreeConfirmed) nodeState = "winner";
+                else if (isMatched) nodeState = "progressive";
+                else if (isCurrentCandidate) nodeState = "inspect";
 
                 return (
-                  <g key={`g-main-${node.id}`} id={`g-main-${node.id}`}>
-                    {isMatched && (
-                      <circle id={`halo-progressive-${node.val}`} cx={node.cx} cy={node.cy} r="25" />
-                    )}
-                    {isCurrentCandidate && !isMatched && (
-                      <circle id={`halo-inspect-${node.val}`} cx={node.cx} cy={node.cy} r="25" />
-                    )}
+                  <g key={`p572-g-main-${node.id}`} id={`p572-g-main-${node.id}`}>
+                    <AnimatePresence>
+                      {isMatched && (
+                        <motion.circle
+                          key={`p572-halo-prog-${node.val}`}
+                          id={`p572-halo-main-${node.val}`}
+                          data-node-state="progressive"
+                          cx={node.cx}
+                          cy={node.cy}
+                          r={26}
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 0.8 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                        />
+                      )}
+                      {isCurrentCandidate && !isMatched && (
+                        <motion.circle
+                          key={`p572-halo-ins-${node.val}`}
+                          id={`p572-halo-main-${node.val}`}
+                          data-node-state="inspect"
+                          cx={node.cx}
+                          cy={node.cy}
+                          r={25}
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 0.85 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                        />
+                      )}
+                    </AnimatePresence>
 
-                    <circle id={circleId} cx={node.cx} cy={node.cy} r="20" />
+                    <motion.circle
+                      id={`p572-node-main-${node.val}`}
+                      data-node-state={nodeState}
+                      cx={node.cx}
+                      cy={node.cy}
+                      r={20}
+                      layout
+                      animate={{
+                        scale: nodeState === "winner" ? 1.08 : nodeState !== "idle" ? 1.04 : 1
+                      }}
+                      transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                    />
 
-                    <text id={`main-text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
+                    <text
+                      id={`p572-main-text-val-${node.val}`}
+                      data-node-state={nodeState}
+                      x={node.cx}
+                      y={node.cy + 1}
+                    >
                       {node.val}
                     </text>
-                    <text id={`main-text-sub-${node.val}`} x={node.cx} y={node.cy + 29}>
+                    <text
+                      id={`p572-main-text-sub-${node.val}`}
+                      data-node-state={nodeState}
+                      x={node.cx}
+                      y={node.cy + 29}
+                    >
                       {isMatched ? "MATCH" : isCurrentCandidate ? "CURR" : ""}
                     </text>
                   </g>
@@ -149,26 +190,25 @@ export default function Problem572({ stepData }) {
         </div>
 
         {/* Right: Target SubTree (`subRoot`) */}
-        <div id="sub-tree-card">
-          <div id="sub-tree-header">
-            <span id="sub-header-title">2. Target Subtree (`subRoot`)</span>
-            <span id="sub-header-sub">Structure to locate: [4, 1, 2]</span>
+        <div id="p572-sub-tree-card">
+          <div id="p572-sub-tree-header">
+            <span id="p572-sub-header-title">2. Target Subtree (`subRoot`)</span>
+            <span id="p572-sub-header-sub">Structure to locate: [4, 1, 2]</span>
           </div>
 
-          <div id="sub-tree-viewport">
-            <svg id="sub-tree-svg" viewBox="0 0 240 220">
-              {/* SubTree Edges - highlight progressively if subRoot nodes match */}
+          <div id="p572-sub-tree-viewport">
+            <svg id="p572-sub-tree-svg" viewBox="0 0 240 220">
+              {/* SubTree Edges */}
               {subTreeEdges.map(({ from, to, fromVal, toVal }) => {
                 const p1 = subTreeNodes.find((n) => n.id === from);
                 const p2 = subTreeNodes.find((n) => n.id === to);
-                // Map subRoot node values (4, 1, 2) back to main tree matched nodes for synchronized lighting
-                const mappedFromVal = fromVal === 4 ? activeMainNode : fromVal === 1 ? 1 : 2;
                 const isMatchedEdge = matchedNodes.length > 0;
 
                 return (
                   <line
-                    key={`edge-sub-${from}-${to}`}
-                    id={isMatchedEdge ? `edge-target-done-${from}-${to}` : `edge-target-normal-${from}-${to}`}
+                    key={`p572-edge-sub-${from}-${to}`}
+                    id={`p572-edge-sub-${fromVal}-${toVal}`}
+                    data-edge-state={isMatchedEdge ? "done" : "normal"}
                     x1={p1.cx}
                     y1={p1.cy}
                     x2={p2.cx}
@@ -179,22 +219,52 @@ export default function Problem572({ stepData }) {
 
               {/* SubTree Nodes */}
               {subTreeNodes.map((node) => {
-                let circleId = matchedNodes.length > 0
-                  ? `sub-node-winner-${node.val}`
-                  : `sub-node-idle-${node.val}`;
+                const isSubMatched = matchedNodes.length > 0;
+                const nodeState = isSubMatched ? "winner" : "idle";
 
                 return (
-                  <g key={`g-sub-${node.id}`} id={`g-sub-${node.id}`}>
-                    {matchedNodes.length > 0 && (
-                      <circle id={`halo-sub-winner-${node.val}`} cx={node.cx} cy={node.cy} r="25" />
-                    )}
+                  <g key={`p572-g-sub-${node.id}`} id={`p572-g-sub-${node.id}`}>
+                    <AnimatePresence>
+                      {isSubMatched && (
+                        <motion.circle
+                          key={`p572-halo-sub-${node.val}`}
+                          id={`p572-halo-sub-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r={25}
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 0.8 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                        />
+                      )}
+                    </AnimatePresence>
 
-                    <circle id={circleId} cx={node.cx} cy={node.cy} r="20" />
+                    <motion.circle
+                      id={`p572-node-sub-${node.val}`}
+                      data-node-state={nodeState}
+                      cx={node.cx}
+                      cy={node.cy}
+                      r={20}
+                      layout
+                      animate={{ scale: isSubMatched ? 1.06 : 1 }}
+                      transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                    />
 
-                    <text id={`sub-text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
+                    <text
+                      id={`p572-sub-text-val-${node.val}`}
+                      data-node-state={nodeState}
+                      x={node.cx}
+                      y={node.cy + 1}
+                    >
                       {node.val}
                     </text>
-                    <text id={`sub-text-sub-${node.val}`} x={node.cx} y={node.cy + 29}>
+                    <text
+                      id={`p572-sub-text-sub-${node.val}`}
+                      data-node-state={nodeState}
+                      x={node.cx}
+                      y={node.cy + 29}
+                    >
                       {node.val === 4 ? "root" : "leaf"}
                     </text>
                   </g>
@@ -206,46 +276,50 @@ export default function Problem572({ stepData }) {
       </div>
 
       {/* Comparison Engine Card */}
-      <div id="comparison-card">
-        <div id="comparison-card-header">
-          <span id="comparison-header-title">Subtree Equality Formula</span>
-          <span id="comparison-header-sub">isSameTree(candidateSubtree, targetSubtree)</span>
+      <div id="p572-comparison-card">
+        <div id="p572-comparison-card-header">
+          <span id="p572-comparison-header-title">Subtree Equality Formula</span>
+          <span id="p572-comparison-header-sub">isSameTree(candidateSubtree, targetSubtree)</span>
         </div>
 
-        <div id="comparison-grid">
-          <div id="comp-box-candidate">
-            <span id="comp-title-candidate">Testing Candidate:</span>
-            <span id="comp-val-candidate">
+        <div id="p572-comparison-grid">
+          <div id="p572-comp-box-candidate">
+            <span id="p572-comp-title-candidate">Testing Candidate:</span>
+            <span id="p572-comp-val-candidate">
               {activeMainNode !== null ? `Subtree at Node (${activeMainNode})` : "None"}
             </span>
           </div>
 
-          <div id="comp-box-equation">
-            <span id="comp-title-equation">Tree Match Equation:</span>
-            <span id="comp-val-equation">{comparisonFormula || "Awaiting step"}</span>
+          <div id="p572-comp-box-equation">
+            <span id="p572-comp-title-equation">Tree Match Equation:</span>
+            <span id="p572-comp-val-equation">{comparisonFormula || "Awaiting step"}</span>
           </div>
 
-          <div id="comp-box-verdict">
-            <span id="comp-title-verdict">Evaluation Status:</span>
-            <span id={equalityStatus === "MATCH" ? "comp-val-pass" : equalityStatus === "MISMATCH" ? "comp-val-fail" : "comp-val-inspect"}>
+          <div id="p572-comp-box-verdict">
+            <span id="p572-comp-title-verdict">Evaluation Status:</span>
+            <span
+              id="p572-comp-val-verdict"
+              data-match-status={matchStatusLower}
+            >
               {equalityStatus === "MATCH" ? "SUBTREE MATCH CONFIRMED ✓" : equalityStatus === "MISMATCH" ? "NOT EQUAL (RECURSE) ✗" : "COMPARING..."}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Result Callout */}
+      {/* Result Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p572-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p572-callout-header-text">{output.label}</div>
+            <div id="p572-callout-val-text">{output.value}</div>
+            <div id="p572-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

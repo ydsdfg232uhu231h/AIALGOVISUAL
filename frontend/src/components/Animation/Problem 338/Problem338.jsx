@@ -13,47 +13,59 @@ export default function Problem338({ stepData }) {
   const offset = state.offset ?? 1;
 
   return (
-    <div className="canvas-wrapper bits-canvas">
+    <div id="p338-bits-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip offset-chip">
+      <div id="p338-metrics-bar">
+        <span id="p338-metric-offset">
           Power-of-2 Offset: <b>{offset}</b>
         </span>
         {currentI !== null && (
-          <span className="metric-chip active-chip">
+          <span id="p338-metric-active">
             Inspecting: <b>i = {currentI}</b>
           </span>
         )}
-        <span className="metric-chip formula-chip">
+        <span id="p338-metric-formula">
           Relation: <b>dp[i] = 1 + dp[i - {offset}]</b>
         </span>
       </div>
 
-      <div className="bits-stage">
-        <div className="dp-grid-card">
-          <div className="card-header-bar">
-            <span>DP Bit-Count Array & Binary Representation</span>
-            <span className="sub-tag">0 ➔ {dp.length - 1}</span>
+      <div id="p338-bits-stage">
+        <div id="p338-dp-grid-card">
+          <div id="p338-card-header-bar">
+            <span id="p338-card-header-title">DP Bit-Count Array &amp; Binary Representation</span>
+            <span id="p338-sub-tag">0 ➔ {dp.length - 1}</span>
           </div>
 
-          <div className="dp-cells-track">
+          <div
+            id="p338-dp-cells-track"
+            style={{
+              gridTemplateColumns: `repeat(${dp.length}, minmax(0, 1fr))`
+            }}
+          >
             {dp.map((count, idx) => {
               const isActive = idx === currentI;
               const isSource = currentI !== null && idx === currentI - offset;
               const binaryStr = idx.toString(2).padStart(3, "0");
 
+              let boxState = "idle";
+              if (isActive) boxState = "target";
+              else if (isSource) boxState = "source";
+
               return (
-                <div key={`dp-col-${idx}`} className="dp-cell-column">
+                <div key={`p338-dp-col-${idx}`} id={`p338-dp-col-${idx}`}>
                   {/* Binary string tag */}
-                  <span className={`binary-tag ${isActive ? "bin-active" : ""}`}>
+                  <span
+                    id={`p338-binary-tag-${idx}`}
+                    data-is-active={isActive ? "true" : "false"}
+                  >
                     {binaryStr}
                   </span>
 
                   {/* DP Count Box */}
                   <motion.div
-                    className={`dp-box ${isActive ? "box-target" : ""} ${
-                      isSource ? "box-source" : ""
-                    }`}
+                    id={`p338-dp-box-${idx}`}
+                    data-box-state={boxState}
+                    layout
                     animate={{ scale: isActive ? 1.08 : 1 }}
                     transition={{ type: "spring", stiffness: 350, damping: 20 }}
                   >
@@ -61,9 +73,38 @@ export default function Problem338({ stepData }) {
                   </motion.div>
 
                   {/* Subtitle labels */}
-                  <span className="idx-tag">i={idx}</span>
-                  {isActive && <span className="pointer-pill pill-target">TARGET</span>}
-                  {isSource && <span className="pointer-pill pill-source">i - {offset}</span>}
+                  <span id={`p338-idx-tag-${idx}`}>i={idx}</span>
+
+                  <AnimatePresence mode="popLayout">
+                    {isActive && (
+                      <motion.span
+                        key="p338-ptr-target"
+                        layoutId="p338-pointer-pill-target"
+                        id={`p338-pointer-pill-target-${idx}`}
+                        data-pill-type="target"
+                        initial={{ y: 6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        TARGET
+                      </motion.span>
+                    )}
+                    {isSource && (
+                      <motion.span
+                        key="p338-ptr-source"
+                        layoutId="p338-pointer-pill-source"
+                        id={`p338-pointer-pill-source-${idx}`}
+                        data-pill-type="source"
+                        initial={{ y: 6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        i - {offset}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
@@ -75,14 +116,15 @@ export default function Problem338({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p338-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p338-callout-header-text">{output.label}</div>
+            <div id="p338-callout-val-text">{output.value}</div>
+            <div id="p338-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

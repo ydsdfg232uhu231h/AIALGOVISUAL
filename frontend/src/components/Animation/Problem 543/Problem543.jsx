@@ -36,36 +36,39 @@ export default function Problem543({ stepData }) {
     winningPathEdges.some(([a, b]) => (a === u && b === v) || (a === v && b === u));
 
   return (
-    <div id="tree-diameter-canvas">
+    <div id="p543-tree-diameter-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-inspecting">
+      <div id="p543-metrics-bar">
+        <span id="p543-metric-inspecting">
           Visiting: <b>{activeNode !== null ? `Node (${activeNode})` : "None"}</b>
         </span>
 
-        <span id="metric-depths">
+        <span id="p543-metric-depths">
           Child Depths (L / R): <b>{leftHeight} / {rightHeight}</b>
         </span>
 
-        <span id="metric-local-dia">
+        <span id="p543-metric-local-dia">
           Local Arch Path: <b>{leftHeight} + {rightHeight} = {localDiameter} edges</b>
         </span>
 
-        <span id={isCompleted ? "metric-res-done" : "metric-res-active"}>
+        <span
+          id="p543-metric-res"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Global Max Diameter (`res`): <b>{res} edges</b>
         </span>
       </div>
 
-      <div id="diameter-stage">
+      <div id="p543-diameter-stage">
         {/* Main Tree Card */}
-        <div id="tree-card">
-          <div id="tree-card-header">
-            <span id="tree-header-title">Binary Tree Diameter Traversal</span>
-            <span id="tree-header-sub">Diameter = max(res, leftDepth + rightDepth)</span>
+        <div id="p543-tree-card">
+          <div id="p543-tree-card-header">
+            <span id="p543-tree-header-title">Binary Tree Diameter Traversal</span>
+            <span id="p543-tree-header-sub">Diameter = max(res, leftDepth + rightDepth)</span>
           </div>
 
-          <div id="tree-viewport">
-            <svg id="tree-svg-surface" viewBox="0 0 420 250">
+          <div id="p543-tree-viewport">
+            <svg id="p543-tree-svg-surface" viewBox="0 0 420 250">
               {/* Edges */}
               {treeEdges.map(({ from, to }) => {
                 const p1 = treeNodes.find((n) => n.val === from);
@@ -74,8 +77,9 @@ export default function Problem543({ stepData }) {
 
                 return (
                   <line
-                    key={`edge-${from}-${to}`}
-                    id={isWinnerEdge ? `edge-path-${from}-${to}` : `edge-normal-${from}-${to}`}
+                    key={`p543-edge-${from}-${to}`}
+                    id={`p543-edge-${from}-${to}`}
+                    data-edge-state={isWinnerEdge ? "winner" : "normal"}
                     x1={p1.cx}
                     y1={p1.cy}
                     x2={p2.cx}
@@ -90,30 +94,71 @@ export default function Problem543({ stepData }) {
                 const isWinner = isCompleted && winningPathNodes.includes(node.val);
                 const nodeHeight = heightsMap[node.val];
 
-                let circleId = `node-idle-${node.val}`;
+                let nodeState = "idle";
                 if (isWinner) {
-                  circleId = `node-winner-${node.val}`;
+                  nodeState = "winner";
                 } else if (isActive) {
-                  circleId = `node-active-${node.val}`;
+                  nodeState = "active";
                 } else if (nodeHeight !== undefined) {
-                  circleId = `node-resolved-${node.val}`;
+                  nodeState = "resolved";
                 }
 
                 return (
-                  <g key={`tree-g-${node.id}`} id={`g-${node.id}`}>
-                    {isWinner && (
-                      <circle id={`halo-winner-${node.val}`} cx={node.cx} cy={node.cy} r="28" />
-                    )}
-                    {isActive && (
-                      <circle id={`halo-active-${node.val}`} cx={node.cx} cy={node.cy} r="26" />
-                    )}
+                  <g key={`p543-tree-g-${node.id}`} id={`p543-tree-g-${node.id}`}>
+                    <AnimatePresence>
+                      {isWinner && (
+                        <motion.circle
+                          id={`p543-halo-winner-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r={28}
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                        />
+                      )}
+                      {isActive && !isWinner && (
+                        <motion.circle
+                          id={`p543-halo-active-${node.val}`}
+                          cx={node.cx}
+                          cy={node.cy}
+                          r={26}
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                        />
+                      )}
+                    </AnimatePresence>
 
-                    <circle id={circleId} cx={node.cx} cy={node.cy} r="21" />
+                    <motion.circle
+                      id={`p543-node-${node.val}`}
+                      data-node-state={nodeState}
+                      cx={node.cx}
+                      cy={node.cy}
+                      r={21}
+                      layout
+                      animate={{
+                        scale: isWinner ? 1.08 : isActive ? 1.05 : 1
+                      }}
+                      transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                    />
 
-                    <text id={`text-val-${node.val}`} x={node.cx} y={node.cy + 1}>
+                    <text
+                      id={`p543-text-val-${node.val}`}
+                      data-node-state={nodeState}
+                      x={node.cx}
+                      y={node.cy + 1}
+                    >
                       {node.val}
                     </text>
-                    <text id={`text-sub-${node.val}`} x={node.cx} y={node.cy + 30}>
+                    <text
+                      id={`p543-text-sub-${node.val}`}
+                      data-node-state={nodeState}
+                      x={node.cx}
+                      y={node.cy + 30}
+                    >
                       {nodeHeight !== undefined ? `h = ${nodeHeight}` : "h = ?"}
                     </text>
                   </g>
@@ -124,37 +169,40 @@ export default function Problem543({ stepData }) {
         </div>
 
         {/* Calculation Inspector Dashboard */}
-        <div id="inspector-card">
-          <div id="inspector-card-header">
-            <span id="inspector-header-title">Post-Order Telemetry</span>
-            <span id="inspector-header-sub">Depth returned upward vs path through node</span>
+        <div id="p543-inspector-card">
+          <div id="p543-inspector-card-header">
+            <span id="p543-inspector-header-title">Post-Order Telemetry</span>
+            <span id="p543-inspector-header-sub">Depth returned upward vs path through node</span>
           </div>
 
-          <div id="inspector-grid">
-            <div id="box-subtrees">
-              <span id="title-subtrees">Subtree Depths:</span>
-              <span id="val-subtrees">
+          <div id="p543-inspector-grid">
+            <div id="p543-box-subtrees">
+              <span id="p543-title-subtrees">Subtree Depths:</span>
+              <span id="p543-val-subtrees">
                 L: {leftHeight} | R: {rightHeight}
               </span>
             </div>
 
-            <div id="box-local-arch">
-              <span id="title-local-arch">Arch Path Length:</span>
-              <span id="val-local-arch">
+            <div id="p543-box-local-arch">
+              <span id="p543-title-local-arch">Arch Path Length:</span>
+              <span id="p543-val-local-arch">
                 {leftHeight} + {rightHeight} = {localDiameter} edges
               </span>
             </div>
 
-            <div id="box-return-depth">
-              <span id="title-return-depth">Return Upward:</span>
-              <span id="val-return-depth">
+            <div id="p543-box-return-depth">
+              <span id="p543-title-return-depth">Return Upward:</span>
+              <span id="p543-val-return-depth">
                 1 + max({leftHeight}, {rightHeight}) = {1 + Math.max(leftHeight, rightHeight)}
               </span>
             </div>
 
-            <div id="box-global-res">
-              <span id="title-global-res">Global Max (`res`):</span>
-              <span id={isCompleted ? "val-global-res-done" : "val-global-res-active"}>
+            <div id="p543-box-global-res">
+              <span id="p543-title-global-res">Global Max (`res`):</span>
+              <span
+                id="p543-val-global-res"
+                data-status={isCompleted ? "done" : "active"}
+              >
                 {res} edges
               </span>
             </div>
@@ -162,18 +210,19 @@ export default function Problem543({ stepData }) {
         </div>
       </div>
 
-      {/* Result Callout */}
+      {/* Result Callout (Elevated safely above playback scrubber) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p543-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p543-callout-header-text">{output.label}</div>
+            <div id="p543-callout-val-text">{output.value}</div>
+            <div id="p543-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

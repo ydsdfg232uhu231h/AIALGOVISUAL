@@ -1,113 +1,123 @@
-.flights-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p787-flights-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
+  height: 100%;
   min-height: 520px;
   position: relative;
   gap: 16px;
   box-sizing: border-box;
-  overflow: hidden;
+  padding: 18px 16px 85px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* TOP METRICS */
-.metrics-row {
+/* ============================================================
+   TOP METRICS
+   ============================================================ */
+#p787-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
   max-width: 95%;
+  z-index: 2;
 }
 
-.metric-chip {
+#p787-metric-src,
+#p787-metric-dst,
+#p787-metric-stops,
+#p787-metric-iter {
   background: #141417;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
   padding: 5px 14px;
   border-radius: 9999px;
-  font-size: 13px;
-  display: flex;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.metric-chip b {
-  color: #fff;
-}
+#p787-metric-src b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p787-metric-dst b { color: #22c55e; font-family: ui-monospace, monospace; }
+#p787-metric-stops b { color: #facc15; font-family: ui-monospace, monospace; }
+#p787-metric-iter b { color: #c084fc; font-family: ui-monospace, monospace; }
 
-.src-chip b {
-  color: #38bdf8;
-}
-
-.dst-chip b {
-  color: #22c55e;
-}
-
-.stops-chip b {
-  color: #facc15;
-}
-
-.iter-chip b {
-  color: #c084fc;
-}
-
-/* FLIGHT STAGE */
-.flights-stage {
+/* ============================================================
+   FLIGHT STAGE
+   ============================================================ */
+#p787-flights-stage {
   display: flex;
   flex-direction: column;
   gap: 14px;
   width: 100%;
   max-width: 520px;
   align-items: center;
+  flex-shrink: 0;
 }
 
-/* FLIGHT MAP SVG */
-.flight-map-card {
+/* FLIGHT MAP CARD */
+#p787-flight-map-card {
   width: 100%;
   background: #101014;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 16px;
   padding: 10px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
   box-sizing: border-box;
 }
 
-.flight-svg {
+#p787-flight-svg {
   width: 100%;
   height: auto;
   display: block;
 }
 
 /* DP PRICES TABLE */
-.prices-table-card {
+#p787-prices-table-card {
   width: 100%;
   background: #111215;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 14px;
   padding: 12px 18px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-.table-title {
+#p787-table-title {
   font-size: 10px;
   font-weight: 800;
   color: #71717a;
   text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
-.prices-grid {
+#p787-prices-grid {
   display: flex;
   gap: 10px;
   justify-content: center;
 }
 
-.price-col {
+[id^="p787-price-col-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,13 +125,14 @@
   flex: 1;
 }
 
-.col-node-label {
+[id^="p787-col-node-label-"] {
   font-size: 11px;
   color: #71717a;
   font-weight: 700;
+  font-family: ui-monospace, monospace;
 }
 
-.price-badge {
+[id^="p787-price-badge-"] {
   width: 100%;
   height: 38px;
   border-radius: 8px;
@@ -130,56 +141,154 @@
   justify-content: center;
   font-size: 15px;
   font-weight: 800;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
 }
 
-.badge-inf {
+[id^="p787-price-badge-"][data-badge-state="inf"] {
   background: #18181b;
   border: 1.5px solid #27272a;
   color: #52525b;
 }
 
-.badge-updated {
+[id^="p787-price-badge-"][data-badge-state="updated"] {
   background: rgba(34, 197, 94, 0.15);
   border: 1.5px solid #22c55e;
   color: #86efac;
   box-shadow: 0 0 12px rgba(34, 197, 94, 0.25);
 }
 
-/* RESULT CALLOUT */
-.result-callout {
-  position: absolute;
-  bottom: 8px;
-  background: #0f172a;
-  border: 1px solid #22c55e;
-  border-radius: 10px;
-  padding: 8px 18px;
-  text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-  z-index: 5;
-}
-
-.callout-header {
-  font-size: 10px;
-  color: #86efac;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.callout-val {
-  font-size: 16px;
-  color: #fff;
-  font-weight: 800;
-  margin: 1px 0;
-}
-
-.callout-detail {
-  font-size: 11px;
-  color: #94a3b8;
-}
-.badge-final {
+[id^="p787-price-badge-"][data-badge-state="final"] {
   background: rgba(34, 197, 94, 0.28) !important;
   border: 2px solid #22c55e !important;
   color: #86efac !important;
   box-shadow: 0 0 16px rgba(34, 197, 94, 0.45) !important;
+}
+
+/* ============================================================
+   RESULT CALLOUT (Elevated Safely Above Playback Controls)
+   ============================================================ */
+#p787-result-callout-box {
+  position: fixed;
+  bottom: 68px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(12px);
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+  padding: 8px 24px;
+  text-align: center;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8), 0 0 20px rgba(34, 197, 94, 0.25);
+  z-index: 100;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+#p787-callout-header-text {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+}
+
+#p787-callout-val-text {
+  font-size: 17px;
+  color: #ffffff;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#p787-callout-detail-text {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p787-flights-stage {
+    max-width: 480px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p787-flights-canvas {
+    padding: 14px 10px 95px 10px;
+    gap: 12px;
+  }
+
+  #p787-metrics-bar {
+    gap: 6px;
+  }
+
+  #p787-metric-src,
+  #p787-metric-dst,
+  #p787-metric-stops,
+  #p787-metric-iter {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  [id^="p787-price-badge-"] {
+    height: 34px;
+    font-size: 13px;
+  }
+
+  #p787-result-callout-box {
+    bottom: 64px;
+    padding: 6px 18px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p787-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p787-metric-src,
+  #p787-metric-dst,
+  #p787-metric-stops,
+  #p787-metric-iter {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p787-prices-grid {
+    gap: 6px;
+  }
+
+  [id^="p787-price-badge-"] {
+    height: 32px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  [id^="p787-col-node-label-"] {
+    font-size: 9.5px;
+  }
+
+  #p787-result-callout-box {
+    bottom: 58px;
+    padding: 6px 16px;
+  }
+
+  #p787-callout-val-text {
+    font-size: 15px;
+  }
+
+  #p787-callout-detail-text {
+    font-size: 10px;
+  }
 }

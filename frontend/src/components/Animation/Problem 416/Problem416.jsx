@@ -18,47 +18,66 @@ export default function Problem416({ stepData }) {
   const hasHitTarget = dpSet.includes(target);
 
   return (
-    <div className="canvas-wrapper subset-sum-canvas">
+    <div id="p416-subset-sum-canvas">
       {/* Metrics Header */}
-      <div className="metrics-row">
-        <span className="metric-chip sum-chip">
+      <div id="p416-metrics-row">
+        <span
+          id="p416-metric-sum"
+          data-is-even={totalSum % 2 === 0 ? "true" : "false"}
+        >
           Total Sum: <b>{totalSum}</b> {totalSum % 2 === 0 ? "(Even ✓)" : "(Odd ✗)"}
         </span>
-        <span className="metric-chip target-chip">
+        <span id="p416-metric-target">
           Target Subset Sum: <b>{target}</b>
         </span>
         {currentIdx !== null && (
-          <span className="metric-chip current-chip">
+          <span id="p416-metric-current">
             Active Num: <b>nums[{currentIdx}] = {nums[currentIdx]}</b>
           </span>
         )}
         {hasHitTarget && (
-          <span className="metric-chip hit-chip">
+          <span id="p416-metric-hit">
             Target Reached! <b>{target} ∈ dp</b>
           </span>
         )}
       </div>
 
       {/* Numbers Array Track */}
-      <div className="nums-track-container">
-        <div className="track-title">Numbers:</div>
-        <div className="nums-stream">
+      <div id="p416-nums-track-container">
+        <div id="p416-track-title">Numbers:</div>
+        <div id="p416-nums-stream">
           {nums.map((val, idx) => {
             const isCurrent = idx === currentIdx;
 
             return (
-              <div key={`num-${idx}`} className="num-col">
-                <div className="ptrs-group">
-                  {isCurrent && <span className="pointer-tag ptr-curr">curr</span>}
+              <div key={`p416-num-${idx}`} id={`p416-num-col-${idx}`}>
+                <div id={`p416-ptrs-group-${idx}`}>
+                  <AnimatePresence mode="popLayout">
+                    {isCurrent && (
+                      <motion.span
+                        key="p416-ptr-curr"
+                        layoutId="p416-pointer-tag-curr"
+                        id={`p416-pointer-tag-curr-${idx}`}
+                        initial={{ y: -6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        curr
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <motion.div
-                  className={`num-box ${isCurrent ? "num-active" : ""}`}
+                  id={`p416-num-box-${idx}`}
+                  data-is-active={isCurrent ? "true" : "false"}
+                  layout
                   animate={{ scale: isCurrent ? 1.08 : 1 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 20 }}
                 >
-                  <span className="num-val">{val}</span>
-                  <span className="idx-tag">[{idx}]</span>
+                  <span id={`p416-num-val-${idx}`}>{val}</span>
+                  <span id={`p416-idx-tag-${idx}`}>[{idx}]</span>
                 </motion.div>
               </div>
             );
@@ -67,29 +86,33 @@ export default function Problem416({ stepData }) {
       </div>
 
       {/* Reachable Subset Sums Pool (DP Set) */}
-      <div className="dp-set-container">
-        <div className="set-header">
-          <span className="set-title">Reachable Subset Sums (dp set):</span>
-          <span className="set-count">{dpSet.length} sums formed</span>
+      <div id="p416-dp-set-container">
+        <div id="p416-set-header">
+          <span id="p416-set-title">Reachable Subset Sums (dp set):</span>
+          <span id="p416-set-count">{dpSet.length} sums formed</span>
         </div>
 
-        <div className="set-chips-stream">
+        <div id="p416-set-chips-stream">
           {dpSet.map((sumVal) => {
             const isTarget = sumVal === target;
             const isJustAdded = addedSums.includes(sumVal);
 
+            let badgeState = "idle";
+            if (isTarget) badgeState = "target";
+            else if (isJustAdded) badgeState = "new";
+
             return (
               <motion.div
-                key={`sum-${sumVal}`}
-                className={`sum-badge ${isTarget ? "badge-target" : ""} ${
-                  isJustAdded ? "badge-new" : ""
-                }`}
+                key={`p416-sum-${sumVal}`}
+                id={`p416-sum-badge-${sumVal}`}
+                data-badge-state={badgeState}
+                layout
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: isTarget ? 1.15 : 1, opacity: 1 }}
-                transition={{ duration: 0.25 }}
+                transition={{ type: "spring", stiffness: 350, damping: 22 }}
               >
-                <span className="badge-val">{sumVal}</span>
-                {isTarget && <span className="target-star">★ GOAL</span>}
+                <span id={`p416-badge-val-${sumVal}`}>{sumVal}</span>
+                {isTarget && <span id="p416-target-star">★ GOAL</span>}
               </motion.div>
             );
           })}
@@ -100,14 +123,15 @@ export default function Problem416({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p416-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p416-callout-header-text">{output.label}</div>
+            <div id="p416-callout-val-text">{output.value}</div>
+            <div id="p416-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

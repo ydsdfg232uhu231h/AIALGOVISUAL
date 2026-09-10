@@ -22,54 +22,60 @@ export default function Problem994({ stepData }) {
   const queueSet = new Set(queueCoords.map(([r, c]) => `${r},${c}`));
 
   return (
-    <div className="canvas-wrapper oranges-canvas">
+    <div id="p994-oranges-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip time-chip">
+      <div id="p994-metrics-bar">
+        <span id="p994-metric-time">
           Elapsed Time: <b>{time} min</b>
         </span>
-        <span className={`metric-chip fresh-chip ${fresh === 0 ? "chip-cleared" : ""}`}>
+        <span
+          id="p994-metric-fresh"
+          data-is-cleared={fresh === 0 ? "true" : "false"}
+        >
           Fresh Remaining: <b>{fresh}</b>
         </span>
-        <span className="metric-chip queue-chip">
+        <span id="p994-metric-queue">
           BFS Frontier: <b>{queueCoords.length} cells</b>
         </span>
       </div>
 
       {/* 2D Matrix Grid */}
-      <div className="grid-outer-card">
+      <div id="p994-grid-outer-card">
         {grid.map((row, rIdx) => (
-          <div key={`row-${rIdx}`} className="grid-row">
+          <div key={`p994-row-${rIdx}`} id={`p994-grid-row-${rIdx}`}>
             {row.map((val, cIdx) => {
               const isRotten = val === 2;
               const isFresh = val === 1;
               const isEmpty = val === 0;
               const isInQueue = queueSet.has(`${rIdx},${cIdx}`);
 
-              let cellStyle = "cell-empty";
-              if (isRotten) cellStyle = "cell-rotten";
-              else if (isFresh) cellStyle = "cell-fresh";
+              let cellState = "empty";
+              if (isRotten) cellState = "rotten";
+              else if (isFresh) cellState = "fresh";
 
               return (
                 <motion.div
-                  key={`cell-${rIdx}-${cIdx}`}
-                  className={`orange-cell ${cellStyle} ${isInQueue ? "cell-frontier" : ""}`}
+                  key={`p994-cell-${rIdx}-${cIdx}`}
+                  id={`p994-orange-cell-${rIdx}-${cIdx}`}
+                  data-cell-state={cellState}
+                  data-in-frontier={isInQueue ? "true" : "false"}
+                  layout
                   animate={{
                     scale: isInQueue ? 1.08 : 1
                   }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
                 >
-                  <span className="cell-glyph">
+                  <span id={`p994-cell-glyph-${rIdx}-${cIdx}`}>
                     {isRotten && "☣"}
                     {isFresh && "🍊"}
                     {isEmpty && "•"}
                   </span>
-                  <span className="cell-state-label">
+                  <span id={`p994-cell-state-label-${rIdx}-${cIdx}`}>
                     {isRotten && "ROTTEN"}
                     {isFresh && "FRESH"}
                     {isEmpty && "EMPTY"}
                   </span>
-                  <span className="coord-tag">
+                  <span id={`p994-coord-tag-${rIdx}-${cIdx}`}>
                     ({rIdx},{cIdx})
                   </span>
                 </motion.div>
@@ -79,18 +85,19 @@ export default function Problem994({ stepData }) {
         ))}
       </div>
 
-      {/* Output Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p994-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p994-callout-header-text">{output.label}</div>
+            <div id="p994-callout-val-text">{output.value}</div>
+            <div id="p994-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

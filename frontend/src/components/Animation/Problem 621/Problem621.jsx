@@ -2,14 +2,6 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Problem621.css";
 
-const TASK_COLORS = {
-  A: { text: "#f59e0b", bg: "rgba(245, 158, 11, 0.15)", border: "#f59e0b" },
-  B: { text: "#38bdf8", bg: "rgba(56, 189, 248, 0.15)", border: "#38bdf8" },
-  C: { text: "#22c55e", bg: "rgba(34, 197, 94, 0.15)", border: "#22c55e" },
-  D: { text: "#c084fc", bg: "rgba(192, 132, 252, 0.15)", border: "#c084fc" },
-  idle: { text: "#71717a", bg: "#18181b", border: "#3f3f46" }
-};
-
 export default function Problem621({ stepData }) {
   const {
     currentTime = 0,
@@ -22,46 +14,43 @@ export default function Problem621({ stepData }) {
   } = stepData || {};
 
   const n = 2;
-  const currentTaskStyle = TASK_COLORS[activeTask] || TASK_COLORS.idle;
+  const currentTaskKey = activeTask ? activeTask.toUpperCase() : "idle";
 
   return (
-    <div className="canvas-wrapper task-canvas">
+    <div id="p621-task-canvas">
       {/* Top Telemetry */}
-      <div className="metrics-row">
-        <span className="metric-chip time-chip">
+      <div id="p621-metrics-bar">
+        <span id="p621-metric-time">
           CPU Time: <b>t = {currentTime}</b>
         </span>
-        <span className="metric-chip cooldown-chip">
+        <span id="p621-metric-cooldown">
           Cooldown Gap: <b>n = {n}</b>
         </span>
-        <span className="metric-chip heap-chip">
+        <span id="p621-metric-heap">
           Max-Heap Ready: <b>{heap.length} tasks</b>
         </span>
-        <span className="metric-chip queue-chip">
+        <span id="p621-metric-queue">
           In Cooldown: <b>{coolingQueue.length}</b>
         </span>
       </div>
 
       {/* Main Scheduler Stage */}
-      <div className="task-stage">
+      <div id="p621-task-stage">
         {/* Active CPU Core Display */}
-        <div className="cpu-core-banner">
-          <div className="core-label">ACTIVE CPU EXECUTION CORE</div>
-          <div className="core-indicator-box">
+        <div id="p621-cpu-core-banner">
+          <div id="p621-core-label">ACTIVE CPU EXECUTION CORE</div>
+          <div id="p621-core-indicator-box">
             <motion.div
-              className={`core-badge ${activeTask ? "badge-running" : "badge-idle"}`}
-              key={`core-task-${currentTime}-${activeTask}`}
+              id="p621-core-badge"
+              data-task={currentTaskKey}
+              key={`p621-core-task-${currentTime}-${activeTask}`}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              style={{
-                borderColor: currentTaskStyle.border,
-                backgroundColor: currentTaskStyle.bg,
-                color: currentTaskStyle.text
-              }}
+              transition={{ type: "spring", stiffness: 350, damping: 20 }}
             >
               {activeTask ? `TASK ${activeTask}` : "IDLE (WAITING)"}
             </motion.div>
-            <span className="core-subtext">
+            <span id="p621-core-subtext">
               {activeTask
                 ? `Executing cycle for task ${activeTask}`
                 : "No ready tasks in heap — cooling down"}
@@ -70,33 +59,32 @@ export default function Problem621({ stepData }) {
         </div>
 
         {/* CPU Timeline Strip */}
-        <div className="cpu-timeline-card">
-          <div className="card-label">Execution Log (t = 1 ... {currentTime})</div>
-          <div className="timeline-slots-track">
+        <div id="p621-cpu-timeline-card">
+          <div id="p621-timeline-card-label">
+            Execution Log (t = 1 ... {currentTime})
+          </div>
+          <div id="p621-timeline-slots-track">
             {scheduledLog.length === 0 ? (
-              <span className="timeline-empty">Awaiting first CPU cycle...</span>
+              <span id="p621-timeline-empty">Awaiting first CPU cycle...</span>
             ) : (
               scheduledLog.map((taskName, idx) => {
                 const isIdle = taskName.toLowerCase() === "idle";
                 const isLatest = idx === scheduledLog.length - 1;
-                const style = TASK_COLORS[taskName] || TASK_COLORS.idle;
+                const taskKey = isIdle ? "idle" : taskName.toUpperCase();
 
                 return (
                   <motion.div
-                    key={`slot-${idx}-${taskName}`}
-                    className={`cpu-slot ${isLatest ? "slot-active" : ""}`}
+                    key={`p621-slot-${idx}-${taskName}`}
+                    id={`p621-cpu-slot-${idx}`}
+                    data-task={taskKey}
+                    data-is-latest={isLatest ? "true" : "false"}
                     initial={{ scale: 0.7, opacity: 0, y: 10 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     transition={{ type: "spring", stiffness: 350, damping: 20 }}
-                    style={{
-                      borderColor: style.border,
-                      backgroundColor: style.bg,
-                      color: style.text
-                    }}
                   >
-                    <span className="slot-idx">t={idx + 1}</span>
-                    <span className="slot-glyph">{isIdle ? "—" : taskName}</span>
-                    {isLatest && <span className="slot-pointer">▲</span>}
+                    <span id={`p621-slot-idx-${idx}`}>t={idx + 1}</span>
+                    <span id={`p621-slot-glyph-${idx}`}>{isIdle ? "—" : taskName}</span>
+                    {isLatest && <span id={`p621-slot-pointer-${idx}`}>▲</span>}
                   </motion.div>
                 );
               })
@@ -105,37 +93,41 @@ export default function Problem621({ stepData }) {
         </div>
 
         {/* Dual Deck: Max-Heap & Cooldown Waiting Queue */}
-        <div className="dual-deck">
+        <div id="p621-dual-deck">
           {/* Max-Heap Inventory Deck */}
-          <div className="deck-card heap-deck">
-            <div className="card-label">Max-Heap (Ready Queue)</div>
-            <div className="deck-content">
+          <div id="p621-heap-deck">
+            <div id="p621-heap-deck-label">Max-Heap (Ready Queue)</div>
+            <div id="p621-heap-deck-content">
               {heap.length === 0 ? (
-                <span className="deck-empty">Heap empty (All tasks in cooldown)</span>
+                <span id="p621-heap-deck-empty">Heap empty (All tasks in cooldown)</span>
               ) : (
                 heap.map((item, idx) => {
                   const isTop = idx === 0;
                   const taskName = typeof item === "object" ? item.task : `Task`;
                   const count = typeof item === "object" ? item.cnt : item;
-                  const style = TASK_COLORS[taskName] || TASK_COLORS.A;
+                  const taskKey = taskName ? taskName.toUpperCase() : "A";
 
                   return (
                     <motion.div
-                      key={`heap-${taskName}-${count}-${idx}`}
-                      className={`heap-card-item ${isTop ? "heap-card-top" : ""}`}
+                      key={`p621-heap-${taskName}-${count}-${idx}`}
+                      id={`p621-heap-item-${taskName}-${idx}`}
+                      data-is-top={isTop ? "true" : "false"}
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 350, damping: 20 }}
                     >
-                      <div className="heap-info">
+                      <div id={`p621-heap-info-${taskName}-${idx}`}>
                         <span
-                          className="heap-task-tag"
-                          style={{ color: style.text, borderColor: style.border }}
+                          id={`p621-heap-task-tag-${taskName}-${idx}`}
+                          data-task={taskKey}
                         >
                           {taskName}
                         </span>
-                        <span className="heap-cnt">Count: {count}</span>
+                        <span id={`p621-heap-cnt-${taskName}-${idx}`}>
+                          Count: {count}
+                        </span>
                       </div>
-                      {isTop && <span className="heap-top-pill">MAX PRIORITY</span>}
+                      {isTop && <span id="p621-heap-top-pill">MAX PRIORITY</span>}
                     </motion.div>
                   );
                 })
@@ -144,36 +136,41 @@ export default function Problem621({ stepData }) {
           </div>
 
           {/* Cooldown Waiting Queue */}
-          <div className="deck-card cooling-deck">
-            <div className="card-label">Cooldown Queue [Ready At]</div>
-            <div className="deck-content">
+          <div id="p621-cooling-deck">
+            <div id="p621-cooling-deck-label">Cooldown Queue [Ready At]</div>
+            <div id="p621-cooling-deck-content">
               {coolingQueue.length === 0 ? (
-                <span className="deck-empty">No tasks in cooldown</span>
+                <span id="p621-cooling-deck-empty">No tasks in cooldown</span>
               ) : (
                 coolingQueue.map((item, idx) => {
                   const canUnlock = item.ready <= currentTime;
                   const remaining = Math.max(0, item.ready - currentTime);
-                  const style = TASK_COLORS[item.task] || TASK_COLORS.A;
+                  const taskKey = item.task ? item.task.toUpperCase() : "A";
 
                   return (
                     <motion.div
-                      key={`cool-${item.task}-${item.ready}-${idx}`}
-                      className={`cooling-card-item ${canUnlock ? "cooling-ready" : ""}`}
+                      key={`p621-cool-${item.task}-${item.ready}-${idx}`}
+                      id={`p621-cooling-item-${item.task}-${idx}`}
+                      data-can-unlock={canUnlock ? "true" : "false"}
                       initial={{ x: 12, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 350, damping: 20 }}
                     >
-                      <div className="cool-info">
+                      <div id={`p621-cool-info-${item.task}-${idx}`}>
                         <span
-                          className="cool-task"
-                          style={{ color: style.text, borderColor: style.border }}
+                          id={`p621-cool-task-tag-${item.task}-${idx}`}
+                          data-task={taskKey}
                         >
                           {item.task}
                         </span>
-                        <span className="cool-meta">
+                        <span id={`p621-cool-meta-${item.task}-${idx}`}>
                           rem: {item.cnt} | ready at <b>t={item.ready}</b>
                         </span>
                       </div>
-                      <span className={`countdown-badge ${canUnlock ? "badge-unlocked" : ""}`}>
+                      <span
+                        id={`p621-countdown-badge-${item.task}-${idx}`}
+                        data-can-unlock={canUnlock ? "true" : "false"}
+                      >
                         {canUnlock ? "UNLOCKED" : `Wait ${remaining}t`}
                       </span>
                     </motion.div>
@@ -189,14 +186,15 @@ export default function Problem621({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p621-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p621-callout-header-text">{output.label}</div>
+            <div id="p621-callout-val-text">{output.value}</div>
+            <div id="p621-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

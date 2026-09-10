@@ -1,4 +1,3 @@
-// src/Components/Animation/Animatelayout.jsx
 import { useState, useEffect } from "react";
 import "./Animatelayout.css";
 import Sidebar from "./Sidebar";
@@ -46,89 +45,97 @@ export default function AnimateLayout() {
   }, [isPlaying, currentStep, speed, totalSteps, steps]);
 
   if (!totalSteps) {
-    return <div className="dsa-app-root">Loading problem data...</div>;
+    return <div id="dsa-app-root">Loading problem data...</div>;
   }
 
   return (
-    <div className="dsa-app-root">
+    <div id="dsa-app-root">
       <Sidebar
         questions={Object.values(problemRegistry).map((p) => p.data)}
         activeProblemId={activeProblemId}
         onSelectProblem={setActiveProblemId}
       />
 
-      <main className="dsa-visual-main">
-        <header className="dsa-header">
+      <main id="dsa-visual-main">
+        <header id="dsa-header">
           <div>
-            <span className="sub-badge">{(problemData.topic || "").toUpperCase()}</span>
-            <h1 className="header-title">{problemData.title}</h1>
+            <span id="dsa-sub-badge">{(problemData.topic || "").toUpperCase()}</span>
+            <h1 id="dsa-header-title">{problemData.title}</h1>
           </div>
-          <div className="complexity-group">
-            <span className="pill">time <b>{problemData.timeComplexity}</b></span>
-            <span className="pill">space <b>{problemData.spaceComplexity}</b></span>
+          <div id="dsa-complexity-group">
+            <span id="dsa-pill-time">time <b>{problemData.timeComplexity}</b></span>
+            <span id="dsa-pill-space">space <b>{problemData.spaceComplexity}</b></span>
           </div>
         </header>
 
-        <div className="layout-body">
-          <section className="viewport-box">
-            <div className="animation-container">
+        <div id="dsa-layout-body">
+          <section id="dsa-viewport-box">
+            <div id="dsa-animation-container">
               <VisualCanvas stepData={activeStepData} />
             </div>
 
-            <div className="narration-box">
-              <span className="line-indicator">line {(activeStepData.activeLine ?? 0) + 1}</span>
-              <p className="narration-text">{activeStepData.narration || ""}</p>
+            <div id="dsa-narration-box">
+              <span id="dsa-line-indicator">line {(activeStepData.activeLine ?? 0) + 1}</span>
+              <p id="dsa-narration-text">{activeStepData.narration || ""}</p>
             </div>
           </section>
 
-          <aside className="right-inspectors">
-            <div className="panel code-inspector">
-              <div className="panel-tab">
-                <div className="tab-group">
+          <aside id="dsa-right-inspectors">
+            <div id="dsa-panel-code-inspector">
+              <div id="dsa-panel-code-tab">
+                <div id="dsa-tab-group">
                   <button
-                    className={`tab-btn ${activeTab === "pseudo" ? "active" : ""}`}
+                    id="dsa-tab-btn-pseudo"
+                    data-tab-state={activeTab === "pseudo" ? "active" : "idle"}
                     onClick={() => setActiveTab("pseudo")}
                   >
                     Pseudocode
                   </button>
                   <button
-                    className={`tab-btn ${activeTab === "explanation" ? "active" : ""}`}
+                    id="dsa-tab-btn-concept"
+                    data-tab-state={activeTab === "explanation" ? "active" : "idle"}
                     onClick={() => setActiveTab("explanation")}
                   >
                     Concept
                   </button>
                 </div>
-                <a href={problemData.url} target="_blank" rel="noreferrer" className="btn-ref">
+                <a
+                  id="dsa-btn-ref"
+                  href={problemData.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   LeetCode
                 </a>
               </div>
 
               {activeTab === "pseudo" ? (
-                <pre className="code-block">
+                <pre id="dsa-code-block">
                   {(problemData.codeLines || []).map((line, idx) => (
                     <div
-                      key={idx}
-                      className={`code-row ${idx === activeStepData.activeLine ? "active-row" : ""}`}
+                      key={`dsa-code-row-${idx}`}
+                      id={`dsa-code-row-${idx}`}
+                      data-is-active={idx === activeStepData.activeLine ? "true" : "false"}
                     >
-                      <span className="row-num">{idx + 1}</span>
-                      <code>{line}</code>
+                      <span id={`dsa-row-num-${idx}`}>{idx + 1}</span>
+                      <code id={`dsa-row-code-${idx}`}>{line}</code>
                     </div>
                   ))}
                 </pre>
               ) : (
-                <div className="explanation-block">
-                  <p>{problemData.explanation}</p>
+                <div id="dsa-explanation-block">
+                  <p id="dsa-explanation-text">{problemData.explanation}</p>
                 </div>
               )}
             </div>
 
-            <div className="panel state-inspector">
-              <div className="panel-tab">Variable State</div>
-              <div className="state-table">
+            <div id="dsa-panel-state-inspector">
+              <div id="dsa-panel-state-tab">Variable State</div>
+              <div id="dsa-state-table">
                 {Object.entries(activeStepData.state || {}).map(([k, v]) => (
-                  <div key={k} className="state-field">
-                    <span className="k-name">{k}</span>
-                    <span className="v-val">{String(v)}</span>
+                  <div key={`dsa-state-${k}`} id={`dsa-state-field-${k}`}>
+                    <span id={`dsa-k-name-${k}`}>{k}</span>
+                    <span id={`dsa-v-val-${k}`}>{String(v)}</span>
                   </div>
                 ))}
               </div>
@@ -136,28 +143,51 @@ export default function AnimateLayout() {
           </aside>
         </div>
 
-        <footer className="playback-footer">
-          <button onClick={() => setCurrentStep(0)} className="btn-ctrl" title="Restart">↺</button>
-          <button onClick={() => setCurrentStep((s) => Math.max(0, s - 1))} className="btn-ctrl">⏮</button>
-          <button onClick={() => setIsPlaying(!isPlaying)} className="btn-ctrl btn-play">
+        <footer id="dsa-playback-footer">
+          <button
+            id="dsa-btn-restart"
+            data-btn-type="ctrl"
+            onClick={() => setCurrentStep(0)}
+            title="Restart"
+          >
+            ↺
+          </button>
+          <button
+            id="dsa-btn-prev"
+            data-btn-type="ctrl"
+            onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
+          >
+            ⏮
+          </button>
+          <button
+            id="dsa-btn-play-toggle"
+            data-btn-type="play"
+            onClick={() => setIsPlaying(!isPlaying)}
+          >
             {isPlaying ? "⏸" : "▶"}
           </button>
-          <button onClick={() => setCurrentStep((s) => Math.min(totalSteps - 1, s + 1))} className="btn-ctrl">⏭</button>
+          <button
+            id="dsa-btn-next"
+            data-btn-type="ctrl"
+            onClick={() => setCurrentStep((s) => Math.min(totalSteps - 1, s + 1))}
+          >
+            ⏭
+          </button>
 
           <input
+            id="dsa-timeline-scrubber"
             type="range"
             min="0"
             max={Math.max(0, totalSteps - 1)}
             value={currentStep}
             onChange={(e) => setCurrentStep(Number(e.target.value))}
-            className="timeline-scrubber"
           />
 
-          <span className="step-counter">{currentStep + 1} / {totalSteps}</span>
+          <span id="dsa-step-counter">{currentStep + 1} / {totalSteps}</span>
 
           <button
+            id="dsa-btn-speed"
             onClick={() => setSpeed((s) => (s === 1 ? 1.5 : s === 1.5 ? 2 : 1))}
-            className="btn-speed"
           >
             {speed}x
           </button>

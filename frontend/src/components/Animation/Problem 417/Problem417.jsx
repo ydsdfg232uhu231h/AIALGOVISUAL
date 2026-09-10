@@ -18,129 +18,132 @@ export default function Problem417({ stepData }) {
     output
   } = stepData || {};
 
+  const numCols = heights[0]?.length || 5;
   const isCellIn = (r, c, list) => list.some(([row, col]) => row === r && col === c);
 
   return (
-    <div id="pacific-atlantic-canvas">
+    <div id="p417-pacific-atlantic-canvas">
       {/* Top Telemetry Header */}
-      <div id="metrics-bar">
-        <span id="metric-grid-dim" className="metric-chip">
-          Grid: <b>{heights.length} × {heights[0]?.length || 0}</b>
+      <div id="p417-metrics-bar">
+        <span id="p417-metric-grid-dim">
+          Grid: <b>{heights.length} × {numCols}</b>
         </span>
 
-        <span id="metric-pac-count" className="metric-chip">
+        <span id="p417-metric-pac-count">
           Pacific Reached: <b>{pacificCells.length} cells</b>
         </span>
 
-        <span id="metric-atl-count" className="metric-chip">
+        <span id="p417-metric-atl-count">
           Atlantic Reached: <b>{atlanticCells.length} cells</b>
         </span>
 
-        <span id="metric-overlap-count" className="metric-chip">
+        <span id="p417-metric-overlap-count">
           Intersection (Both): <b>{intersectCells.length} cells</b>
         </span>
       </div>
 
-      <div id="matrix-stage">
-        <div id="terrain-card" className="track-card">
-          <div className="card-header-bar">
-            <span>2D Elevation Map & Reverse Ocean Flow</span>
-            <span className="card-sub">Pacific: Top/Left edges ➔ Atlantic: Bottom/Right edges</span>
+      <div id="p417-matrix-stage">
+        <div id="p417-terrain-card">
+          <div id="p417-card-header-bar">
+            <span id="p417-card-title">2D Elevation Map &amp; Reverse Ocean Flow</span>
+            <span id="p417-card-sub">Pacific: Top / Left ➔ Atlantic: Bottom / Right</span>
           </div>
 
-          <div id="ocean-grid-wrapper">
-            {/* Top Pacific Ocean Banner */}
-            <div id="ocean-banner-top" className="ocean-banner ocean-pac">
-              <span>PACIFIC OCEAN (TOP)</span>
+          {/* Coastal Matrix Enclosure */}
+          <div id="p417-coastal-matrix-enclosure">
+            {/* Row 1: Top Ocean Bar */}
+            <div id="p417-corner-top-left" data-ocean="pacific" />
+            <div id="p417-coastal-rail-top" data-ocean="pacific">
+              ▲ PACIFIC OCEAN (NORTH) ▲
+            </div>
+            <div id="p417-corner-top-right" />
+
+            {/* Row 2: Left Rail + Grid + Right Rail */}
+            <div id="p417-coastal-rail-left" data-ocean="pacific">
+              <span>◄ PACIFIC (WEST)</span>
             </div>
 
-            <div id="ocean-middle-row">
-              {/* Left Pacific Ocean Banner */}
-              <div id="ocean-banner-left" className="ocean-banner ocean-pac">
-                <span>P<br />A<br />C<br />I<br />F<br />I<br />C</span>
-              </div>
+            <div
+              id="p417-elevation-cells-grid"
+              style={{
+                gridTemplateColumns: `repeat(${numCols}, minmax(0, 1fr))`
+              }}
+            >
+              {heights.map((row, r) =>
+                row.map((val, c) => {
+                  const inPac = isCellIn(r, c, pacificCells);
+                  const inAtl = isCellIn(r, c, atlanticCells);
+                  const inIntersect = isCellIn(r, c, intersectCells) || (inPac && inAtl);
 
-              {/* 2D Grid Cells */}
-              <div
-                id="elevation-cells-grid"
-                style={{
-                  gridTemplateColumns: `repeat(${heights[0]?.length || 5}, 1fr)`
-                }}
-              >
-                {heights.map((row, r) =>
-                  row.map((val, c) => {
-                    const inPac = isCellIn(r, c, pacificCells);
-                    const inAtl = isCellIn(r, c, atlanticCells);
-                    const inIntersect = isCellIn(r, c, intersectCells) || (inPac && inAtl);
+                  let cellState = "idle";
+                  if (inIntersect) cellState = "both";
+                  else if (inPac) cellState = "pacific";
+                  else if (inAtl) cellState = "atlantic";
 
-                    const cellId = `cell-${r}-${c}`;
-
-                    return (
-                      <motion.div
-                        key={cellId}
-                        id={cellId}
-                        className={`elevation-cell ${
-                          inIntersect
-                            ? "cell-both-green"
-                            : inPac
-                            ? "cell-pac-blue"
-                            : inAtl
-                            ? "cell-atl-orange"
-                            : ""
-                        }`}
-                        animate={{
-                          scale: inIntersect ? [1, 1.08, 1] : inPac || inAtl ? 1.04 : 1
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 300,
-                          damping: 20,
-                          scale: inIntersect ? { repeat: Infinity, duration: 1.2 } : undefined
-                        }}
-                      >
-                        <span className="elevation-val">{val}</span>
-                        <span className="cell-coords">[{r},{c}]</span>
-
-                        {inIntersect && <div className="cell-green-ring" />}
-                      </motion.div>
-                    );
-                  })
-                )}
-              </div>
-
-              {/* Right Atlantic Ocean Banner */}
-              <div id="ocean-banner-right" className="ocean-banner ocean-atl">
-                <span>A<br />T<br />L<br />A<br />N<br />T<br />I<br />C</span>
-              </div>
+                  return (
+                    <motion.div
+                      key={`p417-cell-${r}-${c}`}
+                      id={`p417-cell-${r}-${c}`}
+                      data-cell-state={cellState}
+                      layout
+                      animate={{
+                        scale: inIntersect ? 1.06 : inPac || inAtl ? 1.03 : 1
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 350,
+                        damping: 22
+                      }}
+                    >
+                      {inIntersect && <span id={`p417-beacon-${r}-${c}`}>★</span>}
+                      <span id={`p417-elevation-val-${r}-${c}`}>{val}</span>
+                      <span id={`p417-cell-coords-${r}-${c}`}>[{r},{c}]</span>
+                    </motion.div>
+                  );
+                })
+              )}
             </div>
 
-            {/* Bottom Atlantic Ocean Banner */}
-            <div id="ocean-banner-bottom" className="ocean-banner ocean-atl">
-              <span>ATLANTIC OCEAN (BOTTOM)</span>
+            <div id="p417-coastal-rail-right" data-ocean="atlantic">
+              <span>ATLANTIC (EAST) ►</span>
             </div>
+
+            {/* Row 3: Bottom Ocean Bar */}
+            <div id="p417-corner-bottom-left" />
+            <div id="p417-coastal-rail-bottom" data-ocean="atlantic">
+              ▼ ATLANTIC OCEAN (SOUTH) ▼
+            </div>
+            <div id="p417-corner-bottom-right" data-ocean="atlantic" />
           </div>
 
-          {/* Color Key */}
-          <div id="ocean-legend">
-            <span className="legend-item"><span className="dot dot-pac" /> Pacific Reachable</span>
-            <span className="legend-item"><span className="dot dot-atl" /> Atlantic Reachable</span>
-            <span className="legend-item"><span className="dot dot-both" /> Flows to BOTH (Answer)</span>
+          {/* Color Legend */}
+          <div id="p417-ocean-legend">
+            <span id="p417-legend-item-pac">
+              <span id="p417-dot-pac" /> Pacific Flow
+            </span>
+            <span id="p417-legend-item-atl">
+              <span id="p417-dot-atl" /> Atlantic Flow
+            </span>
+            <span id="p417-legend-item-both">
+              <span id="p417-dot-both" /> Flows to BOTH (Solution)
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Result Callout */}
+      {/* Result Callout (Elevated safely above bottom controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p417-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p417-callout-header-text">{output.label}</div>
+            <div id="p417-callout-val-text">{output.value}</div>
+            <div id="p417-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -19,16 +19,15 @@ export default function Problem242({ stepData }) {
   const tStr = state.t || "nagaram";
 
   const isVerifying = state.status === "VERIFYING_TALLIES" || state.status === "COMPLETED";
-  const isFinished = Boolean(output);
 
   return (
-    <div className="canvas-wrapper anagram-canvas">
+    <div id="p242-anagram-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip str-chip">
+      <div id="p242-metrics-row">
+        <span id="p242-metric-lengths">
           Lengths: <b>|s| = {sStr.length}, |t| = {tStr.length}</b>
         </span>
-        <span className="metric-chip idx-chip">
+        <span id="p242-metric-scan-idx">
           Scan Index:{" "}
           <b>
             {currentIdx !== null && currentIdx >= 0 && !isVerifying
@@ -39,45 +38,45 @@ export default function Problem242({ stepData }) {
           </b>
         </span>
         {activeCharS && activeCharT && !isVerifying && (
-          <span className="metric-chip chars-chip">
-            Scanning: <b className="text-s">s[{currentIdx}]='{activeCharS}'</b> |{" "}
-            <b className="text-t">t[{currentIdx}]='{activeCharT}'</b>
+          <span id="p242-metric-scanning">
+            Scanning: <b id="p242-text-s">s[{currentIdx}]='{activeCharS}'</b> |{" "}
+            <b id="p242-text-t">t[{currentIdx}]='{activeCharT}'</b>
           </span>
         )}
       </div>
 
-      <div className="anagram-stage">
+      <div id="p242-anagram-stage">
         {/* Dual String Inspection Tracks */}
-        <div className="strings-card">
-          <div className="card-header-bar">
-            <span>Dual String Character Stream</span>
-            <span className="card-sub">Parallel Left-to-Right Scan</span>
+        <div id="p242-strings-card">
+          <div id="p242-strings-card-header">
+            <span id="p242-strings-header-title">Dual String Character Stream</span>
+            <span id="p242-strings-header-sub">Parallel Left-to-Right Scan</span>
           </div>
 
-          <div className="streams-wrapper">
+          <div id="p242-streams-wrapper">
             {/* String S */}
-            <div className="stream-row">
-              <span className="stream-name">String s:</span>
-              <div className="char-cells">
+            <div id="p242-stream-row-s">
+              <span id="p242-stream-name-s">String s:</span>
+              <div id="p242-char-cells-s">
                 {sStr.split("").map((ch, idx) => {
                   const isActive = currentIdx === idx && !isVerifying;
                   const isProcessed = currentIdx !== null && idx <= currentIdx;
 
+                  let charState = "idle";
+                  if (isActive) charState = "active-s";
+                  else if (isProcessed) charState = "processed";
+
                   return (
                     <motion.div
-                      key={`s-${idx}-${ch}`}
-                      className={`char-box ${
-                        isActive
-                          ? "char-active-s"
-                          : isProcessed
-                          ? "char-processed"
-                          : ""
-                      }`}
-                      animate={{ scale: isActive ? 1.15 : 1 }}
+                      key={`p242-s-${idx}-${ch}`}
+                      id={`p242-char-box-s-${idx}`}
+                      data-char-state={charState}
+                      layout
+                      animate={{ scale: isActive ? 1.12 : 1 }}
                       transition={{ type: "spring", stiffness: 350, damping: 20 }}
                     >
-                      <span className="char-val">{ch}</span>
-                      <span className="char-pos">[{idx}]</span>
+                      <span id={`p242-char-val-s-${idx}`}>{ch}</span>
+                      <span id={`p242-char-pos-s-${idx}`}>[{idx}]</span>
                     </motion.div>
                   );
                 })}
@@ -85,28 +84,28 @@ export default function Problem242({ stepData }) {
             </div>
 
             {/* String T */}
-            <div className="stream-row">
-              <span className="stream-name">String t:</span>
-              <div className="char-cells">
+            <div id="p242-stream-row-t">
+              <span id="p242-stream-name-t">String t:</span>
+              <div id="p242-char-cells-t">
                 {tStr.split("").map((ch, idx) => {
                   const isActive = currentIdx === idx && !isVerifying;
                   const isProcessed = currentIdx !== null && idx <= currentIdx;
 
+                  let charState = "idle";
+                  if (isActive) charState = "active-t";
+                  else if (isProcessed) charState = "processed";
+
                   return (
                     <motion.div
-                      key={`t-${idx}-${ch}`}
-                      className={`char-box ${
-                        isActive
-                          ? "char-active-t"
-                          : isProcessed
-                          ? "char-processed"
-                          : ""
-                      }`}
-                      animate={{ scale: isActive ? 1.15 : 1 }}
+                      key={`p242-t-${idx}-${ch}`}
+                      id={`p242-char-box-t-${idx}`}
+                      data-char-state={charState}
+                      layout
+                      animate={{ scale: isActive ? 1.12 : 1 }}
                       transition={{ type: "spring", stiffness: 350, damping: 20 }}
                     >
-                      <span className="char-val">{ch}</span>
-                      <span className="char-pos">[{idx}]</span>
+                      <span id={`p242-char-val-t-${idx}`}>{ch}</span>
+                      <span id={`p242-char-pos-t-${idx}`}>[{idx}]</span>
                     </motion.div>
                   );
                 })}
@@ -116,17 +115,17 @@ export default function Problem242({ stepData }) {
         </div>
 
         {/* Character Frequency Table */}
-        <div className="freq-card">
-          <div className="card-header-bar">
-            <span>Character Frequency Counters (countS vs countT)</span>
-            <span className="card-sub">
+        <div id="p242-freq-card">
+          <div id="p242-freq-card-header">
+            <span id="p242-freq-header-title">Character Frequency Counters (countS vs countT)</span>
+            <span id="p242-freq-header-sub">
               {isVerifying
                 ? "Final comparison of letter tallies"
                 : "Tracking letter tallies"}
             </span>
           </div>
 
-          <div className="freq-grid">
+          <div id="p242-freq-grid">
             {LETTERS.map((letter) => {
               const freqS = countS[letter] ?? 0;
               const freqT = countT[letter] ?? 0;
@@ -135,55 +134,72 @@ export default function Problem242({ stepData }) {
               const isTargetT = activeCharT === letter && !isVerifying;
               const isCurrentlyActive = (isTargetS || isTargetT) && !isVerifying;
 
+              let colState = "idle";
+              if (isCurrentlyActive) colState = "active";
+              else if (isVerifying && isMatch) colState = "verified";
+
+              let badgeState = "pending";
+              if (isVerifying) {
+                badgeState = isMatch ? "ok" : "fail";
+              } else if (isCurrentlyActive) {
+                badgeState = "active";
+              }
+
               return (
                 <motion.div
-                  key={`freq-col-${letter}`}
-                  className={`freq-col ${
-                    isCurrentlyActive ? "freq-col-active-yellow" : ""
-                  } ${isVerifying && isMatch ? "freq-col-verified" : ""}`}
-                  animate={{ scale: isCurrentlyActive ? 1.06 : 1 }}
+                  key={`p242-freq-col-${letter}`}
+                  id={`p242-freq-col-${letter}`}
+                  data-col-state={colState}
+                  layout
+                  animate={{ scale: isCurrentlyActive ? 1.05 : 1 }}
                   transition={{ type: "spring", stiffness: 320, damping: 22 }}
                 >
-                  <div className={`freq-char-badge ${isCurrentlyActive ? "char-badge-yellow" : ""}`}>
+                  <div
+                    id={`p242-freq-char-badge-${letter}`}
+                    data-col-state={colState}
+                  >
                     {letter}
                   </div>
 
-                  <div className="freq-tallies">
-                    <div className={`tally-box tally-s ${isTargetS ? "tally-bump-s" : ""}`}>
-                      <span className="tally-tag">s</span>
-                      <span className="tally-num">{freqS}</span>
+                  <div id={`p242-freq-tallies-${letter}`}>
+                    <div
+                      id={`p242-tally-box-s-${letter}`}
+                      data-bump={isTargetS ? "s" : "none"}
+                    >
+                      <span id={`p242-tally-tag-s-${letter}`}>s</span>
+                      <span id={`p242-tally-num-s-${letter}`}>{freqS}</span>
                     </div>
 
-                    <span className="tally-comp">
+                    <span id={`p242-tally-comp-${letter}`}>
                       {isVerifying ? (isMatch ? "=" : "≠") : "•"}
                     </span>
 
-                    <div className={`tally-box tally-t ${isTargetT ? "tally-bump-t" : ""}`}>
-                      <span className="tally-tag">t</span>
-                      <span className="tally-num">{freqT}</span>
+                    <div
+                      id={`p242-tally-box-t-${letter}`}
+                      data-bump={isTargetT ? "t" : "none"}
+                    >
+                      <span id={`p242-tally-tag-t-${letter}`}>t</span>
+                      <span id={`p242-tally-num-t-${letter}`}>{freqT}</span>
                     </div>
                   </div>
 
                   {/* Bottom Indicator Badge */}
-                  {isVerifying ? (
-                    <motion.span
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className={`match-badge ${isMatch ? "match-ok" : "match-fail"}`}
-                    >
-                      {isMatch ? "MATCH" : "DIFF"}
-                    </motion.span>
-                  ) : (
-                    <span className={`match-badge ${isCurrentlyActive ? "match-active-pill" : "match-pending"}`}>
-                      {isTargetS && isTargetT
-                        ? "+1 S & T"
-                        : isTargetS
-                        ? "+1 in S"
-                        : isTargetT
-                        ? "+1 in T"
-                        : "—"}
-                    </span>
-                  )}
+                  <span
+                    id={`p242-match-badge-${letter}`}
+                    data-badge-state={badgeState}
+                  >
+                    {isVerifying
+                      ? isMatch
+                        ? "MATCH"
+                        : "DIFF"
+                      : isTargetS && isTargetT
+                      ? "+1 S & T"
+                      : isTargetS
+                      ? "+1 in S"
+                      : isTargetT
+                      ? "+1 in T"
+                      : "—"}
+                  </span>
                 </motion.div>
               );
             })}
@@ -195,14 +211,15 @@ export default function Problem242({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p242-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p242-callout-header-text">{output.label}</div>
+            <div id="p242-callout-val-text">{output.value}</div>
+            <div id="p242-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

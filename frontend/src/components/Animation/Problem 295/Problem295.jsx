@@ -14,64 +14,69 @@ export default function Problem295({ stepData }) {
     output
   } = stepData || {};
 
-  const smallTop = smallHeap.length > 0 ? smallHeap[0] : null;
-  const largeTop = largeHeap.length > 0 ? largeHeap[0] : null;
-
   return (
-    <div id="two-heaps-canvas">
+    <div id="p295-two-heaps-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-small-count">
+      <div id="p295-metrics-bar">
+        <span id="p295-metric-small-count">
           Max-Heap (`small`): <b>{smallHeap.length} elements</b>
         </span>
 
-        <span id="metric-large-count">
+        <span id="p295-metric-large-count">
           Min-Heap (`large`): <b>{largeHeap.length} elements</b>
         </span>
 
-        <span id="metric-median-val">
+        <span id="p295-metric-median-val">
           Current Median: <b>{currentMedian !== null ? currentMedian : "Pending Query"}</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : "metric-status-active"}>
+        <span
+          id="p295-metric-status"
+          data-status={isCompleted ? "done" : "active"}
+        >
           Status: <b>{isCompleted ? "STREAM FINISHED ✓" : actionType}</b>
         </span>
       </div>
 
-      <div id="heaps-stage">
+      <div id="p295-heaps-stage">
         {/* Dual Heap Chambers Stage */}
-        <div id="heaps-dual-grid">
+        <div id="p295-heaps-dual-grid">
           {/* Left Chamber: Max-Heap (Lower Half) */}
-          <div id="small-heap-card">
-            <div id="small-card-header">
-              <span id="small-header-title">1. Max-Heap: Lower Half (`small`)</span>
-              <span id="small-header-sub">Stores values &le; median</span>
+          <div id="p295-small-heap-card">
+            <div id="p295-small-card-header">
+              <span id="p295-small-header-title">1. Max-Heap: Lower Half (`small`)</span>
+              <span id="p295-small-header-sub">Stores values &le; median</span>
             </div>
 
-            <div id="small-heap-viewport">
+            <div id="p295-small-heap-viewport">
               <AnimatePresence mode="popLayout">
                 {smallHeap.length === 0 ? (
-                  <span id="small-empty-text">Max-Heap is empty</span>
+                  <span id="p295-small-empty-text">Max-Heap is empty</span>
                 ) : (
                   smallHeap.map((val, idx) => {
                     const isTop = idx === 0;
                     const isIncoming = val === activeVal && actionType === "ADD_NUM";
-                    let pillId = `small-node-idle-${idx}`;
-                    if (isTop) pillId = `small-node-top-${idx}`;
-                    if (isIncoming) pillId = `small-node-active-${idx}`;
+
+                    let nodeState = "idle";
+                    if (isIncoming) nodeState = "active";
+                    else if (isTop) nodeState = "top";
 
                     return (
                       <motion.div
-                        key={`small-node-${idx}-${val}`}
-                        id={pillId}
+                        key={`p295-small-node-${idx}-${val}`}
+                        id={`p295-small-node-${idx}`}
+                        data-chamber="small"
+                        data-node-state={nodeState}
                         layout
                         initial={{ opacity: 0, scale: 0.6, y: 15 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.5, y: -15 }}
                         transition={{ type: "spring", stiffness: 350, damping: 24 }}
                       >
-                        <span id={`small-val-${idx}`}>{val}</span>
-                        {isTop && <span id="small-top-tag">TOP (MAX)</span>}
+                        <span id={`p295-small-val-${idx}`}>{val}</span>
+                        {isTop && (
+                          <span id={`p295-small-top-tag-${idx}`}>TOP (MAX)</span>
+                        )}
                       </motion.div>
                     );
                   })
@@ -81,36 +86,41 @@ export default function Problem295({ stepData }) {
           </div>
 
           {/* Right Chamber: Min-Heap (Upper Half) */}
-          <div id="large-heap-card">
-            <div id="large-card-header">
-              <span id="large-header-title">2. Min-Heap: Upper Half (`large`)</span>
-              <span id="large-header-sub">Stores values &gt; median</span>
+          <div id="p295-large-heap-card">
+            <div id="p295-large-card-header">
+              <span id="p295-large-header-title">2. Min-Heap: Upper Half (`large`)</span>
+              <span id="p295-large-header-sub">Stores values &gt; median</span>
             </div>
 
-            <div id="large-heap-viewport">
+            <div id="p295-large-heap-viewport">
               <AnimatePresence mode="popLayout">
                 {largeHeap.length === 0 ? (
-                  <span id="large-empty-text">Min-Heap is empty</span>
+                  <span id="p295-large-empty-text">Min-Heap is empty</span>
                 ) : (
                   largeHeap.map((val, idx) => {
                     const isTop = idx === 0;
                     const isIncoming = val === activeVal && actionType === "REBALANCE";
-                    let pillId = `large-node-idle-${idx}`;
-                    if (isTop) pillId = `large-node-top-${idx}`;
-                    if (isIncoming) pillId = `large-node-active-${idx}`;
+
+                    let nodeState = "idle";
+                    if (isIncoming) nodeState = "active";
+                    else if (isTop) nodeState = "top";
 
                     return (
                       <motion.div
-                        key={`large-node-${idx}-${val}`}
-                        id={pillId}
+                        key={`p295-large-node-${idx}-${val}`}
+                        id={`p295-large-node-${idx}`}
+                        data-chamber="large"
+                        data-node-state={nodeState}
                         layout
                         initial={{ opacity: 0, scale: 0.6, y: 15 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.5, y: -15 }}
                         transition={{ type: "spring", stiffness: 350, damping: 24 }}
                       >
-                        <span id={`large-val-${idx}`}>{val}</span>
-                        {isTop && <span id="large-top-tag">TOP (MIN)</span>}
+                        <span id={`p295-large-val-${idx}`}>{val}</span>
+                        {isTop && (
+                          <span id={`p295-large-top-tag-${idx}`}>TOP (MIN)</span>
+                        )}
                       </motion.div>
                     );
                   })
@@ -121,30 +131,33 @@ export default function Problem295({ stepData }) {
         </div>
 
         {/* Median Calculation Inspector */}
-        <div id="median-inspector-card">
-          <div id="median-card-header">
-            <span id="median-header-title">Median Calculation Engine</span>
-            <span id="median-header-sub">O(1) direct top retrieval</span>
+        <div id="p295-median-inspector-card">
+          <div id="p295-median-card-header">
+            <span id="p295-median-header-title">Median Calculation Engine</span>
+            <span id="p295-median-header-sub">O(1) direct top retrieval</span>
           </div>
 
-          <div id="median-grid">
-            <div id="median-box-balance">
-              <span id="median-title-balance">Size Comparison:</span>
-              <span id="median-val-balance">
+          <div id="p295-median-grid">
+            <div id="p295-median-box-balance">
+              <span id="p295-median-title-balance">Size Comparison:</span>
+              <span id="p295-median-val-balance">
                 small.size ({smallHeap.length}) vs large.size ({largeHeap.length})
               </span>
             </div>
 
-            <div id="median-box-formula">
-              <span id="median-title-formula">Active Formula:</span>
-              <span id="median-val-formula">
+            <div id="p295-median-box-formula">
+              <span id="p295-median-title-formula">Active Formula:</span>
+              <span id="p295-median-val-formula">
                 {formulaText || "Awaiting operation..."}
               </span>
             </div>
 
-            <div id="median-box-result">
-              <span id="median-title-result">Instant Median:</span>
-              <span id={currentMedian !== null ? "median-result-ready" : "median-result-idle"}>
+            <div id="p295-median-box-result">
+              <span id="p295-median-title-result">Instant Median:</span>
+              <span
+                id="p295-median-result-display"
+                data-median-state={currentMedian !== null ? "ready" : "idle"}
+              >
                 {currentMedian !== null ? `= ${currentMedian}` : "---"}
               </span>
             </div>
@@ -156,14 +169,15 @@ export default function Problem295({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p295-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p295-callout-header-text">{output.label}</div>
+            <div id="p295-callout-val-text">{output.value}</div>
+            <div id="p295-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

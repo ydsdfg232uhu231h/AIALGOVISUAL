@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#kth-stream-canvas {
+#p703-kth-stream-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,80 +9,81 @@
   width: 100%;
   height: 100%;
   min-height: 520px;
+  position: relative;
+  gap: 16px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
-  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
-  gap: 12px;
+  padding: 16px 16px 85px 16px;
   overflow-y: auto;
   overflow-x: hidden;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
-   METRICS ROW
+   TOP METRICS
    ============================================================ */
-#metrics-bar {
+#p703-metrics-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: 860px;
-  flex-shrink: 0;
+  max-width: 95%;
+  z-index: 2;
 }
 
-#metric-k-target,
-#metric-heap-capacity,
-#metric-stream-active,
-#metric-stream-idle,
-#metric-kth-result,
-#metric-kth-idle,
-#metric-status-active,
-#metric-status-done {
-  background: rgba(24, 24, 32, 0.9);
-  border: 1.5px solid #272736;
+#p703-metric-k-target,
+#p703-metric-heap-capacity,
+#p703-metric-stream-active,
+#p703-metric-stream-idle,
+#p703-metric-kth-result,
+#p703-metric-kth-idle,
+#p703-metric-status {
+  background: #141417;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 9999px;
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  white-space: nowrap;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-#metric-k-target b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#metric-heap-capacity b { color: #c084fc; font-family: ui-monospace, monospace; }
+#p703-metric-k-target b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p703-metric-heap-capacity b { color: #c084fc; font-family: ui-monospace, monospace; }
 
-#metric-stream-active {
+#p703-metric-stream-active {
   border-color: #facc15 !important;
   background: rgba(250, 204, 21, 0.15) !important;
 }
-#metric-stream-active b { color: #fef08a !important; font-family: ui-monospace, monospace; }
-#metric-stream-idle b { color: #636374; }
+#p703-metric-stream-active b { color: #fef08a !important; font-family: ui-monospace, monospace; }
+#p703-metric-stream-idle b { color: #636374; }
 
-#metric-kth-result {
+#p703-metric-kth-result {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.15) !important;
 }
-#metric-kth-result b { color: #4ade80 !important; font-family: ui-monospace, monospace; }
-#metric-kth-idle b { color: #636374; }
+#p703-metric-kth-result b { color: #4ade80 !important; font-family: ui-monospace, monospace; }
+#p703-metric-kth-idle b { color: #636374; }
 
-#metric-status-active b { color: #38bdf8; }
-#metric-status-done {
+#p703-metric-status[data-status="active"] b { color: #38bdf8; }
+#p703-metric-status[data-status="done"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-status-done b { color: #4ade80 !important; }
+#p703-metric-status[data-status="done"] b { color: #4ade80 !important; }
 
 /* ============================================================
    MAIN FLOW STAGE (3-ZONE HORIZONTAL LAYOUT)
    ============================================================ */
-#visual-flow-stage {
+#p703-visual-flow-stage {
   display: grid;
   grid-template-columns: 1fr 2.4fr 1fr;
   gap: 12px;
@@ -92,16 +93,10 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 720px) {
-  #visual-flow-stage {
-    grid-template-columns: 1fr;
-  }
-}
-
-#conveyor-card,
-#chamber-card,
-#eviction-card,
-#decision-inspector-card {
+#p703-conveyor-card,
+#p703-chamber-card,
+#p703-eviction-card,
+#p703-decision-inspector-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -113,10 +108,10 @@
   box-sizing: border-box;
 }
 
-#conveyor-card-header,
-#chamber-card-header,
-#eviction-card-header,
-#decision-card-header {
+#p703-conveyor-card-header,
+#p703-chamber-card-header,
+#p703-eviction-card-header,
+#p703-decision-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -125,25 +120,15 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#conveyor-title,
-#chamber-title,
-#eviction-title,
-#decision-header-title {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-}
+#p703-conveyor-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: #facc15; }
+#p703-chamber-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: #38bdf8; }
+#p703-eviction-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: #f87171; }
+#p703-decision-header-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: #8b8b99; }
 
-#conveyor-title { color: #facc15; }
-#chamber-title { color: #38bdf8; }
-#eviction-title { color: #f87171; }
-#decision-header-title { color: #8b8b99; }
-
-#conveyor-sub,
-#chamber-sub,
-#eviction-sub,
-#decision-header-sub {
+#p703-conveyor-sub,
+#p703-chamber-sub,
+#p703-eviction-sub,
+#p703-decision-header-sub {
   font-size: 9.5px;
   font-weight: 500;
   color: #636374;
@@ -153,7 +138,7 @@
 /* ============================================================
    ZONE 1: STREAM CONVEYOR
    ============================================================ */
-#conveyor-viewport {
+#p703-conveyor-viewport {
   width: 100%;
   height: 120px;
   background: #0f0f14;
@@ -165,16 +150,16 @@
   box-sizing: border-box;
 }
 
-#conveyor-empty-text,
-#chamber-empty-text,
-#eviction-empty-text {
+#p703-conveyor-empty-text,
+#p703-chamber-empty-text,
+#p703-eviction-empty-text {
   font-size: 11px;
   color: #636374;
   font-style: italic;
   font-family: ui-monospace, monospace;
 }
 
-#conveyor-active-ball {
+#p703-conveyor-active-ball {
   width: 64px;
   height: 64px;
   border-radius: 50%;
@@ -185,9 +170,10 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 16px rgba(250, 204, 21, 0.7);
+  box-sizing: border-box;
 }
 
-#conveyor-val {
+#p703-conveyor-val {
   font-size: 22px;
   font-weight: 900;
   color: #fef08a;
@@ -195,23 +181,24 @@
   line-height: 1;
 }
 
-#conveyor-tag {
+#p703-conveyor-tag {
   font-size: 7.5px;
   font-weight: 900;
   color: #facc15;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 2px;
+  font-family: ui-monospace, monospace;
 }
 
 /* ============================================================
    ZONE 2: TOP-K RETENTION CHAMBER
    ============================================================ */
-#chamber-viewport {
+#p703-chamber-viewport {
   width: 100%;
   height: 120px;
   background: #0f0f14;
-  border: 1px solid #1e1e28;
+  border: 1.5px solid #1e1e28;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -219,16 +206,22 @@
   padding: 10px 14px;
   box-sizing: border-box;
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-#chamber-slots-grid {
+#p703-chamber-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+#p703-chamber-slots-grid {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
 }
 
-[id^="slot-col-"] {
+[id^="p703-slot-col-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -236,7 +229,7 @@
   flex-shrink: 0;
 }
 
-[id^="slot-node-"] {
+[id^="p703-slot-node-"] {
   width: 58px;
   height: 58px;
   border-radius: 14px;
@@ -251,14 +244,14 @@
 }
 
 /* Idle Survivor Slot */
-[id^="slot-node-idle-"] {
+[id^="p703-slot-node-"][data-slot-state="idle"] {
   background: #151e26;
   border: 2px solid #283848;
   color: #7dd3fc;
 }
 
 /* Newly Added to Heap */
-[id^="slot-node-new-"] {
+[id^="p703-slot-node-"][data-slot-state="new"] {
   background: #262214 !important;
   border: 2.5px solid #facc15 !important;
   color: #fef08a !important;
@@ -266,7 +259,7 @@
 }
 
 /* Gatekeeper (Root / Kth Largest) */
-[id^="slot-node-gatekeeper-"] {
+[id^="p703-slot-node-"][data-slot-state="gatekeeper"] {
   background: #12241b !important;
   border: 2.5px solid #22c55e !important;
   color: #86efac !important;
@@ -274,14 +267,14 @@
 }
 
 /* Completed Winner */
-[id^="slot-node-winner-"] {
+[id^="p703-slot-node-"][data-slot-state="winner"] {
   background: #13241b !important;
   border: 2.5px solid #22c55e !important;
   color: #4ade80 !important;
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.9) !important;
 }
 
-[id^="slot-rank-tag-"] {
+[id^="p703-slot-rank-tag-"] {
   font-size: 8px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
@@ -290,7 +283,7 @@
   white-space: nowrap;
 }
 
-[id^="slot-col-0"] > [id^="slot-rank-tag-"] {
+[id^="p703-slot-rank-tag-"][data-is-gatekeeper="true"] {
   color: #4ade80 !important;
   font-weight: 900;
 }
@@ -298,7 +291,7 @@
 /* ============================================================
    ZONE 3: DISCARD CHUTE
    ============================================================ */
-#eviction-viewport {
+#p703-eviction-viewport {
   width: 100%;
   height: 120px;
   background: #0f0f14;
@@ -310,7 +303,7 @@
   box-sizing: border-box;
 }
 
-#eviction-ball {
+#p703-eviction-ball {
   width: 64px;
   height: 64px;
   border-radius: 50%;
@@ -321,9 +314,10 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 16px rgba(239, 68, 68, 0.7);
+  box-sizing: border-box;
 }
 
-#eviction-val {
+#p703-eviction-val {
   font-size: 22px;
   font-weight: 900;
   color: #fca5a5;
@@ -332,38 +326,34 @@
   text-decoration: line-through;
 }
 
-#eviction-tag {
+#p703-eviction-tag {
   font-size: 7.5px;
   font-weight: 900;
   color: #ef4444;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 2px;
+  font-family: ui-monospace, monospace;
 }
 
 /* ============================================================
    DECISION INSPECTOR
    ============================================================ */
-#decision-inspector-card {
+#p703-decision-inspector-card {
   width: 100%;
   max-width: 860px;
+  flex-shrink: 0;
 }
 
-#decision-grid {
+#p703-decision-grid {
   display: grid;
   grid-template-columns: 1.2fr 1.8fr;
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 680px) {
-  #decision-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#decision-box-rule,
-#decision-box-action {
+#p703-decision-box-rule,
+#p703-decision-box-action {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -371,71 +361,71 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
-#decision-title-rule,
-#decision-title-action {
+#p703-decision-title-rule,
+#p703-decision-title-action {
   font-size: 9px;
   font-weight: 800;
   color: #717182;
   text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
-#decision-val-rule {
+#p703-decision-val-rule {
   font-size: 12px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
   color: #38bdf8;
 }
 
-#decision-val-idle {
+#p703-decision-val {
   font-size: 12px;
-  font-weight: 700;
   font-family: ui-monospace, monospace;
+}
+
+#p703-decision-val[data-action-type="idle"] {
+  font-weight: 700;
   color: #a1a1aa;
 }
 
-#decision-val-push {
-  font-size: 12px;
+#p703-decision-val[data-action-type="push"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #facc15;
 }
 
-#decision-val-pop {
-  font-size: 12px;
+#p703-decision-val[data-action-type="pop"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #ef4444;
 }
 
-#decision-val-done {
-  font-size: 12px;
+#p703-decision-val[data-action-type="done"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #4ade80;
 }
 
 /* ============================================================
-   RESULT CALLOUT (GREEN ANSWER)
+   RESULT CALLOUT (Elevated Safely Above Playback Controls)
    ============================================================ */
-#result-callout-box {
+#p703-result-callout-box {
   position: fixed;
-  bottom: 16px;
+  bottom: 68px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(14, 20, 16, 0.96);
   backdrop-filter: blur(12px);
   border: 2px solid #22c55e;
   border-radius: 12px;
-  padding: 10px 24px;
+  padding: 8px 24px;
   text-align: center;
-  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
+  box-shadow: 0 10px 32px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p703-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -443,7 +433,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p703-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -451,8 +441,99 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
-  font-size: 12px;
+#p703-callout-detail-text {
+  font-size: 11px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p703-visual-flow-stage {
+    max-width: 760px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p703-kth-stream-canvas {
+    padding: 12px 10px 95px 10px;
+    gap: 12px;
+  }
+
+  #p703-metrics-bar {
+    gap: 6px;
+  }
+
+  #p703-metric-k-target,
+  #p703-metric-heap-capacity,
+  #p703-metric-stream-active,
+  #p703-metric-stream-idle,
+  #p703-metric-kth-result,
+  #p703-metric-kth-idle,
+  #p703-metric-status {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p703-visual-flow-stage {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  #p703-decision-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  #p703-result-callout-box {
+    bottom: 64px;
+    padding: 6px 18px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p703-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p703-metric-k-target,
+  #p703-metric-heap-capacity,
+  #p703-metric-stream-active,
+  #p703-metric-stream-idle,
+  #p703-metric-kth-result,
+  #p703-metric-kth-idle,
+  #p703-metric-status {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p703-conveyor-card-header,
+  #p703-chamber-card-header,
+  #p703-eviction-card-header,
+  #p703-decision-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p703-result-callout-box {
+    bottom: 58px;
+    padding: 6px 16px;
+  }
+
+  #p703-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p703-callout-detail-text {
+    font-size: 10px;
+  }
 }

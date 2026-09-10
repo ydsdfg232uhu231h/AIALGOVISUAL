@@ -16,130 +16,179 @@ export default function Problem739({ stepData }) {
   const poppedIdx = state.poppedIndex ?? null;
 
   return (
-    <div className="canvas-wrapper daily-temp-canvas">
+    <div id="p739-daily-temp-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip current-day-chip">
+      <div id="p739-metrics-bar">
+        <span id="p739-metric-current-day">
           Current Day: <b>i = {currentIndex} ({temperatures[currentIndex]}°)</b>
         </span>
-        <span className="metric-chip stack-size-chip">
+        <span id="p739-metric-stack-size">
           Monotonic Stack Size: <b>{stack.length}</b>
         </span>
         {poppedIdx !== null && (
-          <span className="metric-chip resolved-chip">
+          <motion.span
+            id="p739-metric-resolved"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 350, damping: 22 }}
+          >
             Resolved Day {poppedIdx}: <b>+{state.waitDays} day(s)</b>
-          </span>
+          </motion.span>
         )}
       </div>
 
       {/* Main Visualizer Stage */}
-      <div className="temp-stage">
+      <div id="p739-temp-stage">
         {/* Left: Input Temperatures & Output Result Grid */}
-        <div className="temperature-bars-card">
-          <div className="card-label">Daily Temperatures & Wait Result</div>
-          
-          <div className="bars-track">
+        <div id="p739-temperature-bars-card">
+          <div id="p739-card-label">Daily Temperatures &amp; Wait Result</div>
+
+          <div id="p739-bars-track">
             {temperatures.map((temp, idx) => {
               const isCurrent = idx === currentIndex;
               const inStack = stackIndices.has(idx);
               const isPopped = idx === poppedIdx;
               const waitDays = res[idx];
 
-              // Height normalized between 69° and 76° (base 40px, scale up to 120px)
+              let barState = "idle";
+              if (isPopped) barState = "popped";
+              else if (isCurrent) barState = "current";
+              else if (inStack) barState = "stack";
+
+              // Height normalized between 68° and 77° (base 42px, max 125px)
               const minT = 68;
               const maxT = 77;
-              const barHeight = 40 + ((temp - minT) / (maxT - minT)) * 80;
+              const barHeight = 42 + ((temp - minT) / (maxT - minT)) * 82;
 
               return (
-                <div key={`day-${idx}`} className="day-column">
+                <div key={`p739-day-${idx}`} id={`p739-day-col-${idx}`}>
                   {/* Wait Days Tag */}
-                  <span className={`wait-tag ${waitDays > 0 ? "wait-resolved" : ""}`}>
+                  <span
+                    id={`p739-wait-tag-${idx}`}
+                    data-is-resolved={waitDays > 0 ? "true" : "false"}
+                  >
                     {waitDays > 0 ? `+${waitDays}d` : "0"}
                   </span>
 
                   {/* Temperature Bar */}
                   <motion.div
-                    className={`temp-bar ${isCurrent ? "bar-current" : inStack ? "bar-stack" : ""} ${
-                      isPopped ? "bar-popped" : ""
-                    }`}
+                    id={`p739-temp-bar-${idx}`}
+                    data-bar-state={barState}
                     style={{ height: `${barHeight}px` }}
+                    layout
                     animate={{
-                      scale: isCurrent ? 1.08 : 1
+                      scaleY: isCurrent ? 1.05 : 1,
+                      scaleX: isCurrent ? 1.04 : 1
                     }}
-                    transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 24 }}
                   >
-                    <span className="bar-temp-val">{temp}°</span>
+                    <span id={`p739-bar-temp-val-${idx}`}>{temp}°</span>
                   </motion.div>
 
                   {/* Day Index */}
-                  <span className="day-index-label">[{idx}]</span>
-                  {isCurrent && <span className="current-arrow">▲</span>}
+                  <span id={`p739-day-index-label-${idx}`}>[{idx}]</span>
+                  <AnimatePresence>
+                    {isCurrent && (
+                      <motion.span
+                        key="p739-arrow"
+                        id={`p739-current-arrow-${idx}`}
+                        initial={{ opacity: 0, y: 3 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 3 }}
+                        transition={{ duration: 0.18 }}
+                      >
+                        ▲
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
           </div>
 
           {/* Wait Days Array Output Strip */}
-          <div className="res-strip">
-            <span className="strip-title">res[]:</span>
-            <div className="res-cells">
-              {res.map((val, idx) => (
-                <div
-                  key={`res-cell-${idx}`}
-                  className={`res-box ${idx === poppedIdx ? "res-box-highlight" : val > 0 ? "res-box-filled" : ""}`}
-                >
-                  {val}
-                </div>
-              ))}
+          <div id="p739-res-strip">
+            <span id="p739-strip-title">res[]:</span>
+            <div id="p739-res-cells">
+              {res.map((val, idx) => {
+                let resState = "idle";
+                if (idx === poppedIdx) resState = "highlight";
+                else if (val > 0) resState = "filled";
+
+                return (
+                  <motion.div
+                    key={`p739-res-cell-${idx}`}
+                    id={`p739-res-box-${idx}`}
+                    data-res-state={resState}
+                    animate={{
+                      scale: idx === poppedIdx ? [1, 1.08, 1] : 1
+                    }}
+                    transition={{ duration: 0.28, ease: "easeOut" }}
+                  >
+                    {val}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
 
         {/* Right: Monotonic Decreasing Stack Canister */}
-        <div className="stack-card">
-          <div className="card-label">Monotonic Stack (Decreasing)</div>
-          <div className="stack-canister">
-            <AnimatePresence>
+        <div id="p739-stack-card">
+          <div id="p739-card-label-stack">Monotonic Stack (Decreasing)</div>
+          <div id="p739-stack-canister">
+            <AnimatePresence mode="popLayout">
               {stack.length === 0 ? (
-                <div className="stack-empty">Stack is empty</div>
+                <motion.div
+                  key="empty"
+                  id="p739-stack-empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  Stack is empty
+                </motion.div>
               ) : (
                 [...stack].reverse().map((item, reverseIdx) => {
                   const isTop = reverseIdx === 0;
 
                   return (
                     <motion.div
-                      key={`stack-${item.idx}-${item.temp}`}
-                      className={`stack-entry ${isTop ? "stack-top" : ""}`}
-                      initial={{ opacity: 0, y: -20, scale: 0.85 }}
+                      key={`p739-stack-${item.idx}-${item.temp}`}
+                      id={`p739-stack-entry-${item.idx}`}
+                      data-is-top={isTop ? "true" : "false"}
+                      layout
+                      initial={{ opacity: 0, y: -16, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, x: 20, scale: 0.8 }}
-                      transition={{ duration: 0.25 }}
+                      exit={{ opacity: 0, x: 24, scale: 0.88 }}
+                      transition={{ type: "spring", stiffness: 320, damping: 26 }}
                     >
-                      <span className="entry-temp">{item.temp}°</span>
-                      <span className="entry-idx">day {item.idx}</span>
-                      {isTop && <span className="top-badge">TOP</span>}
+                      <span id={`p739-entry-temp-${item.idx}`}>{item.temp}°</span>
+                      <span id={`p739-entry-idx-${item.idx}`}>day {item.idx}</span>
+                      {isTop && <span id={`p739-top-badge-${item.idx}`}>TOP</span>}
                     </motion.div>
                   );
                 })
               )}
             </AnimatePresence>
           </div>
-          <div className="stack-base">BOTTOM</div>
+          <div id="p739-stack-base">CANISTER BASE</div>
         </div>
       </div>
 
-      {/* Output Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p739-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p739-callout-header-text">{output.label}</div>
+            <div id="p739-callout-val-text">{output.value}</div>
+            <div id="p739-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -41,42 +41,42 @@ export default function Problem973({ stepData }) {
   const sweepRadiusPx = Math.sqrt(activeRadius) * dynamicScale;
 
   return (
-    <div id="kclosest-canvas">
+    <div id="p973-kclosest-canvas">
       {/* Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-k-target">
+      <div id="p973-metrics-bar">
+        <span id="p973-metric-k-target">
           Target Closest: <b>k = {k}</b>
         </span>
 
-        <span id="metric-heap-count">
+        <span id="p973-metric-heap-count">
           Min-Heap Size: <b>{heap.length} points</b>
         </span>
 
-        <span id="metric-res-count">
+        <span id="p973-metric-res-count">
           Extracted: <b>{res.length} / {k}</b>
         </span>
 
         {activeRadius > 0 ? (
-          <span id="metric-radius-active">
+          <span id="p973-metric-radius-active">
             Threshold Radius: <b>r ≈ {Math.sqrt(activeRadius).toFixed(2)}</b> (d²={activeRadius})
           </span>
         ) : (
-          <span id="metric-radius-idle">
+          <span id="p973-metric-radius-idle">
             Threshold Radius: <b>r = 0.00</b>
           </span>
         )}
       </div>
 
-      <div id="kclosest-stage">
+      <div id="p973-kclosest-stage">
         {/* Radar Cartesian Plane */}
-        <div id="cartesian-card">
-          <svg id="radar-plane-svg" viewBox={`0 0 ${width} ${height}`}>
+        <div id="p973-cartesian-card">
+          <svg id="p973-radar-plane-svg" viewBox={`0 0 ${width} ${height}`}>
             <defs>
-              <pattern id="radarGrid" width="16" height="16" patternUnits="userSpaceOnUse">
+              <pattern id="p973-radarGrid" width="16" height="16" patternUnits="userSpaceOnUse">
                 <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#22232a" strokeWidth="0.8" />
               </pattern>
             </defs>
-            <rect width={width} height={height} fill="url(#radarGrid)" />
+            <rect width={width} height={height} fill="url(#p973-radarGrid)" />
 
             {/* Concentric Guide Rings */}
             {[1, 2, 3, 4, 5].map((multiplier) => {
@@ -85,7 +85,7 @@ export default function Problem973({ stepData }) {
 
               return (
                 <circle
-                  key={`guide-ring-${multiplier}`}
+                  key={`p973-guide-ring-${multiplier}`}
                   cx={originX}
                   cy={originY}
                   r={ringRadius}
@@ -96,9 +96,10 @@ export default function Problem973({ stepData }) {
               );
             })}
 
-            {/* Dynamic Sweep Radius Circle (Protected within bounds) */}
+            {/* Dynamic Sweep Radius Circle */}
             {activeRadius > 0 && (
               <motion.circle
+                id="p973-sweep-radius-circle"
                 cx={originX}
                 cy={originY}
                 r={sweepRadiusPx}
@@ -131,9 +132,10 @@ export default function Problem973({ stepData }) {
               const isActive = activePoint && activePoint[0] === px && activePoint[1] === py;
 
               return (
-                <g key={`radar-point-${idx}-${px}-${py}`}>
+                <g key={`p973-point-group-${idx}-${px}-${py}`} id={`p973-point-group-${idx}`}>
                   {/* Distance Vector to Origin */}
                   <motion.line
+                    id={`p973-vector-line-${idx}`}
                     x1={originX}
                     y1={originY}
                     x2={cx}
@@ -146,6 +148,7 @@ export default function Problem973({ stepData }) {
                   {/* Highlight Halo */}
                   {isSelected && (
                     <motion.circle
+                      id={`p973-point-halo-${idx}`}
                       cx={cx}
                       cy={cy}
                       r="14"
@@ -158,11 +161,12 @@ export default function Problem973({ stepData }) {
 
                   {/* Marker Node */}
                   <motion.circle
+                    id={`p973-point-node-${idx}`}
                     cx={cx}
                     cy={cy}
                     r={isActive ? 7 : 5.5}
                     fill={isSelected ? "#22c55e" : isActive ? "#38bdf8" : "#818cf8"}
-                    stroke="#fff"
+                    stroke="#ffffff"
                     strokeWidth="1.5"
                     animate={{ scale: isActive ? 1.2 : 1 }}
                     transition={{ type: "spring", stiffness: 350, damping: 20 }}
@@ -170,9 +174,10 @@ export default function Problem973({ stepData }) {
 
                   {/* Point Coordinate Tag */}
                   <text
+                    id={`p973-point-coord-text-${idx}`}
                     x={cx + 8}
                     y={cy - 6}
-                    fill="#fff"
+                    fill="#ffffff"
                     fontSize="10"
                     fontWeight="800"
                     fontFamily="monospace"
@@ -181,6 +186,7 @@ export default function Problem973({ stepData }) {
                   </text>
                   {p.dist !== undefined && (
                     <text
+                      id={`p973-point-dist-text-${idx}`}
                       x={cx + 8}
                       y={cy + 8}
                       fill="#a1a1aa"
@@ -197,16 +203,16 @@ export default function Problem973({ stepData }) {
         </div>
 
         {/* Min-Heap Priority Queue & Extracted Results */}
-        <div id="heap-panel">
-          <div id="heap-panel-header">
-            <span id="heap-title">Min-Heap State (Ordered by d²)</span>
-            <span id="heap-sub">Root holds minimum Euclidean distance</span>
+        <div id="p973-heap-panel">
+          <div id="p973-heap-panel-header">
+            <span id="p973-heap-title">Min-Heap State (Ordered by d²)</span>
+            <span id="p973-heap-sub">Root holds minimum Euclidean distance</span>
           </div>
 
-          <div id="heap-list-viewport">
+          <div id="p973-heap-list-viewport">
             <AnimatePresence mode="popLayout">
               {heap.length === 0 ? (
-                <span id="heap-empty-text">Heap is empty</span>
+                <span id="p973-heap-empty-text">Heap is empty</span>
               ) : (
                 heap.map((item, idx) => {
                   const [x, y] = item.point || [0, 0];
@@ -214,18 +220,19 @@ export default function Problem973({ stepData }) {
 
                   return (
                     <motion.div
-                      key={`heap-node-${x}-${y}-${idx}`}
-                      id={isRoot ? `heap-card-root-${idx}` : `heap-card-idle-${idx}`}
+                      key={`p973-heap-item-${x}-${y}-${idx}`}
+                      id={`p973-heap-card-${idx}`}
+                      data-card-state={isRoot ? "root" : "idle"}
                       layout
                       initial={{ opacity: 0, x: 15 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -15 }}
                       transition={{ type: "spring", stiffness: 350, damping: 24 }}
                     >
-                      <span id={`heap-order-badge-${idx}`}>#{idx}</span>
-                      <span id={`heap-pt-val-${idx}`}>[{x}, {y}]</span>
-                      <span id={`heap-dist-tag-${idx}`}>d² = {item.dist}</span>
-                      {isRoot && <span id="heap-root-pill">ROOT MIN</span>}
+                      <span id={`p973-heap-order-badge-${idx}`}>#{idx}</span>
+                      <span id={`p973-heap-pt-val-${idx}`}>[{x}, {y}]</span>
+                      <span id={`p973-heap-dist-tag-${idx}`}>d² = {item.dist}</span>
+                      {isRoot && <span id="p973-heap-root-pill">ROOT MIN</span>}
                     </motion.div>
                   );
                 })
@@ -233,20 +240,20 @@ export default function Problem973({ stepData }) {
             </AnimatePresence>
           </div>
 
-          <div id="res-panel-header">
-            <span id="res-title">Extracted Closest Array</span>
-            <span id="res-sub">Top {k} points</span>
+          <div id="p973-res-panel-header">
+            <span id="p973-res-title">Extracted Closest Array</span>
+            <span id="p973-res-sub">Top {k} points</span>
           </div>
 
-          <div id="res-list-viewport">
+          <div id="p973-res-list-viewport">
             <AnimatePresence mode="popLayout">
               {res.length === 0 ? (
-                <span id="res-empty-text">Awaiting heap extract...</span>
+                <span id="p973-res-empty-text">Awaiting heap extract...</span>
               ) : (
                 res.map(([rx, ry], idx) => (
                   <motion.span
-                    key={`res-chip-${rx}-${ry}-${idx}`}
-                    id={`res-chip-item-${idx}`}
+                    key={`p973-res-chip-${rx}-${ry}-${idx}`}
+                    id={`p973-res-chip-item-${idx}`}
                     layout
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -260,18 +267,19 @@ export default function Problem973({ stepData }) {
         </div>
       </div>
 
-      {/* Result Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p973-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p973-callout-header-text">{output.label}</div>
+            <div id="p973-callout-val-text">{output.value}</div>
+            <div id="p973-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

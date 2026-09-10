@@ -1,28 +1,42 @@
-.itinerary-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p332-itinerary-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   min-height: 600px;
   position: relative;
   gap: 18px;
   box-sizing: border-box;
-  padding: 14px;
-  overflow: hidden;
+  padding: 16px 16px 65px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
-/* TOP METRICS */
-.metrics-row {
+/* ============================================================
+   TOP METRICS
+   ============================================================ */
+#p332-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
   align-items: center;
   max-width: 98%;
+  z-index: 2;
 }
 
-.metric-chip {
+#p332-metric-current,
+#p332-metric-path,
+#p332-metric-algo {
   background: #141417;
   border: 1.5px solid #27272a;
   color: #d4d4d8;
@@ -30,34 +44,35 @@
   border-radius: 9999px;
   font-size: 15px;
   font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
-}
-.metric-chip.path-chip{
-  width: 200px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.metric-chip b {
-  color: #fff;
+#p332-metric-path {
+  min-width: 200px;
+  justify-content: center;
+}
+
+#p332-metric-current b,
+#p332-metric-path b,
+#p332-metric-algo b {
+  color: #ffffff;
   font-weight: 800;
+  font-family: ui-monospace, monospace;
 }
 
-.current-chip b {
-  color: #38bdf8;
-}
+#p332-metric-current b { color: #38bdf8; }
+#p332-metric-path b { color: #4ade80; }
+#p332-metric-algo b { color: #facc15; }
 
-.path-chip b {
-  color: #4ade80;
-}
-
-.algo-chip b {
-  color: #facc15;
-}
-
-/* MAIN STAGE */
-.itinerary-stage {
+/* ============================================================
+   MAIN STAGE
+   ============================================================ */
+#p332-itinerary-stage {
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -67,7 +82,7 @@
 }
 
 /* FLIGHT MAP CARD */
-.map-card {
+#p332-map-card {
   width: 100%;
   background: #101014;
   border: 1.5px solid #27272a;
@@ -80,7 +95,7 @@
   box-sizing: border-box;
 }
 
-.card-header-bar {
+#p332-map-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,64 +106,85 @@
   letter-spacing: 0.6px;
 }
 
-.sub-legend {
+#p332-sub-legend {
   font-size: 12px;
   color: #38bdf8;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
   font-weight: 700;
 }
 
-.flight-map-svg {
+#p332-flight-map-svg {
   width: 100%;
   height: auto;
   display: block;
 }
 
+/* FLIGHT ROUTE EDGES */
+[id^="p332-ticket-line-"] {
+  transition: all 0.25s ease;
+}
+
+[id^="p332-ticket-line-"][data-is-flown="false"] {
+  stroke: #27272a;
+  stroke-width: 1.5;
+  stroke-dasharray: 4,4;
+}
+
+[id^="p332-ticket-line-"][data-is-flown="true"] {
+  stroke: #38bdf8;
+  stroke-width: 2.5;
+  stroke-dasharray: none;
+}
+
 /* SVG AIRPORT NODES */
-.airport-node {
+[id^="p332-airport-circle-"] {
   fill: #18181b;
   stroke: #3f3f46;
   stroke-width: 2px;
   transition: all 0.25s ease;
 }
 
-.node-visited {
+[id^="p332-airport-circle-"][data-node-state="visited"] {
   stroke: #4ade80;
   fill: rgba(74, 222, 128, 0.12);
 }
 
-.node-current {
+[id^="p332-airport-circle-"][data-node-state="current"] {
   stroke: #38bdf8 !important;
   fill: rgba(56, 189, 248, 0.2) !important;
   filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.8));
 }
 
-.airport-code-text {
-  fill: #fff;
+[id^="p332-airport-code-"] {
+  fill: #ffffff;
   font-size: 11px;
   font-weight: 900;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.airport-label-sub {
+[id^="p332-airport-sublabel-"] {
   fill: #71717a;
   font-size: 9px;
   font-weight: 800;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
+  transition: fill 0.2s ease;
 }
 
-.label-active {
+[id^="p332-airport-sublabel-"][data-is-active="true"] {
   fill: #38bdf8 !important;
 }
 
-/* LOWER DUAL DECK */
-.lower-deck {
+/* ============================================================
+   LOWER DUAL DECK
+   ============================================================ */
+#p332-lower-deck {
   display: flex;
   gap: 14px;
   width: 100%;
 }
 
-.deck-card {
+#p332-adj-deck,
+#p332-itin-deck {
   flex: 1;
   background: #101014;
   border: 1.5px solid #27272a;
@@ -158,24 +194,27 @@
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-.deck-title {
+#p332-adj-deck-title,
+#p332-itin-deck-title {
   font-size: 11px;
   font-weight: 900;
   color: #a1a1aa;
   text-transform: uppercase;
   letter-spacing: 0.6px;
+  font-family: ui-monospace, monospace;
 }
 
 /* ADJACENCY QUEUE */
-.adj-list {
+#p332-adj-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.adj-row {
+[id^="p332-adj-row-"] {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -183,22 +222,23 @@
   border: 1px solid #27272a;
   border-radius: 6px;
   padding: 4px 8px;
+  box-sizing: border-box;
 }
 
-.adj-code {
+[id^="p332-adj-code-"] {
   font-size: 11px;
   font-weight: 900;
-  color: #fff;
-  font-family: monospace;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
 }
 
-.dest-badges {
+[id^="p332-dest-badges-"] {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
 }
 
-.ticket-pill {
+[id^="p332-ticket-pill-"] {
   font-size: 10px;
   font-weight: 800;
   color: #38bdf8;
@@ -206,17 +246,18 @@
   border: 1px solid #38bdf8;
   border-radius: 4px;
   padding: 1px 6px;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.empty-dest {
+[id^="p332-empty-dest-"] {
   font-size: 10px;
   color: #52525b;
   font-style: italic;
+  font-family: ui-monospace, monospace;
 }
 
 /* ITINERARY STREAM */
-.itin-stream {
+#p332-itin-stream {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -224,14 +265,15 @@
   min-height: 80px;
 }
 
-.empty-itin {
+#p332-empty-itin-text {
   font-size: 11px;
   color: #52525b;
   font-style: italic;
   margin: auto;
+  font-family: ui-monospace, monospace;
 }
 
-.itin-stop-card {
+[id^="p332-itin-stop-"] {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -239,41 +281,48 @@
   border: 1.5px solid #22c55e;
   border-radius: 6px;
   padding: 4px 8px;
+  box-sizing: border-box;
 }
 
-.itin-order {
+[id^="p332-itin-order-"] {
   font-size: 10px;
   font-weight: 900;
   color: #4ade80;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.itin-airport {
+[id^="p332-itin-airport-"] {
   font-size: 12px;
   font-weight: 900;
-  color: #fff;
-  font-family: monospace;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
 }
 
-.itin-arrow {
+[id^="p332-itin-arrow-"] {
   font-size: 10px;
   color: #71717a;
 }
 
-/* RESULT CALLOUT */
-.result-callout {
-  position: absolute;
-  bottom: 12px;
+/* ============================================================
+   RESULT CALLOUT
+   ============================================================ */
+#p332-result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   background: #0f172a;
   border: 2px solid #22c55e;
   border-radius: 14px;
   padding: 12px 24px;
   text-align: center;
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8);
-  z-index: 10;
+  z-index: 100;
+  max-width: 90%;
+  box-sizing: border-box;
 }
 
-.callout-header {
+#p332-callout-header-text {
   font-size: 12px;
   color: #86efac;
   text-transform: uppercase;
@@ -281,16 +330,106 @@
   letter-spacing: 0.5px;
 }
 
-.callout-val {
+#p332-callout-val-text {
   font-size: 20px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 900;
   margin: 3px 0;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
 }
 
-.callout-detail {
+#p332-callout-detail-text {
   font-size: 13px;
   color: #cbd5e1;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p332-itinerary-stage {
+    max-width: 680px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p332-itinerary-canvas {
+    padding: 14px 10px 75px 10px;
+    gap: 14px;
+  }
+
+  #p332-metrics-bar {
+    gap: 8px;
+  }
+
+  #p332-metric-current,
+  #p332-metric-path,
+  #p332-metric-algo {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+
+  #p332-lower-deck {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p332-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p332-metric-current,
+  #p332-metric-path,
+  #p332-metric-algo {
+    justify-content: center;
+    font-size: 11px;
+  }
+
+  #p332-map-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  [id^="p332-airport-code-"] {
+    font-size: 9.5px;
+  }
+
+  [id^="p332-airport-sublabel-"] {
+    font-size: 7.5px;
+  }
+
+  [id^="p332-ticket-pill-"] {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+
+  [id^="p332-itin-stop-"] {
+    padding: 3px 6px;
+  }
+
+  [id^="p332-itin-order-"] {
+    font-size: 8.5px;
+  }
+
+  [id^="p332-itin-airport-"] {
+    font-size: 10.5px;
+  }
+
+  #p332-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p332-callout-detail-text {
+    font-size: 11px;
+  }
 }

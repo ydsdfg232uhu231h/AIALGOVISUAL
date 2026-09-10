@@ -1,7 +1,7 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#invert-tree-canvas {
+#p226-invert-tree-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,19 +10,20 @@
   height: 100%;
   min-height: 520px;
   box-sizing: border-box;
-  padding: 12px 16px 60px 16px;
+  padding: 12px 16px 65px 16px;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   gap: 12px;
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p226-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -31,14 +32,13 @@
   width: 100%;
   max-width: 860px;
   flex-shrink: 0;
+  z-index: 2;
 }
 
-#metric-root,
-#metric-swapping,
-#metric-swapped-count,
-#metric-status-active,
-#metric-status-swapping,
-#metric-status-done {
+#p226-metric-root,
+#p226-metric-swapping,
+#p226-metric-swapped-count,
+#p226-metric-status {
   background: rgba(24, 24, 32, 0.9);
   border: 1.5px solid #272736;
   color: #a1a1aa;
@@ -51,29 +51,38 @@
   gap: 6px;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-#metric-root b { color: #facc15; }
-#metric-swapping b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#metric-swapped-count b { color: #c084fc; }
-#metric-status-active b { color: #38bdf8; }
+#p226-metric-root b { color: #facc15; font-family: ui-monospace, monospace; }
+#p226-metric-swapping b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p226-metric-swapped-count b { color: #c084fc; font-family: ui-monospace, monospace; }
 
-#metric-status-swapping {
+#p226-metric-status[data-status="active"] b {
+  color: #38bdf8;
+}
+
+#p226-metric-status[data-status="swapping"] {
   border-color: #facc15 !important;
   background: rgba(250, 204, 21, 0.15) !important;
 }
-#metric-status-swapping b { color: #fef08a !important; }
+#p226-metric-status[data-status="swapping"] b {
+  color: #fef08a !important;
+}
 
-#metric-status-done {
+#p226-metric-status[data-status="done"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.16) !important;
 }
-#metric-status-done b { color: #4ade80 !important; }
+#p226-metric-status[data-status="done"] b {
+  color: #4ade80 !important;
+}
 
 /* ============================================================
    STAGE LAYOUT
    ============================================================ */
-#invert-stage {
+#p226-invert-stage {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -83,8 +92,8 @@
   flex-shrink: 0;
 }
 
-#tree-card,
-#swap-tracker-card {
+#p226-tree-card,
+#p226-swap-tracker-card {
   background: #121218;
   border: 1.5px solid #242430;
   border-radius: 14px;
@@ -96,8 +105,8 @@
   box-sizing: border-box;
 }
 
-#tree-card-header,
-#swap-card-header {
+#p226-tree-card-header,
+#p226-swap-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -106,8 +115,8 @@
   border-bottom: 1px solid #1c1c24;
 }
 
-#tree-header-title,
-#swap-header-title {
+#p226-tree-header-title,
+#p226-swap-header-title {
   font-size: 10px;
   font-weight: 800;
   color: #8b8b99;
@@ -115,8 +124,8 @@
   letter-spacing: 0.7px;
 }
 
-#tree-header-sub,
-#swap-header-sub {
+#p226-tree-header-sub,
+#p226-swap-header-sub {
   font-size: 10px;
   font-weight: 500;
   color: #636374;
@@ -126,7 +135,7 @@
 /* ============================================================
    SVG VIEWPORT
    ============================================================ */
-#tree-viewport {
+#p226-tree-viewport {
   width: 100%;
   height: 240px;
   background: #0f0f14;
@@ -135,22 +144,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
-#tree-svg-surface {
+#p226-tree-svg-surface {
   width: 100%;
   height: 100%;
   display: block;
 }
 
 /* Central Mirror Axis */
-#mirror-axis {
+#p226-mirror-axis {
   stroke: #252536;
   stroke-dasharray: 4 4;
   stroke-width: 1.5;
 }
 
-#mirror-label {
+#p226-mirror-label {
   fill: #525264;
   font-size: 8px;
   font-weight: 800;
@@ -159,84 +169,88 @@
 }
 
 /* Edges */
-[id^="edge-normal-"] {
+[id^="p226-edge-"][data-edge-state="normal"] {
   stroke: #2a2a3a;
   stroke-width: 2.2;
 }
 
-[id^="edge-done-"] {
+[id^="p226-edge-"][data-edge-state="done"] {
   stroke: #22c55e !important;
   stroke-width: 2.8;
   filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.6));
 }
 
 /* Nodes */
-[id^="node-idle-"] {
+[id^="p226-node-circle-"][data-node-state="idle"] {
   fill: #181822;
   stroke: #2e2e40;
   stroke-width: 2;
 }
 
-[id^="node-swap-"] {
+[id^="p226-node-circle-"][data-node-state="swap"] {
   fill: #262214;
   stroke: #facc15;
   stroke-width: 3;
   filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.8));
 }
 
-[id^="node-complete-"] {
+[id^="p226-node-circle-"][data-node-state="complete"] {
   fill: #13241b;
   stroke: #22c55e;
   stroke-width: 2.5;
   filter: drop-shadow(0 0 12px rgba(34, 197, 94, 0.7));
 }
 
-[id^="halo-swap-"] {
+[id^="p226-halo-swap-"] {
   fill: transparent;
   stroke: #facc15;
   stroke-width: 1.5;
-  animation: pulse-swap 1.2s infinite ease-out;
+  animation: p226-pulse-swap 1.2s infinite ease-out;
+  pointer-events: none;
 }
 
-@keyframes pulse-swap {
+@keyframes p226-pulse-swap {
   0% { r: 23px; opacity: 0.9; }
   100% { r: 31px; opacity: 0; }
 }
 
-[id^="halo-complete-"] {
+[id^="p226-halo-complete-"] {
   fill: transparent;
   stroke: #22c55e;
   stroke-width: 1.5;
-  animation: pulse-complete 1.4s infinite ease-out;
+  animation: p226-pulse-complete 1.4s infinite ease-out;
+  pointer-events: none;
 }
 
-@keyframes pulse-complete {
+@keyframes p226-pulse-complete {
   0% { r: 24px; opacity: 0.8; }
   100% { r: 32px; opacity: 0; }
 }
 
-[id^="text-val-"] {
+[id^="p226-text-val-"] {
   fill: #ffffff;
   font-size: 15px;
   font-weight: 900;
   font-family: ui-monospace, monospace;
   text-anchor: middle;
   dominant-baseline: middle;
+  transition: fill 0.2s ease;
 }
 
-[id^="node-complete-"] ~ [id^="text-val-"] {
+[id^="p226-text-val-"][data-node-state="complete"] {
   fill: #4ade80 !important;
 }
 
-[id^="text-sub-"] {
+[id^="p226-text-sub-"] {
   fill: #717182;
   font-size: 8px;
   font-weight: 700;
   font-family: ui-monospace, monospace;
   text-anchor: middle;
+  transition: fill 0.2s ease;
 }
 
-[id^="node-complete-"] ~ [id^="text-sub-"] {
+[id^="p226-text-sub-"][data-node-state="complete"] {
   fill: #86efac !important;
   font-weight: 900;
 }
@@ -244,22 +258,16 @@
 /* ============================================================
    SWAP TRACKER CARD
    ============================================================ */
-#swap-grid {
+#p226-swap-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 680px) {
-  #swap-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-#swap-box-subright,
-#swap-box-main,
-#swap-box-verdict {
+#p226-swap-box-subright,
+#p226-swap-box-main,
+#p226-swap-box-verdict {
   background: #161620;
   border: 1px solid #252534;
   border-radius: 8px;
@@ -267,35 +275,40 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  box-sizing: border-box;
 }
 
-#swap-title-subright,
-#swap-title-main,
-#swap-title-verdict {
+#p226-swap-title-subright,
+#p226-swap-title-main,
+#p226-swap-title-verdict {
   font-size: 9px;
   font-weight: 800;
   color: #717182;
   text-transform: uppercase;
 }
 
-#swap-val-pending {
+#p226-swap-val-subright,
+#p226-swap-val-main,
+#p226-swap-val-verdict {
   font-size: 12px;
-  font-weight: 700;
   font-family: ui-monospace, monospace;
+  transition: color 0.2s ease;
+}
+
+[id^="p226-swap-val-"][data-val-state="pending"] {
+  font-weight: 700;
   color: #a1a1aa;
 }
 
-#swap-val-done {
-  font-size: 12px;
+[id^="p226-swap-val-"][data-val-state="done"] {
   font-weight: 900;
-  font-family: ui-monospace, monospace;
   color: #4ade80;
 }
 
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
+#p226-result-callout-box {
   position: fixed;
   bottom: 16px;
   left: 50%;
@@ -309,9 +322,10 @@
   box-shadow: 0 8px 30px rgba(34, 197, 94, 0.35);
   z-index: 100;
   max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p226-callout-header-text {
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 800;
@@ -319,7 +333,7 @@
   letter-spacing: 0.8px;
 }
 
-#callout-val-text {
+#p226-callout-val-text {
   font-size: 18px;
   color: #4ade80;
   font-weight: 900;
@@ -327,8 +341,92 @@
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p226-callout-detail-text {
   font-size: 12px;
   color: #dcfce7;
   font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p226-tree-viewport {
+    height: 220px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p226-invert-tree-canvas {
+    padding: 12px 10px 75px 10px;
+    gap: 12px;
+  }
+
+  #p226-metrics-bar {
+    gap: 6px;
+  }
+
+  #p226-metric-root,
+  #p226-metric-swapping,
+  #p226-metric-swapped-count,
+  #p226-metric-status {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  #p226-tree-viewport {
+    height: 200px;
+  }
+
+  #p226-swap-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p226-metrics-bar {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p226-metric-root,
+  #p226-metric-swapping,
+  #p226-metric-swapped-count,
+  #p226-metric-status {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p226-tree-card-header,
+  #p226-swap-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p226-tree-viewport {
+    height: 180px;
+  }
+
+  [id^="p226-text-val-"] {
+    font-size: 13px;
+  }
+
+  [id^="p226-text-sub-"] {
+    font-size: 7px;
+  }
+
+  #p226-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p226-callout-detail-text {
+    font-size: 10.5px;
+  }
 }

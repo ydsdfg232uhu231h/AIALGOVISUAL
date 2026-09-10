@@ -13,29 +13,29 @@ export default function Problem981({ stepData }) {
   const storeKeys = Object.keys(store);
 
   return (
-    <div className="canvas-wrapper timemap-canvas">
+    <div id="p981-timemap-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip keys-chip">
+      <div id="p981-metrics-bar">
+        <span id="p981-metric-keys">
           Stored Keys: <b>{storeKeys.length}</b>
         </span>
         {currentQuery ? (
-          <span className="metric-chip query-chip">
+          <span id="p981-metric-query">
             Active Query: <b>get("{currentQuery.key}", t={currentQuery.time}) &rarr; "{currentQuery.res}"</b>
           </span>
         ) : (
-          <span className="metric-chip idle-chip">
+          <span id="p981-metric-idle">
             Operation: <b>{state["store['foo']"] ? "SET" : "IDLE"}</b>
           </span>
         )}
       </div>
 
       {/* Hash Map Key-Bucket View */}
-      <div className="timemap-container">
+      <div id="p981-timemap-container">
         {storeKeys.length === 0 ? (
-          <div className="empty-store-card">
-            <span className="empty-icon">📂</span>
-            <span className="empty-text">TimeMap store is empty. Awaiting set() operations...</span>
+          <div id="p981-empty-store-card">
+            <span id="p981-empty-icon">📂</span>
+            <span id="p981-empty-text">TimeMap store is empty. Awaiting set() operations...</span>
           </div>
         ) : (
           storeKeys.map((keyName) => {
@@ -45,17 +45,18 @@ export default function Problem981({ stepData }) {
             return (
               <div
                 key={keyName}
-                className={`key-bucket-card ${isTargetKey ? "bucket-active" : ""}`}
+                id={`p981-key-bucket-${keyName}`}
+                data-is-active={isTargetKey ? "true" : "false"}
               >
                 {/* Key Header Tag */}
-                <div className="key-header">
-                  <span className="key-badge">KEY</span>
-                  <span className="key-title">"{keyName}"</span>
-                  <span className="records-count">({records.length} records)</span>
+                <div id={`p981-key-header-${keyName}`}>
+                  <span id={`p981-key-badge-${keyName}`}>KEY</span>
+                  <span id={`p981-key-title-${keyName}`}>"{keyName}"</span>
+                  <span id={`p981-records-count-${keyName}`}>({records.length} records)</span>
                 </div>
 
                 {/* Timeline Stream */}
-                <div className="timeline-track">
+                <div id={`p981-timeline-track-${keyName}`}>
                   {records.map((entry, idx) => {
                     const isMatched =
                       isTargetKey &&
@@ -64,22 +65,25 @@ export default function Problem981({ stepData }) {
 
                     return (
                       <React.Fragment key={`${keyName}-${entry.time}-${idx}`}>
-                        {idx > 0 && <div className="timeline-connector" />}
+                        {idx > 0 && <div id={`p981-timeline-connector-${keyName}-${idx}`} />}
 
                         <motion.div
-                          className={`time-entry-card ${isMatched ? "entry-matched" : ""}`}
+                          id={`p981-time-entry-${keyName}-${idx}`}
+                          data-is-matched={isMatched ? "true" : "false"}
+                          layout
                           animate={{
                             scale: isMatched ? 1.08 : 1
                           }}
                           transition={{ type: "spring", stiffness: 350, damping: 20 }}
                         >
-                          <div className="entry-timestamp">t = {entry.time}</div>
-                          <div className="entry-value">"{entry.val}"</div>
+                          <div id={`p981-entry-timestamp-${keyName}-${idx}`}>t = {entry.time}</div>
+                          <div id={`p981-entry-value-${keyName}-${idx}`}>"{entry.val}"</div>
                           {isMatched && (
                             <motion.span
-                              className="match-pill"
+                              id={`p981-match-pill-${keyName}-${idx}`}
                               initial={{ opacity: 0, scale: 0.8 }}
                               animate={{ opacity: 1, scale: 1 }}
+                              transition={{ duration: 0.2 }}
                             >
                               MATCH (&le; {currentQuery.time})
                             </motion.span>
@@ -95,18 +99,19 @@ export default function Problem981({ stepData }) {
         )}
       </div>
 
-      {/* Output Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p981-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p981-callout-header-text">{output.label}</div>
+            <div id="p981-callout-val-text">{output.value}</div>
+            <div id="p981-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

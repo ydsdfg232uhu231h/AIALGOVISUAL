@@ -36,31 +36,38 @@ export default function Problem684({ stepData }) {
     5: "#ec4899"
   };
 
+  let metricStatus = "init";
+  if (cycleEdge) metricStatus = "cycle";
+  else if (activeEdge) metricStatus = "examining";
+
   return (
-    <div className="canvas-wrapper dsu-canvas">
+    <div id="p684-dsu-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        {activeEdge ? (
-          <span className={`metric-chip ${cycleEdge ? "chip-cycle" : "chip-edge"}`}>
-            Examining Edge: <b>[{activeEdge[0]}, {activeEdge[1]}]</b>
-          </span>
-        ) : (
-          <span className="metric-chip chip-edge">
-            Status: <b>Initializing DSU (5 Nodes)</b>
-          </span>
-        )}
+      <div id="p684-metrics-bar">
+        <span id="p684-metric-status-chip" data-status={metricStatus}>
+          {activeEdge ? (
+            <>
+              Examining Edge: <b>[{activeEdge[0]}, {activeEdge[1]}]</b>
+            </>
+          ) : (
+            <>
+              Status: <b>Initializing DSU (5 Nodes)</b>
+            </>
+          )}
+        </span>
+
         {cycleEdge && (
-          <span className="metric-chip chip-cycle-warning">
+          <span id="p684-metric-cycle-chip">
             Redundant Edge Detected: <b>[{cycleEdge[0]}, {cycleEdge[1]}]</b>
           </span>
         )}
       </div>
 
       {/* Main DSU Stage */}
-      <div className="dsu-stage">
+      <div id="p684-dsu-stage">
         {/* Graph Canvas */}
-        <div className="graph-card">
-          <svg viewBox="0 0 400 280" className="dsu-svg">
+        <div id="p684-graph-card">
+          <svg id="p684-dsu-svg" viewBox="0 0 400 280">
             {/* Render Edges */}
             {edges.map(([u, v], idx) => {
               const p1 = nodePositions[u];
@@ -80,53 +87,35 @@ export default function Problem684({ stepData }) {
                 ([eu, ev]) => (eu === u && ev === v) || (eu === v && ev === u)
               );
 
-              let strokeColor = "#27272a";
-              let strokeWidth = 2;
-              let strokeDash = "none";
-
-              if (isCycle) {
-                strokeColor = "#ef4444";
-                strokeWidth = 3.5;
-                strokeDash = "6,6";
-              } else if (isActive) {
-                strokeColor = "#38bdf8";
-                strokeWidth = 3;
-              } else if (isEvaluated) {
-                strokeColor = "#22c55e";
-                strokeWidth = 2.5;
-              }
+              let edgeState = "idle";
+              if (isCycle) edgeState = "cycle";
+              else if (isActive) edgeState = "active";
+              else if (isEvaluated) edgeState = "evaluated";
 
               return (
-                <g key={`edge-${u}-${v}-${idx}`}>
-                  <motion.line
+                <g key={`p684-edge-${u}-${v}-${idx}`} id={`p684-edge-group-${u}-${v}`}>
+                  <line
+                    id={`p684-edge-line-${u}-${v}`}
+                    data-edge-state={edgeState}
                     x1={p1.x}
                     y1={p1.y}
                     x2={p2.x}
                     y2={p2.y}
-                    stroke={strokeColor}
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={strokeDash}
-                    animate={{ stroke: strokeColor }}
-                    transition={{ duration: 0.25 }}
                   />
                   {/* Midpoint Label Tag */}
                   <rect
+                    id={`p684-edge-tag-bg-${u}-${v}`}
+                    data-edge-state={edgeState}
                     x={(p1.x + p2.x) / 2 - 16}
                     y={(p1.y + p2.y) / 2 - 9}
                     width="32"
                     height="18"
                     rx="4"
-                    fill="#101014"
-                    stroke={strokeColor}
-                    strokeWidth="1"
                   />
                   <text
+                    id={`p684-edge-tag-text-${u}-${v}`}
                     x={(p1.x + p2.x) / 2}
                     y={(p1.y + p2.y) / 2 + 3.5}
-                    fill="#e4e4e7"
-                    fontSize="9"
-                    fontWeight="800"
-                    textAnchor="middle"
                   >
                     [{u},{v}]
                   </text>
@@ -141,35 +130,29 @@ export default function Problem684({ stepData }) {
               const isPushed = activeEdge && (activeEdge[0] === nodeId || activeEdge[1] === nodeId);
 
               return (
-                <g key={`node-${nodeId}`}>
+                <g key={`p684-node-${nodeId}`} id={`p684-node-group-${nodeId}`}>
                   <motion.circle
+                    id={`p684-node-circle-${nodeId}`}
                     cx={pos.x}
                     cy={pos.y}
                     r="19"
-                    fill="#18181b"
                     stroke={isPushed ? "#38bdf8" : rootColors[pRoot] || "#71717a"}
-                    strokeWidth="2.5"
+                    layout
                     animate={{ scale: isPushed ? 1.12 : 1 }}
                     transition={{ type: "spring", stiffness: 350, damping: 20 }}
                   />
                   <text
+                    id={`p684-node-text-val-${nodeId}`}
                     x={pos.x}
                     y={pos.y + 4.5}
-                    fill="#fff"
-                    fontSize="13"
-                    fontWeight="800"
-                    textAnchor="middle"
                   >
                     {nodeId}
                   </text>
                   <text
+                    id={`p684-node-text-root-${nodeId}`}
                     x={pos.x}
                     y={pos.y - 25}
                     fill={rootColors[pRoot] || "#a1a1aa"}
-                    fontSize="9"
-                    fontWeight="800"
-                    fontFamily="monospace"
-                    textAnchor="middle"
                   >
                     root: {pRoot}
                   </text>
@@ -180,27 +163,29 @@ export default function Problem684({ stepData }) {
         </div>
 
         {/* DSU Parent Array Table */}
-        <div className="dsu-panel">
-          <div className="panel-title">DSU Representative Parent Table</div>
-          <div className="parent-table">
-            <div className="table-header-row">
-              <span className="th-cell">Node (i)</span>
+        <div id="p684-dsu-panel">
+          <div id="p684-panel-title">DSU Representative Parent Table</div>
+          <div id="p684-parent-table">
+            <div id="p684-table-header-row">
+              <span id="p684-th-cell-label">Node (i)</span>
               {[1, 2, 3, 4, 5].map((i) => (
-                <span key={`th-${i}`} className="td-cell th-val">
+                <span key={`p684-th-${i}`} id={`p684-th-val-${i}`}>
                   {i}
                 </span>
               ))}
             </div>
-            <div className="table-data-row">
-              <span className="th-cell">parent[i]</span>
+            <div id="p684-table-data-row">
+              <span id="p684-td-cell-label">parent[i]</span>
               {[1, 2, 3, 4, 5].map((i) => {
                 const pVal = parent[i];
                 const isUpdated = activeEdge && (activeEdge[0] === i || activeEdge[1] === i);
 
                 return (
                   <motion.div
-                    key={`td-${i}`}
-                    className={`td-cell td-val ${isUpdated ? "cell-updated" : ""}`}
+                    key={`p684-td-${i}`}
+                    id={`p684-td-val-${i}`}
+                    data-is-updated={isUpdated ? "true" : "false"}
+                    layout
                     animate={{ scale: isUpdated ? 1.08 : 1 }}
                     transition={{ duration: 0.2 }}
                   >
@@ -211,9 +196,9 @@ export default function Problem684({ stepData }) {
             </div>
           </div>
 
-          <div className="union-status-card">
-            <span className="status-label">Union Status:</span>
-            <span className="status-val">
+          <div id="p684-union-status-card">
+            <span id="p684-status-label">Union Status:</span>
+            <span id="p684-status-val">
               {state.union || (cycleEdge ? "CYCLE DETECTED" : "Pending")}
             </span>
           </div>
@@ -224,14 +209,15 @@ export default function Problem684({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p684-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p684-callout-header-text">{output.label}</div>
+            <div id="p684-callout-val-text">{output.value}</div>
+            <div id="p684-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,38 +1,42 @@
 /* ============================================================
    CANVAS CONTAINER
    ============================================================ */
-#xor-canvas {
+#p268-xor-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   min-height: 640px;
   position: relative;
   gap: 20px;
   box-sizing: border-box;
-  padding: 16px;
-  overflow: hidden;
+  padding: 16px 16px 65px 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
 /* ============================================================
    TOP METRICS ROW
    ============================================================ */
-#metrics-bar {
+#p268-metrics-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
   align-items: center;
   max-width: 98%;
+  z-index: 2;
 }
 
-#metric-range,
-#metric-xor-accum,
-#metric-active-status {
+#p268-metric-range,
+#p268-metric-xor-accum,
+#p268-metric-active-status {
   background: #141418;
   border: 1.5px solid #27272a;
   color: #e4e4e7;
@@ -40,37 +44,39 @@
   border-radius: 9999px;
   font-size: 15px;
   font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-#metric-range b {
+#p268-metric-range b {
   color: #38bdf8;
   font-weight: 800;
   font-family: ui-monospace, monospace;
 }
 
-#metric-xor-accum {
+#p268-metric-xor-accum {
   border-color: rgba(250, 204, 21, 0.4);
   background: rgba(250, 204, 21, 0.08);
 }
 
-#metric-xor-accum b {
+#p268-metric-xor-accum b {
   color: #facc15;
   font-size: 18px;
   font-weight: 800;
   font-family: ui-monospace, monospace;
 }
 
-#metric-binary-sub {
+#p268-metric-binary-sub {
   font-size: 12px;
   color: #a1a1aa;
   font-family: ui-monospace, monospace;
 }
 
-#metric-active-status b {
+#p268-metric-active-status b {
   color: #4ade80;
   font-weight: 800;
   font-family: ui-monospace, monospace;
@@ -79,7 +85,7 @@
 /* ============================================================
    MAIN STAGE & TRACK CARDS
    ============================================================ */
-#xor-stage {
+#p268-xor-stage {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -88,8 +94,8 @@
   align-items: center;
 }
 
-#track-card-expected,
-#track-card-actual {
+#p268-track-card-expected,
+#p268-track-card-actual {
   width: 100%;
   background: #101014;
   border: 1.5px solid #27272a;
@@ -102,17 +108,18 @@
   box-sizing: border-box;
 }
 
-#track-card-expected {
-  height: 150px;
+#p268-track-card-expected {
+  min-height: 150px;
 }
 
-#track-card-actual {
+#p268-track-card-actual {
   border-color: #3f3f46;
   background: #121318;
+  min-height: 150px;
 }
 
-#track-header-expected,
-#track-header-actual {
+#p268-track-header-expected,
+#p268-track-header-actual {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -121,10 +128,12 @@
   color: #a1a1aa;
   text-transform: uppercase;
   letter-spacing: 0.6px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed #27272a;
 }
 
-#track-hint-expected,
-#track-hint-actual {
+#p268-track-hint-expected,
+#p268-track-hint-actual {
   font-size: 12px;
   color: #71717a;
   font-family: ui-monospace, monospace;
@@ -133,37 +142,36 @@
 /* ============================================================
    SLOT GRIDS & BOXES
    ============================================================ */
-#range-slots-grid {
+#p268-range-slots-grid {
   display: grid;
   gap: 12px;
   width: 100%;
-  grid-template-columns: repeat(7, 1fr);
 }
 
-#actual-slots-grid {
+#p268-actual-slots-grid {
   display: grid;
   gap: 12px;
   width: 100%;
-  grid-template-columns: repeat(6, 1fr);
   max-width: 88%;
   margin: 0 auto;
 }
 
-[id^="range-col-"],
-[id^="actual-col-"] {
+[id^="p268-range-col-"],
+[id^="p268-actual-col-"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   position: relative;
+  min-width: 0;
 }
 
-[id^="expected-box-"],
-[id^="actual-box-"] {
+[id^="p268-expected-box-"],
+[id^="p268-actual-box-"] {
   width: 100%;
   height: 64px;
   border-radius: 14px;
-  color: #fff;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,78 +184,85 @@
 }
 
 /* Expected Range Track Items */
-[id^="expected-box-idle-"] {
+[id^="p268-expected-box-"][data-box-state="idle"] {
   border: 2px solid #38bdf8;
   background: rgba(56, 189, 248, 0.08);
+  color: #e4e4e7;
 }
 
 /* Actual Array Track Items */
-[id^="actual-box-idle-"] {
+[id^="p268-actual-box-"][data-box-state="idle"] {
   border: 2px solid #c084fc;
   background: rgba(192, 132, 252, 0.08);
+  color: #e4e4e7;
 }
 
 /* Active Highlight (Both Tracks) */
-[id^="expected-box-active-"],
-[id^="actual-box-active-"] {
+[id^="p268-expected-box-"][data-box-state="active"],
+[id^="p268-actual-box-"][data-box-state="active"] {
   border: 2px solid #facc15 !important;
   background: rgba(250, 204, 21, 0.2) !important;
   box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
-  color: #fff !important;
+  color: #ffffff !important;
 }
 
 /* Cancelled / XOR'd Out (Both Tracks) */
-[id^="expected-box-cancelled-"],
-[id^="actual-box-cancelled-"] {
+[id^="p268-expected-box-"][data-box-state="cancelled"],
+[id^="p268-actual-box-"][data-box-state="cancelled"] {
   opacity: 0.35;
   border-style: dashed !important;
   border-color: #52525b !important;
   background: #18181b !important;
+  color: #71717a !important;
 }
 
-[id^="cancel-slash-"] {
+[id^="p268-cancel-slash-range-"],
+[id^="p268-cancel-slash-actual-"] {
   position: absolute;
   font-size: 26px;
   color: #ef4444;
   font-weight: 900;
+  line-height: 1;
 }
 
-[id^="range-slot-sub-"],
-[id^="actual-slot-sub-"] {
+[id^="p268-range-slot-sub-"],
+[id^="p268-actual-slot-sub-"] {
   font-size: 11px;
   color: #71717a;
   font-family: ui-monospace, monospace;
   font-weight: 700;
+  white-space: nowrap;
 }
 
-#pointer-tag-idx,
-#pointer-tag-val {
+#p268-pointer-tag-idx,
+#p268-pointer-tag-val {
   position: absolute;
   bottom: -22px;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  font-family: ui-monospace, monospace;
 }
 
-#pointer-tag-idx {
+#p268-pointer-tag-idx {
   color: #38bdf8;
 }
 
-#pointer-tag-val {
+#p268-pointer-tag-val {
   color: #c084fc;
 }
 
 /* ============================================================
    XOR GATE BANNER
    ============================================================ */
-#xor-gate-banner {
+#p268-xor-gate-banner {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-#gate-pill {
+#p268-gate-pill {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -256,16 +271,17 @@
   padding: 8px 24px;
   border-radius: 12px;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
-#gate-symbol {
+#p268-gate-symbol {
   font-size: 15px;
   font-weight: 900;
   color: #facc15;
   font-family: ui-monospace, monospace;
 }
 
-#gate-desc {
+#p268-gate-desc {
   font-size: 13px;
   color: #fef08a;
   font-family: ui-monospace, monospace;
@@ -275,9 +291,11 @@
 /* ============================================================
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
-#result-callout-box {
-  position: absolute;
-  bottom: 12px;
+#p268-result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   background: #0f172a;
   border: 2px solid #22c55e;
   border-radius: 14px;
@@ -285,9 +303,11 @@
   text-align: center;
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8);
   z-index: 10;
+  max-width: 90%;
+  box-sizing: border-box;
 }
 
-#callout-header-text {
+#p268-callout-header-text {
   font-size: 12px;
   color: #86efac;
   text-transform: uppercase;
@@ -295,16 +315,159 @@
   letter-spacing: 0.5px;
 }
 
-#callout-val-text {
+#p268-callout-val-text {
   font-size: 24px;
-  color: #fff;
+  color: #ffffff;
   font-weight: 900;
   margin: 3px 0;
   font-family: ui-monospace, monospace;
 }
 
-#callout-detail-text {
+#p268-callout-detail-text {
   font-size: 13px;
   color: #cbd5e1;
   font-weight: 500;
-} 
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p268-xor-stage {
+    max-width: 740px;
+  }
+
+  [id^="p268-expected-box-"],
+  [id^="p268-actual-box-"] {
+    height: 56px;
+    font-size: 20px;
+  }
+
+  #p268-range-slots-grid,
+  #p268-actual-slots-grid {
+    gap: 8px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p268-xor-canvas {
+    padding: 14px 10px 75px 10px;
+    gap: 16px;
+  }
+
+  #p268-metrics-bar {
+    gap: 8px;
+  }
+
+  #p268-metric-range,
+  #p268-metric-xor-accum,
+  #p268-metric-active-status {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+
+  #p268-metric-xor-accum b {
+    font-size: 15px;
+  }
+
+  [id^="p268-expected-box-"],
+  [id^="p268-actual-box-"] {
+    height: 48px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  [id^="p268-range-slot-sub-"],
+  [id^="p268-actual-slot-sub-"] {
+    font-size: 9px;
+  }
+
+  [id^="p268-cancel-slash-range-"],
+  [id^="p268-cancel-slash-actual-"] {
+    font-size: 20px;
+  }
+
+  #p268-gate-pill {
+    padding: 6px 16px;
+    font-size: 11px;
+  }
+
+  #p268-gate-symbol {
+    font-size: 13px;
+  }
+
+  #p268-gate-desc {
+    font-size: 11px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p268-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p268-metric-range,
+  #p268-metric-xor-accum,
+  #p268-metric-active-status {
+    justify-content: center;
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  #p268-track-header-expected,
+  #p268-track-header-actual {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  #p268-range-slots-grid,
+  #p268-actual-slots-grid {
+    gap: 4px;
+    max-width: 100%;
+  }
+
+  [id^="p268-expected-box-"],
+  [id^="p268-actual-box-"] {
+    height: 40px;
+    font-size: 15px;
+    border-radius: 8px;
+  }
+
+  [id^="p268-cancel-slash-range-"],
+  [id^="p268-cancel-slash-actual-"] {
+    font-size: 16px;
+  }
+
+  [id^="p268-range-slot-sub-"],
+  [id^="p268-actual-slot-sub-"] {
+    font-size: 7.5px;
+  }
+
+  #p268-pointer-tag-idx,
+  #p268-pointer-tag-val {
+    font-size: 8px;
+    bottom: -18px;
+  }
+
+  #p268-gate-pill {
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 12px;
+    text-align: center;
+  }
+
+  #p268-callout-val-text {
+    font-size: 18px;
+  }
+
+  #p268-callout-detail-text {
+    font-size: 11px;
+  }
+}

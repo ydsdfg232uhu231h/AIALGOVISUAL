@@ -33,30 +33,30 @@ export default function Problem778({ stepData }) {
   const maxGridVal = Math.max(...grid.flat(), 1);
 
   return (
-    <div className="canvas-wrapper swim-canvas">
+    <div id="p778-swim-canvas">
       {/* Top Telemetry */}
-      <div className="metrics-row">
-        <span className="metric-chip water-chip">
+      <div id="p778-metrics-bar">
+        <span id="p778-metric-water">
           Water Level: <b>t = {currentTime}</b>
         </span>
-        <span className="metric-chip swimmer-chip">
+        <span id="p778-metric-swimmer">
           Swimmer: <b>({currR}, {currC})</b>
         </span>
-        <span className="metric-chip heap-chip">
+        <span id="p778-metric-heap">
           Min-Heap Size: <b>{heapItems.length}</b>
         </span>
-        <span className="metric-chip target-chip">
+        <span id="p778-metric-target">
           Target: <b>({targetCell[0]}, {targetCell[1]})</b>
         </span>
       </div>
 
       {/* Main 5x5 Grid & Priority Queue Stage */}
-      <div className="swim-stage">
+      <div id="p778-swim-stage">
         {/* 5x5 Elevation Grid Card */}
-        <div className="water-grid-card">
-          <div className="grid-header-label">5x5 Elevation Terrain Grid</div>
+        <div id="p778-water-grid-card">
+          <div id="p778-grid-header-label">5x5 Elevation Terrain Grid</div>
           <div
-            className="terrain-grid terrain-grid-5"
+            id="p778-terrain-grid"
             style={{
               gridTemplateColumns: `repeat(${N}, minmax(0, 1fr))`
             }}
@@ -68,22 +68,27 @@ export default function Problem778({ stepData }) {
                 const isSubmerged = elevation <= currentTime;
                 const isTarget = r === targetCell[0] && c === targetCell[1];
 
+                let cellState = "dry";
+                if (isCurrent) cellState = "active";
+                else if (isSubmerged) cellState = "submerged";
+
                 return (
                   <motion.div
-                    key={`cell-${r}-${c}`}
-                    className={`terrain-cell ${isSubmerged ? "cell-submerged" : "cell-dry"} ${
-                      isCurrent ? "cell-active-swimmer" : ""
-                    } ${isTarget ? "cell-target-dest" : ""}`}
+                    key={`p778-cell-${r}-${c}`}
+                    id={`p778-terrain-cell-${r}-${c}`}
+                    data-cell-state={cellState}
+                    data-is-target={isTarget ? "true" : "false"}
+                    layout
                     animate={{
-                      scale: isCurrent ? 1.1 : 1
+                      scale: isCurrent ? 1.08 : 1
                     }}
-                    transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                    transition={{ type: "spring", stiffness: 340, damping: 24 }}
                   >
                     {/* Water Level Rise Fill */}
                     <AnimatePresence>
                       {isSubmerged && (
                         <motion.div
-                          className="water-surface-fill"
+                          id={`p778-water-surface-fill-${r}-${c}`}
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "100%", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
@@ -93,15 +98,15 @@ export default function Problem778({ stepData }) {
                     </AnimatePresence>
 
                     {/* Cell Content */}
-                    <div className="cell-content">
-                      <span className="elevation-val">{elevation}</span>
-                      <span className="cell-coord">({r},{c})</span>
+                    <div id={`p778-cell-content-${r}-${c}`}>
+                      <span id={`p778-elevation-val-${r}-${c}`}>{elevation}</span>
+                      <span id={`p778-cell-coord-${r}-${c}`}>({r},{c})</span>
                     </div>
 
                     {/* Swimmer Marker */}
                     {isCurrent && (
                       <motion.div
-                        className="swimmer-pin"
+                        id={`p778-swimmer-pin-${r}-${c}`}
                         initial={{ scale: 0.5, y: -6 }}
                         animate={{ scale: 1, y: 0 }}
                         transition={{ type: "spring", stiffness: 400, damping: 18 }}
@@ -110,8 +115,12 @@ export default function Problem778({ stepData }) {
                       </motion.div>
                     )}
 
-                    {isTarget && !isCurrent && <span className="dest-tag">TARGET</span>}
-                    {isVisited && !isCurrent && <span className="visited-dot" />}
+                    {isTarget && !isCurrent && (
+                      <span id={`p778-dest-tag-${r}-${c}`}>TARGET</span>
+                    )}
+                    {isVisited && !isCurrent && (
+                      <span id={`p778-visited-dot-${r}-${c}`} />
+                    )}
                   </motion.div>
                 );
               })
@@ -120,39 +129,40 @@ export default function Problem778({ stepData }) {
         </div>
 
         {/* Priority Queue (Min-Heap) Inspection */}
-        <div className="heap-panel">
-          <div className="panel-title">Min-Heap Priority Queue [t, r, c]</div>
-          <div className="heap-stream">
+        <div id="p778-heap-panel">
+          <div id="p778-panel-title">Min-Heap Priority Queue [t, r, c]</div>
+          <div id="p778-heap-stream">
             {heapItems.length === 0 ? (
-              <span className="heap-empty">Queue empty / expanding...</span>
+              <span id="p778-heap-empty">Queue empty / expanding...</span>
             ) : (
               heapItems.slice(0, 6).map(([timeVal, hr, hc], idx) => {
                 const isNextMin = idx === 0;
 
                 return (
                   <motion.div
-                    key={`heap-${hr}-${hc}-${timeVal}-${idx}`}
-                    className={`heap-chip-item ${isNextMin ? "heap-chip-min" : ""}`}
+                    key={`p778-heap-${hr}-${hc}-${timeVal}-${idx}`}
+                    id={`p778-heap-chip-${hr}-${hc}-${idx}`}
+                    data-is-min={isNextMin ? "true" : "false"}
                     initial={{ opacity: 0, x: 8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="heap-min-tag">
+                    <div id={`p778-heap-min-tag-${hr}-${hc}-${idx}`}>
                       {isNextMin ? "MIN ROOT" : `#${idx + 1}`}
                     </div>
-                    <div className="heap-coords">({hr}, {hc})</div>
-                    <div className="heap-time">Req: t={timeVal}</div>
+                    <div id={`p778-heap-coords-${hr}-${hc}-${idx}`}>({hr}, {hc})</div>
+                    <div id={`p778-heap-time-${hr}-${hc}-${idx}`}>Req: t={timeVal}</div>
                   </motion.div>
                 );
               })
             )}
           </div>
 
-          <div className="water-level-meter">
-            <span className="meter-label">Global Water Level ({currentTime} / {maxGridVal})</span>
-            <div className="meter-bar-track">
+          <div id="p778-water-level-meter">
+            <span id="p778-meter-label">Global Water Level ({currentTime} / {maxGridVal})</span>
+            <div id="p778-meter-bar-track">
               <motion.div
-                className="meter-bar-fill"
+                id="p778-meter-bar-fill"
                 animate={{ width: `${Math.min(100, (currentTime / maxGridVal) * 100)}%` }}
                 transition={{ duration: 0.3 }}
               />
@@ -161,18 +171,19 @@ export default function Problem778({ stepData }) {
         </div>
       </div>
 
-      {/* Output Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p778-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p778-callout-header-text">{output.label}</div>
+            <div id="p778-callout-val-text">{output.value}</div>
+            <div id="p778-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

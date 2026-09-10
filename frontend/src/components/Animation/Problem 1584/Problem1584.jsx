@@ -40,31 +40,31 @@ export default function Problem1584({ stepData }) {
   const scaleY = (y) => height - padY - ((y - minY) / (maxY - minY || 1)) * (height - 2 * padY);
 
   return (
-    <div className="canvas-wrapper mst-canvas">
+    <div id="p1584-mst-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip cost-chip">
+      <div id="p1584-metrics-bar">
+        <span id="p1584-metric-cost">
           Total MST Cost: <b>{res}</b>
         </span>
-        <span className="metric-chip visited-chip">
+        <span id="p1584-metric-visited">
           Connected Points: <b>{visited.length} / {points.length}</b>
         </span>
         {addedEdge && (
-          <span className="metric-chip added-chip">
+          <span id="p1584-metric-added">
             Added Edge: <b>{addedEdge}</b> (+{edgeCost})
           </span>
         )}
       </div>
 
       {/* SVG 2D Coordinate Plane */}
-      <div className="plane-card">
-        <svg viewBox={`0 0 ${width} ${height}`} className="mst-svg">
+      <div id="p1584-plane-card">
+        <svg id="p1584-mst-svg" viewBox={`0 0 ${width} ${height}`}>
           <defs>
-            <pattern id="grid8" width="28" height="28" patternUnits="userSpaceOnUse">
+            <pattern id="p1584-grid8" width="28" height="28" patternUnits="userSpaceOnUse">
               <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#22232a" strokeWidth="1" />
             </pattern>
           </defs>
-          <rect width={width} height={height} fill="url(#grid8)" />
+          <rect width={width} height={height} fill="url(#p1584-grid8)" />
 
           {/* Connected MST Edges */}
           {connectedEdges.map(([u, v], idx) => {
@@ -77,8 +77,9 @@ export default function Problem1584({ stepData }) {
             const weight = Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
 
             return (
-              <g key={`edge-${idx}-${u}-${v}`}>
+              <g key={`p1584-edge-${idx}-${u}-${v}`} id={`p1584-edge-group-${u}-${v}`}>
                 <motion.line
+                  id={`p1584-edge-line-${u}-${v}`}
                   x1={x1}
                   y1={y1}
                   x2={x2}
@@ -91,6 +92,7 @@ export default function Problem1584({ stepData }) {
                   transition={{ duration: 0.3 }}
                 />
                 <rect
+                  id={`p1584-edge-rect-${u}-${v}`}
                   x={(x1 + x2) / 2 - 11}
                   y={(y1 + y2) / 2 - 9}
                   width="22"
@@ -101,6 +103,7 @@ export default function Problem1584({ stepData }) {
                   strokeWidth="1"
                 />
                 <text
+                  id={`p1584-edge-text-${u}-${v}`}
                   x={(x1 + x2) / 2}
                   y={(y1 + y2) / 2 + 3}
                   fill="#86efac"
@@ -121,24 +124,32 @@ export default function Problem1584({ stepData }) {
             const isVisited = visitedSet.has(idx);
 
             return (
-              <g key={`pt-${idx}`}>
+              <g key={`p1584-pt-${idx}`} id={`p1584-pt-group-${idx}`}>
                 {isVisited && (
-                  <circle cx={cx} cy={cy} r="16" fill="rgba(34, 197, 94, 0.2)" />
+                  <circle
+                    id={`p1584-pt-halo-${idx}`}
+                    cx={cx}
+                    cy={cy}
+                    r="16"
+                    fill="rgba(34, 197, 94, 0.2)"
+                  />
                 )}
                 <motion.circle
+                  id={`p1584-pt-circle-${idx}`}
+                  data-is-visited={isVisited ? "true" : "false"}
                   cx={cx}
                   cy={cy}
                   r="11"
-                  fill={isVisited ? "#22c55e" : "#18181b"}
-                  stroke={isVisited ? "#86efac" : "#52525b"}
                   strokeWidth="2.5"
+                  layout
                   animate={{ scale: isVisited ? 1.08 : 1 }}
                   transition={{ type: "spring", stiffness: 350, damping: 20 }}
                 />
                 <text
+                  id={`p1584-pt-label-${idx}`}
+                  data-is-visited={isVisited ? "true" : "false"}
                   x={cx}
                   y={cy + 4}
-                  fill={isVisited ? "#000" : "#a1a1aa"}
                   fontSize="11"
                   fontWeight="800"
                   textAnchor="middle"
@@ -146,6 +157,7 @@ export default function Problem1584({ stepData }) {
                   {idx}
                 </text>
                 <text
+                  id={`p1584-pt-coords-${idx}`}
                   x={cx}
                   y={cy - 15}
                   fill="#71717a"
@@ -161,18 +173,19 @@ export default function Problem1584({ stepData }) {
         </svg>
       </div>
 
-      {/* Output Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p1584-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p1584-callout-header-text">{output.label}</div>
+            <div id="p1584-callout-val-text">{output.value}</div>
+            <div id="p1584-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -59,37 +59,37 @@ export default function Problem787({ stepData }) {
   const finalWaypointsY = finalRoute.map((node) => nodePositions[node].y);
 
   // Compute rotation angles for each path segment
-  const finalRotations = finalRoute.slice(0, -1).map((node, i) => 
+  const finalRotations = finalRoute.slice(0, -1).map((node, i) =>
     getPlaneAngle(node, finalRoute[i + 1])
   );
   // Duplicate last angle for the destination landing
   finalRotations.push(finalRotations[finalRotations.length - 1]);
 
   return (
-    <div className="canvas-wrapper flights-canvas">
+    <div id="p787-flights-canvas">
       {/* Top Metrics Row */}
-      <div className="metrics-row">
-        <span className="metric-chip src-chip">
+      <div id="p787-metrics-bar">
+        <span id="p787-metric-src">
           Source: <b>City {src}</b>
         </span>
-        <span className="metric-chip dst-chip">
+        <span id="p787-metric-dst">
           Destination: <b>City {dst}</b>
         </span>
-        <span className="metric-chip stops-chip">
+        <span id="p787-metric-stops">
           Max Stops (k): <b>{k}</b>
         </span>
-        <span className="metric-chip iter-chip">
+        <span id="p787-metric-iter">
           Stops Used: <b>{Math.min(k, Math.max(0, iteration - 1))} / {k}</b>
         </span>
       </div>
 
       {/* Flight Stage */}
-      <div className="flights-stage">
-        <div className="flight-map-card">
-          <svg viewBox="0 0 500 280" className="flight-svg">
+      <div id="p787-flights-stage">
+        <div id="p787-flight-map-card">
+          <svg id="p787-flight-svg" viewBox="0 0 500 280">
             <defs>
               <marker
-                id="arrow"
+                id="p787-arrow"
                 markerWidth="8"
                 markerHeight="6"
                 refX="18"
@@ -99,7 +99,7 @@ export default function Problem787({ stepData }) {
                 <polygon points="0 0, 8 3, 0 6" fill="#3f3f46" />
               </marker>
               <marker
-                id="arrow-active"
+                id="p787-arrow-active"
                 markerWidth="8"
                 markerHeight="6"
                 refX="18"
@@ -122,15 +122,17 @@ export default function Problem787({ stepData }) {
               const midY = (p1.y + p2.y) / 2;
 
               return (
-                <g key={`flight-${idx}`}>
+                <g key={`p787-flight-group-${idx}`} id={`p787-flight-group-${idx}`}>
                   <path
+                    id={`p787-flight-path-${idx}`}
                     d={d}
                     fill="none"
                     stroke={isShortestPath ? "#22c55e" : "#27272a"}
                     strokeWidth={isShortestPath ? "3" : "1.5"}
-                    markerEnd={isShortestPath ? "url(#arrow-active)" : "url(#arrow)"}
+                    markerEnd={isShortestPath ? "url(#p787-arrow-active)" : "url(#p787-arrow)"}
                   />
                   <rect
+                    id={`p787-flight-rect-${idx}`}
                     x={midX - 16}
                     y={midY - 9}
                     width="32"
@@ -141,6 +143,7 @@ export default function Problem787({ stepData }) {
                     strokeWidth="1"
                   />
                   <text
+                    id={`p787-flight-text-${idx}`}
                     x={midX}
                     y={midY + 3}
                     fill={isShortestPath ? "#86efac" : "#a1a1aa"}
@@ -157,6 +160,7 @@ export default function Problem787({ stepData }) {
             {/* 1. Step-by-Step Exploration Airplane */}
             {!isCompleted && activeFlight && (
               <motion.g
+                id="p787-airplane-step"
                 initial={{
                   x: nodePositions[activeFlight.from].x,
                   y: nodePositions[activeFlight.from].y,
@@ -194,9 +198,10 @@ export default function Problem787({ stepData }) {
               </motion.g>
             )}
 
-            {/* 2. Decided Full-Route Flyover Airplane (Continuous Trip 0 -> 1 -> 2 -> 4) */}
+            {/* 2. Decided Full-Route Flyover Airplane */}
             {isCompleted && (
               <motion.g
+                id="p787-airplane-final"
                 initial={{
                   x: finalWaypointsX[0],
                   y: finalWaypointsY[0],
@@ -215,11 +220,9 @@ export default function Problem787({ stepData }) {
                   times: [0, 0.33, 0.66, 1]
                 }}
               >
-                {/* Gold/Emerald Victory Engine Plume */}
                 <circle r="4" fill="#22c55e" opacity="0.5" cx="-10" />
                 <circle r="2.5" fill="#facc15" opacity="0.6" cx="-16" />
-                
-                {/* Airplane Shape with Dynamic Waypoint Tilt */}
+
                 <motion.g
                   animate={{
                     rotate: finalRotations
@@ -251,14 +254,16 @@ export default function Problem787({ stepData }) {
               const inFinalRoute = isCompleted && finalRoute.includes(idx);
 
               return (
-                <g key={`city-node-${idx}`}>
+                <g key={`p787-city-node-${idx}`} id={`p787-city-node-${idx}`}>
                   <motion.circle
+                    id={`p787-city-circle-${idx}`}
                     cx={pos.x}
                     cy={pos.y}
                     r="18"
                     fill={isSrc ? "#1e3a8a" : isDst ? "#064e3b" : inFinalRoute ? "#14532d" : "#18181b"}
                     stroke={inFinalRoute || isDst ? "#22c55e" : isSrc ? "#38bdf8" : "#52525b"}
                     strokeWidth="2"
+                    layout
                     animate={{
                       scale: inFinalRoute ? [1, 1.1, 1] : 1
                     }}
@@ -268,6 +273,7 @@ export default function Problem787({ stepData }) {
                     }}
                   />
                   <text
+                    id={`p787-city-text-${idx}`}
                     x={pos.x}
                     y={pos.y + 4}
                     fill="#fff"
@@ -278,6 +284,7 @@ export default function Problem787({ stepData }) {
                     {idx}
                   </text>
                   <text
+                    id={`p787-city-label-${idx}`}
                     x={pos.x}
                     y={pos.y - 24}
                     fill={isSrc ? "#38bdf8" : isDst ? "#86efac" : inFinalRoute ? "#4ade80" : "#71717a"}
@@ -294,18 +301,24 @@ export default function Problem787({ stepData }) {
         </div>
 
         {/* DP Prices Relaxation Array */}
-        <div className="prices-table-card">
-          <div className="table-title">Bellman-Ford Shortest Prices (k = {k} Stops)</div>
-          <div className="prices-grid">
+        <div id="p787-prices-table-card">
+          <div id="p787-table-title">Bellman-Ford Shortest Prices (k = {k} Stops)</div>
+          <div id="p787-prices-grid">
             {prices.map((p, idx) => {
               const isUpdated = p !== "INF";
               const inFinalRoute = isCompleted && finalRoute.includes(idx);
 
+              let badgeState = "inf";
+              if (inFinalRoute) badgeState = "final";
+              else if (isUpdated) badgeState = "updated";
+
               return (
-                <div key={`price-col-${idx}`} className="price-col">
-                  <span className="col-node-label">City {idx}</span>
+                <div key={`p787-price-col-${idx}`} id={`p787-price-col-${idx}`}>
+                  <span id={`p787-col-node-label-${idx}`}>City {idx}</span>
                   <motion.div
-                    className={`price-badge ${inFinalRoute ? "badge-final" : isUpdated ? "badge-updated" : "badge-inf"}`}
+                    id={`p787-price-badge-${idx}`}
+                    data-badge-state={badgeState}
+                    layout
                     animate={{ scale: isUpdated ? 1.04 : 1 }}
                     transition={{ duration: 0.2 }}
                   >
@@ -318,18 +331,19 @@ export default function Problem787({ stepData }) {
         </div>
       </div>
 
-      {/* Output Callout */}
+      {/* Output Callout (Elevated safely above playback controls) */}
       <AnimatePresence>
         {output && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            id="p787-result-callout-box"
+            initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="result-callout"
+            exit={{ opacity: 0, scale: 0.92, y: 10 }}
+            transition={{ type: "spring", stiffness: 360, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p787-callout-header-text">{output.label}</div>
+            <div id="p787-callout-val-text">{output.value}</div>
+            <div id="p787-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

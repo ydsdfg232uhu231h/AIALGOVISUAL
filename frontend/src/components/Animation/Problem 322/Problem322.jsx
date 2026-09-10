@@ -16,68 +16,102 @@ export default function Problem322({ stepData }) {
   const isComplete = status === "COMPLETED";
 
   return (
-    <div className="canvas-wrapper coin-change-canvas">
+    <div id="p322-coin-change-canvas">
       {/* Metrics Row */}
-      <div className="metrics-row">
-        <div className="coins-rack">
-          <span className="rack-label">Coins:</span>
+      <div id="p322-metrics-row">
+        <div id="p322-coins-rack">
+          <span id="p322-rack-label">Coins:</span>
           {coins.map((c) => (
             <span
-              key={`coin-${c}`}
-              className={`coin-chip ${activeCoin === c ? "coin-active" : ""}`}
+              key={`p322-coin-${c}`}
+              id={`p322-coin-chip-${c}`}
+              data-is-active={activeCoin === c ? "true" : "false"}
             >
               ¢{c}
             </span>
           ))}
         </div>
 
-        <span className="metric-chip target-chip">
+        <span id="p322-metric-target">
           Evaluating Amount: <b>a = {a}</b>
         </span>
 
         {activeCoin && a >= activeCoin && (
-          <span className="metric-chip lookback-chip">
+          <span id="p322-metric-lookback">
             Lookback (a - {activeCoin}): <b>dp[{a - activeCoin}]</b>
           </span>
         )}
 
         {minCoins !== undefined && (
-          <span className="metric-chip result-chip">
+          <span id="p322-metric-result">
             Min Coins: <b>{minCoins}</b>
           </span>
         )}
       </div>
 
       {/* 1D DP Array Track */}
-      <div className="dp-table-container">
-        <div className="dp-row-label">dp[amount]:</div>
-        <div className="dp-cells-stream">
+      <div id="p322-dp-table-container">
+        <div id="p322-dp-row-label">dp[amount]:</div>
+        <div id="p322-dp-cells-stream">
           {dp.map((val, amountIdx) => {
             const isCurrent = amountIdx === a;
             const isLookback = activeCoin && amountIdx === a - activeCoin;
             const isTarget = isComplete && amountIdx === dp.length - 1;
             const isInf = val === "INF";
 
+            let nodeState = isInf ? "inf" : "computed";
+            if (isTarget) nodeState = "target";
+            else if (isCurrent) nodeState = "curr";
+            else if (isLookback) nodeState = "lookback";
+
             return (
-              <div key={`cell-${amountIdx}`} className="dp-column">
+              <div key={`p322-cell-${amountIdx}`} id={`p322-dp-col-${amountIdx}`}>
                 {/* Pointer Slot */}
-                <div className="ptrs-group">
-                  {isLookback && <span className="pointer-tag ptr-lookback">a - c</span>}
-                  {isCurrent && !isComplete && <span className="pointer-tag ptr-curr">curr</span>}
+                <div id={`p322-ptrs-group-${amountIdx}`}>
+                  <AnimatePresence mode="popLayout">
+                    {isLookback && (
+                      <motion.span
+                        key="p322-ptr-lookback"
+                        layoutId="p322-ptr-lookback"
+                        id={`p322-pointer-tag-lookback-${amountIdx}`}
+                        data-ptr="lookback"
+                        initial={{ y: -6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        a - c
+                      </motion.span>
+                    )}
+                    {isCurrent && !isComplete && (
+                      <motion.span
+                        key="p322-ptr-curr"
+                        layoutId="p322-ptr-curr"
+                        id={`p322-pointer-tag-curr-${amountIdx}`}
+                        data-ptr="curr"
+                        initial={{ y: -6, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -6, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                      >
+                        curr
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Value Box */}
                 <motion.div
-                  className={`dp-node ${isCurrent ? "node-curr" : ""} ${
-                    isLookback ? "node-lookback" : ""
-                  } ${isTarget ? "node-target" : ""} ${isInf ? "node-inf" : "node-computed"}`}
+                  id={`p322-dp-node-${amountIdx}`}
+                  data-node-state={nodeState}
+                  layout
                   animate={{
                     scale: isCurrent || isTarget ? 1.08 : 1
                   }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 20 }}
                 >
-                  <span className="val-text">{isInf ? "∞" : val}</span>
-                  <span className="idx-text">[{amountIdx}]</span>
+                  <span id={`p322-val-text-${amountIdx}`}>{isInf ? "∞" : val}</span>
+                  <span id={`p322-idx-text-${amountIdx}`}>[{amountIdx}]</span>
                 </motion.div>
               </div>
             );
@@ -89,14 +123,15 @@ export default function Problem322({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p322-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p322-callout-header-text">{output.label}</div>
+            <div id="p322-callout-val-text">{output.value}</div>
+            <div id="p322-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -52,39 +52,42 @@ export default function Problem226({ stepData }) {
   ];
 
   return (
-    <div id="invert-tree-canvas">
+    <div id="p226-invert-tree-canvas">
       {/* Top Metrics Row */}
-      <div id="metrics-bar">
-        <span id="metric-root">
+      <div id="p226-metrics-bar">
+        <span id="p226-metric-root">
           Root: <b>Node (4)</b>
         </span>
 
-        <span id="metric-swapping">
+        <span id="p226-metric-swapping">
           Swapping Pair: <b>{activeSwapPair.length === 2 ? `[${activeSwapPair[0]} ⇄ ${activeSwapPair[1]}]` : "None"}</b>
         </span>
 
-        <span id="metric-swapped-count">
+        <span id="p226-metric-swapped-count">
           Swapped: <b>{swappedNodes.length} / 4 nodes</b>
         </span>
 
-        <span id={isCompleted ? "metric-status-done" : activeSwapPair.length ? "metric-status-swapping" : "metric-status-active"}>
+        <span
+          id="p226-metric-status"
+          data-status={isCompleted ? "done" : activeSwapPair.length ? "swapping" : "active"}
+        >
           Status: <b>{isCompleted ? "ALL SUBTREES INVERTED" : activeSwapPair.length ? "MIRRORING SUBTREES" : "POST-ORDER DFS"}</b>
         </span>
       </div>
 
-      <div id="invert-stage">
+      <div id="p226-invert-stage">
         {/* Main Tree Card */}
-        <div id="tree-card">
-          <div id="tree-card-header">
-            <span id="tree-header-title">Multi-Level Binary Tree Mirror Inversion</span>
-            <span id="tree-header-sub">Right child (7) contains children (6, 9)</span>
+        <div id="p226-tree-card">
+          <div id="p226-tree-card-header">
+            <span id="p226-tree-header-title">Multi-Level Binary Tree Mirror Inversion</span>
+            <span id="p226-tree-header-sub">Right child (7) contains children (6, 9)</span>
           </div>
 
-          <div id="tree-viewport">
-            <svg id="tree-svg-surface" viewBox="0 0 440 240">
+          <div id="p226-tree-viewport">
+            <svg id="p226-tree-svg-surface" viewBox="0 0 440 240">
               {/* Central Mirror Axis */}
-              <line id="mirror-axis" x1="220" y1="15" x2="220" y2="225" />
-              <text id="mirror-label" x="225" y="225">MIRROR AXIS</text>
+              <line id="p226-mirror-axis" x1="220" y1="15" x2="220" y2="225" />
+              <text id="p226-mirror-label" x="225" y="225">MIRROR AXIS</text>
 
               {/* Dynamic Connecting Edges */}
               {edges.map(({ p, c }) => {
@@ -94,8 +97,9 @@ export default function Problem226({ stepData }) {
 
                 return (
                   <line
-                    key={`edge-${p}-${c}`}
-                    id={isEdgeDone ? `edge-done-${p}-${c}` : `edge-normal-${p}-${c}`}
+                    key={`p226-edge-${p}-${c}`}
+                    id={`p226-edge-${p}-${c}`}
+                    data-edge-state={isEdgeDone ? "done" : "normal"}
                     x1={parentSlot.cx}
                     y1={parentSlot.cy}
                     x2={childSlot.cx}
@@ -111,33 +115,46 @@ export default function Problem226({ stepData }) {
                 const isSwapping = activeSwapPair.includes(val);
                 const isSwapped = isCompleted || swappedNodes.includes(val);
 
-                let circleId = `node-idle-${val}`;
-                if (isCompleted || isSwapped) {
-                  circleId = `node-complete-${val}`;
-                } else if (isSwapping) {
-                  circleId = `node-swap-${val}`;
-                }
+                let nodeState = "idle";
+                if (isCompleted || isSwapped) nodeState = "complete";
+                else if (isSwapping) nodeState = "swap";
 
                 return (
                   <motion.g
-                    key={`g-node-${val}`}
-                    id={`g-node-${val}`}
+                    key={`p226-g-node-${val}`}
+                    id={`p226-g-node-${val}`}
                     animate={{ x: pos.cx, y: pos.cy }}
                     transition={{ type: "spring", stiffness: 280, damping: 24 }}
                   >
                     {isCompleted && (
-                      <circle id={`halo-complete-${val}`} cx={0} cy={0} r="28" />
+                      <circle id={`p226-halo-complete-${val}`} cx={0} cy={0} r="28" />
                     )}
                     {isSwapping && (
-                      <circle id={`halo-swap-${val}`} cx={0} cy={0} r="26" />
+                      <circle id={`p226-halo-swap-${val}`} cx={0} cy={0} r="26" />
                     )}
 
-                    <circle id={circleId} cx={0} cy={0} r="21" />
+                    <circle
+                      id={`p226-node-circle-${val}`}
+                      data-node-state={nodeState}
+                      cx={0}
+                      cy={0}
+                      r="21"
+                    />
 
-                    <text id={`text-val-${val}`} x={0} y={1}>
+                    <text
+                      id={`p226-text-val-${val}`}
+                      data-node-state={nodeState}
+                      x={0}
+                      y={1}
+                    >
                       {val}
                     </text>
-                    <text id={`text-sub-${val}`} x={0} y={30}>
+                    <text
+                      id={`p226-text-sub-${val}`}
+                      data-node-state={nodeState}
+                      x={0}
+                      y={30}
+                    >
                       {label}
                     </text>
                   </motion.g>
@@ -148,30 +165,39 @@ export default function Problem226({ stepData }) {
         </div>
 
         {/* Tree State Inspection Card */}
-        <div id="swap-tracker-card">
-          <div id="swap-card-header">
-            <span id="swap-header-title">Subtree Swap Order</span>
-            <span id="swap-header-sub">Bottom-up: leaves swap first, then parent branches</span>
+        <div id="p226-swap-tracker-card">
+          <div id="p226-swap-card-header">
+            <span id="p226-swap-header-title">Subtree Swap Order</span>
+            <span id="p226-swap-header-sub">Bottom-up: leaves swap first, then parent branches</span>
           </div>
 
-          <div id="swap-grid">
-            <div id="swap-box-subright">
-              <span id="swap-title-subright">1. Right Subtree (7's Children):</span>
-              <span id={swappedNodes.includes(6) ? "swap-val-done" : "swap-val-pending"}>
+          <div id="p226-swap-grid">
+            <div id="p226-swap-box-subright">
+              <span id="p226-swap-title-subright">1. Right Subtree (7's Children):</span>
+              <span
+                id="p226-swap-val-subright"
+                data-val-state={swappedNodes.includes(6) ? "done" : "pending"}
+              >
                 {swappedNodes.includes(6) ? "Leaves Swapped: [9, 6] ✓" : "Original: left=6, right=9"}
               </span>
             </div>
 
-            <div id="swap-box-main">
-              <span id="swap-title-main">2. Root (4's Children):</span>
-              <span id={swappedNodes.includes(7) ? "swap-val-done" : "swap-val-pending"}>
+            <div id="p226-swap-box-main">
+              <span id="p226-swap-title-main">2. Root (4's Children):</span>
+              <span
+                id="p226-swap-val-main"
+                data-val-state={swappedNodes.includes(7) ? "done" : "pending"}
+              >
                 {swappedNodes.includes(7) ? "Branches Swapped: left=[7...], right=[2] ✓" : "Original: left=2, right=7"}
               </span>
             </div>
 
-            <div id="swap-box-verdict">
-              <span id="swap-title-verdict">Overall Inversion:</span>
-              <span id={isCompleted ? "swap-val-done" : "swap-val-pending"}>
+            <div id="p226-swap-box-verdict">
+              <span id="p226-swap-title-verdict">Overall Inversion:</span>
+              <span
+                id="p226-swap-val-verdict"
+                data-val-state={isCompleted ? "done" : "pending"}
+              >
                 {isCompleted ? "MIRROR COMPLETE ✓" : "SWAPPING IN PROGRESS"}
               </span>
             </div>
@@ -183,14 +209,15 @@ export default function Problem226({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p226-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p226-callout-header-text">{output.label}</div>
+            <div id="p226-callout-val-text">{output.value}</div>
+            <div id="p226-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

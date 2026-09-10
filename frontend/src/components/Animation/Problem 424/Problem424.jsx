@@ -19,47 +19,41 @@ export default function Problem424({ stepData }) {
   const isDanger = replacementsNeeded > k;
   const isCompleted = !!output || state.status === "COMPLETED";
 
+  let statusState = "checking";
+  if (isDanger) statusState = "danger";
+  else if (isCompleted) statusState = "done";
+
   return (
-    <div id="char-replace-canvas">
-      {/* Metrics Row */}
-      <div id="metrics-bar">
-        <span id="status-pill-window-size">
+    <div id="p424-char-replace-canvas">
+      {/* Metrics Top Bar */}
+      <div id="p424-metrics-bar">
+        <span id="p424-status-pill-window-size">
           Window Size: <b>{windowLen}</b>
         </span>
-        <span id="status-pill-max-f">
+        <span id="p424-status-pill-max-f">
           Max Frequency (maxF): <b>{maxF}</b>
         </span>
         <span
-          id={
-            isDanger
-              ? "status-pill-replacements-danger"
-              : isCompleted
-              ? "status-pill-replacements-done"
-              : "status-pill-replacements-checking"
-          }
+          id="p424-status-pill-replacements"
+          data-status={statusState}
         >
           Replacements Needed (len - maxF):{" "}
           <b>
             {replacementsNeeded} / {k}
           </b>
         </span>
-        <span id="status-pill-best">
+        <span id="p424-status-pill-best">
           Longest Valid: <b>{maxLen ?? res}</b>
         </span>
       </div>
 
       {/* Characters Track */}
-      <div id="chars-ribbon-track">
+      <div id="p424-chars-ribbon-track">
         {chars.map((char, idx) => {
           const inWindow = idx >= left && idx <= right;
           const isLeft = idx === left;
           const isRight = idx === right;
 
-          // State determination:
-          // 1. Outside window -> "out"
-          // 2. Completed final answer -> "complete" (Green)
-          // 3. Invalid (needs > k replacements) -> "danger" (Red)
-          // 4. In active window -> "checking" (Yellow)
           let boxState = "out";
           if (inWindow) {
             if (isCompleted) boxState = "complete";
@@ -68,32 +62,32 @@ export default function Problem424({ stepData }) {
           }
 
           return (
-            <div key={`char-col-${idx}`} id={`char-col-${idx}`}>
+            <div key={`p424-char-col-${idx}`} id={`p424-char-col-${idx}`}>
               {/* Pointer Badges */}
-              <div id={`ptrs-track-${idx}`}>
-                <AnimatePresence>
+              <div id={`p424-ptrs-track-${idx}`}>
+                <AnimatePresence mode="popLayout">
                   {isLeft && (
                     <motion.span
-                      layoutId="ptr-left"
-                      id={`ptr-badge-l-${idx}`}
+                      key="p424-ptr-l"
+                      layoutId="p424-ptr-l"
+                      id={`p424-ptr-badge-l-${idx}`}
                       initial={{ y: -8, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: -8, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
                     >
                       L
                     </motion.span>
                   )}
-                </AnimatePresence>
-                <AnimatePresence>
                   {isRight && (
                     <motion.span
-                      layoutId="ptr-right"
-                      id={`ptr-badge-r-${idx}`}
+                      key="p424-ptr-r"
+                      layoutId="p424-ptr-r"
+                      id={`p424-ptr-badge-r-${idx}`}
                       initial={{ y: -8, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: -8, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
                     >
                       R
                     </motion.span>
@@ -103,7 +97,9 @@ export default function Problem424({ stepData }) {
 
               {/* Character Box */}
               <motion.div
-                id={`char-box-${boxState}-${idx}`}
+                id={`p424-char-box-${idx}`}
+                data-box-state={boxState}
+                layout
                 animate={{
                   scale: inWindow ? 1.08 : 0.95,
                   opacity: inWindow ? 1 : 0.35
@@ -112,11 +108,11 @@ export default function Problem424({ stepData }) {
               >
                 {char}
                 {isCompleted && inWindow && (
-                  <span id={`complete-tag-${idx}`}>BEST</span>
+                  <span id={`p424-complete-tag-${idx}`}>BEST</span>
                 )}
               </motion.div>
 
-              <span id={`idx-tag-${idx}`}>[{idx}]</span>
+              <span id={`p424-idx-tag-${idx}`}>[{idx}]</span>
             </div>
           );
         })}
@@ -125,11 +121,8 @@ export default function Problem424({ stepData }) {
       {/* Substring Preview */}
       {windowStr && (
         <div
-          id={
-            isCompleted
-              ? "window-preview-box-complete"
-              : "window-preview-box-checking"
-          }
+          id="p424-window-preview-box"
+          data-preview-state={isCompleted ? "complete" : "checking"}
         >
           {isCompleted ? "Optimal Result Substring: " : "Active Window Substring: "}
           <b>"{windowStr}"</b>
@@ -140,14 +133,15 @@ export default function Problem424({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
-            id="result-callout-box"
+            id="p424-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 15 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div id="callout-header-text">{output.label}</div>
-            <div id="callout-val-text">{output.value}</div>
-            <div id="callout-detail-text">{output.detail}</div>
+            <div id="p424-callout-header-text">{output.label}</div>
+            <div id="p424-callout-val-text">{output.value}</div>
+            <div id="p424-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

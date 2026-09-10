@@ -23,56 +23,55 @@ export default function Problem355({ stepData }) {
   const users = [1, 2, 3, 4];
 
   return (
-    <div className="canvas-wrapper twitter-canvas">
+    <div id="p355-twitter-canvas">
       {/* Top Telemetry */}
-      <div className="metrics-row">
-        <span className="metric-chip action-chip">
+      <div id="p355-metrics-bar">
+        <span id="p355-metric-action">
           Action: <b>{activeAction || "System Idle"}</b>
         </span>
-        <span className="metric-chip feed-chip">
+        <span id="p355-metric-feed">
           Viewing Feed of: <b>User {focusUser}</b>
         </span>
-        <span className="metric-chip heap-chip">
+        <span id="p355-metric-heap">
           Heap Frontier: <b>{heap.length} candidates</b>
         </span>
-        <span className="metric-chip total-chip">
+        <span id="p355-metric-total">
           Total Generated Feed: <b>{feed.length} tweets</b>
         </span>
       </div>
 
-      <div className="twitter-stage">
+      <div id="p355-twitter-stage">
         {/* Left Column: 4 User Accounts & Follow Lists */}
-        <div className="users-column">
-          <div className="column-title">User Timelines & Follow Graph</div>
-          <div className="users-grid">
+        <div id="p355-users-column">
+          <div id="p355-users-title">User Timelines &amp; Follow Graph</div>
+          <div id="p355-users-grid">
             {users.map((uid) => {
-              const theme = USER_THEMES[uid] || USER_THEMES[1];
               const userTweets = tweetMap[uid] || [];
               const userFollows = followMap[uid] || [];
               const isViewer = uid === focusUser;
 
               return (
                 <div
-                  key={`user-card-${uid}`}
-                  className={`user-profile-card ${isViewer ? "user-card-active" : ""}`}
-                  style={{ borderLeftColor: theme.border }}
+                  key={`p355-user-${uid}`}
+                  id={`p355-user-card-${uid}`}
+                  data-user-id={uid}
+                  data-is-viewer={isViewer ? "true" : "false"}
                 >
-                  <div className="user-card-header">
+                  <div id={`p355-user-card-header-${uid}`}>
                     <div
-                      className="user-avatar"
-                      style={{
-                        color: theme.text,
-                        borderColor: theme.border,
-                        backgroundColor: theme.bg
-                      }}
+                      id={`p355-user-avatar-${uid}`}
+                      data-user-id={uid}
                     >
                       U{uid}
                     </div>
-                    <div className="user-meta">
-                      <span className="user-handle">
-                        User {uid} {isViewer && <span className="viewer-badge">(Viewer)</span>}
+                    <div id={`p355-user-meta-${uid}`}>
+                      <span id={`p355-user-handle-${uid}`}>
+                        User {uid}{" "}
+                        {isViewer && (
+                          <span id={`p355-viewer-badge-${uid}`}>(Viewer)</span>
+                        )}
                       </span>
-                      <span className="user-following-count">
+                      <span id={`p355-user-following-count-${uid}`}>
                         Following:{" "}
                         {userFollows.length
                           ? userFollows.map((f) => `U${f}`).join(", ")
@@ -82,25 +81,29 @@ export default function Problem355({ stepData }) {
                   </div>
 
                   {/* Tweet Stream */}
-                  <div className="user-tweets-strip">
+                  <div id={`p355-user-tweets-strip-${uid}`}>
                     {userTweets.length === 0 ? (
-                      <span className="empty-tweets">No tweets</span>
+                      <span id={`p355-empty-tweets-${uid}`}>No tweets</span>
                     ) : (
                       userTweets.map((tw, idx) => (
                         <motion.div
-                          key={`tw-${uid}-${tw.id}-${idx}`}
-                          className="tweet-pill"
-                          style={{
-                            borderColor: theme.border,
-                            backgroundColor: theme.bg
-                          }}
+                          key={`p355-tw-${uid}-${tw.id}-${idx}`}
+                          id={`p355-tw-pill-${uid}-${tw.id}-${idx}`}
+                          data-user-id={uid}
+                          layout
                           initial={{ scale: 0.8, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
+                          transition={{ type: "spring", stiffness: 350, damping: 20 }}
                         >
-                          <span className="tw-id" style={{ color: theme.text }}>
+                          <span
+                            id={`p355-tw-id-${uid}-${tw.id}-${idx}`}
+                            data-user-id={uid}
+                          >
                             #{tw.id}
                           </span>
-                          <span className="tw-time">t={tw.time}</span>
+                          <span id={`p355-tw-time-${uid}-${tw.id}-${idx}`}>
+                            t={tw.time}
+                          </span>
                         </motion.div>
                       ))
                     )}
@@ -112,40 +115,41 @@ export default function Problem355({ stepData }) {
         </div>
 
         {/* Center: Priority Queue (Max-Heap) */}
-        <div className="heap-column">
-          <div className="column-title">Max-Heap Priority Queue</div>
-          <div className="heap-canister">
+        <div id="p355-heap-column">
+          <div id="p355-heap-title">Max-Heap Priority Queue</div>
+          <div id="p355-heap-canister">
             {heap.length === 0 ? (
-              <span className="empty-state-text">Heap Empty / All Extracted</span>
+              <span id="p355-empty-heap-text">Heap Empty / All Extracted</span>
             ) : (
               heap.map((item, idx) => {
                 const isTop = idx === 0;
-                const theme = USER_THEMES[item.userId] || USER_THEMES[1];
 
                 return (
                   <motion.div
-                    key={`heap-item-${item.id}-${idx}`}
-                    className={`heap-card ${isTop ? "heap-card-top" : ""}`}
-                    initial={{ scale: 0.85, y: -8 }}
-                    animate={{ scale: 1, y: 0 }}
+                    key={`p355-heap-item-${item.id}-${idx}`}
+                    id={`p355-heap-card-${item.id}-${idx}`}
+                    data-is-top={isTop ? "true" : "false"}
+                    layout
+                    initial={{ scale: 0.85, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="heap-card-main">
-                      <span className="heap-tw-id">Tweet #{item.id}</span>
+                    <div id={`p355-heap-card-main-${item.id}-${idx}`}>
+                      <span id={`p355-heap-tw-id-${item.id}-${idx}`}>
+                        Tweet #{item.id}
+                      </span>
                       <span
-                        className="heap-owner-badge"
-                        style={{
-                          color: theme.text,
-                          borderColor: theme.border,
-                          backgroundColor: theme.bg
-                        }}
+                        id={`p355-heap-owner-badge-${item.id}-${idx}`}
+                        data-user-id={item.userId}
                       >
                         U{item.userId}
                       </span>
                     </div>
-                    <div className="heap-card-footer">
-                      <span className="heap-time-badge">Timestamp: {item.time}</span>
-                      {isTop && <span className="top-pill">MAX RECENCY</span>}
+                    <div id={`p355-heap-card-footer-${item.id}-${idx}`}>
+                      <span id={`p355-heap-time-badge-${item.id}-${idx}`}>
+                        Timestamp: {item.time}
+                      </span>
+                      {isTop && <span id="p355-top-pill">MAX RECENCY</span>}
                     </div>
                   </motion.div>
                 );
@@ -155,39 +159,41 @@ export default function Problem355({ stepData }) {
         </div>
 
         {/* Right: Merged Chronological News Feed */}
-        <div className="feed-column">
-          <div className="column-title">User {focusUser}'s Merged Feed</div>
-          <div className="feed-stream">
+        <div id="p355-feed-column">
+          <div id="p355-feed-title">User {focusUser}'s Merged Feed</div>
+          <div id="p355-feed-stream">
             {feed.length === 0 ? (
-              <span className="empty-state-text">Feed is empty</span>
+              <span id="p355-empty-feed-text">Feed is empty</span>
             ) : (
               feed.map((tweetObj, idx) => {
                 const twId = typeof tweetObj === "object" ? tweetObj.id : tweetObj;
                 const authorId = typeof tweetObj === "object" ? tweetObj.userId : null;
-                const theme = USER_THEMES[authorId] || USER_THEMES[1];
 
                 return (
                   <motion.div
-                    key={`feed-item-${twId}-${idx}`}
-                    className="feed-tweet-card"
+                    key={`p355-feed-item-${twId}-${idx}`}
+                    id={`p355-feed-card-${twId}-${idx}`}
+                    layout
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.08 }}
                   >
-                    <div className="feed-rank">#{idx + 1}</div>
-                    <div className="feed-content">
-                      <div className="feed-header-line">
-                        <span className="feed-tw-title">Tweet ID {twId}</span>
+                    <div id={`p355-feed-rank-${idx}`}>#{idx + 1}</div>
+                    <div id={`p355-feed-content-${idx}`}>
+                      <div id={`p355-feed-header-line-${idx}`}>
+                        <span id={`p355-feed-tw-title-${idx}`}>Tweet ID {twId}</span>
                         {authorId && (
                           <span
-                            className="feed-author"
-                            style={{ color: theme.text, borderColor: theme.border }}
+                            id={`p355-feed-author-${idx}`}
+                            data-user-id={authorId}
                           >
                             U{authorId}
                           </span>
                         )}
                       </div>
-                      <span className="feed-tw-sub">Aggregated by recency rank</span>
+                      <span id={`p355-feed-tw-sub-${idx}`}>
+                        Aggregated by recency rank
+                      </span>
                     </div>
                   </motion.div>
                 );
@@ -201,14 +207,15 @@ export default function Problem355({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p355-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p355-callout-header-text">{output.label}</div>
+            <div id="p355-callout-val-text">{output.value}</div>
+            <div id="p355-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

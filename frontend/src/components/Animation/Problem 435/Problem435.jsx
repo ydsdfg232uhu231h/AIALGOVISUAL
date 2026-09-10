@@ -23,59 +23,59 @@ export default function Problem435({ stepData }) {
   const toWidth = (start, end) => `${((end - start) / totalUnits) * 100}%`;
 
   return (
-    <div className="canvas-wrapper intervals-canvas">
+    <div id="p435-intervals-canvas">
       {/* Top Telemetry */}
-      <div className="metrics-row">
-        <span className="metric-chip prev-chip">
+      <div id="p435-metrics-bar">
+        <span id="p435-metric-prev">
           prevEnd Sweep Boundary: <b>t = {prevEnd}</b>
         </span>
-        <span className="metric-chip removed-chip">
+        <span id="p435-metric-removed">
           Removed: <b>{res} intervals</b>
         </span>
-        <span className="metric-chip total-chip">
+        <span id="p435-metric-total">
           Total Intervals: <b>{intervals.length}</b>
         </span>
         {currentIndex !== null && intervals[currentIndex] && (
-          <span className="metric-chip active-chip">
+          <span id="p435-metric-active">
             Inspecting: <b>[{intervals[currentIndex][0]}, {intervals[currentIndex][1]}]</b>
           </span>
         )}
       </div>
 
       {/* Main Timeline Stage */}
-      <div className="intervals-stage">
-        <div className="timeline-card">
-          <div className="card-header-bar">
-            <span>Greedy Interval Sweep (Full Timeline 0 ➔ {maxTime})</span>
-            <span className="guideline-legend">| prevEnd boundary</span>
+      <div id="p435-intervals-stage">
+        <div id="p435-timeline-card">
+          <div id="p435-card-header-bar">
+            <span id="p435-card-title">Greedy Interval Sweep (Timeline 0 ➔ {maxTime})</span>
+            <span id="p435-guideline-legend">| prevEnd boundary</span>
           </div>
 
           {/* Timeline Coordinate Axis */}
-          <div className="timeline-axis">
+          <div id="p435-timeline-axis">
             {Array.from({ length: maxTime - minTime + 1 }).map((_, i) => {
               const val = minTime + i;
               return (
                 <div
-                  key={`axis-${val}`}
-                  className="axis-tick"
+                  key={`p435-axis-${val}`}
+                  id={`p435-axis-tick-${val}`}
                   style={{ left: toPercent(val) }}
                 >
-                  <span className="tick-line" />
-                  <span className="tick-val">{val}</span>
+                  <span id={`p435-tick-line-${val}`} />
+                  <span id={`p435-tick-val-${val}`}>{val}</span>
                 </div>
               );
             })}
           </div>
 
           {/* Intervals Stack Track */}
-          <div className="intervals-track intervals-track-8">
+          <div id="p435-intervals-track">
             {/* Continuous Sweep Guideline */}
             <motion.div
-              className="prev-end-line"
+              id="p435-prev-end-line"
               animate={{ left: toPercent(prevEnd) }}
               transition={{ type: "spring", stiffness: 220, damping: 24 }}
             >
-              <span className="line-tag">prevEnd = {prevEnd}</span>
+              <span id="p435-line-tag">prevEnd = {prevEnd}</span>
             </motion.div>
 
             {intervals.map(([start, end], idx) => {
@@ -83,15 +83,16 @@ export default function Problem435({ stepData }) {
               const isActive = idx === currentIndex;
 
               return (
-                <div key={`interval-${idx}-${start}-${end}`} className="interval-row">
+                <div key={`p435-interval-row-${idx}`} id={`p435-interval-row-${idx}`}>
                   <motion.div
-                    className={`interval-bar ${isRemoved ? "bar-removed" : "bar-kept"} ${
-                      isActive ? "bar-active" : ""
-                    }`}
+                    id={`p435-interval-bar-${idx}`}
+                    data-bar-state={isRemoved ? "removed" : "kept"}
+                    data-is-active={isActive ? "true" : "false"}
                     style={{
                       left: toPercent(start),
                       width: toWidth(start, end)
                     }}
+                    layout
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{
                       scale: isActive ? 1.04 : 1,
@@ -99,8 +100,12 @@ export default function Problem435({ stepData }) {
                     }}
                     transition={{ duration: 0.22 }}
                   >
-                    <span className="interval-label">[{start}, {end}]</span>
-                    {isRemoved && <span className="removed-badge">✕ REMOVED</span>}
+                    <span id={`p435-interval-label-${idx}`}>
+                      [{start}, {end}]
+                    </span>
+                    {isRemoved && (
+                      <span id={`p435-removed-badge-${idx}`}>✕ REMOVED</span>
+                    )}
                   </motion.div>
                 </div>
               );
@@ -109,21 +114,22 @@ export default function Problem435({ stepData }) {
         </div>
       </div>
 
-      {/* Result Callout */}
+      {/* Result Callout (Elevated safely above playback scrubber) */}
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p435-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p435-callout-header-text">{output.label}</div>
+            <div id="p435-callout-val-text">{output.value}</div>
+            <div id="p435-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-}
+} 

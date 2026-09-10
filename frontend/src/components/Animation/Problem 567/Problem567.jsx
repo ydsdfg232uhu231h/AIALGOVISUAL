@@ -24,14 +24,20 @@ export default function Problem567({ stepData }) {
           <span id="p567-target-card-freq">c1: {c1}</span>
         </div>
 
-        <div id={isMatch ? "p567-window-card-matched" : "p567-window-card-idle"}>
+        <div
+          id="p567-window-card"
+          data-window-state={isMatch ? "matched" : "idle"}
+        >
           <span id="p567-window-card-label">Current Window (c2):</span>
           <span id="p567-window-card-val">{windowStr ? `"${windowStr}"` : "sliding..."}</span>
           <span id="p567-window-card-freq">c2: {c2}</span>
         </div>
 
         {match && (
-          <div id={isMatch ? "p567-match-badge-success" : "p567-match-badge-mismatch"}>
+          <div
+            id="p567-match-badge"
+            data-match-state={isMatch ? "matched" : "mismatch"}
+          >
             {isMatch ? "MATCH FOUND (c1 == c2)" : "NO MATCH"}
           </div>
         )}
@@ -52,13 +58,41 @@ export default function Problem567({ stepData }) {
             <div key={`p567-node-${idx}`} id={`p567-char-node-col-${idx}`}>
               {/* Pointer Badges */}
               <div id={`p567-ptrs-track-${idx}`}>
-                {isLeft && <span id={`p567-ptr-badge-l-${idx}`}>L</span>}
-                {isRight && <span id={`p567-ptr-badge-r-${idx}`}>R</span>}
+                <AnimatePresence mode="popLayout">
+                  {isLeft && (
+                    <motion.span
+                      key="p567-ptr-l"
+                      layoutId="p567-ptr-l"
+                      id={`p567-ptr-badge-l-${idx}`}
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      L
+                    </motion.span>
+                  )}
+                  {isRight && (
+                    <motion.span
+                      key="p567-ptr-r"
+                      layoutId="p567-ptr-r"
+                      id={`p567-ptr-badge-r-${idx}`}
+                      initial={{ y: -6, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -6, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 26 }}
+                    >
+                      R
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Animated Character Tile */}
               <motion.div
-                id={`p567-char-tile-${tileState}-${idx}`}
+                id={`p567-char-tile-${idx}`}
+                data-tile-state={tileState}
+                layout
                 animate={{
                   scale: inWindow ? 1.08 : 0.95,
                   opacity: inWindow ? 1 : 0.35
@@ -82,6 +116,7 @@ export default function Problem567({ stepData }) {
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
             <div id="p567-callout-header-text">{output.label}</div>
             <div id="p567-callout-val-text">{output.value}</div>

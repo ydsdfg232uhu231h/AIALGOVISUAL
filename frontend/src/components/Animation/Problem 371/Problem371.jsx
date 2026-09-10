@@ -25,218 +25,236 @@ export default function Problem371({ stepData }) {
   const bitsB = toBitArray(b);
   const bitsCarry = toBitArray(carry);
 
+  let gatePhase = "idle";
+  if (activePhase.includes("XOR")) gatePhase = "xor";
+  else if (activePhase.includes("SHIFT")) gatePhase = "shift";
+  else if (activePhase.includes("AND")) gatePhase = "and";
+
   return (
-    <div className="canvas-wrapper alu-canvas">
+    <div id="p371-alu-canvas">
       {/* Top Status & Telemetry Strip */}
-      <div className="metrics-row">
-        <span className="metric-chip round-chip">
+      <div id="p371-metrics-row">
+        <span id="p371-metric-round">
           Cycle Round: <b>#{round}</b>
         </span>
-        <span className={`metric-chip loop-chip ${b !== 0 ? "chip-running" : "chip-halted"}`}>
+        <span
+          id="p371-metric-loop"
+          data-is-running={b !== 0 ? "true" : "false"}
+        >
           Loop Check: <b>b {b !== 0 ? "!= 0 (Continue)" : "== 0 (Halt)"}</b>
         </span>
-        <span className="metric-chip phase-chip">
+        <span id="p371-metric-phase">
           ALU Gate: <b>{activePhase}</b>
         </span>
       </div>
 
       {/* Main ALU Chassis */}
-      <div className="alu-chassis">
+      <div id="p371-alu-chassis">
         {/* Bit Column Weights Header (2^7 down to 2^0) */}
-        <div className="bit-column-headers">
-          <span className="reg-id-label">REG</span>
-          <div className="bit-cells-row">
+        <div id="p371-bit-column-headers">
+          <span id="p371-reg-id-label">REG</span>
+          <div id="p371-bit-cells-weights">
             {Array.from({ length: BITS_COUNT }).map((_, i) => (
-              <span key={`weight-${i}`} className={`bit-weight ${highlightCols.includes(i) ? "weight-lit" : ""}`}>
+              <span
+                key={`p371-weight-${i}`}
+                id={`p371-weight-${i}`}
+                data-is-lit={highlightCols.includes(i) ? "true" : "false"}
+              >
                 {Math.pow(2, 7 - i)}
               </span>
             ))}
           </div>
-          <span className="dec-val-label">DEC</span>
+          <span id="p371-dec-val-label">DEC</span>
         </div>
 
         {/* Register A: Input / Partial Sum */}
-        <div className="register-lane lane-a">
-          <div className="lane-meta">
-            <span className="lane-tag tag-a">A</span>
-            <span className="lane-role">Partial Sum</span>
+        <div id="p371-register-lane-a" data-lane-type="a">
+          <div id="p371-lane-meta-a">
+            <span id="p371-lane-tag-a">A</span>
+            <span id="p371-lane-role-a">Partial Sum</span>
           </div>
-          <div className="bit-cells-row">
+          <div id="p371-bit-cells-row-a">
             {bitsA.map((bit, idx) => {
               const isColLit = highlightCols.includes(idx);
               return (
                 <motion.div
-                  key={`bit-a-${idx}-${bit}`}
-                  className={`bit-box ${bit === 1 ? "bit-high high-a" : "bit-low"} ${isColLit ? "col-focus" : ""}`}
+                  key={`p371-bit-a-${idx}-${bit}`}
+                  id={`p371-bit-a-${idx}`}
+                  data-lane-type="a"
+                  data-bit-val={bit}
+                  data-is-lit={isColLit ? "true" : "false"}
+                  layout
                   animate={{ scale: isColLit ? 1.08 : 1 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 20 }}
                 >
                   {bit}
                 </motion.div>
               );
             })}
           </div>
-          <span className="lane-decimal">{a}</span>
+          <span id="p371-lane-decimal-a">{a}</span>
         </div>
 
         {/* Dynamic Silicon Logic Gate Layer */}
-        {/* Dynamic Silicon Logic Gate Layer */}
-<div className="circuit-bus-layer">
-  <svg viewBox="0 0 460 70" className="bus-svg">
-    <defs>
-      {/* High-Voltage Active Wire Gradient */}
-      <linearGradient id="wireActiveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
-        <stop offset="50%" stopColor="#22c55e" stopOpacity="1" />
-        <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.3" />
-      </linearGradient>
+        <div id="p371-circuit-bus-layer">
+          <svg id="p371-bus-svg" viewBox="0 0 460 70">
+            <defs>
+              <linearGradient id="p371-wireActiveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="#22c55e" stopOpacity="1" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.3" />
+              </linearGradient>
 
-      {/* Radiant Glow Filter for the Electric Pulses */}
-      <filter id="electronGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="3" result="blur1" />
-        <feGaussianBlur stdDeviation="6" result="blur2" />
-        <feMerge>
-          <feMergeNode in="blur2" />
-          <feMergeNode in="blur1" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
+              <filter id="p371-electronGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur1" />
+                <feGaussianBlur stdDeviation="6" result="blur2" />
+                <feMerge>
+                  <feMergeNode in="blur2" />
+                  <feMergeNode in="blur1" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
 
-    {/* Vertical Wire Conduits */}
-    {Array.from({ length: BITS_COUNT }).map((_, idx) => {
-      const colX = 72 + idx * 46;
-      const isHot = highlightCols.includes(idx);
+            {/* Vertical Wire Conduits */}
+            {Array.from({ length: BITS_COUNT }).map((_, idx) => {
+              const colX = 72 + idx * 46;
+              const isHot = highlightCols.includes(idx);
 
-      return (
-        <g key={`wire-${idx}`} className={`circuit-conduit ${isHot ? "conduit-hot" : ""}`}>
-          {/* Base Wire Track */}
-          <line
-            x1={colX}
-            y1={0}
-            x2={colX}
-            y2={70}
-            stroke={isHot ? "url(#wireActiveGrad)" : "#1f1f23"}
-            strokeWidth={isHot ? 2.5 : 1}
-            strokeDasharray={isHot ? "3,2" : "none"}
-          />
+              return (
+                <g
+                  key={`p371-wire-${idx}`}
+                  id={`p371-wire-g-${idx}`}
+                  data-is-lit={isHot ? "true" : "false"}
+                >
+                  <line
+                    id={`p371-wire-line-${idx}`}
+                    x1={colX}
+                    y1={0}
+                    x2={colX}
+                    y2={70}
+                    stroke={isHot ? "url(#p371-wireActiveGrad)" : "#1f1f23"}
+                    strokeWidth={isHot ? 2.5 : 1}
+                    strokeDasharray={isHot ? "3,2" : "none"}
+                  />
 
-          {/* Glowing Current Pulse */}
-          {isHot && (
-            <motion.g
-              initial={{ y: 5 }}
-              animate={{ y: [5, 60, 5] }}
-              transition={{
-                duration: 1.1,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: idx * 0.08 // Cascading wave stagger
-              }}
-            >
-              {/* Diffuse Outer Glow Halo */}
-              <circle
-                cx={colX}
-                cy={0}
-                r={7}
-                fill="#22c55e"
-                opacity={0.35}
-                filter="url(#electronGlow)"
-              />
-              {/* Photon Trailing Tail */}
-              <line
-                x1={colX}
-                y1={-6}
-                x2={colX}
-                y2={6}
-                stroke="#86efac"
-                strokeWidth={2}
-                opacity={0.7}
-                strokeLinecap="round"
-              />
-              {/* Hot White Plasma Core */}
-              <circle
-                cx={colX}
-                cy={0}
-                r={3}
-                fill="#ffffff"
-                filter="url(#electronGlow)"
-              />
-            </motion.g>
-          )}
-        </g>
-      );
-    })}
-  </svg>
+                  {isHot && (
+                    <motion.g
+                      key={`p371-pulse-${idx}`}
+                      initial={{ y: 5 }}
+                      animate={{ y: [5, 60, 5] }}
+                      transition={{
+                        duration: 1.1,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: idx * 0.08
+                      }}
+                    >
+                      <circle
+                        cx={colX}
+                        cy={0}
+                        r={7}
+                        fill="#22c55e"
+                        opacity={0.35}
+                        filter="url(#p371-electronGlow)"
+                      />
+                      <line
+                        x1={colX}
+                        y1={-6}
+                        x2={colX}
+                        y2={6}
+                        stroke="#86efac"
+                        strokeWidth={2}
+                        opacity={0.7}
+                        strokeLinecap="round"
+                      />
+                      <circle
+                        cx={colX}
+                        cy={0}
+                        r={3}
+                        fill="#ffffff"
+                        filter="url(#p371-electronGlow)"
+                      />
+                    </motion.g>
+                  )}
+                </g>
+              );
+            })}
+          </svg>
 
-  {/* Realtime ALU Gate Card */}
-  <div className="alu-microcode-banner">
-    <div
-      className={`gate-core ${
-        activePhase.includes("XOR")
-          ? "core-xor"
-          : activePhase.includes("AND") || activePhase.includes("SHIFT")
-          ? "core-and"
-          : "core-idle"
-      }`}
-    >
-      <span className="core-operator">
-        {activePhase.includes("XOR")
-          ? "⊕ (XOR)"
-          : activePhase.includes("SHIFT")
-          ? "≪ 1 (SHIFT)"
-          : activePhase.includes("AND")
-          ? "& (AND)"
-          : "ALU IDLE"}
-      </span>
-      <span className="core-desc">{explanationText || "Processing bitwise logic"}</span>
-    </div>
-  </div>
-</div>
+          {/* Realtime ALU Gate Card */}
+          <div id="p371-alu-microcode-banner">
+            <div id="p371-gate-core" data-gate-phase={gatePhase}>
+              <span id="p371-core-operator">
+                {activePhase.includes("XOR")
+                  ? "⊕ (XOR)"
+                  : activePhase.includes("SHIFT")
+                  ? "≪ 1 (SHIFT)"
+                  : activePhase.includes("AND")
+                  ? "& (AND)"
+                  : "ALU IDLE"}
+              </span>
+              <span id="p371-core-desc">
+                {explanationText || "Processing bitwise logic"}
+              </span>
+            </div>
+          </div>
+        </div>
 
         {/* Register B: Carry Input / Shifter Target */}
-        <div className="register-lane lane-b">
-          <div className="lane-meta">
-            <span className="lane-tag tag-b">B</span>
-            <span className="lane-role">Carry Source</span>
+        <div id="p371-register-lane-b" data-lane-type="b">
+          <div id="p371-lane-meta-b">
+            <span id="p371-lane-tag-b">B</span>
+            <span id="p371-lane-role-b">Carry Source</span>
           </div>
-          <div className="bit-cells-row">
+          <div id="p371-bit-cells-row-b">
             {bitsB.map((bit, idx) => {
               const isColLit = highlightCols.includes(idx);
               return (
                 <motion.div
-                  key={`bit-b-${idx}-${bit}`}
-                  className={`bit-box ${bit === 1 ? "bit-high high-b" : "bit-low"} ${isColLit ? "col-focus" : ""}`}
+                  key={`p371-bit-b-${idx}-${bit}`}
+                  id={`p371-bit-b-${idx}`}
+                  data-lane-type="b"
+                  data-bit-val={bit}
+                  data-is-lit={isColLit ? "true" : "false"}
+                  layout
                   animate={{ scale: isColLit ? 1.08 : 1 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 20 }}
                 >
                   {bit}
                 </motion.div>
               );
             })}
           </div>
-          <span className="lane-decimal">{b}</span>
+          <span id="p371-lane-decimal-b">{b}</span>
         </div>
 
         {/* Shifted Carry Vector (a & b) << 1 */}
-        <div className="register-lane lane-carry">
-          <div className="lane-meta">
-            <span className="lane-tag tag-carry">(A&amp;B)≪1</span>
-            <span className="lane-role">Next Carry</span>
+        <div id="p371-register-lane-carry" data-lane-type="carry">
+          <div id="p371-lane-meta-carry">
+            <span id="p371-lane-tag-carry">(A&amp;B)≪1</span>
+            <span id="p371-lane-role-carry">Next Carry</span>
           </div>
-          <div className="bit-cells-row">
+          <div id="p371-bit-cells-row-carry">
             {bitsCarry.map((bit, idx) => {
               const isColLit = highlightCols.includes(idx);
               return (
                 <motion.div
-                  key={`bit-c-${idx}-${bit}`}
-                  className={`bit-box ${bit === 1 ? "bit-high high-carry" : "bit-low"} ${isColLit ? "col-focus" : ""}`}
-                  animate={{ scale: bit === 1 ? [1, 1.06, 1] : 1 }}
-                  transition={{ duration: 0.8, repeat: bit === 1 ? Infinity : 0 }}
+                  key={`p371-bit-c-${idx}-${bit}`}
+                  id={`p371-bit-c-${idx}`}
+                  data-lane-type="carry"
+                  data-bit-val={bit}
+                  data-is-lit={isColLit ? "true" : "false"}
+                  layout
+                  animate={{ scale: bit === 1 && isColLit ? 1.08 : 1 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 20 }}
                 >
                   {bit}
                 </motion.div>
               );
             })}
           </div>
-          <span className="lane-decimal">{carry}</span>
+          <span id="p371-lane-decimal-carry">{carry}</span>
         </div>
       </div>
 
@@ -244,14 +262,15 @@ export default function Problem371({ stepData }) {
       <AnimatePresence>
         {output && (
           <motion.div
+            id="p371-result-callout-box"
             initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="result-callout"
+            transition={{ type: "spring", stiffness: 380, damping: 26 }}
           >
-            <div className="callout-header">{output.label}</div>
-            <div className="callout-val">{output.value}</div>
-            <div className="callout-detail">{output.detail}</div>
+            <div id="p371-callout-header-text">{output.label}</div>
+            <div id="p371-callout-val-text">{output.value}</div>
+            <div id="p371-callout-detail-text">{output.detail}</div>
           </motion.div>
         )}
       </AnimatePresence>

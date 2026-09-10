@@ -1,75 +1,91 @@
-.alu-canvas {
+/* ============================================================
+   CANVAS CONTAINER
+   ============================================================ */
+#p371-alu-canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
+  height: 100%;
   min-height: 560px;
   position: relative;
   gap: 16px;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 16px 65px 16px;
+  background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
 }
 
-/* METRICS STRIP */
-.metrics-row {
+/* ============================================================
+   METRICS STRIP
+   ============================================================ */
+#p371-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
   max-width: 95%;
+  z-index: 2;
 }
 
-.metric-chip {
+#p371-metric-round,
+#p371-metric-loop,
+#p371-metric-phase {
   background: #141417;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   color: #a1a1aa;
   padding: 5px 14px;
   border-radius: 9999px;
   font-size: 13px;
-  display: flex;
+  font-weight: 600;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-.metric-chip b {
-  color: #fff;
-}
-
-.round-chip b {
+#p371-metric-round b {
   color: #facc15;
+  font-family: ui-monospace, monospace;
 }
 
-.phase-chip b {
+#p371-metric-phase b {
   color: #38bdf8;
+  font-family: ui-monospace, monospace;
 }
 
-.chip-running {
+#p371-metric-loop[data-is-running="true"] {
   border-color: #22c55e;
   background: rgba(34, 197, 94, 0.12);
 }
-
-.chip-running b {
+#p371-metric-loop[data-is-running="true"] b {
   color: #86efac;
 }
 
-.chip-halted {
+#p371-metric-loop[data-is-running="false"] {
   border-color: #ef4444;
   background: rgba(239, 68, 68, 0.12);
 }
-
-.chip-halted b {
+#p371-metric-loop[data-is-running="false"] b {
   color: #fca5a5;
 }
 
-/* ALU CHASSIS */
-.alu-chassis {
+/* ============================================================
+   ALU CHASSIS
+   ============================================================ */
+#p371-alu-chassis {
   width: 100%;
   max-width: 520px;
   background: #101014;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 18px;
   padding: 18px 20px;
   display: flex;
@@ -79,8 +95,10 @@
   box-sizing: border-box;
 }
 
-/* BIT WEIGHT HEADER */
-.bit-column-headers {
+/* ============================================================
+   BIT WEIGHT HEADER
+   ============================================================ */
+#p371-bit-column-headers {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -88,105 +106,135 @@
   border-bottom: 1px dashed #27272a;
 }
 
-.reg-id-label {
+#p371-reg-id-label {
   font-size: 10px;
   font-weight: 800;
   color: #52525b;
   width: 72px;
   text-transform: uppercase;
+  font-family: ui-monospace, monospace;
 }
 
-.dec-val-label {
+#p371-dec-val-label {
   font-size: 10px;
   font-weight: 800;
   color: #52525b;
   width: 36px;
   text-align: right;
   text-transform: uppercase;
+  font-family: ui-monospace, monospace;
 }
 
-.bit-cells-row {
+#p371-bit-cells-weights {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   gap: 8px;
   flex: 1;
 }
 
-.bit-weight {
+[id^="p371-weight-"] {
   font-size: 9px;
   color: #52525b;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
   text-align: center;
   font-weight: 700;
+  transition: color 0.2s ease;
 }
 
-.weight-lit {
+[id^="p371-weight-"][data-is-lit="true"] {
   color: #38bdf8;
   font-weight: 900;
 }
 
-/* REGISTER LANES */
-.register-lane {
+/* ============================================================
+   REGISTER LANES
+   ============================================================ */
+#p371-register-lane-a,
+#p371-register-lane-b,
+#p371-register-lane-carry {
   display: flex;
   align-items: center;
   gap: 10px;
   background: #141417;
-  border: 1px solid #27272a;
+  border: 1.5px solid #27272a;
   border-radius: 12px;
   padding: 8px 10px;
+  box-sizing: border-box;
 }
 
-.lane-meta {
+#p371-lane-meta-a,
+#p371-lane-meta-b,
+#p371-lane-meta-carry {
   display: flex;
   flex-direction: column;
   width: 72px;
   gap: 2px;
 }
 
-.lane-tag {
+#p371-lane-tag-a,
+#p371-lane-tag-b,
+#p371-lane-tag-carry {
   font-size: 11px;
   font-weight: 900;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
   padding: 2px 6px;
   border-radius: 4px;
   width: fit-content;
 }
 
-.tag-a {
+#p371-lane-tag-a {
   background: rgba(56, 189, 248, 0.15);
   color: #38bdf8;
   border: 1px solid #38bdf8;
 }
 
-.tag-b {
+#p371-lane-tag-b {
   background: rgba(250, 204, 21, 0.15);
   color: #facc15;
   border: 1px solid #facc15;
 }
 
-.tag-carry {
+#p371-lane-tag-carry {
   background: rgba(168, 85, 247, 0.15);
   color: #c084fc;
   border: 1px solid #a855f7;
 }
 
-.lane-role {
+#p371-lane-role-a,
+#p371-lane-role-b,
+#p371-lane-role-carry {
   font-size: 8px;
   color: #71717a;
   text-transform: uppercase;
+  font-family: ui-monospace, monospace;
 }
 
-.lane-decimal {
+#p371-lane-decimal-a,
+#p371-lane-decimal-b,
+#p371-lane-decimal-carry {
   width: 36px;
   font-size: 14px;
   font-weight: 900;
-  color: #fff;
-  font-family: monospace;
+  color: #ffffff;
+  font-family: ui-monospace, monospace;
   text-align: right;
 }
 
-/* BIT BOXES */
-.bit-box {
+#p371-bit-cells-row-a,
+#p371-bit-cells-row-b,
+#p371-bit-cells-row-carry {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  flex: 1;
+}
+
+/* ============================================================
+   BIT BOXES
+   ============================================================ */
+[id^="p371-bit-a-"],
+[id^="p371-bit-b-"],
+[id^="p371-bit-c-"] {
   height: 38px;
   border-radius: 8px;
   display: flex;
@@ -194,137 +242,50 @@
   justify-content: center;
   font-size: 16px;
   font-weight: 900;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
   background: #18181b;
   border: 1.5px solid #27272a;
   color: #52525b;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 
-.high-a {
+/* Lane A High State */
+[id^="p371-bit-a-"][data-bit-val="1"] {
   background: rgba(56, 189, 248, 0.16) !important;
   border-color: #38bdf8 !important;
   color: #7dd3fc !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
 }
 
-.high-b {
+/* Lane B High State */
+[id^="p371-bit-b-"][data-bit-val="1"] {
   background: rgba(250, 204, 21, 0.16) !important;
   border-color: #facc15 !important;
   color: #fde047 !important;
   box-shadow: 0 0 12px rgba(250, 204, 21, 0.35);
 }
 
-.high-carry {
+/* Lane Carry High State */
+[id^="p371-bit-c-"][data-bit-val="1"] {
   background: rgba(168, 85, 247, 0.18) !important;
   border-color: #a855f7 !important;
   color: #d8b4fe !important;
   box-shadow: 0 0 12px rgba(168, 85, 247, 0.35);
 }
 
-.col-focus {
+/* Column Focus Highlight */
+[id^="p371-bit-a-"][data-is-lit="true"],
+[id^="p371-bit-b-"][data-is-lit="true"],
+[id^="p371-bit-c-"][data-is-lit="true"] {
   border-color: #22c55e !important;
   box-shadow: 0 0 14px rgba(34, 197, 94, 0.5) !important;
 }
 
-/* CIRCUIT BUS & ALU BANNER */
-.circuit-bus-layer {
-  position: relative;
-  width: 100%;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.bus-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.alu-microcode-banner {
-  position: relative;
-  z-index: 2;
-}
-
-.gate-core {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 6px 18px;
-  border-radius: 10px;
-  background: #18181b;
-  border: 1.5px solid #27272a;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-}
-
-.core-operator {
-  font-size: 13px;
-  font-weight: 900;
-  font-family: monospace;
-}
-
-.core-desc {
-  font-size: 9px;
-  color: #a1a1aa;
-}
-
-.core-xor {
-  border-color: #38bdf8;
-  background: rgba(56, 189, 248, 0.14);
-}
-
-.core-xor .core-operator {
-  color: #38bdf8;
-}
-
-.core-and {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.14);
-}
-
-.core-and .core-operator {
-  color: #86efac;
-}
-
-/* RESULT CALLOUT */
-.result-callout {
-  position: absolute;
-  bottom: 8px;
-  background: #0f172a;
-  border: 1px solid #22c55e;
-  border-radius: 10px;
-  padding: 8px 18px;
-  text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-  z-index: 10;
-}
-
-.callout-header {
-  font-size: 10px;
-  color: #86efac;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.callout-val {
-  font-size: 16px;
-  color: #fff;
-  font-weight: 800;
-  margin: 1px 0;
-}
-
-.callout-detail {
-  font-size: 11px;
-  color: #94a3b8;
-}
-
-/* CIRCUIT BUS & HIGH-VOLTAGE CONDUITS */
-.circuit-bus-layer {
+/* ============================================================
+   CIRCUIT BUS & ALU BANNER
+   ============================================================ */
+#p371-circuit-bus-layer {
   position: relative;
   width: 100%;
   height: 74px;
@@ -336,7 +297,7 @@
   overflow: visible;
 }
 
-.bus-svg {
+#p371-bus-svg {
   position: absolute;
   top: 0;
   left: 0;
@@ -346,22 +307,20 @@
   overflow: visible;
 }
 
-/* Static wire conduit glow */
-.circuit-conduit {
+[id^="p371-wire-g-"] {
   transition: all 0.3s ease;
 }
 
-.conduit-hot line {
+[id^="p371-wire-g-"][data-is-lit="true"] line {
   filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.6));
 }
 
-/* Upgraded Microcode Badge */
-.alu-microcode-banner {
+#p371-alu-microcode-banner {
   position: relative;
   z-index: 5;
 }
 
-.gate-core {
+#p371-gate-core {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -371,39 +330,244 @@
   backdrop-filter: blur(8px);
   border: 1.5px solid #27272a;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.core-operator {
+#p371-core-operator {
   font-size: 13px;
   font-weight: 900;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
   letter-spacing: 0.5px;
 }
 
-.core-desc {
+#p371-core-desc {
   font-size: 9px;
   color: #a1a1aa;
 }
 
-.core-xor {
+#p371-gate-core[data-gate-phase="xor"] {
   border-color: #38bdf8 !important;
   background: rgba(56, 189, 248, 0.12) !important;
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.25) !important;
 }
-
-.core-xor .core-operator {
+#p371-gate-core[data-gate-phase="xor"] #p371-core-operator {
   color: #38bdf8;
   text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
 }
 
-.core-and {
+#p371-gate-core[data-gate-phase="and"],
+#p371-gate-core[data-gate-phase="shift"] {
   border-color: #22c55e !important;
   background: rgba(34, 197, 94, 0.12) !important;
   box-shadow: 0 0 20px rgba(34, 197, 94, 0.25) !important;
 }
-
-.core-and .core-operator {
+#p371-gate-core[data-gate-phase="and"] #p371-core-operator,
+#p371-gate-core[data-gate-phase="shift"] #p371-core-operator {
   color: #86efac;
   text-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+}
+
+/* ============================================================
+   RESULT CALLOUT
+   ============================================================ */
+#p371-result-callout-box {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  border: 1.5px solid #22c55e;
+  border-radius: 12px;
+  padding: 8px 20px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+#p371-callout-header-text {
+  font-size: 10px;
+  color: #86efac;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+}
+
+#p371-callout-val-text {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 900;
+  margin: 2px 0;
+  font-family: ui-monospace, monospace;
+}
+
+#p371-callout-detail-text {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (PC, LAPTOP, TABLET, MOBILE)
+   ============================================================ */
+
+/* Laptop Screens (<= 1024px) */
+@media (max-width: 1024px) {
+  #p371-alu-chassis {
+    max-width: 480px;
+    padding: 16px 18px;
+  }
+
+  [id^="p371-bit-a-"],
+  [id^="p371-bit-b-"],
+  [id^="p371-bit-c-"] {
+    height: 36px;
+    font-size: 15px;
+  }
+}
+
+/* Tablet Screens (<= 768px) */
+@media (max-width: 768px) {
+  #p371-alu-canvas {
+    padding: 18px 12px 75px 12px;
+    gap: 14px;
+  }
+
+  #p371-metrics-row {
+    gap: 8px;
+  }
+
+  #p371-metric-round,
+  #p371-metric-loop,
+  #p371-metric-phase {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  #p371-alu-chassis {
+    max-width: 440px;
+    padding: 14px 12px;
+    gap: 8px;
+  }
+
+  #p371-lane-meta-a,
+  #p371-lane-meta-b,
+  #p371-lane-meta-carry {
+    width: 60px;
+  }
+
+  #p371-bit-cells-weights,
+  #p371-bit-cells-row-a,
+  #p371-bit-cells-row-b,
+  #p371-bit-cells-row-carry {
+    gap: 6px;
+  }
+
+  [id^="p371-bit-a-"],
+  [id^="p371-bit-b-"],
+  [id^="p371-bit-c-"] {
+    height: 32px;
+    font-size: 14px;
+    border-radius: 6px;
+  }
+}
+
+/* Mobile Screens (<= 480px) */
+@media (max-width: 480px) {
+  #p371-metrics-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  #p371-metric-round,
+  #p371-metric-loop,
+  #p371-metric-phase {
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  #p371-bit-column-headers {
+    gap: 6px;
+  }
+
+  #p371-reg-id-label {
+    width: 48px;
+    font-size: 8.5px;
+  }
+
+  #p371-dec-val-label {
+    width: 26px;
+    font-size: 8.5px;
+  }
+
+  #p371-lane-meta-a,
+  #p371-lane-meta-b,
+  #p371-lane-meta-carry {
+    width: 48px;
+  }
+
+  #p371-lane-tag-a,
+  #p371-lane-tag-b,
+  #p371-lane-tag-carry {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+
+  #p371-lane-role-a,
+  #p371-lane-role-b,
+  #p371-lane-role-carry {
+    font-size: 7px;
+  }
+
+  #p371-lane-decimal-a,
+  #p371-lane-decimal-b,
+  #p371-lane-decimal-carry {
+    width: 26px;
+    font-size: 12px;
+  }
+
+  #p371-bit-cells-weights,
+  #p371-bit-cells-row-a,
+  #p371-bit-cells-row-b,
+  #p371-bit-cells-row-carry {
+    gap: 4px;
+  }
+
+  [id^="p371-weight-"] {
+    font-size: 7.5px;
+  }
+
+  [id^="p371-bit-a-"],
+  [id^="p371-bit-b-"],
+  [id^="p371-bit-c-"] {
+    height: 28px;
+    font-size: 12px;
+  }
+
+  #p371-circuit-bus-layer {
+    height: 60px;
+  }
+
+  #p371-gate-core {
+    padding: 4px 12px;
+  }
+
+  #p371-core-operator {
+    font-size: 11px;
+  }
+
+  #p371-core-desc {
+    font-size: 8px;
+  }
+
+  #p371-callout-val-text {
+    font-size: 16px;
+  }
+
+  #p371-callout-detail-text {
+    font-size: 10px;
+  }
 }
