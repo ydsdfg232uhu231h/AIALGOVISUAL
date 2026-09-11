@@ -5,6 +5,7 @@
   display: flex;
   height: 100vh;
   width: 100vw;
+  max-width: 100%;
   background-color: #0b0b0c;
   color: #eee;
   overflow: hidden;
@@ -18,6 +19,7 @@
   display: flex;
   flex-direction: column;
   padding: 18px 24px;
+  width: 100%;
   min-width: 0;
   box-sizing: border-box;
 }
@@ -76,11 +78,12 @@
 #dsa-layout-body {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 490px;
+  grid-template-columns: 1fr 380px; /* Expands visualizer across remaining screen width */
   gap: 16px;
   margin-top: 14px;
   margin-bottom: 5px;
   min-height: 0;
+  width: 100%;
 }
 
 #dsa-viewport-box {
@@ -89,6 +92,7 @@
   flex: 1;
   height: 100%;
   min-height: 0;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -122,6 +126,7 @@
   gap: 10px;
   flex-shrink: 0;
   box-sizing: border-box;
+  width: 100%;
 }
 
 #dsa-line-indicator {
@@ -150,6 +155,7 @@
   flex-direction: column;
   gap: 12px;
   min-height: 0;
+  width: 100%;
 }
 
 #dsa-panel-code-inspector,
@@ -161,10 +167,18 @@
   flex-direction: column;
   overflow: hidden;
   box-sizing: border-box;
+  width: 100%;
 }
 
-#dsa-panel-code-inspector { flex: 3; }
-#dsa-panel-state-inspector { flex: 2; }
+#dsa-panel-code-inspector { 
+  flex: 3; 
+  width: 100% !important; /* Fixed width bug causing half-panel cut off */
+}
+
+#dsa-panel-state-inspector { 
+  flex: 2; 
+  width: 100%;
+}
 
 #dsa-panel-code-tab,
 #dsa-panel-state-tab {
@@ -313,6 +327,7 @@
   padding-top: 14px;
   border-top: 1.5px solid #222226;
   flex-shrink: 0;
+  width: 100%;
 }
 
 #dsa-btn-restart,
@@ -390,7 +405,7 @@
    ============================================================ */
 @media (max-width: 1200px) {
   #dsa-layout-body {
-    grid-template-columns: 1fr 380px;
+    grid-template-columns: 1fr 340px;
   }
 }
 
@@ -403,6 +418,7 @@
 
   #dsa-visual-main {
     padding: 12px 14px;
+    width: 100% !important;
   }
 
   #dsa-layout-body {
@@ -417,4 +433,149 @@
   #dsa-right-inspectors {
     min-height: 380px;
   }
+}
+
+/* ============================================================
+   RIGHT INSPECTORS PANEL
+   ============================================================ */
+#dsa-right-inspectors {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  width: 100%;
+}
+
+#dsa-panel-code-inspector,
+#dsa-panel-state-inspector {
+  background: #131316;
+  border: 1.5px solid #222226;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* FIX: Set overflow-x to hidden to prevent side scrolling */
+#dsa-panel-code-inspector { 
+  flex: 3; 
+  width: 100% !important; 
+  overflow-x: hidden; 
+}
+
+#dsa-panel-state-inspector { 
+  flex: 2; 
+  width: 100%;
+}
+
+/* FIX: Ensure LeetCode link stays on the far right */
+#dsa-panel-code-tab,
+#dsa-panel-state-tab {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  border-bottom: 1px solid #222226;
+  font-size: 12px;
+  color: #71717a;
+  background: #111114;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#dsa-tab-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+#dsa-tab-btn-pseudo,
+#dsa-tab-btn-concept {
+  background: none;
+  border: none;
+  color: #71717a;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+#dsa-tab-btn-pseudo[data-tab-state="active"],
+#dsa-tab-btn-concept[data-tab-state="active"] {
+  color: #ff7324;
+  font-weight: 800;
+  border-bottom: 2px solid #ff7324;
+}
+
+/* Ensure LeetCode link stays visible, stylized, and aligned */
+#dsa-btn-ref {
+  color: #ff7324;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-block;
+  white-space: nowrap;
+  margin-left: auto; /* Forces link to stay on the far right */
+  transition: opacity 0.2s ease;
+}
+
+#dsa-btn-ref:hover {
+  opacity: 0.8;
+}
+
+/* ============================================================
+   CODE BLOCK & STATE INSPECTOR
+   ============================================================ */
+#dsa-code-block {
+  margin: 0;
+  padding: 8px 0;
+  overflow-y: auto;
+  overflow-x: hidden; /* FIX: Prevents horizontal scrolling inside the code area */
+  flex: 1;
+  font-size: 12.5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  line-height: 1.5;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#dsa-code-block::-webkit-scrollbar {
+  display: none;
+}
+
+[id^="dsa-code-row-"] {
+  display: flex;
+  gap: 12px;
+  padding: 2px 12px;
+  transition: background-color 0.2s ease, border-left-color 0.2s ease;
+  will-change: background-color, border-left-color;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+[id^="dsa-code-row-"][data-is-active="true"] {
+  background: rgba(255, 115, 36, 0.15);
+  border-left: 3px solid #ff7324;
+}
+
+[id^="dsa-row-num-"] {
+  color: #52525b;
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Ensure code text wraps smoothly without overflowing horizontally */
+[id^="dsa-row-code-"] {
+  color: #e4e4e7;
+  white-space: pre-wrap; /* Allows automatic wrapping for long code lines */
+  word-break: break-word;
+}
+
+[id^="dsa-code-row-"][data-is-active="true"] [id^="dsa-row-code-"] {
+  color: #fed7aa;
+  font-weight: 700;
 }

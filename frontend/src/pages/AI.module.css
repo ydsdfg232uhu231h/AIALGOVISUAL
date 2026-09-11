@@ -1,159 +1,236 @@
+/* Base Page Reset */
 
-#chatmessage{
-    
-    display: flex;
-    align-items:  auto;
-    justify-content: center;
-    width: 100vw;
-    color: black;
-    padding: 10px;
-    font-size: 20px;
+
+
+/* Header Component */
+#chathead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  width: 100%;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 15px white;
+  position: sticky;
+  top: 0;
+  
+  z-index: 100;
+  color: white;
+  gap: 12px;
 }
-#chatmessage input{
-    font-size: 30px;
-    border: none;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    padding: 0px 20px;
-    height: 40px;
-    width: 1200px;
-    
+
+#chathead img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
-#chatmessage button{
-    height: 40px;
-    width: 40px;
-    border: none;
-     border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+
+/* Chat Scroll Container */
+#content {
+  background-color: rgb(94, 93, 93);
+  border: 2px solid white;
+  border-radius: 10px;
+  overflow-y: auto;
+  width: 96%;
+  max-width: 1200px;
+  height: calc(100vh - 180px);
+  min-height: 400px;
+  margin: 0 auto 10px auto;
+  font-family: sans-serif;
+  padding: 16px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
 }
-#content{
-    background-color: rgb(94, 93, 93);
-    border: 2px solid white;
-    border-radius: 10px;
-    overflow-y: scroll;
-    
-    width: 98vw;
-    height: 750px;
-    font-family: sans-serif;
+
+#content::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
-#content::-webkit-scrollbar{
-    display: none;
+
+#content hgroup {
+  color: white;
+  padding: 8px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
-#content hgroup{
-    color: white;
-    padding: 5px;
-    width: 100vw;
-    
+
+/* User Message Alignment */
+#content hgroup.roleuser {
+  align-items: flex-end;
 }
-#content hgroup.roleuser{
-   display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-    padding-right: 140px;
-     
+
+/* Chatbot Message Alignment */
+#content hgroup.rolechat {
+  align-items: flex-start;
 }
-#content hgroup.rolechat{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding-left: 50px;  
+
+/* General Chat Bubble Styling */
+#content hgroup p {
+  background-color: black;
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 16px;
+  max-width: 80%;
+  word-break: break-word;
+  margin: 4px 0;
+  box-sizing: border-box;
 }
-#content hgroup p{
-    background-color: black;
-    padding: 20px;
-    border-radius: 20px;
-    font-size: 20px;
-   
-}
+
 #content hgroup.roleuser p {
-    border-top-right-radius: 0px;
-   box-shadow: 0px 0px 15px black;
-}
-#content hgroup.rolechat p {
-    border-top-left-radius: 0px;
-}
-#content button#cleaner{
-    background: none;
-    border: none;
-    font-size: 30px;
-    padding: 20px;
-    display: flex;
-    background-color: white;
-    border-radius: 60px;
-    margin: 10px;
-    justify-self: flex-end;
-    box-shadow: 0px 0px 15px black;
-    text-align: flex-end;
+  border-top-right-radius: 0px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.6);
 }
 
+#content hgroup.rolechat p {
+  border-top-left-radius: 0px;
+}
+
+/* Formatting for AI Markdown Responses */
 .chatresponse {
-    max-width: 800px;
-    line-height: 1.7;
-    font-size: 16px;
-    word-wrap: break-word;
-    background-color: black;
-    border-radius: 20px;
-    border-top-left-radius: 0px;
-     box-shadow: 0px 0px 15px black;
-    padding: 0px 20px;
+  max-width: 85%;
+  line-height: 1.6;
+  font-size: 15px;
+  word-wrap: break-word;
+  background-color: black;
+  border-radius: 18px;
+  border-top-left-radius: 0px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.6);
+  padding: 12px 20px;
+  color: white;
 }
 
 .chatresponse h1,
 .chatresponse h2,
 .chatresponse h3 {
-    margin-top: 20px;
-    margin-bottom: 10px;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 
 .chatresponse h3 {
-    font-size: 20px;
+  font-size: 18px;
 }
 
 .chatresponse p {
-    margin: 10px 0;
+  margin: 8px 0;
 }
 
 .chatresponse ul {
-    margin: 10px 0;
-    padding-left: 25px;
+  margin: 8px 0;
+  padding-left: 20px;
 }
 
 .chatresponse ul ul {
-    margin: 5px 0;
+  margin: 4px 0;
 }
 
 .chatresponse li {
-    margin: 6px 0;
+  margin: 4px 0;
 }
 
 .chatresponse strong {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .chatresponse hr {
-    margin: 25px 0;
+  margin: 18px 0;
+  border: 0;
+  border-top: 1px solid #444;
 }
-#chathead{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    /* width: 100vw;
-    height: 200px; */
-    padding: 20px;
-    margin-bottom: 30px;
-    box-shadow: 0px 0px 15px white;
-    position: sticky;
-    top: 0;
-    right: 0;
-    left: 0;
-    color: white;
-    gap: 20px;
+
+/* Floating Action / Cleaner Button */
+#content button#cleaner {
+  background: white;
+  border: none;
+  font-size: 20px;
+  padding: 10px 16px;
+  border-radius: 50px;
+  margin: 10px 0;
+  cursor: pointer;
+  align-self: flex-end;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.8);
 }
-#chathead img {
-    width: 50px;
-    height: 50px;
+
+/* Bottom Input Control Bar */
+#chatmessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+#chatmessage input {
+  font-size: 16px;
+  border: none;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 0 16px;
+  height: 46px;
+  flex: 1; /* Automatically expands/shrinks instead of fixed 1200px */
+  outline: none;
+}
+
+#chatmessage button {
+  height: 46px;
+  width: 50px;
+  border: none;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (Mobile Viewports)
+   ============================================================ */
+@media screen and (max-width: 600px) {
+  #chathead {
+    padding: 10px ;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  #chathead img {
+    width: 36px;
+    height: 36px;
+  }
+
+  #content {
+    width: 98%;
+    padding: 0px;
+    height: 650px;
+  }
+  #content hgroup{
+    padding: 10px;
+  }
+  #content button#cleaner{
+    margin: 10px;
+    padding: 10px;
+  }
+  #content hgroup p,
+  .chatresponse {
+    max-width: 92%; /* Widens text bubble width on narrow phone screens */
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+
+  #chatmessage input {
+    font-size: 14px;
+    height: 40px;
+    padding: 0 12px;
+  }
+
+  #chatmessage button {
+    height: 40px;
+    width: 44px;
+  }
 }

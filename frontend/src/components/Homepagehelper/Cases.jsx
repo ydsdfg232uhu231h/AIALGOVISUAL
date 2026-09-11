@@ -1,263 +1,437 @@
-import  { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import "./Swim.css";
 
-// Test case configurations for the Hash Map approach
-const CASES = {
-  best: {
-    label: "Best Case",
-    array: [3, 7, 9, 12, 15],
-    target: 10,
-    timeComplexity: "O(1)",
-    spaceComplexity: "O(1)",
-    description: "Match found instantly on the very first pair check.",
-    steps: [
-      { idx: 0, val: 3, comp: 7, map: {}, text: "Checking 3. Need 7. Map empty.", found: false },
-      { idx: 1, val: 7, comp: 3, map: { 3: 0 }, text: "Checking 7. Need 3. Found 3 in Map!", found: true }
-    ]
-  },
-  average: {
-    label: "Average Case",
-    array: [1, 4, 6, 8, 11],
-    target: 14,
-    timeComplexity: "O(n)",
-    spaceComplexity: "O(n)",
-    description: "Match discovered somewhere near the middle of the array.",
-    steps: [
-      { idx: 0, val: 4, comp: 10, map: {}, text: "Checking 4. Need 10. Not in map.", found: false },
-      { idx: 1, val: 1, comp: 13, map: { 4: 0 }, text: "Checking 1. Need 13. Not in map.", found: false },
-      { idx: 2, val: 6, comp: 8, map: { 4: 0, 1: 1 }, text: "Checking 6. Need 8. Not in map.", found: false },
-      { idx: 3, val: 8, comp: 6, map: { 4: 0, 1: 1, 6: 2 }, text: "Checking 8. Need 6. Found 6 in Map!", found: true }
-    ]
-  },
-  worst: {
-    label: "Worst Case",
-    array: [1, 2, 3, 5, 4],
-    target: 9,
-    timeComplexity: "O(n)",
-    spaceComplexity: "O(n)",
-    description: "Match is at the absolute end, or doesn't exist at all.",
-    steps: [
-      { idx: 0, val: 1, comp: 8, map: {}, text: "Checking 1. Need 8. Not in map.", found: false },
-      { idx: 1, val: 2, comp: 7, map: { 1: 0 }, text: "Checking 2. Need 7. Not in map.", found: false },
-      { idx: 2, val: 3, comp: 6, map: { 1: 0, 2: 1 }, text: "Checking 3. Need 6. Not in map.", found: false },
-      { idx: 3, val: 5, comp: 4, map: { 1: 0, 2: 1, 3: 2 }, text: "Checking 5. Need 4. Not in map.", found: false },
-      { idx: 4, val: 4, comp: 5, map: { 1: 0, 2: 1, 3: 2, 5: 3 }, text: "Checking 4. Need 5. Found 5 in Map!", found: true }
-    ]
-  }
+const problemPayload = {
+  id: 778,
+  title: "Swim in Rising Water",
+  steps: [
+    {
+      stepIndex: 0,
+      narration: "Line 2: Initialize minHeap with origin (0, 0) [elev: 0, t: 0]. Mark (0, 0) in visit set.",
+      state: { minHeap: "[[0, 0, 0]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0]],
+      currentCell: [0, 0],
+      currentTime: 0,
+      output: null
+    },
+    {
+      stepIndex: 1,
+      narration: "Line 10: From (0, 0): push (0, 1) [req t=max(0, 2)=2] and (1, 0) [req t=max(0, 16)=16].",
+      state: { minHeap: "[[2, 0, 1], [16, 1, 0]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0]],
+      currentCell: [0, 0],
+      currentTime: 0,
+      output: null
+    },
+    {
+      stepIndex: 2,
+      narration: "Line 4: Pop min root [t: 2, (0, 1)]. Water rises to t = 2. Swimmer advances to (0, 1).",
+      state: { minHeap: "[[16, 1, 0]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0]],
+      currentCell: [0, 1],
+      currentTime: 2,
+      output: null
+    },
+    {
+      stepIndex: 3,
+      narration: "Line 10: From (0, 1): push (0, 2) [req t=max(2, 4)=4] and (1, 1) [req t=max(2, 18)=18].",
+      state: { minHeap: "[[4, 0, 2], [16, 1, 0], [18, 1, 1]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1]],
+      currentCell: [0, 1],
+      currentTime: 2,
+      output: null
+    },
+    {
+      stepIndex: 4,
+      narration: "Line 4: Pop min root [t: 4, (0, 2)]. Water rises to t = 4. Swimmer moves to (0, 2).",
+      state: { minHeap: "[[16, 1, 0], [18, 1, 1]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1]],
+      currentCell: [0, 2],
+      currentTime: 4,
+      output: null
+    },
+    {
+      stepIndex: 5,
+      narration: "Line 10: From (0, 2): push (0, 3) [req t=max(4, 6)=6] and (1, 2) [req t=max(4, 20)=20].",
+      state: { minHeap: "[[6, 0, 3], [16, 1, 0], [18, 1, 1], [20, 1, 2]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2]],
+      currentCell: [0, 2],
+      currentTime: 4,
+      output: null
+    },
+    {
+      stepIndex: 6,
+      narration: "Line 4: Pop min root [t: 6, (0, 3)]. Water rises to t = 6. Swimmer moves to (0, 3).",
+      state: { minHeap: "[[16, 1, 0], [18, 1, 1], [20, 1, 2]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2]],
+      currentCell: [0, 3],
+      currentTime: 6,
+      output: null
+    },
+    {
+      stepIndex: 7,
+      narration: "Line 10: From (0, 3): push (0, 4) [req t=max(6, 8)=8] and (1, 3) [req t=max(6, 22)=22].",
+      state: { minHeap: "[[8, 0, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3]],
+      currentCell: [0, 3],
+      currentTime: 6,
+      output: null
+    },
+    {
+      stepIndex: 8,
+      narration: "Line 4: Pop min root [t: 8, (0, 4)]. Water rises to t = 8. Swimmer turns down east edge.",
+      state: { minHeap: "[[16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3]],
+      currentCell: [0, 4],
+      currentTime: 8,
+      output: null
+    },
+    {
+      stepIndex: 9,
+      narration: "Line 10: From (0, 4): push (1, 4) [req t=max(8, 10)=10]. Added to heap.",
+      state: { minHeap: "[[10, 1, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4]],
+      currentCell: [0, 4],
+      currentTime: 8,
+      output: null
+    },
+    {
+      stepIndex: 10,
+      narration: "Line 4: Pop min root [t: 10, (1, 4)]. Water rises to t = 10. Swimmer reaches (1, 4).",
+      state: { minHeap: "[[16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4]],
+      currentCell: [1, 4],
+      currentTime: 10,
+      output: null
+    },
+    {
+      stepIndex: 11,
+      narration: "Line 10: From (1, 4): push (2, 4) [req t=max(10, 11)=11].",
+      state: { minHeap: "[[11, 2, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4]],
+      currentCell: [1, 4],
+      currentTime: 10,
+      output: null
+    },
+    {
+      stepIndex: 12,
+      narration: "Line 4: Pop min root [t: 11, (2, 4)]. Water rises to t = 11. Push neighbor (3, 4) [req t=max(11, 9)=11].",
+      state: { minHeap: "[[11, 3, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4], [3, 4]],
+      currentCell: [2, 4],
+      currentTime: 11,
+      output: null
+    },
+    {
+      stepIndex: 13,
+      narration: "Line 4: Pop min root [t: 11, (3, 4)]. Swimmer moves to (3, 4). Push destination neighbor (4, 4) [req t=max(11, 1)=11]!",
+      state: { minHeap: "[[11, 4, 4], [16, 1, 0], [18, 1, 1], [20, 1, 2], [22, 1, 3]]" },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4], [3, 4], [4, 4]],
+      currentCell: [3, 4],
+      currentTime: 11,
+      output: null
+    },
+    {
+      stepIndex: 14,
+      narration: "Line 5: Pop min root [t: 11, (4, 4)]. r == 4 AND c == 4. Bottom-right destination reached! RETURN t = 11.",
+      state: { minHeap: "[]", status: "COMPLETED", minTime: 11 },
+      grid: [
+        [0, 2, 4, 6, 8],
+        [16, 18, 20, 22, 10],
+        [14, 12, 24, 21, 11],
+        [15, 13, 23, 17, 9],
+        [19, 5, 3, 7, 1]
+      ],
+      visited: [[0, 0], [0, 1], [1, 0], [0, 2], [1, 1], [0, 3], [1, 2], [0, 4], [1, 3], [1, 4], [2, 4], [3, 4], [4, 4]],
+      currentCell: [4, 4],
+      currentTime: 11,
+      output: {
+        label: "Minimum Water Height (5x5)",
+        value: "t = 11",
+        detail: "Path (0,0)->(0,1)->(0,2)->(0,3)->(0,4)->(1,4)->(2,4)->(3,4)->(4,4) bypasses central high peaks."
+      }
+    }
+  ]
 };
 
-export default function TwoSumComplexityVisualizer() {
-  const [activeTab, setActiveTab] = useState("best");
-  const [stepIdx, setStepIdx] = useState(0);
+export default function Swim() {
+  const [currentStepIdx, setCurrentStepIdx] = useState(0);
 
-  const currentCase = CASES[activeTab];
-  const currentStep = currentCase.steps[stepIdx];
-  // Automatically advance steps inside the selected case timeline
   useEffect(() => {
-    const timeout = setTimeout(()=>{
-      setStepIdx(0); // Reset whenever tab shifts
+    const timer = setInterval(() => {
+      setCurrentStepIdx((prev) => (prev + 1) % problemPayload.steps.length);
+    }, 2200);
 
-    }, 0);
-    
-    const interval = setInterval(() => {
-      setStepIdx((prev) => {
-        if (prev < currentCase.steps.length - 1) return prev + 1;
-        return 0; // Loop timeline
-      });
-    }, 2500);
+    return () => clearInterval(timer);
+  }, []);
 
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(interval); 
-    }
-  }, [activeTab,currentCase]);
+  const stepData = problemPayload.steps[currentStepIdx];
+
+  const {
+    grid = [],
+    visited = [],
+    currentCell = [0, 0],
+    currentTime = 0,
+    state = {},
+    output,
+    narration
+  } = stepData;
+
+  const N = grid.length || 5;
+  const targetCell = [N - 1, N - 1];
+
+  let heapItems = [];
+  try {
+    heapItems = typeof state.minHeap === "string" ? JSON.parse(state.minHeap) : state.minHeap || [];
+  } catch {
+    heapItems = [];
+  }
+
+  const visitedSet = new Set(visited.map(([r, c]) => `${r},${c}`));
+  const [currR, currC] = currentCell || [0, 0];
+  const maxGridVal = Math.max(...grid.flat(), 24);
 
   return (
-    <div style={styles.cardFrame}>
-      {/* Top Header Row Layout */}
-      <div style={styles.headerRow}>
-        <div style={styles.windowDots}>
-          <span>Live</span>
-        </div>
-        <div style={styles.headerTitle}>two-sum · case complexities</div>
+    <div id="psw-swim-canvas">
+      {/* Top Metric Bar */}
+      <div id="psw-metrics-bar">
+        <span id="psw-metric-water">
+          Water Level: <b>t = {currentTime}</b>
+        </span>
+        <span id="psw-metric-swimmer">
+          Swimmer: <b>({currR}, {currC})</b>
+        </span>
+        <span id="psw-metric-heap">
+          Min-Heap Size: <b>{heapItems.length}</b>
+        </span>
+        <span id="psw-metric-target">
+          Target: <b>({targetCell[0]}, {targetCell[1]})</b>
+        </span>
       </div>
 
-      {/* Navigation Filter Tabs */}
-      <div style={styles.tabContainer}>
-        {Object.keys(CASES).map((key) => (
-          <button
-            key={key}
-            onClick={() => setActiveTab(key)}
+      {/* Main Grid & Heap Stage */}
+      <div id="psw-swim-stage">
+        {/* Terrain Grid Card */}
+        <div id="psw-water-grid-card">
+          <div id="psw-grid-header-label">5x5 Elevation Terrain Grid</div>
+          <div
+            id="psw-terrain-grid"
             style={{
-              ...styles.tabButton,
-              borderColor: activeTab === key ? "#10b981" : "#334155",
-              color: activeTab === key ? "#ffffff" : "#a8a29e",
-              backgroundColor: activeTab === key ? "#1c1917" : "transparent"
+              gridTemplateColumns: `repeat(${N}, minmax(0, 1fr))`
             }}
           >
-            <span
-              style={{
-                ...styles.tabDot,
-                backgroundColor: key === "best" ? "#10b981" : key === "average" ? "#eab308" : "#f43f5e"
-              }}
-            />
-            {CASES[key].label}
-          </button>
-        ))}
-        <h2 style={{marginLeft: "auto"}}>Target: {currentCase.target}</h2>
-      </div>
+            {grid.map((row, r) =>
+              row.map((elevation, c) => {
+                const isCurrent = currR === r && currC === c;
+                const isVisited = visitedSet.has(`${r},${c}`);
+                const isSubmerged = elevation <= currentTime;
 
-      {/* Metrics Row Grid Layout */}
-      <div style={styles.metricsGrid}>
-        <div>
-          <div style={styles.metricLabel}>TIME</div>
-          <div style={styles.metricValue}>{currentCase.timeComplexity}</div>
-        </div>
-        <div>
-          <div style={styles.metricLabel}>SPACE</div>
-          <div style={{ ...styles.metricValue, color: "#e2e8f0" }}>{currentCase.spaceComplexity}</div>
-        </div>
-        <div style={{ textAlign: "right" }}>
-          <div style={styles.metricLabel}>WORK MEASURE</div>
-          <div style={styles.workProgressLabel}>
-            Step {stepIdx + 1} of {currentCase.steps.length} ops
+                let cellState = "dry";
+                if (isCurrent) cellState = "active";
+                else if (isSubmerged) cellState = "submerged";
+
+                return (
+                  <motion.div
+                    key={`psw-cell-${r}-${c}`}
+                    id={`psw-terrain-cell-${r}-${c}`}
+                    data-cell-state={cellState}
+                    layout
+                    animate={{
+                      scale: isCurrent ? 1.05 : 1
+                    }}
+                    transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  >
+                    <AnimatePresence>
+                      {isSubmerged && (
+                        <motion.div
+                          id={`psw-water-surface-fill-${r}-${c}`}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                        />
+                      )}
+                    </AnimatePresence>
+
+                    <div id={`psw-cell-content-${r}-${c}`}>
+                      <span id={`psw-elevation-val-${r}-${c}`}>{elevation}</span>
+                      <span id={`psw-cell-coord-${r}-${c}`}>({r},{c})</span>
+                    </div>
+
+                    {isCurrent && (
+                      <motion.div
+                        id={`psw-swimmer-pin-${r}-${c}`}
+                        initial={{ scale: 0.5 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                      >
+                        🏊
+                      </motion.div>
+                    )}
+
+                    {isVisited && (
+                      <span id={`psw-visited-dot-${r}-${c}`} />
+                    )}
+                  </motion.div>
+                );
+              })
+            )}
           </div>
-          <div style={styles.progressBarBg}>
-            <div
-              style={{
-                ...styles.progressBarFill,
-                width: `${((stepIdx + 1) / currentCase.steps.length) * 100}%`
-              }}
-            />
+        </div>
+
+        {/* Priority Queue (Min-Heap) Inspection */}
+        <div id="psw-heap-panel">
+          <div id="psw-panel-title">Min-Heap Priority Queue [T, R, C]</div>
+          <div id="psw-heap-stream">
+            {heapItems.length === 0 ? (
+              <span id="psw-heap-empty">Queue empty / expanding...</span>
+            ) : (
+              heapItems.map(([timeVal, hr, hc], idx) => {
+                const isNextMin = idx === 0;
+
+                return (
+                  <motion.div
+                    key={`psw-heap-${hr}-${hc}-${timeVal}-${idx}`}
+                    id={`psw-heap-chip-${hr}-${hc}-${idx}`}
+                    data-is-min={isNextMin ? "true" : "false"}
+                    initial={{ opacity: 0, x: 6 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <div id={`psw-heap-min-tag-${hr}-${hc}-${idx}`}>
+                      {isNextMin ? "MIN ROOT" : `#${idx + 1}`}
+                    </div>
+                    <div id={`psw-heap-coords-${hr}-${hc}-${idx}`}>({hr}, {hc})</div>
+                    <div id={`psw-heap-time-${hr}-${hc}-${idx}`}>Req: t={timeVal}</div>
+                  </motion.div>
+                );
+              })
+            )}
+          </div>
+
+          <div id="psw-water-level-meter">
+            <span id="psw-meter-label">Global Water Level ({currentTime} / {maxGridVal})</span>
+            <div id="psw-meter-bar-track">
+              <motion.div
+                id="psw-meter-bar-fill"
+                animate={{ width: `${Math.min(100, (currentTime / maxGridVal) * 100)}%` }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Interactive Visual Execution Panel */}
-      <div style={styles.visualizerBox}>
-        {/* The Array Items Lineup */}
-        <div style={styles.arrayLine}>
-          {currentCase.array.map((num, i) => {
-            const isActive = currentStep?.idx === i;
-            const isMatched = currentStep?.found && (i === currentStep.idx || currentCase.array[i] === currentStep.comp);
-            
-            return (
-              <div
-                key={i}
-                style={{
-                  ...styles.arrayNode,
-                  borderColor: isMatched ? "#10b981" : isActive ? "#38bdf8" : "#2e2a24",
-                  backgroundColor: isMatched ? "#065f46" : isActive ? "#0c4a6e" : "#1c1917"
-                }}
-              >
-                {num}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Dynamic Memory Map Registry Mirror */}
-        <div style={styles.mapConsole}>
-          <span style={{ color: "#a8a29e" }}>Hash Map Cache: </span>
-          {Object.keys(currentStep?.map || {}).length === 0 ? (
-            <span style={{ color: "#78716c", fontStyle: "italic" }}>&#123; empty &#125;</span>
-          ) : (
-            <span style={{ color: "#10b981", fontFamily: "monospace" }}>
-              &#123; {Object.entries(currentStep.map).map(([k, v]) => `"${k}": idx ${v}`).join(", ")} &#125;
-            </span>
-          )}
-        </div>
+      {/* Narration & Result Banner */}
+      <div id="psw-result-callout-box">
+        {output ? (
+          <>
+            <div id="psw-callout-header-text">{output.label}</div>
+            <div id="psw-callout-val-text">{output.value}</div>
+          </>
+        ) : (
+          <div id="psw-callout-detail-text">{narration}</div>
+        )}
       </div>
-
-      {/* Description Explainer Banner */}
-      <div style={styles.descriptionText}>
-        <strong>{currentStep?.text}</strong> — {currentCase.description}
-      </div>
-      
     </div>
   );
 }
-
-// Exactly 700px by 400px Premium Box Layout Styles
-const styles = {
-  cardFrame: {
-    width: "645px",
-    height: "395px",
-    backgroundColor: "#141210",
-    border: "1px solid #2e2a24",
-    borderRadius: "12px",
-    padding: "24px",
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    fontFamily: "system-ui, -apple-system, sans-serif",
-    color: "#ffffff"
-  },
-  headerRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  windowDots: { display: "flex", gap: "6px", backgroundColor: "green", padding: "5px 10px", borderRadius: "10px" },
-  dot: { width: "10px", height: "10px", borderRadius: "50%" },
-  headerTitle: { fontSize: "0.85rem", color: "#78716c", fontFamily: "monospace" },
-  tabContainer: { display: "flex", gap: "10px", alignItems: "center", marginTop: "12px" },
-  tabButton: {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "6px 14px",
-    borderRadius: "20px",
-    border: "1px solid",
-    fontSize: "0.85rem",
-    cursor: "pointer",
-    transition: "all 0.2s ease"
-  },
-  tabDot: { width: "6px", height: "6px", borderRadius: "50%" },
-  metricsGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 2fr",
-    alignItems: "center",
-    marginTop: "16px",
-    borderBottom: "1px solid #2e2a24",
-    paddingBottom: "16px"
-  },
-  metricLabel: { fontSize: "0.75rem", color: "#78716c", fontWeight: "bold", letterSpacing: "1px" },
-  metricValue: { fontSize: "2rem", fontWeight: "bold", color: "#10b981", marginTop: "4px", fontFamily: "monospace" },
-  workProgressLabel: { fontSize: "0.85rem", color: "#10b981", fontFamily: "monospace", marginTop: "4px" },
-  progressBarBg: { width: "100%", height: "6px", backgroundColor: "#1c1917", borderRadius: "3px", marginTop: "8px", overflow: "hidden" },
-  progressBarFill: { height: "100%", backgroundColor: "#10b981", transition: "width 0.4s ease-in-out" },
-  visualizerBox: {
-    backgroundColor: "#191614",
-    border: "1px solid #2e2a24",
-    borderRadius: "8px",
-    padding: "16px",
-    flexGrow: 1,
-    marginTop: "16px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "14px"
-  },
-  arrayLine: { display: "flex", gap: "10px" },
-  arrayNode: {
-    width: "45px",
-    height: "45px",
-    border: "2px solid",
-    borderRadius: "6px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontWeight: "bold",
-    fontSize: "1.1rem",
-    transition: "all 0.3s ease"
-  },
-  mapConsole: { fontSize: "0.85rem", fontFamily: "monospace" },
-  descriptionText: {
-    fontSize: "0.9rem",
-    color: "#a8a29e",
-    marginTop: "14px",
-    lineHeight: "1.4"
-  }
-};

@@ -6,10 +6,7 @@ import LogInpage from "../pages/LogInpage.jsx";
 import SignUppage from "../pages/SignUppage.jsx";
 import Problemspage from "../pages/Problemspage.jsx";
 import Welcomepage from "../pages/Welcomepage.jsx";
-import Myproblemlayout from "../components/Programpage helper/Myproblemlayout";
-import loadprob, { loadprobans } from "../components/Programpage helper/loadprob.jsx";
 import Loading from "../components/Loading.jsx";
-
 import Errorpage from "../pages/Errorpage.jsx";
 import Errors from "../components/Error.jsx";
 import Profilepage from "../pages/Profilepage.jsx";
@@ -43,9 +40,9 @@ function FrontRoute() {
 
                 },
                 {
-                    path: "/login", 
+                    path: "/login",
                     element: <LogInpage />
-                        
+
 
                 },
                 {
@@ -60,7 +57,7 @@ function FrontRoute() {
 
                 },
                 {
-                    path: "/problems", id: "problems", hydrateFallbackElement: <Loading />, loader: loadprob, children: [
+                    path: "/problems", id: "problems", hydrateFallbackElement: <Loading />, children: [
                         {
                             index: true, element:
                                 <MyProtectedRoutes>
@@ -69,16 +66,9 @@ function FrontRoute() {
 
                         },
                         {
-                            path: ":id",loader:  loadprobans,element:
-                                <MyProtectedRoutes>
-                                    <Myproblemlayout />
-                                </MyProtectedRoutes>
-
-                        },
-                        {
                             path: "/problems/pesudocode", element:
                                 <MyProtectedRoutes>
-                                    <PseudocodeEditor/>
+                                    <PseudocodeEditor />
                                 </MyProtectedRoutes>
 
                         },

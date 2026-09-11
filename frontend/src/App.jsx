@@ -1,11 +1,11 @@
 
-// import FrontRoute from "./Routes/FrontRoute";
-import AnimateLayout from "./components/Animation/Animatelayout";
+import FrontRoute from "./Routes/FrontRoute";
+// import AnimateLayout from "./components/Animation/Animatelayout";
 function App(){
   return(<>
   
-      {/* <FrontRoute/> */}
-    <AnimateLayout/>
+      <FrontRoute/>
+    {/* <AnimateLayout/> */}
 
       
  
