@@ -93,7 +93,7 @@ export default AI;
 Model gemini-3.5-flash-lite
 
 path: 
-  http://localhost:5000/api/v1/chat/new 
+  https://legendary-puffpuff-21085c.netlify.app/api/v1/chat/new 
 with message:
  JSON: 
 {

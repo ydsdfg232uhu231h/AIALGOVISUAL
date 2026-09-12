@@ -31,7 +31,7 @@ function LogInpage() {
       throw new Error("incorrect Form details");
     }
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth/login',
+      const response = await fetch('https://legendary-puffpuff-21085c.netlify.app/api/v1/auth/login',
         {
           method: "POST",
           headers: {

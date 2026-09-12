@@ -11,7 +11,7 @@ const __firstname = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__firstname)
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use(cors({origin: "http://localhost:5173", credentials: true}));
+app.use(cors({origin: "https://legendary-puffpuff-21085c.netlify.app", credentials: true}));
 app.use(cookieParser(process.env.COOKIES_SECRET));
 app.use("/api/v1/",mrouter);
 app.use(express.static(path.join(__dirname, "client", "dist")));

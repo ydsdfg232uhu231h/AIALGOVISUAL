@@ -29,7 +29,7 @@ function SignUppage() {
     console.log("My Data ", email);
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth/signup',
+      const response = await fetch('https://legendary-puffpuff-21085c.netlify.app/api/v1/auth/signup',
         {
           method: "POST",
           headers: {
