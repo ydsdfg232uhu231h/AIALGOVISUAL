@@ -32,10 +32,10 @@ app.use(cors({
   }));
 app.use(cookieParser(process.env.COOKIES_SECRET));
 app.use("/api/v1/",mrouter);
-app.use(express.static(path.join(__dirname, "client", "dist")));
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
 export default app;
