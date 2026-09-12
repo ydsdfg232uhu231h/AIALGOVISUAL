@@ -9,7 +9,6 @@ export const handleLogin = async (req, res) => {
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
-        
 
         if (!user) {
             return res.status(401).json({
@@ -33,7 +32,6 @@ export const handleLogin = async (req, res) => {
 
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
-        
 
         res.clearCookie(COOKIES_NAME);
 
@@ -45,18 +43,18 @@ export const handleLogin = async (req, res) => {
             path: "/",
         });
 
-        await notifyUser({
+        // Non-blocking notification dispatch
+        notifyUser({
             userEmail: user.email,
             userName: user.name,
-            subject: "Welcome to AAFPS!",
-            text: `Hello ${user.name}, welcome to AAFPS.\n We hope our website will solve your problem.`
-        })
+            subject: "Security Alert: New Login to AAFPS",
+            text: `Hello ${user.name},\nWe detected a new sign-in to your AAFPS account.`
+        }).catch(err => console.error("Mailtrap Background Email Error:", err));
 
         return res.status(200).json({
-            message: `Login Successfull`,
+            message: `Login Successful`,
             email: user.email,
             name: user.name,
-            
         });
 
     } catch (error) {
@@ -65,7 +63,6 @@ export const handleLogin = async (req, res) => {
         });
     }
 };
-
 
 export const handleSignup = async (req, res) => {
     try {
