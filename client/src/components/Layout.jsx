@@ -13,6 +13,7 @@ function Layout() {
     try {
         // 1. Check if user data exists
         if (!userdata) {
+            window.location.reload();
             navigate("/signup");
             return;
         }
