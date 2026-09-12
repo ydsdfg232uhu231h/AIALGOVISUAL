@@ -39,7 +39,7 @@
   min-height: 400px;
   margin: 0 auto 10px auto;
   font-family: sans-serif;
-  padding: 16px;
+  padding: 0px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
