@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server:{
     proxy: {
-      '/api': 'http://loclhost:5000',
+      '/api': 'https://aialgovisual-1.onrender.com',
     },
   },
 })
