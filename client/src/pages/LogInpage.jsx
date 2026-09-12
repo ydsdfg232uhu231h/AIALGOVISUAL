@@ -10,7 +10,7 @@ function LogInpage() {
   const aobj = { email: "", password: "", message: "" };
   const [logerror, setlogerror] = useState(aobj);
   const navigate = useNavigate();
- 
+
     function handleCicked() {
     const newauthchecked = !authchecker;
     setauthchecker(newauthchecked);
@@ -51,7 +51,7 @@ function LogInpage() {
           await  refetchUser();
           const timer = setTimeout(() => {
             navigate("/home");
-            window.location.reload("/home");
+           window.location.reload();
           }, 4000);
           return () => clearTimeout(timer);
         

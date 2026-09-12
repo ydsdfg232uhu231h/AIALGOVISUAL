@@ -9,38 +9,42 @@ function Layout() {
     const navigate = useNavigate();
     const {userdata} = useUserdetail();
 
-    useEffect(() => {
-        try {
-          
-            if (!userdata) {
-                navigate("/signup");
-                return;
-            }
-
-            const userdetail = userdata;
-
-            if (!userdetail?.name) {
-                navigate("/signup");
-                return;
-            }
-
-            const myusername = userdetail?.name
-                .split(" ")
-                .map((word) => word[0])
-                .join("")
-                .toUpperCase();
-                function Myuserset(){
-                    setmyuserd(myusername);
-                  window.location.reload("/home")
-                }
-                Myuserset();
-
-
-        } catch (error) {
-            console.error("Error reading user details:", error.message);
+   useEffect(() => {
+    try {
+        // 1. Check if user data exists
+        if (!userdata) {
             navigate("/signup");
+            return;
         }
-    }, [navigate]);
+
+        const userdetail = userdata;
+
+        // 2. Check if the name exists
+        if (!userdetail?.name) {
+            navigate("/signup");
+            return;
+        }
+
+        // 3. Generate initials (e.g., "John Doe" -> "JD")
+        const myusername = userdetail.name
+            .split(" ")
+            .map((word) => word[0])
+            .join("")
+            .toUpperCase();
+            
+        // 4. Directly update state (React handles the visual refresh automatically)
+        function myuser(){
+            setmyuserd(myusername);
+
+        }
+        myuser();
+
+    } catch (error) {
+        console.error("Error reading user details:", error.message);
+        navigate("/signup");
+    }
+}, [navigate, userdata]); // Added userdata here so it responds to data changes
+
 
     return (
         <>
