@@ -25,13 +25,13 @@ function AI() {
                 usermessage.current.value = "";
             }
             const newMessage = { role: "user", content }
-            console.log("User message", usermessage.current.value);
+        
              setchatmessage(prev => ([ ...prev, newMessage ]));
             const chatData = await sendChatsrequest({ message: content });
-            console.log(chatData)
+            
             setchatmessage([...chatData.chats])
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
         if (usermessage.current?.value === "") {
             return;

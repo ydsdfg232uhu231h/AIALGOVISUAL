@@ -7,7 +7,7 @@ import app from "./app.js";
 const port = process.env.PORT;
 
 handleconnecttosdb().then(()=> {
-    app.listen(port,()=> console.log("http://localhost:5000"));
+    app.listen(port,()=> console.log("data is connected"));
 });
 
     

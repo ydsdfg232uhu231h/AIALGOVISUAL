@@ -18,14 +18,13 @@ user.chats.push({
   role: "user",
   content: message,
 });
-console.log("Model",DEFAULT_MODEL);
-console.log("message", message)
+
 
 const response = await ai.models.generateContent({
   model: DEFAULT_MODEL,
   contents: message,
 });
-console.log(response.text);
+
 user.chats.push({
   role: "assistant",
   content: response.text ?? "",
