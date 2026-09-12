@@ -7,7 +7,7 @@ function useUserdetail() {
     const Fetchuser = useCallback(async () => {
         try {
             const response = await fetch(
-                "https://legendary-puffpuff-21085c.netlify.app/api/v1/auth/auth-status",
+                "https://aialgovisual-1.onrender.com/api/v1/auth/auth-status",
                 {
                     method: "GET",
                     credentials: "include"
