@@ -5,7 +5,7 @@ backend/.env
 backend/client/.env
 client/.env
 
-client/dist
+
 # Logs
 logs
 *.log
