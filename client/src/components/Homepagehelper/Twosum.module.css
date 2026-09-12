@@ -18,6 +18,9 @@
   user-select: none;
   margin: 0 auto;
 }
+*::-webkit-scrollbar{
+  display: none;
+}
 
 /* Top Metric Pills Bar */
 .metricsBar {

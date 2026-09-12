@@ -18,7 +18,9 @@
   overflow: hidden;
   margin: 0 auto;
 }
-
+*::-webkit-scrollbar{
+  display: none;
+}
 /* Top Telemetry Metric Pills */
 #psw-metrics-bar {
   display: flex;
