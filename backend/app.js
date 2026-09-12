@@ -14,7 +14,8 @@ const allowedOrigins = [
   "http://localhost:5000"  // Local React/Node
 ];
 const __firstname = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__firstname)
+const __dirname = path.dirname(__firstname);
+const distPath = path.join(__dirname, "..", "client", "dist");
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cors({
@@ -35,7 +36,7 @@ app.use("/api/v1/",mrouter);
 app.use(express.static(path.join(__dirname, "../client" ,"dist")));
 
 app.get(/^(?!\/api\/v1).*/, (req, res) => {
-  res.sendFile(path.join(__dirname,"../client" , "dist", "index.html"));
+  res.sendFile(distPath);
 });
 
 export default app;
