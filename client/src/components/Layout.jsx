@@ -31,7 +31,7 @@ function Layout() {
                 .toUpperCase();
                 function Myuserset(){
                     setmyuserd(myusername);
-                  
+                  window.location.reload("/home")
                 }
                 Myuserset();
 

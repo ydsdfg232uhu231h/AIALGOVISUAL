@@ -51,7 +51,7 @@ function LogInpage() {
           await  refetchUser();
           const timer = setTimeout(() => {
             navigate("/home");
-            
+            window.location.reload("/home");
           }, 4000);
           return () => clearTimeout(timer);
         
