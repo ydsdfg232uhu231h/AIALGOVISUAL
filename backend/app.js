@@ -21,7 +21,7 @@ app.use("/api/v1/",mrouter);
 app.use(express.static(path.join(__dirname, "../client" ,"dist")));
 
 app.get(/^(?!\/api\/v1).*/, (req, res) => {
-  res.sendFile(path.join(distPath, "index.js"));
+  res.sendFile(path.join(__dirname, "dist", "index.js"));
 });
 
 export default app;
