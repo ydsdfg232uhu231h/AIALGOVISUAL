@@ -37,7 +37,7 @@ const runPseudocode = (code, dialectKey) => {
       // eslint-disable-next-line no-new-func
       return Function(`"use strict"; return (${substituted})`)();
     } catch (e) {
-        console.log(e)
+        console.log(e.message)
       return exprStr.replace(/^"(.*)"$/, '$1');
     }
   };
