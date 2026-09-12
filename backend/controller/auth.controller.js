@@ -2,6 +2,7 @@ import {hash, compare} from "bcrypt";
 import User from "../model/user.js";
 import { COOKIES_NAME } from "../util/content.js";
 import { createToken } from "../util/token.js";
+import { notifyUser } from "./notification.controller.js";
 
 export const handleLogin = async (req, res) => {
     try {
@@ -43,6 +44,13 @@ export const handleLogin = async (req, res) => {
             sameSite: "lax",
             path: "/",
         });
+
+        await notifyUser({
+            userEmail: user.email,
+            userName: user.name,
+            subject: "Welcome to AAFPS!",
+            text: `Hello ${user.name}, welcome to AAFPS.\n We hope our website will solve your problem.`
+        })
 
         return res.status(200).json({
             message: `Login Successfull`,
