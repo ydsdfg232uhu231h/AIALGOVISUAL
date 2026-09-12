@@ -18,9 +18,7 @@
   overflow: hidden;
   margin: 0 auto;
 }
-*::-webkit-scrollbar{
-  display: none;
-}
+
 /* Top Telemetry Metric Pills */
 #psw-metrics-bar {
   display: flex;
@@ -29,6 +27,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
 }
 
 #psw-metrics-bar > span {
@@ -58,6 +57,7 @@
   width: 100%;
   min-height: 275px;
   align-items: stretch;
+  box-sizing: border-box;
 }
 
 /* Grid & Heap Cards */
@@ -74,15 +74,23 @@
 }
 
 #psw-water-grid-card {
-  width: 280px;
-  flex-shrink: 0;
+  flex: 0 0 48%;
+  max-width: 50%;
   align-items: center;
 }
 
 #psw-heap-panel {
-  flex: 1;
+  flex: 1 1 50%;
   justify-content: space-between;
   min-width: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#psw-heap-panel::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 #psw-grid-header-label,
@@ -94,6 +102,8 @@
   letter-spacing: 0.6px;
   margin-bottom: 8px;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #psw-panel-title {
@@ -108,6 +118,7 @@
   width: 100%;
   max-width: 220px;
   aspect-ratio: 1;
+  box-sizing: border-box;
 }
 
 [id^="psw-terrain-cell-"] {
@@ -121,6 +132,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 /* Cell States */
@@ -193,10 +205,19 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
   max-height: 180px;
   overflow-y: auto;
-  padding-right: 2px;
-  scrollbar-width: thin;
+  box-sizing: border-box;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Completely Hide Scrollbar for Webkit Engines */
+#psw-heap-stream::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 #psw-heap-empty {
@@ -205,6 +226,7 @@
   color: #4b5563;
   font-style: italic;
   margin-top: 2px;
+  width: 100%;
 }
 
 [id^="psw-heap-chip-"] {
@@ -217,6 +239,8 @@
   align-items: center;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 [id^="psw-heap-chip-"][data-is-min="true"] {
@@ -245,6 +269,8 @@
   gap: 4px;
   margin-top: auto;
   padding-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #psw-meter-label {
@@ -258,9 +284,11 @@
 
 #psw-meter-bar-track {
   height: 4px;
+  width: 100%;
   background: #1a1b26;
   border-radius: 9999px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 #psw-meter-bar-fill {
@@ -308,29 +336,30 @@
   text-overflow: ellipsis;
 }
 
-/* ============================================================
-   RESPONSIVE MEDIA QUERIES
-   ============================================================ */
-
-/* Mobile Breakpoint (≤ 560px) */
+/* Responsive Media Queries */
 @media screen and (max-width: 560px) {
   #psw-swim-canvas {
     padding: 8px;
     border-radius: 10px;
+    width: 100%;
   }
 
   #psw-swim-stage {
     flex-direction: column;
     height: auto;
+    width: 100%;
   }
 
   #psw-water-grid-card,
   #psw-heap-panel {
     width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
   }
 
   #psw-heap-stream {
     max-height: 140px;
+    width: 100%;
   }
 
   [id^="psw-elevation-val-"] {
