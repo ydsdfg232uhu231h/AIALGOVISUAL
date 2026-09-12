@@ -7,8 +7,8 @@ const client = new MailtrapClient({ token: TOKEN });
 
 // Default Sender (Use standard demo sender for sandbox/testing)
 const defaultSender = {
-  email: "yuvrajgupta90334@gmail.com", // Or your verified custom domain email
-  name: "Yuvraj Gupta - AAFPS",
+  email: "aafps@demomailtrap.co", // Or your verified custom domain email
+  name: "AAFPS",
 };
 
 /**
