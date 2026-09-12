@@ -15,7 +15,7 @@ function Profilepage() {
   async function handleLogout(e){
     e.preventDefault();
     try {
-      const response  = await fetch("https://aialgovisual-1.onrender.com/api/v1/auth/logout",{
+      const response  = await fetch("https://aialgovisual.onrender.com/api/v1/auth/logout",{
         method: "POST",
         headers: {
           "Content-Type": "application/json",

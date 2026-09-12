@@ -93,7 +93,7 @@ export default AI;
 Model gemini-3.5-flash-lite
 
 path: 
-  https://aialgovisual-1.onrender.com/api/v1/chat/new 
+  https://aialgovisual.onrender.com/api/v1/chat/new 
 with message:
  JSON: 
 {
