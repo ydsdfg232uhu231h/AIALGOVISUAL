@@ -4,11 +4,12 @@ import useUserdetail from "../components/Userdetail";
 import { IoLogOut } from "react-icons/io5";
 import { useNavigate} from "react-router"
 import Success, { PopError } from "../components/Success.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function Profilepage() {
-  const {userdata} = useUserdetail();
+  const {userdata,logoutUser } = useUserdetail();
   const [message,setmessage] = useState({error: "", success: ""});
   const navigate = useNavigate();
+  
   if (!userdata) {
     navigate("/signup");
   }
@@ -24,11 +25,14 @@ function Profilepage() {
         body: JSON.stringify({email: userdata?.email})
       });
       const data = await response.json();
+      
+      
       if (!response.ok) {
         return setmessage(prev => ({...prev,  error: data.message, success: ""}) ); 
       }
       if (response.status === 200) {
         localStorage.clear();
+        logoutUser();
         setmessage(prev => ({...prev,  error: "", success: data.message}) );
       
         

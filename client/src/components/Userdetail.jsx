@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import useLocalstorage from "../utility/Mystorage";
 
-function useUserdetail() {
+  function useUserdetail() {
     const [userdata, setuserdata] = useLocalstorage("userdetail", null);
 
     const Fetchuser = useCallback(async () => {
@@ -41,6 +41,11 @@ function useUserdetail() {
         }
     }, [setuserdata]);
 
+    const logoutUser = useCallback(()=>{
+        localStorage.removeItem("userdetail");
+        setuserdata(null);
+    },[setuserdata])
+
    useEffect(() => {
     const handleFocus = () => {
         Fetchuser();
@@ -55,8 +60,8 @@ function useUserdetail() {
 
     return {
         userdata,
-        refetchUser: Fetchuser
+        refetchUser: Fetchuser,
+        logoutUser
     };
 }
-
 export default useUserdetail;

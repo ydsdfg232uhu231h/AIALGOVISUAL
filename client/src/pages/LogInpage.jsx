@@ -41,14 +41,16 @@ function LogInpage() {
           body: JSON.stringify(formvalue),
         });
       const mydata = await response.json();
-
+        if (response.ok) {
+          await  refetchUser();
+        }
       if (!mydata.errors) {
         if (response.status === 403) {
           setlogerror(prev => ({ ...prev, message: mydata.message }))
         }
         else if (response.status === 200) {
           setsuc(mydata);
-          await  refetchUser();
+          
           const timer = setTimeout(() => {
             navigate("/home");
            
