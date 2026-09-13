@@ -41,9 +41,7 @@ function LogInpage() {
           body: JSON.stringify(formvalue),
         });
       const mydata = await response.json();
-        if (response.ok) {
-          notifyAuthChange();
-        }
+       
       if (!mydata.errors) {
         if (response.status === 403) {
           setlogerror(prev => ({ ...prev, message: mydata.message }))
@@ -53,7 +51,7 @@ function LogInpage() {
           
           const timer = setTimeout(() => {
             navigate("/home");
-           
+           notifyAuthChange();
           }, 4000);
           return () => clearTimeout(timer);
         
