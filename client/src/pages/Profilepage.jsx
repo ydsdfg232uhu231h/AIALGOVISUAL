@@ -1,13 +1,13 @@
 import "./Profilepage.css";
 import defaultuserimage from "../assets/defaultuserimage.png";
-import useUserdetail from "../components/Userdetail";
+import useUserdetail, { notifyAuthChange } from "../components/Userdetail";
 import { IoLogOut } from "react-icons/io5";
 import { useNavigate } from "react-router";
 import Success, { PopError } from "../components/Success.jsx";
 import { useState, useEffect } from "react";
 
 function Profilepage() {
-  const { userdata, logoutUser } = useUserdetail();
+  const { userdata } = useUserdetail();
   const [message, setmessage] = useState({ error: "", success: "" });
   const navigate = useNavigate();
 
@@ -20,12 +20,15 @@ function Profilepage() {
   async function handleLogout(e) {
     e.preventDefault();
     try {
-      const response = await fetch("https://aialgovisual.onrender.com/api/v1/auth/logout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email: userdata?.email }),
-      });
+      const response = await fetch(
+        "https://aialgovisual.onrender.com/api/v1/auth/logout",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email: userdata?.email }),
+        }
+      );
 
       const data = await response.json();
 
@@ -34,7 +37,8 @@ function Profilepage() {
       }
 
       if (response.status === 200) {
-        logoutUser();
+        localStorage.removeItem("userdetail");
+        notifyAuthChange(); // Layout will detect this instantly and re-render
         navigate("/signup");
       }
     } catch (error) {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Success from "../components/Success";
-import useUserdetail from "../components/Userdetail";
+import useUserdetail, { notifyAuthChange } from "../components/Userdetail";
 import Loading from "../components/Loading";
 function LogInpage() {
   const [authchecker,setauthchecker] = useState(false);
@@ -42,7 +42,7 @@ function LogInpage() {
         });
       const mydata = await response.json();
         if (response.ok) {
-          await  refetchUser();
+          notifyAuthChange();
         }
       if (!mydata.errors) {
         if (response.status === 403) {

@@ -1,6 +1,11 @@
 import { useCallback, useEffect } from "react";
 import useLocalstorage from "../utility/Mystorage";
 
+// Helper to broadcast auth updates across all hook instances in the same tab
+export const notifyAuthChange = () => {
+  window.dispatchEvent(new Event("auth-change"));
+};
+
 function useUserdetail() {
   const [userdata, setuserdata] = useLocalstorage("userdetail", null);
 
@@ -32,21 +37,31 @@ function useUserdetail() {
     }
   }, [setuserdata]);
 
-  const logoutUser = useCallback(() => {
-    localStorage.removeItem("userdetail");
-    setuserdata(null);
-  }, [setuserdata]);
-
+  // Sync state whenever an auth event fires or window regains focus
   useEffect(() => {
-    const handleFocus = () => Fetchuser();
+    const handleSync = () => {
+      const stored = localStorage.getItem("userdetail");
+      setuserdata(stored ? JSON.parse(stored) : null);
+    };
+
+    const handleFocus = () => {
+      Fetchuser();
+    };
+
+    window.addEventListener("auth-change", handleSync);
+    window.addEventListener("storage", handleSync); // syncs across other tabs too
     window.addEventListener("focus", handleFocus);
-    return () => window.removeEventListener("focus", handleFocus);
-  }, [Fetchuser]);
+
+    return () => {
+      window.removeEventListener("auth-change", handleSync);
+      window.removeEventListener("storage", handleSync);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [Fetchuser, setuserdata]);
 
   return {
     userdata,
     refetchUser: Fetchuser,
-    logoutUser,
   };
 }
 
