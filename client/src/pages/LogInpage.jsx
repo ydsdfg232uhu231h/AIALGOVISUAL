@@ -48,10 +48,10 @@ function LogInpage() {
         }
         else if (response.status === 200) {
           setsuc(mydata);
-          
+          await refetchUser();
+          notifyAuthChange();
           const timer = setTimeout(() => {
             navigate("/home");
-           notifyAuthChange();
           }, 4000);
           return () => clearTimeout(timer);
         
