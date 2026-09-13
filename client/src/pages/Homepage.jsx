@@ -18,7 +18,7 @@ function Homepage() {
 
   return (
     <>
-      <div className="myhome" id="thishone">
+      <div className="myhome" >
         <div className="b1" >
             <h5>Watch Algorithm</h5>
             <h1>Algorithm you can see.</h1>
@@ -29,7 +29,7 @@ function Homepage() {
           <TwoSumVisualizer/>
         </div>
       </div>
-      <div className="myhome">
+      <div className="myhome" id="thishone">
         <div className="b2">
           <Swim/>
         </div>

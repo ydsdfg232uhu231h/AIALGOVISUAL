@@ -335,7 +335,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
+@media screen and (max-width: 1024px) {
+  #psw-swim-canvas {
+    padding: 8px;
+    border-radius: 10px;
+    min-width: 100%;
+  }
+}
 /* Responsive Media Queries */
 @media screen and (max-width: 560px) {
   #psw-swim-canvas {

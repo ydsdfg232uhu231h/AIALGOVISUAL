@@ -39,7 +39,7 @@ function Layout() {
             console.error("Error reading user details:", error.message);
             navigate("/signup");
         }
-    }, [navigate]);
+    }, [navigate, userdata]);
 
 
     return (

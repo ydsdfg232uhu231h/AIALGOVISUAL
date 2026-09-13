@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
-
+const port = process.env.PORT;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distPath = path.join(__dirname, "..", "client", "dist");
@@ -21,7 +21,7 @@ app.use(express.static(distPath));
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "https://aafpsw.netlify.app",
+    origin: process.env.CLIENT_URL || `http:localhost:${port}` || 'https://aialgovisual.onrender.com',
     credentials: true,
   })
 );
