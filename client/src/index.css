@@ -26,7 +26,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background: #0b0b0c;
-  color: yellow;
+  color: white;
+  
   font-family: 'Times New Roman', Times, serif;
   user-select: none;
   -webkit-font-smoothing: antialiased;
@@ -52,7 +53,8 @@ main, .page-wrapper {
 }
 
 a {
-  color: white;
+  /* color: white; */
+  color: #0b0b0c;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -75,7 +77,7 @@ header#mylayout nav ul li {
 header#mylayout nav ul li a:hover,
 header#mylayout nav ul li a.active,
 .active {
-  color: aqua;
+  color: orange;
 }
 
 header#mylayout nav ul li:first-child {
@@ -274,7 +276,8 @@ hr {
 }
 
 ul li {
-  color: rgba(255, 255, 255, 0.788);
+  /* color: rgba(255, 255, 255, 0.788); */
+  color: #0b0b0c;
   padding: 6px 0;
   font-size: 15px;
   
@@ -282,7 +285,8 @@ ul li {
 }
 
 ul#slink li a {
-  color: rgba(255, 255, 255, 0.788);
+  /* color: rgba(255, 255, 255, 0.788); */
+  color: #0b0b0c;
   text-decoration: none;
   transition: color 0.2s ease;
 }
