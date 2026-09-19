@@ -15,8 +15,12 @@ function AI() {
     const buttonref = useRef(null);
     const btnref = useRef(null);
     useEffect(()=>{
-btnref.current?.scrollIntoView({behavior: "smooth", block: "end"});
-        buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
+btnref.current?.scrollIntoView({behavior: "smooth", block: "center"});
+const timer= setTimeout(()=>{
+buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
+},400);
+return ()=> clear timeout(timer);
+        
     },[chatmessage])
 
     async function handleDeletechat(){
