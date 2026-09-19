@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -57,7 +57,7 @@
 
 #p417-metric-grid-dim b {
   color: #c084fc;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p417-metric-pac-count {
@@ -66,7 +66,7 @@
 }
 #p417-metric-pac-count b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p417-metric-atl-count {
@@ -75,7 +75,7 @@
 }
 #p417-metric-atl-count b {
   color: #fb923c;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p417-metric-overlap-count {
@@ -84,7 +84,7 @@
 }
 #p417-metric-overlap-count b {
   color: #4ade80;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -133,7 +133,7 @@
   font-weight: 500;
   color: #71717a;
   text-transform: none;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -157,7 +157,7 @@
   font-size: 9.5px;
   font-weight: 900;
   letter-spacing: 1.2px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   border-radius: 6px;
   box-sizing: border-box;
 }
@@ -253,7 +253,7 @@
   font-size: 18px;
   font-weight: 900;
   color: #f4f4f5;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -261,7 +261,7 @@
   font-size: 8.5px;
   font-weight: 700;
   color: #525260;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 4px;
   line-height: 1;
 }
@@ -325,7 +325,7 @@
   font-size: 11px;
   font-weight: 700;
   color: #94949e;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p417-dot-"] {
@@ -371,7 +371,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p417-callout-detail-text {

@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -57,7 +57,7 @@
 #p347-metric-sweep b {
   color: #ffffff;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p347-metric-target b { color: #38bdf8; }
@@ -121,7 +121,7 @@
 #p347-sweep-direction {
   font-size: 12px;
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 800;
 }
 
@@ -160,7 +160,7 @@
 [id^="p347-freq-num-badge-"] b {
   font-size: 16px;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p347-freq-count-badge-"] {
@@ -171,7 +171,7 @@
 [id^="p347-freq-count-badge-"] b {
   font-size: 15px;
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -217,7 +217,7 @@
   font-size: 12px;
   font-weight: 800;
   color: #a1a1aa;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p347-active-arrow-"] {
@@ -227,7 +227,7 @@
   background: #facc15;
   padding: 1px 5px;
   border-radius: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p347-bucket-content-"] {
@@ -256,7 +256,7 @@
   justify-content: center;
   font-size: 16px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-sizing: border-box;
   transition: all 0.2s ease;
 }
@@ -304,14 +304,14 @@
   font-size: 15px;
   font-weight: 900;
   color: #a1a1aa;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p347-slot-value-"] {
   font-size: 22px;
   font-weight: 900;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -346,7 +346,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 3px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p347-callout-detail-text {

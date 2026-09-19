@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -59,13 +59,13 @@
 #p54-metric-top b,
 #p54-metric-bottom b {
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p54-metric-left b,
 #p54-metric-right b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p54-metric-status-active b {
@@ -132,7 +132,7 @@
   font-size: 10px;
   font-weight: 500;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -168,7 +168,7 @@
   justify-content: center;
   font-size: 18px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   border-radius: 12px;
   transition: all 0.3s ease;
   box-sizing: border-box;
@@ -219,7 +219,7 @@
   color: #717182;
   font-weight: 700;
   letter-spacing: 0.5px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p54-cell-"][data-state="active"] [id^="p54-coord-tag-"] {
@@ -251,7 +251,7 @@
   font-size: 11px;
   color: #636374;
   font-style: italic;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p54-res-list-container {
@@ -265,7 +265,7 @@
   border-radius: 8px;
   font-size: 14px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-sizing: border-box;
   background: #151e26;
   border: 1.5px solid #283848;
@@ -320,7 +320,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p54-callout-detail-text {

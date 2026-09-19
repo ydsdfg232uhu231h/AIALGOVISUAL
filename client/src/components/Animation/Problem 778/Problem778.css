@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
   -webkit-font-smoothing: antialiased;
 }
@@ -54,10 +54,10 @@
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-#p778-metric-water b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#p778-metric-swimmer b { color: #facc15; font-family: ui-monospace, monospace; }
-#p778-metric-heap b { color: #c084fc; font-family: ui-monospace, monospace; }
-#p778-metric-target b { color: #22c55e; font-family: ui-monospace, monospace; }
+#p778-metric-water b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
+#p778-metric-swimmer b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
+#p778-metric-heap b { color: #c084fc; font-family: 'Times New Roman', Times, serif; }
+#p778-metric-target b { color: #22c55e; font-family: 'Times New Roman', Times, serif; }
 
 /* ============================================================
    MAIN STAGE
@@ -133,14 +133,14 @@
   font-weight: 900;
   color: #ffffff;
   line-height: 1;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p778-cell-coord-"] {
   font-size: 7.5px;
   color: #71717a;
   margin-top: 2px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 700;
 }
 
@@ -189,7 +189,7 @@
   background: rgba(34, 197, 94, 0.15);
   padding: 1px 3px;
   border-radius: 2px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   z-index: 2;
 }
 
@@ -233,7 +233,7 @@
   color: #52525b;
   font-style: italic;
   margin-top: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p778-heap-chip-"] {
@@ -259,21 +259,21 @@
   font-weight: 900;
   color: #38bdf8;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p778-heap-coords-"] {
   font-size: 12px;
   font-weight: 800;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p778-heap-time-"] {
   font-size: 11px;
   font-weight: 800;
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* WATER LEVEL METER */
@@ -289,7 +289,7 @@
   font-weight: 700;
   color: #71717a;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p778-meter-bar-track {
@@ -340,7 +340,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p778-callout-detail-text {

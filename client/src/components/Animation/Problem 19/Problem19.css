@@ -14,7 +14,7 @@
   box-sizing: border-box;
   padding: 24px 16px 70px 16px;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   overflow-y: auto;
   overflow-x: hidden;
   user-select: none;
@@ -60,7 +60,7 @@
   padding: 1px 6px;
   border-radius: 4px;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -88,7 +88,7 @@
   color: #ffffff;
   font-size: 18px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,7 +136,7 @@
   margin-top: 6px;
   font-size: 11px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p19-arrow-sym-"] {
@@ -181,7 +181,7 @@
   color: #ffffff;
   font-weight: 800;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p19-callout-detail-text {

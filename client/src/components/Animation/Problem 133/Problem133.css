@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -55,9 +55,9 @@
   transition: all 0.2s ease;
 }
 
-#p133-metric-current b { color: #facc15; font-family: ui-monospace, monospace; }
-#p133-metric-cloned-count b { color: #4ade80; font-family: ui-monospace, monospace; }
-#p133-metric-visited-count b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p133-metric-current b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
+#p133-metric-cloned-count b { color: #4ade80; font-family: 'Times New Roman', Times, serif; }
+#p133-metric-visited-count b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
 #p133-metric-status b { color: #38bdf8; }
 
 #p133-metric-status[data-status="done"] {
@@ -118,7 +118,7 @@
   font-size: 10px;
   font-weight: 500;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -192,7 +192,7 @@
   fill: #ffffff;
   font-size: 15px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   dominant-baseline: middle;
 }
@@ -201,7 +201,7 @@
   fill: #717182;
   font-size: 7px;
   font-weight: 700;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   dominant-baseline: middle;
 }
@@ -217,7 +217,7 @@
 [id^="p133-ghost-text-"] {
   fill: #3f3f50;
   font-size: 14px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   dominant-baseline: middle;
 }
@@ -242,7 +242,7 @@
   fill: #4ade80;
   font-size: 15px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   dominant-baseline: middle;
 }
@@ -251,7 +251,7 @@
   fill: #86efac;
   font-size: 7px;
   font-weight: 700;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   dominant-baseline: middle;
 }
@@ -284,7 +284,7 @@
   font-size: 11px;
   color: #636374;
   font-style: italic;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-align: center;
 }
 
@@ -296,7 +296,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-sizing: border-box;
 }
 
@@ -350,7 +350,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p133-callout-detail-text {

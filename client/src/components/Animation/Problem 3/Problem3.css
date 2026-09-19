@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -53,12 +53,12 @@
 
 #p3-metric-window-len b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p3-metric-max-len b {
   color: #4ade80;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p3-metric-duplicate-alert {
@@ -69,7 +69,7 @@
 
 #p3-metric-duplicate-alert b {
   color: #fca5a5 !important;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -111,7 +111,7 @@
   font-weight: 900;
   padding: 1px 6px;
   border-radius: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   line-height: 1;
 }
@@ -136,7 +136,7 @@
   color: #ffffff;
   font-size: 20px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +163,7 @@
   margin-top: 6px;
   font-size: 11px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -196,7 +196,7 @@
   color: #ff7324;
   padding: 4px 12px;
   border-radius: 6px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 12px;
   font-weight: 700;
   word-break: break-all;
@@ -232,7 +232,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p3-callout-detail-text {

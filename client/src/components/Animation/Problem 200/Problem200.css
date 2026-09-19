@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -63,14 +63,14 @@
   font-weight: 800;
 }
 
-#p200-metric-grid-dim b { color: #c084fc; font-family: ui-monospace, monospace; }
-#p200-metric-scan-pos b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p200-metric-grid-dim b { color: #c084fc; font-family: 'Times New Roman', Times, serif; }
+#p200-metric-scan-pos b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
 
 #p200-metric-island-count {
   border-color: rgba(34, 197, 94, 0.4) !important;
   background: rgba(34, 197, 94, 0.1) !important;
 }
-#p200-metric-island-count b { color: #4ade80; font-family: ui-monospace, monospace; }
+#p200-metric-island-count b { color: #4ade80; font-family: 'Times New Roman', Times, serif; }
 
 #p200-metric-status[data-status="scanning"] b { color: #fb923c; }
 
@@ -126,7 +126,7 @@
   font-weight: 500;
   color: #636374;
   text-transform: none;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -187,7 +187,7 @@
 [id^="p200-cell-val-"] {
   font-size: 20px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -195,7 +195,7 @@
   font-size: 8px;
   font-weight: 700;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 3px;
 }
 
@@ -331,7 +331,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p200-callout-detail-text {

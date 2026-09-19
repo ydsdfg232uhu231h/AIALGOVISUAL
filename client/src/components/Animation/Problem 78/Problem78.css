@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -53,17 +53,17 @@
 
 #p78-metric-chip-index b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p78-metric-chip-decision b {
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p78-metric-chip-count b {
   color: #4ade80;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -125,7 +125,7 @@
   text-transform: uppercase;
   background: #38bdf8;
   color: #0c0c10;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 2px 6px rgba(56, 189, 248, 0.4);
   line-height: 1.2;
 }
@@ -149,14 +149,14 @@
   font-size: 18px;
   font-weight: 800;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p78-elem-status-"] {
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.5px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Included in subset */
@@ -218,7 +218,7 @@
 
 #p78-subset-code {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p78-subset-chips-row {
@@ -232,7 +232,7 @@
   font-size: 12px;
   color: #52525b;
   font-style: italic;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p78-path-chip-"] {
@@ -246,7 +246,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 2px 6px rgba(34, 197, 94, 0.4);
   flex-shrink: 0;
 }
@@ -286,7 +286,7 @@
   font-size: 10px;
   font-weight: 800;
   color: #22c55e;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p78-reel-chips-stream {
@@ -307,7 +307,7 @@
   font-size: 11px;
   color: #52525b;
   font-style: italic;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p78-subset-badge-"] {
@@ -318,7 +318,7 @@
   font-weight: 800;
   padding: 2px 7px;
   border-radius: 5px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -351,7 +351,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p78-callout-detail-text {

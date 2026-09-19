@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -55,9 +55,9 @@
   transition: all 0.2s ease;
 }
 
-#p226-metric-root b { color: #facc15; font-family: ui-monospace, monospace; }
-#p226-metric-swapping b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#p226-metric-swapped-count b { color: #c084fc; font-family: ui-monospace, monospace; }
+#p226-metric-root b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
+#p226-metric-swapping b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
+#p226-metric-swapped-count b { color: #c084fc; font-family: 'Times New Roman', Times, serif; }
 
 #p226-metric-status[data-status="active"] b {
   color: #38bdf8;
@@ -129,7 +129,7 @@
   font-size: 10px;
   font-weight: 500;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -164,7 +164,7 @@
   fill: #525264;
   font-size: 8px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   letter-spacing: 0.5px;
 }
 
@@ -231,7 +231,7 @@
   fill: #ffffff;
   font-size: 15px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   dominant-baseline: middle;
   transition: fill 0.2s ease;
@@ -245,7 +245,7 @@
   fill: #717182;
   font-size: 8px;
   font-weight: 700;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   transition: fill 0.2s ease;
 }
@@ -291,7 +291,7 @@
 #p226-swap-val-main,
 #p226-swap-val-verdict {
   font-size: 12px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   transition: color 0.2s ease;
 }
 
@@ -338,7 +338,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p226-callout-detail-text {

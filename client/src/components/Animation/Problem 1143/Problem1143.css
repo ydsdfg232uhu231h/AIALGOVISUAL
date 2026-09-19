@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
   -webkit-font-smoothing: antialiased;
 }
@@ -53,7 +53,7 @@
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-#p1143-metric-cell b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p1143-metric-cell b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
 
 #p1143-metric-match[data-is-match="true"] {
   border-color: #22c55e;
@@ -72,7 +72,7 @@
   color: #fde047;
 }
 
-#p1143-metric-result b { color: #4ade80; font-family: ui-monospace, monospace; }
+#p1143-metric-result b { color: #4ade80; font-family: 'Times New Roman', Times, serif; }
 
 /* ============================================================
    2D MATRIX CONTAINER
@@ -128,7 +128,7 @@
   font-size: 9px;
   color: #71717a;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p1143-col-char-"],
@@ -136,7 +136,7 @@
   font-size: 14px;
   font-weight: 800;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -144,7 +144,7 @@
 [id^="p1143-row-idx-"] {
   font-size: 8px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 2px;
 }
 
@@ -189,7 +189,7 @@
   font-size: 14px;
   font-weight: 700;
   color: #e4e4e7;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Cell States */
@@ -266,7 +266,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p1143-callout-detail-text {

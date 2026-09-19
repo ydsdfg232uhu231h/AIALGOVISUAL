@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -53,17 +53,17 @@
 
 #p22-metric-target b {
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p22-metric-open-count b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p22-metric-close-count b {
   color: #c084fc;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -107,7 +107,7 @@
 #p22-rule-equation-close {
   font-size: 12px;
   color: #e4e4e7;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p22-rule-status-open,
@@ -115,7 +115,7 @@
   font-size: 13px;
   font-weight: 800;
   margin-top: 2px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Rule Valid State */
@@ -191,7 +191,7 @@
   transition: all 0.2s ease;
   box-sizing: border-box;
   flex-shrink: 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p22-string-slot-"][data-state="open"] {
@@ -248,7 +248,7 @@
   font-size: 11px;
   font-weight: 800;
   color: #22c55e;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p22-reel-chips-stream {
@@ -264,7 +264,7 @@
   color: #52525b;
   font-style: italic;
   margin-top: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p22-combo-chip-"] {
@@ -272,7 +272,7 @@
   border: 1px solid #22c55e;
   color: #86efac;
   font-size: 14px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 800;
   padding: 4px 10px;
   border-radius: 6px;
@@ -307,7 +307,7 @@
   color: #ffffff;
   font-weight: 800;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p22-callout-detail-text {

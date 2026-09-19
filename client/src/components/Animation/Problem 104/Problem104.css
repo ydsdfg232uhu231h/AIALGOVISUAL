@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -55,9 +55,9 @@
   transition: all 0.2s ease;
 }
 
-#p104-metric-inspecting b { color: #facc15; font-family: ui-monospace, monospace; }
-#p104-metric-subdepths b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#p104-metric-cur-depth b { color: #c084fc; font-family: ui-monospace, monospace; }
+#p104-metric-inspecting b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
+#p104-metric-subdepths b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
+#p104-metric-cur-depth b { color: #c084fc; font-family: 'Times New Roman', Times, serif; }
 #p104-metric-max b { color: #38bdf8; }
 
 #p104-metric-max[data-status="done"] {
@@ -116,7 +116,7 @@
   font-size: 10px;
   font-weight: 500;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -208,7 +208,7 @@
   fill: #ffffff;
   font-size: 15px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
   dominant-baseline: middle;
 }
@@ -221,7 +221,7 @@
   fill: #717182;
   font-size: 8px;
   font-weight: 700;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-anchor: middle;
 }
 
@@ -268,21 +268,21 @@
 #p104-calc-val-right {
   font-size: 12px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #38bdf8;
 }
 
 #p104-calc-val-formula {
   font-size: 12px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #facc15;
 }
 
 #p104-calc-val-return {
   font-size: 12px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p104-calc-val-return[data-state="wait"] {
@@ -327,7 +327,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p104-callout-detail-text {

@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -56,19 +56,19 @@
 #p239-metric-k b {
   color: #38bdf8;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p239-metric-window b {
   color: #facc15;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p239-metric-max b {
   color: #4ade80;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -121,7 +121,7 @@
 #p239-card-sub-output {
   font-size: 11px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -168,7 +168,7 @@
   font-weight: 900;
   color: #38bdf8;
   letter-spacing: 0.6px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
 }
 
@@ -212,7 +212,7 @@
   padding: 2px 5px;
   border-radius: 4px;
   letter-spacing: 0.6px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   white-space: nowrap;
   line-height: 1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
@@ -253,7 +253,7 @@
 [id^="p239-num-val-"] {
   font-size: 19px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #f4f4f5;
   line-height: 1;
 }
@@ -276,7 +276,7 @@
   right: 3px;
   font-size: 8px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #4ade80;
   background: rgba(34, 197, 94, 0.25);
   border: 1px solid #22c55e;
@@ -289,7 +289,7 @@
 [id^="p239-idx-tag-"] {
   font-size: 11px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 700;
   line-height: 1;
   margin-top: 1px;
@@ -317,7 +317,7 @@
   color: #52525b;
   font-style: italic;
   margin: auto;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p239-deque-item-"] {
@@ -344,7 +344,7 @@
   font-size: 8px;
   font-weight: 900;
   color: #a1a1aa;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p239-deque-item-"][data-is-front="true"] [id^="p239-deque-pos-tag-"] {
@@ -355,13 +355,13 @@
   font-size: 18px;
   font-weight: 900;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p239-deque-idx-"] {
   font-size: 9px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -386,7 +386,7 @@
   color: #52525b;
   font-style: italic;
   margin: auto;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p239-output-pill-"] {
@@ -405,13 +405,13 @@
   font-size: 15px;
   font-weight: 900;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p239-out-sub-"] {
   font-size: 8px;
   color: #7dd3fc;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -447,7 +447,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p239-callout-detail-text {

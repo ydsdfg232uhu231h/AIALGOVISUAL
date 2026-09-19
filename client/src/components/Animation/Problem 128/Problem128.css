@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -55,10 +55,10 @@
   transition: all 0.2s ease;
 }
 
-#p128-metric-current-num b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#p128-metric-check-status b { color: #facc15; font-family: ui-monospace, monospace; }
-#p128-metric-chain-len b { color: #c084fc; font-family: ui-monospace, monospace; }
-#p128-metric-best b { color: #fb923c; font-family: ui-monospace, monospace; }
+#p128-metric-current-num b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
+#p128-metric-check-status b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
+#p128-metric-chain-len b { color: #c084fc; font-family: 'Times New Roman', Times, serif; }
+#p128-metric-best b { color: #fb923c; font-family: 'Times New Roman', Times, serif; }
 
 #p128-metric-best[data-status="done"] {
   border-color: #22c55e !important;
@@ -116,7 +116,7 @@
   font-size: 10px;
   font-weight: 500;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -179,7 +179,7 @@
 span[id^="p128-set-val-"] {
   font-size: 19px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -187,7 +187,7 @@ span[id^="p128-set-tag-"] {
   font-size: 7px;
   font-weight: 800;
   color: #717182;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 3px;
   letter-spacing: 0.4px;
 }
@@ -212,7 +212,7 @@ span[id^="p128-set-tag-"] {
   font-size: 11px;
   color: #636374;
   font-style: italic;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   text-align: center;
 }
 
@@ -250,7 +250,7 @@ span[id^="p128-chain-val-"] {
   font-size: 19px;
   font-weight: 900;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -262,7 +262,7 @@ span[id^="p128-chain-seq-idx-"] {
   font-size: 8px;
   font-weight: 800;
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 2px;
 }
 
@@ -324,7 +324,7 @@ span[id^="p128-chain-seq-idx-"] {
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p128-callout-detail-text {

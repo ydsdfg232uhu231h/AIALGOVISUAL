@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -55,9 +55,9 @@
   transition: all 0.2s ease;
 }
 
-#p295-metric-small-count b { color: #f97316; font-family: ui-monospace, monospace; }
-#p295-metric-large-count b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#p295-metric-median-val b { color: #facc15; font-family: ui-monospace, monospace; }
+#p295-metric-small-count b { color: #f97316; font-family: 'Times New Roman', Times, serif; }
+#p295-metric-large-count b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
+#p295-metric-median-val b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
 
 #p295-metric-status[data-status="active"] b {
   color: #c084fc;
@@ -146,7 +146,7 @@
   font-size: 10px;
   font-weight: 500;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -173,7 +173,7 @@
   font-size: 11px;
   color: #636374;
   font-style: italic;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin: auto;
 }
 
@@ -237,7 +237,7 @@
 [id^="p295-large-val-"] {
   font-size: 18px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p295-small-top-tag-"],
@@ -250,7 +250,7 @@
   border-radius: 4px;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p295-small-top-tag-"] {
@@ -300,21 +300,21 @@
 #p295-median-val-balance {
   font-size: 12px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #c084fc;
 }
 
 #p295-median-val-formula {
   font-size: 12px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #38bdf8;
 }
 
 #p295-median-result-display[data-median-state="ready"] {
   font-size: 14px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #4ade80;
   text-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
 }
@@ -322,7 +322,7 @@
 #p295-median-result-display[data-median-state="idle"] {
   font-size: 14px;
   font-weight: 700;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #525266;
 }
 
@@ -359,7 +359,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p295-callout-detail-text {

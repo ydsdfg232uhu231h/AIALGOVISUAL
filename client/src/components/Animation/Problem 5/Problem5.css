@@ -15,7 +15,7 @@
   padding: 20px 16px 65px 16px;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   overflow-y: auto;
   overflow-x: hidden;
   user-select: none;
@@ -55,7 +55,7 @@
 #p5-metric-chip-span b,
 #p5-metric-chip-best b {
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p5-metric-chip-center b {
@@ -110,7 +110,7 @@
   padding: 1px 6px;
   border-radius: 4px;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   line-height: 1;
 }
@@ -151,7 +151,7 @@
 [id^="p5-node-val-"] {
   font-size: 20px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Matched Palindrome Span (Green Glow) */
@@ -171,7 +171,7 @@
   margin-top: 6px;
   font-size: 11px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -190,7 +190,7 @@
 
 #p5-preview-chip b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -223,7 +223,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p5-callout-detail-text {

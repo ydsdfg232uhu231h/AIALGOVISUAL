@@ -35,7 +35,7 @@
   height: calc(100vh - 250px);
   min-height: 400px;
   margin: 0 auto 10px auto;
-  font-family: sans-serif;
+ font-family: 'Times New Roman', Times, serif;
   padding: 0px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */

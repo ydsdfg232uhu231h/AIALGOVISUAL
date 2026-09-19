@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
   -webkit-font-smoothing: antialiased;
 }
@@ -53,9 +53,9 @@
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-#p994-metric-time b { color: #facc15; font-family: ui-monospace, monospace; }
-#p994-metric-fresh b { color: #fb923c; font-family: ui-monospace, monospace; }
-#p994-metric-queue b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p994-metric-time b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
+#p994-metric-fresh b { color: #fb923c; font-family: 'Times New Roman', Times, serif; }
+#p994-metric-queue b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
 
 #p994-metric-fresh[data-is-cleared="true"] {
   border-color: #22c55e;
@@ -113,7 +113,7 @@
   font-weight: 800;
   letter-spacing: 0.5px;
   margin-top: 2px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p994-coord-tag-"] {
@@ -121,7 +121,7 @@
   color: #71717a;
   position: absolute;
   bottom: 2px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Cell State Variations */
@@ -196,7 +196,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p994-callout-detail-text {

@@ -14,7 +14,7 @@
   box-sizing: border-box;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px 16px 65px 16px;
@@ -57,7 +57,7 @@
 #p153-metric-chip-mid b,
 #p153-metric-chip-res b {
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p153-metric-chip-range b {
@@ -112,7 +112,7 @@
   padding: 1px 6px;
   border-radius: 4px;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   line-height: 1.1;
   display: flex;
@@ -147,7 +147,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-sizing: border-box;
   transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
@@ -179,7 +179,7 @@
   margin-top: 6px;
   font-size: 11px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 700;
 }
 
@@ -216,7 +216,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p153-callout-detail-text {

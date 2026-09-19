@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -53,10 +53,10 @@
   transition: all 0.2s ease;
 }
 
-#p621-metric-time b { color: #facc15; font-family: ui-monospace, monospace; }
-#p621-metric-cooldown b { color: #c084fc; font-family: ui-monospace, monospace; }
-#p621-metric-heap b { color: #38bdf8; font-family: ui-monospace, monospace; }
-#p621-metric-queue b { color: #fb923c; font-family: ui-monospace, monospace; }
+#p621-metric-time b { color: #facc15; font-family: 'Times New Roman', Times, serif; }
+#p621-metric-cooldown b { color: #c084fc; font-family: 'Times New Roman', Times, serif; }
+#p621-metric-heap b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
+#p621-metric-queue b { color: #fb923c; font-family: 'Times New Roman', Times, serif; }
 
 /* ============================================================
    MAIN STAGE
@@ -110,7 +110,7 @@
   font-weight: 900;
   border: 1.5px solid;
   letter-spacing: 0.5px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-sizing: border-box;
 }
 
@@ -186,7 +186,7 @@
   color: #52525b;
   font-style: italic;
   margin: auto;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p621-cpu-slot-"] {
@@ -238,13 +238,13 @@
 [id^="p621-slot-idx-"] {
   font-size: 8px;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p621-slot-glyph-"] {
   font-size: 15px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p621-slot-pointer-"] {
@@ -291,7 +291,7 @@
   color: #52525b;
   font-style: italic;
   margin: auto;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Heap Items */
@@ -325,7 +325,7 @@
   border: 1px solid;
   padding: 1px 6px;
   border-radius: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p621-heap-task-tag-"][data-task="A"],
@@ -357,7 +357,7 @@
   font-size: 12px;
   font-weight: 800;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p621-heap-top-pill {
@@ -367,7 +367,7 @@
   color: #0c0c10;
   padding: 1px 5px;
   border-radius: 3px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* Cooling Items */
@@ -397,7 +397,7 @@
 [id^="p621-cool-meta-"] {
   font-size: 10px;
   color: #a1a1aa;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p621-cool-meta-"] b {
@@ -412,7 +412,7 @@
   padding: 2px 6px;
   border-radius: 4px;
   border: 1px solid rgba(251, 146, 60, 0.3);
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p621-countdown-badge-"][data-can-unlock="true"] {
@@ -453,7 +453,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p621-callout-detail-text {

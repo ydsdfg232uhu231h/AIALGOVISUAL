@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -62,7 +62,7 @@
 #p332-metric-algo b {
   color: #ffffff;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p332-metric-current b { color: #38bdf8; }
@@ -109,7 +109,7 @@
 #p332-sub-legend {
   font-size: 12px;
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 700;
 }
 
@@ -159,14 +159,14 @@
   fill: #ffffff;
   font-size: 11px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p332-airport-sublabel-"] {
   fill: #71717a;
   font-size: 9px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   transition: fill 0.2s ease;
 }
 
@@ -204,7 +204,7 @@
   color: #a1a1aa;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ADJACENCY QUEUE */
@@ -229,7 +229,7 @@
   font-size: 11px;
   font-weight: 900;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p332-dest-badges-"] {
@@ -246,14 +246,14 @@
   border: 1px solid #38bdf8;
   border-radius: 4px;
   padding: 1px 6px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p332-empty-dest-"] {
   font-size: 10px;
   color: #52525b;
   font-style: italic;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ITINERARY STREAM */
@@ -270,7 +270,7 @@
   color: #52525b;
   font-style: italic;
   margin: auto;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p332-itin-stop-"] {
@@ -288,14 +288,14 @@
   font-size: 10px;
   font-weight: 900;
   color: #4ade80;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p332-itin-airport-"] {
   font-size: 12px;
   font-weight: 900;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p332-itin-arrow-"] {
@@ -335,7 +335,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 3px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p332-callout-detail-text {

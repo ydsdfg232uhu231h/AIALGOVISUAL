@@ -16,7 +16,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -56,17 +56,17 @@
 
 #p55-metric-pointer b {
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p55-metric-val b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p55-metric-max-reach b {
   color: #c084fc;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p55-metric-status[data-status="active"] b {
@@ -141,7 +141,7 @@
   font-size: 10px;
   font-weight: 500;
   color: #636374;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -180,7 +180,7 @@
   justify-content: center;
   font-size: 18px;
   font-weight: 900;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-sizing: border-box;
   transition: all 0.25s ease;
 }
@@ -228,7 +228,7 @@
   font-size: 8.5px;
   font-weight: 700;
   color: #717182;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 6px;
 }
 
@@ -242,7 +242,7 @@
   font-weight: 900;
   padding: 2px 8px;
   border-radius: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   letter-spacing: 0.5px;
   background: #facc15;
   color: #0c0c10;
@@ -259,7 +259,7 @@
   font-weight: 900;
   padding: 2px 6px;
   border-radius: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   letter-spacing: 0.5px;
   background: #c084fc;
   color: #1a1025;
@@ -301,14 +301,14 @@
 #p55-decision-val-rule {
   font-size: 12px;
   font-weight: 800;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #c084fc;
 }
 
 #p55-decision-val-action {
   font-size: 12px;
   font-weight: 700;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   color: #a1a1aa;
 }
 
@@ -360,7 +360,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p55-callout-detail-text {

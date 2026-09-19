@@ -221,7 +221,7 @@
 }
 
 #psw-heap-empty {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 11px;
   color: #4b5563;
   font-style: italic;
@@ -237,7 +237,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-size: 10px;
   width: 100%;
   box-sizing: border-box;
@@ -278,7 +278,7 @@
   font-weight: 800;
   color: #6b7280;
   text-transform: uppercase;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'Times New Roman', Times, serif;
   letter-spacing: 0.4px;
 }
 

@@ -17,7 +17,7 @@
   padding: 24px 16px 65px 16px;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -55,17 +55,17 @@
 
 #p416-metric-sum b {
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p416-metric-target b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p416-metric-current b {
   color: #c084fc;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p416-metric-hit {
@@ -74,7 +74,7 @@
 }
 #p416-metric-hit b {
   color: #86efac;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -98,7 +98,7 @@
   font-weight: 800;
   color: #71717a;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   flex-shrink: 0;
 }
 
@@ -143,7 +143,7 @@
   text-transform: uppercase;
   background: #38bdf8;
   color: #0c0c10;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
   line-height: 1.1;
 }
@@ -168,7 +168,7 @@
   font-size: 16px;
   font-weight: 800;
   color: #ffffff;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p416-idx-tag-"] {
@@ -176,7 +176,7 @@
   color: #71717a;
   position: absolute;
   bottom: 2px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 700;
 }
 
@@ -214,13 +214,13 @@
   font-weight: 800;
   color: #71717a;
   text-transform: uppercase;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p416-set-count {
   font-size: 11px;
   color: #a1a1aa;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 600;
 }
 
@@ -247,7 +247,7 @@
   font-size: 15px;
   font-weight: 800;
   color: #e4e4e7;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p416-sum-badge-"][data-badge-state="new"] {
@@ -271,7 +271,7 @@
   color: #0c0c10;
   padding: 1px 4px;
   border-radius: 3px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -306,7 +306,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p416-callout-detail-text {

@@ -17,7 +17,7 @@
   overflow-x: hidden;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
   -webkit-font-smoothing: antialiased;
 }
@@ -53,15 +53,15 @@
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-#p1584-metric-cost b { color: #22c55e; font-family: ui-monospace, monospace; }
-#p1584-metric-visited b { color: #38bdf8; font-family: ui-monospace, monospace; }
+#p1584-metric-cost b { color: #22c55e; font-family: 'Times New Roman', Times, serif; }
+#p1584-metric-visited b { color: #38bdf8; font-family: 'Times New Roman', Times, serif; }
 
 #p1584-metric-added {
   border-color: #22c55e;
   background: rgba(34, 197, 94, 0.14);
   box-shadow: 0 0 14px rgba(34, 197, 94, 0.25);
 }
-#p1584-metric-added b { color: #86efac; font-family: ui-monospace, monospace; }
+#p1584-metric-added b { color: #86efac; font-family: 'Times New Roman', Times, serif; }
 
 /* ============================================================
    2D COORDINATE SVG CARD
@@ -143,7 +143,7 @@
   color: #ffffff;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p1584-callout-detail-text {

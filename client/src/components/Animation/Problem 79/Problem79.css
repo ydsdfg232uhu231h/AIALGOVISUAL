@@ -17,7 +17,7 @@
   padding: 20px 16px 65px 16px;
   background: radial-gradient(circle at 50% 10%, #171724 0%, #0c0c10 100%);
   color: #e4e4e7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   user-select: none;
 }
 
@@ -53,17 +53,17 @@
 
 #p79-metric-chip-word b {
   color: #facc15;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p79-metric-chip-match b {
   color: #4ade80;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p79-metric-chip-head b {
   color: #38bdf8;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ============================================================
@@ -103,14 +103,14 @@
   font-size: 18px;
   font-weight: 800;
   color: #71717a;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
 [id^="p79-target-idx-"] {
   font-size: 9px;
   color: #52525b;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 4px;
   line-height: 1;
 }
@@ -178,7 +178,7 @@
   font-size: 26px;
   font-weight: 800;
   color: #e4e4e7;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -187,7 +187,7 @@
   color: #71717a;
   position: absolute;
   bottom: 4px;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 [id^="p79-cell-order-"] {
@@ -204,7 +204,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
   line-height: 1;
 }
 
@@ -270,7 +270,7 @@
   color: #4ade80;
   font-weight: 900;
   margin: 2px 0;
-  font-family: ui-monospace, monospace;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 #p79-callout-detail-text {
