@@ -354,9 +354,9 @@
 
 /* RESULT CALLOUT */
 #p215-result-callout-box {
-  position: fixed;
+  position: absolute;
   bottom: 16px;
-  left: 50%;
+ 
   transform: translateX(-50%);
   background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(12px);

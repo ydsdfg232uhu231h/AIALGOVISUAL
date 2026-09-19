@@ -1,6 +1,7 @@
+const url = window.location.origin;
 export async function sendChatsrequest({ message }) {
     console.log(message);
-    const response = await fetch("https://aialgovisual.onrender.com/api/v1/chat/new", {
+    const response = await fetch(`${url}/api/v1/chat/new`, {
         method: "POST",
         headers: {
             "content-Type": "application/json",
@@ -19,7 +20,7 @@ export async function sendChatsrequest({ message }) {
     return chatdata;
 }
 export async function getUserChats() {
-    const response = await fetch("https://aialgovisual.onrender.com/api/v1/chat/all-chats", {
+    const response = await fetch(`${url}/api/v1/chat/all-chats`, {
         method: "GET",
         credentials: "include",
     });
@@ -39,7 +40,8 @@ export async function getUserChats() {
 }
 
 export async function deletechatmessages() {
-    const response = await fetch("https://aialgovisual.onrender.com/api/v1/chat/delete", {
+    const url = window.location.origin;
+    const response = await fetch(`${url}/api/v1/chat/delete`, {
         method: "DELETE",
         credentials: "include"
     });

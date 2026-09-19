@@ -262,9 +262,9 @@
    RESULT CALLOUT
    ============================================================ */
 #p238-result-callout-box {
-  position: fixed;
+  position: absolute;
   bottom: 16px;
-  left: 50%;
+ 
   transform: translateX(-50%);
   background: #0f172a;
   border: 2px solid #22c55e;

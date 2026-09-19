@@ -29,7 +29,8 @@ function SignUppage() {
     console.log("My Data ", email);
 
     try {
-      const response = await fetch('https://aialgovisual.onrender.com/api/v1/auth/signup',
+      const url = window.location.origin;
+      const response = await fetch(`${url}/api/v1/auth/signup`,
         {
           method: "POST",
           headers: {

@@ -342,9 +342,9 @@
    RESULT CALLOUT (Elevated Safely Above Playback Controls)
    ============================================================ */
 #p1046-result-callout-box {
-  position: fixed;
-  bottom: 68px;
-  left: 50%;
+  position: absolute;
+  bottom: 16px;
+ 
   transform: translateX(-50%);
   background: rgba(14, 20, 16, 0.96);
   backdrop-filter: blur(14px);

@@ -483,9 +483,8 @@
    RESULT CALLOUT
    ============================================================ */
 #p355-result-callout-box {
-  position: fixed;
-  bottom: 12px;
-  left: 50%;
+  position: absolute;
+  bottom: 16px;
   transform: translateX(-50%);
   background: #0f172a;
   border: 2px solid #22c55e;

@@ -6,11 +6,17 @@ import {useLayoutEffect, useRef, useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import useUserdetail from "../components/Userdetail.jsx";
 import Reac4tMarkdown from "react-markdown";
+import { useEffect } from "react";
 function AI() {
     const { userdata } = useUserdetail();
     const name = userdata?.name;
     const usermessage = useRef();
     const [chatmessage, setchatmessage] = useState([]);
+    const buttonref = useRef(null);
+
+    useEffect(()=>{
+        buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
+    },[chatmessage])
 
     async function handleDeletechat(){
         await deletechatmessages();
@@ -56,7 +62,7 @@ function AI() {
         <>
 
            
-            <div id={style.content}>
+            <div id={style.content} >
                 <div id={style.chathead}>
                     <img src="Myai.png" alt="image not found" />
                     <h1>AAFPS AI</h1>
@@ -76,9 +82,9 @@ function AI() {
                         <p>{mydata.content}</p>
                     )}
                 </hgroup>)}
-                   {chatmessage.length > 0 && <button id={style.cleaner} onClick={handleDeletechat}><FaTrashCan/></button>}
+                   {chatmessage.length > 0 && <button id={style.cleaner} onClick={handleDeletechat} ref={buttonref}><FaTrashCan/></button>}
             </div>
-            <div id={style.chatmessage} >
+            <div id={style.chatmessage}  ref={buttonref}>
                 <input type="text" ref={usermessage} placeholder="Ask anything..." />
                 <button type="submit" onClick={handleSubmit}><IoSend /></button>
             </div>

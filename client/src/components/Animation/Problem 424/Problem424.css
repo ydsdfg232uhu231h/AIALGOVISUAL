@@ -261,9 +261,9 @@
    RESULT CALLOUT (FINAL GREEN OUTPUT)
    ============================================================ */
 #p424-result-callout-box {
-  position: fixed;
-  bottom: 68px;
-  left: 50%;
+  position: absolute;
+  bottom: 16px;
+ 
   transform: translateX(-50%);
   padding: 0.8rem 1.6rem;
   border-radius: 12px;

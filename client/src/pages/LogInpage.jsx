@@ -31,8 +31,9 @@ function LogInpage() {
     const formvalue = Object.fromEntries(data);
 
     try {
+      const url = window.location.origin;
       const response = await fetch(
-        "https://aialgovisual.onrender.com/api/v1/auth/login",
+        `${url}/api/v1/auth/login`,
         {
           method: "POST",
           headers: {

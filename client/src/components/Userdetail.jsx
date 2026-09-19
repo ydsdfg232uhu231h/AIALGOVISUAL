@@ -8,11 +8,12 @@ export const notifyAuthChange = () => {
 
 function useUserdetail() {
   const [userdata, setuserdata] = useLocalstorage("userdetail", null);
-
+  const url = window.location.origin;
+  console.log(url)
   const Fetchuser = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://aialgovisual.onrender.com/api/v1/auth/auth-status",
+        `${url}/api/v1/auth/auth-status`,
         {
           method: "GET",
           credentials: "include",

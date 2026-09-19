@@ -307,9 +307,9 @@
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
 #p139-result-callout-box {
-  position: fixed;
+  position: absolute;
   bottom: 16px;
-  left: 50%;
+ 
   transform: translateX(-50%);
   background: rgba(17, 24, 39, 0.96);
   backdrop-filter: blur(12px);

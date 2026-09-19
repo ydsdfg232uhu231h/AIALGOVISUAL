@@ -179,7 +179,7 @@
   align-items: center;
   gap: 8px;
   overflow-x: auto;
-  padding: 4px 2px;
+  padding: 15px 2px;
   box-sizing: border-box;
 }
 
@@ -448,9 +448,9 @@
    RESULT CALLOUT (GREEN ANSWER)
    ============================================================ */
 #p23-result-callout-box {
-  position: fixed;
+  position: absolute;
   bottom: 16px;
-  left: 50%;
+ 
   transform: translateX(-50%);
   background: rgba(14, 20, 16, 0.96);
   backdrop-filter: blur(12px);

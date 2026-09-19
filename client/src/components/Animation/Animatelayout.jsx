@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import "./Animatelayout.css";
 import Sidebar from "./Sidebar";
 import { problemRegistry } from "./registry";
+import { useRef } from "react";
 
 export default function AnimateLayout() {
   const [activeProblemId, setActiveProblemId] = useState(1);
   const currentProblem = problemRegistry[activeProblemId] || problemRegistry[1] || {};
   const { Component: VisualCanvas = () => null, data: problemData = {} } = currentProblem;
-
+  const buttonref = useRef(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
@@ -21,6 +22,7 @@ export default function AnimateLayout() {
   useEffect(() => {
     setCurrentStep(0);
     setIsPlaying(false);
+    buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
   }, [activeProblemId]);
 
   // Unified dynamic timer: respects step-specific dwellMs and global speed
@@ -56,7 +58,7 @@ export default function AnimateLayout() {
         onSelectProblem={setActiveProblemId}
       />
 
-      <main id="dsa-visual-main">
+      <main id="dsa-visual-main" ref= {buttonref}>
         <header id="dsa-header">
           <div>
             <span id="dsa-sub-badge">{(problemData.topic || "").toUpperCase()}</span>
@@ -170,6 +172,7 @@ export default function AnimateLayout() {
             id="dsa-btn-next"
             data-btn-type="ctrl"
             onClick={() => setCurrentStep((s) => Math.min(totalSteps - 1, s + 1))}
+            
           >
             ⏭
           </button>

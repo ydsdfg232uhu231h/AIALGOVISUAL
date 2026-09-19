@@ -81,6 +81,7 @@
   grid-template-columns: 1fr 380px; /* Expands visualizer across remaining screen width */
   gap: 16px;
   margin-top: 14px;
+  
   margin-bottom: 5px;
   min-height: 0;
   width: 100%;

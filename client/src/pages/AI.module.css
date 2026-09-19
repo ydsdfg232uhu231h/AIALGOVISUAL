@@ -1,7 +1,5 @@
 /* Base Page Reset */
 
-
-
 /* Header Component */
 #chathead {
   display: flex;
@@ -15,7 +13,6 @@
   box-shadow: 0px 0px 15px white;
   position: sticky;
   top: 0;
-  
   z-index: 100;
   color: white;
   gap: 12px;
@@ -35,7 +32,7 @@
   overflow-y: auto;
   width: 96%;
   max-width: 1200px;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 250px);
   min-height: 400px;
   margin: 0 auto 10px auto;
   font-family: sans-serif;
@@ -50,7 +47,7 @@
 
 #content hgroup {
   color: white;
-  padding: 8px 0;
+  padding: 8px 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -100,6 +97,7 @@
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.6);
   padding: 12px 20px;
   color: white;
+  box-sizing: border-box;
 }
 
 .chatresponse h1,
@@ -140,6 +138,73 @@
   border-top: 1px solid #444;
 }
 
+/* ============================================================
+   CODE BLOCK & SYNTAX FORMATTING
+   ============================================================ */
+
+/* Inline code (e.g. `const x = 10;`) */
+.chatresponse :not(pre) > code {
+  background-color: #1e1e1e;
+  color: #ff7b72;
+  font-family: 'Consolas', 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #333333;
+}
+
+/* Multi-line code block wrapper (<pre><code>...</code></pre>) */
+.chatresponse pre {
+  background-color: #16161a;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  overflow-x: auto; /* Enables horizontal scroll for long lines */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Code text inside the multi-line block */
+.chatresponse pre code {
+  font-family: 'Consolas', 'Courier New', Courier, monospace;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #e6edf3;
+  background: transparent;
+  padding: 0;
+  border: none;
+  display: block;
+  white-space: pre; /* Retains tabs, indentations, and whitespace */
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Custom Scrollbar for Code Blocks */
+.chatresponse pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.chatresponse pre::-webkit-scrollbar-track {
+  background: #16161a;
+  border-radius: 4px;
+}
+
+.chatresponse pre::-webkit-scrollbar-thumb {
+  background: #444444;
+  border-radius: 4px;
+}
+
+.chatresponse pre::-webkit-scrollbar-thumb:hover {
+  background: #666666;
+}
+
+/* Firefox scrollbar for code blocks */
+.chatresponse pre {
+  scrollbar-width: thin;
+  scrollbar-color: #444444 #16161a;
+}
+
 /* Floating Action / Cleaner Button */
 #content button#cleaner {
   background: white;
@@ -172,7 +237,7 @@
   border-bottom-left-radius: 20px;
   padding: 0 16px;
   height: 46px;
-  flex: 1; /* Automatically expands/shrinks instead of fixed 1200px */
+  flex: 1;
   outline: none;
 }
 
@@ -194,7 +259,7 @@
    ============================================================ */
 @media screen and (max-width: 600px) {
   #chathead {
-    padding: 10px ;
+    padding: 10px;
     gap: 8px;
     margin-bottom: 10px;
   }
@@ -209,18 +274,31 @@
     padding: 0px;
     height: 650px;
   }
-  #content hgroup{
+
+  #content hgroup {
     padding: 10px;
   }
-  #content button#cleaner{
+
+  #content button#cleaner {
     margin: 10px;
     padding: 10px;
   }
+
   #content hgroup p,
   .chatresponse {
-    max-width: 92%; /* Widens text bubble width on narrow phone screens */
+    max-width: 92%;
     font-size: 14px;
     padding: 10px 14px;
+  }
+
+  /* Mobile Code adjustments */
+  .chatresponse pre {
+    padding: 10px 12px;
+    margin: 8px 0;
+  }
+
+  .chatresponse pre code {
+    font-size: 12px;
   }
 
   #chatmessage input {
