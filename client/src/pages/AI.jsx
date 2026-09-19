@@ -19,7 +19,7 @@ btnref.current?.scrollIntoView({behavior: "smooth", block: "center"});
 const timer= setTimeout(()=>{
 buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
 },400);
-return ()=> clear timeout(timer);
+return clear timeout(timer);
         
     },[chatmessage])
 
