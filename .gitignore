@@ -16,6 +16,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 ToDo.txt
+important.txt
 dist-ssr
 *.local
 
