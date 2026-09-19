@@ -53,8 +53,7 @@ main, .page-wrapper {
 }
 
 a {
-  /* color: white; */
-  color: #0b0b0c;
+  color: white;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -276,8 +275,7 @@ hr {
 }
 
 ul li {
-  /* color: rgba(255, 255, 255, 0.788); */
-  color: #0b0b0c;
+  color: rgba(255, 255, 255, 0.788);
   padding: 6px 0;
   font-size: 15px;
   
@@ -285,14 +283,13 @@ ul li {
 }
 
 ul#slink li a {
-  /* color: rgba(255, 255, 255, 0.788); */
-  color: #0b0b0c;
+  color: rgba(255, 255, 255, 0.788);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 ul#slink li a:hover {
-  color: aqua;
+  color: orange ;
 }
 
 ul li ol {
