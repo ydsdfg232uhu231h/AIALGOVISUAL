@@ -13,7 +13,13 @@ const port = process.env.PORT;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distPath = path.join(__dirname, "..", "client", "dist");
-
+const allowedOrigins = [
+  
+  'http://localhost:5173', // Vite default (adjust port if needed)
+  `http://localhost:${port}`, // Your custom backend/port
+  'https://aialgovisual.onrender.com',
+  process.env.CLIENT_URL, // From your .env file
+].filter(Boolean);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(distPath));
@@ -21,7 +27,7 @@ app.use(express.static(distPath));
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || `http:localhost:${port}` || 'https://aialgovisual.onrender.com',
+    origin: allowedOrigins,
     credentials: true,
   })
 );

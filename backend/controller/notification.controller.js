@@ -136,7 +136,7 @@ export async function notifyUser({
     to: userName ? `"${userName}" <${userEmail}>` : userEmail,
     subject: subject,
     text: text,
-    html: htmlContent,
+    html: htmlContent || undefined,
     // CID Attachment embeds the local file into the email so Gmail renders it without needing external hosting
     attachments: [
       {
