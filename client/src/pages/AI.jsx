@@ -15,7 +15,7 @@ function AI() {
     const buttonref = useRef(null);
     const btnref = useRef(null);
     useEffect(()=>{
-btnref.current?.scrollIntoView({behavior: "smooth", block: "center"});
+btnref.current?.scrollIntoView({behavior: "smooth", block: "end"});
         buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
     },[chatmessage])
 
