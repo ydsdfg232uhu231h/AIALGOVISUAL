@@ -15,11 +15,11 @@ function AI() {
     const buttonref = useRef(null);
     const btnref = useRef(null);
     useEffect(()=>{
-btnref.current?.scrollIntoView({behavior: "smooth", block: "end"});
-const timer= setTimeout(()=>{
+btnref.current?.scrollIntoView({behavior: "smooth", block: "center"});
+setTimeout(()=>{
 buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
 },400);
-return clearTimeout(timer);
+
         
     },[chatmessage])
 
