@@ -13,9 +13,14 @@ function AI() {
     const usermessage = useRef();
     const [chatmessage, setchatmessage] = useState([]);
     const buttonref = useRef(null);
-
+    const btnref = useRef(null);
     useEffect(()=>{
-        buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
+btnref.current?.scrollIntoView({behavior: "smooth", block: "center"});
+setTimeout(()=>{
+buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
+},400);
+
+        
     },[chatmessage])
 
     async function handleDeletechat(){
@@ -82,7 +87,7 @@ function AI() {
                         <p>{mydata.content}</p>
                     )}
                 </hgroup>)}
-                   {chatmessage.length > 0 && <button id={style.cleaner} onClick={handleDeletechat} ref={buttonref}><FaTrashCan/></button>}
+                   {chatmessage.length > 0 && <button id={style.cleaner} onClick={handleDeletechat} ref={btnref}><FaTrashCan/></button>}
             </div>
             <div id={style.chatmessage}  ref={buttonref}>
                 <input type="text" ref={usermessage} placeholder="Ask anything..." />
