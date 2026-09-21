@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 import fs from "fs";
-import path from "path";
+import path, { dirname } from "path";
 // 1. Initialize Nodemailer transporter with Gmail SMTP
-const templatePath = path.join(process.cwd() ,"view",  "notification.html");
+const templatePath = path.join(__dirname ,"view",  "notification.html");
 let htmlContent = fs.readFileSync(templatePath, "utf-8");
 const transporter = nodemailer.createTransport({
   service: "gmail",
