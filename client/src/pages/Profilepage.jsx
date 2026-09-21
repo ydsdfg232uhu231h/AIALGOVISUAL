@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Profilepage.css";
 import { useTheme } from "../context/ThemeContext";
-import { logoutuser } from "../utility/FetchHelper";
+import { logoutuser, updateUserProfile } from "../utility/FetchHelper";
 import useUserdetail, { notifyAuthChange } from "../components/Userdetail";
 
 export default function Profilepage() {
@@ -22,40 +22,50 @@ export default function Profilepage() {
   });
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const displayName = userdata?.name || user?.name || "Anonymous User";
   const userEmail = userdata?.email || user?.email || "";
 
-  // Helper: dynamic bottts avatar from handle seed
+  // Helper: auto-generate DiceBear Bottts avatar from handle seed
   const getAvatarForHandle = (handleStr) => {
     const seed = (handleStr || displayName).toLowerCase().replace(/\s+/g, "_");
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(seed)}`;
   };
 
   const currentHandle =
-    user?.handle || displayName.toLowerCase().replace(/\s+/g, "_");
+    userdata?.handle || user?.handle || displayName.toLowerCase().replace(/\s+/g, "_");
+
+  // Custom avatar prioritized from server userdata first, then local state
+  const savedCustomAvatar = userdata?.customAvatar || user?.customAvatar || "";
 
   // Form input state
   const [formData, setFormData] = useState({
     name: displayName,
     email: userEmail,
     handle: currentHandle,
-    customAvatar: user?.customAvatar || "",
-    avatarUrlInput: "",
-    bio: user?.bio || "",
-    targetGoal: user?.targetGoal || "Dynamic Programming & Graphs",
+    customAvatar: savedCustomAvatar,
+    avatarUrlInput: savedCustomAvatar.startsWith("http") ? savedCustomAvatar : "",
+    bio: userdata?.bio || user?.bio || "",
+    targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
   });
 
+  // Sync state whenever server userdata arrives or changes
   useEffect(() => {
     if (userdata) {
       setFormData((prev) => ({
         ...prev,
         name: userdata.name || prev.name,
         email: userdata.email || prev.email,
+        handle: userdata.handle || prev.handle,
+        customAvatar: userdata.customAvatar !== undefined ? userdata.customAvatar : prev.customAvatar,
+        bio: userdata.bio || prev.bio,
+        targetGoal: userdata.targetGoal || prev.targetGoal,
       }));
     }
   }, [userdata]);
 
+  // Todo list
   const [todos, setTodos] = useState(() => {
     const saved = localStorage.getItem("aafps_user_todos");
     if (saved) {
@@ -84,7 +94,7 @@ export default function Profilepage() {
     localStorage.setItem("aafps_user_todos", JSON.stringify(todos));
   }, [todos]);
 
-  // Handle uploading image from local device
+  // Handle local device image upload (Base64)
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -100,7 +110,7 @@ export default function Profilepage() {
     }
   };
 
-  // Handle link image input
+  // Handle URL link image input
   const handleUrlChange = (e) => {
     const url = e.target.value;
     setFormData((prev) => ({
@@ -110,7 +120,7 @@ export default function Profilepage() {
     }));
   };
 
-  // Revert back to the auto-generated bottts handle avatar
+  // Revert back to the handle-generated DiceBear bot
   const handleResetToHandleAvatar = () => {
     setFormData((prev) => ({
       ...prev,
@@ -119,33 +129,60 @@ export default function Profilepage() {
     }));
   };
 
-  // Save profile changes
-  const handleSaveProfile = (e) => {
+  // Save changes locally and send to backend server for cross-device persistence
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
+
     const resolvedName = formData.name.trim() || displayName;
     const resolvedHandle =
       formData.handle.trim().replace(/^@/, "") ||
       resolvedName.toLowerCase().replace(/\s+/g, "_");
 
-    const updatedUser = {
-      ...(user || {}),
-      id: user?.id || `user_${Date.now()}`,
-      name: resolvedName,
+    const payload = {
       email: userEmail,
+      name: resolvedName,
       handle: resolvedHandle,
-      customAvatar: formData.customAvatar.trim(),
-      bio:
-        formData.bio.trim() ||
-        "Algorithm problem solver mastering concepts visually.",
+      customAvatar: formData.customAvatar.trim(), // Stored on server so it works on any device
+      bio: formData.bio.trim() || "Algorithm problem solver mastering concepts visually.",
       targetGoal: formData.targetGoal,
-      joinedDate:
-        user?.joinedDate ||
-        new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" }),
-      streakDays: user?.streakDays || 1,
     };
 
-    setUser(updatedUser);
-    setIsEditing(false);
+    try {
+      // 1. Persist to database via backend API
+      if (typeof updateUserProfile === "function") {
+        await updateUserProfile(payload);
+      }
+
+      // 2. Update local state and storage
+      const updatedUser = {
+        ...(user || {}),
+        ...payload,
+        id: user?.id || `user_${Date.now()}`,
+        joinedDate:
+          user?.joinedDate ||
+          new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+        streakDays: user?.streakDays || 1,
+      };
+
+      setUser(updatedUser);
+      localStorage.setItem("aafps_user_profile", JSON.stringify(updatedUser));
+
+      // 3. Refresh user detail context across app
+      if (typeof refetchUser === "function") {
+        await refetchUser();
+      }
+      notifyAuthChange();
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Failed to persist profile across devices:", error);
+      // Fall back to local update even if offline
+      setUser((prev) => ({ ...prev, ...payload }));
+      setIsEditing(false);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleLogout = async () => {
@@ -167,14 +204,15 @@ export default function Profilepage() {
   };
 
   const startEditProfile = () => {
+    const currentCustom = userdata?.customAvatar || user?.customAvatar || "";
     setFormData({
       name: displayName,
       email: userEmail,
       handle: currentHandle,
-      customAvatar: user?.customAvatar || "",
-      avatarUrlInput: user?.customAvatar?.startsWith("http") ? user.customAvatar : "",
-      bio: user?.bio || "Algorithm problem solver mastering concepts visually.",
-      targetGoal: user?.targetGoal || "Dynamic Programming & Graphs",
+      customAvatar: currentCustom,
+      avatarUrlInput: currentCustom.startsWith("http") ? currentCustom : "",
+      bio: userdata?.bio || user?.bio || "Algorithm problem solver mastering concepts visually.",
+      targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
     });
     setIsEditing(true);
   };
@@ -199,8 +237,12 @@ export default function Profilepage() {
     setTodos(todos.filter((t) => t.id !== id));
   };
 
-  // Determine active avatar: custom image if set, otherwise generate from handle
-  const activeAvatar = user?.customAvatar || getAvatarForHandle(currentHandle);
+  // Active avatar logic:
+  // If customAvatar is set (from link or file upload), use it.
+  // Otherwise, use the handle-based Dicebear SVG.
+  const activeAvatar =
+    userdata?.customAvatar || user?.customAvatar || getAvatarForHandle(currentHandle);
+
   const previewAvatar =
     formData.customAvatar || getAvatarForHandle(formData.handle);
 
@@ -300,7 +342,7 @@ export default function Profilepage() {
           </div>
         </div>
 
-        {/* To-Do List Card */}
+        {/* To-Do List Workspace */}
         <div id="aafps-prof-todo-card">
           <div id="aafps-prof-todo-header">
             <div>
@@ -387,7 +429,7 @@ export default function Profilepage() {
             >
               <h2 id="aafps-prof-modal-title">Edit Your Profile</h2>
               <p id="aafps-prof-modal-sub">
-                Upload a custom photo, paste an image link, or let your handle generate a unique bot avatar.
+                Upload a custom image, paste a direct link, or keep the bot avatar tied to your username handle.
               </p>
 
               <form id="aafps-prof-form" onSubmit={handleSaveProfile}>
@@ -465,10 +507,10 @@ export default function Profilepage() {
                   />
                 </div>
 
-                {/* Handle */}
+                {/* Handle (If no custom image is set, editing handle updates avatar) */}
                 <div id="aafps-prof-form-group-handle">
                   <label id="aafps-prof-form-label-handle">
-                    Username / Handle {!formData.customAvatar && "(Changes Bot Avatar)"}
+                    Username / Handle {!formData.customAvatar && "(Updates Bot Avatar)"}
                   </label>
                   <input
                     id="aafps-prof-form-input-handle"
@@ -511,17 +553,18 @@ export default function Profilepage() {
                   </select>
                 </div>
 
-                {/* Modal Buttons */}
+                {/* Actions */}
                 <div id="aafps-prof-modal-actions">
                   <button
                     id="aafps-prof-btn-cancel"
                     type="button"
                     onClick={() => setIsEditing(false)}
+                    disabled={isSaving}
                   >
                     Cancel
                   </button>
-                  <button id="aafps-prof-btn-submit" type="submit">
-                    Save Changes
+                  <button id="aafps-prof-btn-submit" type="submit" disabled={isSaving}>
+                    {isSaving ? "Saving..." : "Save Changes"}
                   </button>
                 </div>
               </form>

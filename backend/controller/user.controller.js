@@ -29,3 +29,18 @@ export const verifyuser = async(req, res, next) => {
         );
     }
 }
+export async function updateUserProfileController(req, res) {
+  try {
+    const { email, name, handle, customAvatar, bio, targetGoal } = req.body;
+
+    const user = await User.findOneAndUpdate(
+      { email },
+      { $set: { name, handle, customAvatar, bio, targetGoal } },
+      { new: true }
+    );
+
+    return res.status(200).json({ success: true, user });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}

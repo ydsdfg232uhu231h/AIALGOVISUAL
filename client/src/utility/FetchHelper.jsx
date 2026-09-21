@@ -80,3 +80,23 @@ export async function logoutuser({email}) {
     const chatdata = await response.json();
     return chatdata;
 }
+
+// src/utility/FetchHelper.js (or wherever your API calls live)
+
+export async function updateUserProfile(profileData) {
+  const response = await fetch(`${url}/api/v1/auth/profile`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // send cookies/session if using cookies
+    body: JSON.stringify(profileData),
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.message || "Failed to update profile");
+  }
+
+  return response.json();
+}
