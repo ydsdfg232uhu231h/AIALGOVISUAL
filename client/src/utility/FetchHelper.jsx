@@ -1,4 +1,7 @@
+
+
 const url = window.location.origin;
+
 export async function sendChatsrequest({ message }) {
     console.log(message);
     const response = await fetch(`${url}/api/v1/chat/new`, {
@@ -19,6 +22,7 @@ export async function sendChatsrequest({ message }) {
     const chatdata = await response.json();
     return chatdata;
 }
+
 export async function getUserChats() {
     const response = await fetch(`${url}/api/v1/chat/all-chats`, {
         method: "GET",
@@ -54,4 +58,25 @@ export async function deletechatmessages() {
     }
     const chatdeleteres = await response.json();
     return chatdeleteres;
+}
+
+export async function logoutuser({email}) {
+    console.log(email);
+    const response = await fetch(`${url}/api/v1/auth/logout`, {
+        method: "POST",
+        headers: {
+            "content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ email: email })
+    });
+    if (response.status === 401) {
+        const errorResponse = await response.json();
+        return errorResponse.message;
+    }
+    if (!response.ok) {
+        return;
+    }
+    const chatdata = await response.json();
+    return chatdata;
 }
