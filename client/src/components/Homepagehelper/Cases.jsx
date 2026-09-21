@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext";
 import "./Swim.css";
 
 const problemPayload = {
@@ -256,6 +257,9 @@ const problemPayload = {
 export default function Swim() {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
 
+  // Subscribe to theme directly from context
+  const { theme } = useTheme();
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentStepIdx((prev) => (prev + 1) % problemPayload.steps.length);
@@ -291,7 +295,7 @@ export default function Swim() {
   const maxGridVal = Math.max(...grid.flat(), 24);
 
   return (
-    <div id="psw-swim-canvas">
+    <div id="psw-swim-canvas" data-theme={theme}>
       {/* Top Metric Bar */}
       <div id="psw-metrics-bar">
         <span id="psw-metric-water">

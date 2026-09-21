@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Animatelayout.css";
 import Sidebar from "./Sidebar";
 import { problemRegistry } from "./registry";
-import { useRef } from "react";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function AnimateLayout() {
   const [activeProblemId, setActiveProblemId] = useState(1);
@@ -14,6 +14,9 @@ export default function AnimateLayout() {
   const [speed, setSpeed] = useState(1);
   const [activeTab, setActiveTab] = useState("pseudo"); // "pseudo" or "explanation"
 
+  // Sync theme with aafps_theme via Context
+  const { theme } = useTheme();
+
   const steps = problemData.steps || [];
   const totalSteps = steps.length;
   const activeStepData = steps[currentStep] || steps[0] || {};
@@ -22,7 +25,7 @@ export default function AnimateLayout() {
   useEffect(() => {
     setCurrentStep(0);
     setIsPlaying(false);
-    buttonref.current?.scrollIntoView({behavior: "smooth", block: "end"});
+    buttonref.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [activeProblemId]);
 
   // Unified dynamic timer: respects step-specific dwellMs and global speed
@@ -47,26 +50,34 @@ export default function AnimateLayout() {
   }, [isPlaying, currentStep, speed, totalSteps, steps]);
 
   if (!totalSteps) {
-    return <div id="dsa-app-root">Loading problem data...</div>;
+    return (
+      <div id="dsa-app-root" data-theme={theme}>
+        Loading problem data...
+      </div>
+    );
   }
 
   return (
-    <div id="dsa-app-root">
+    <div id="dsa-app-root" data-theme={theme}>
       <Sidebar
         questions={Object.values(problemRegistry).map((p) => p.data)}
         activeProblemId={activeProblemId}
         onSelectProblem={setActiveProblemId}
       />
 
-      <main id="dsa-visual-main" ref= {buttonref}>
+      <main id="dsa-visual-main" ref={buttonref}>
         <header id="dsa-header">
           <div>
             <span id="dsa-sub-badge">{(problemData.topic || "").toUpperCase()}</span>
             <h1 id="dsa-header-title">{problemData.title}</h1>
           </div>
           <div id="dsa-complexity-group">
-            <span id="dsa-pill-time">time <b>{problemData.timeComplexity}</b></span>
-            <span id="dsa-pill-space">space <b>{problemData.spaceComplexity}</b></span>
+            <span id="dsa-pill-time">
+              time <b>{problemData.timeComplexity}</b>
+            </span>
+            <span id="dsa-pill-space">
+              space <b>{problemData.spaceComplexity}</b>
+            </span>
           </div>
         </header>
 
@@ -158,6 +169,7 @@ export default function AnimateLayout() {
             id="dsa-btn-prev"
             data-btn-type="ctrl"
             onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
+            title="Previous Step"
           >
             ⏮
           </button>
@@ -165,6 +177,7 @@ export default function AnimateLayout() {
             id="dsa-btn-play-toggle"
             data-btn-type="play"
             onClick={() => setIsPlaying(!isPlaying)}
+            title={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? "⏸" : "▶"}
           </button>
@@ -172,7 +185,7 @@ export default function AnimateLayout() {
             id="dsa-btn-next"
             data-btn-type="ctrl"
             onClick={() => setCurrentStep((s) => Math.min(totalSteps - 1, s + 1))}
-            
+            title="Next Step"
           >
             ⏭
           </button>
@@ -186,11 +199,14 @@ export default function AnimateLayout() {
             onChange={(e) => setCurrentStep(Number(e.target.value))}
           />
 
-          <span id="dsa-step-counter">{currentStep + 1} / {totalSteps}</span>
+          <span id="dsa-step-counter">
+            {currentStep + 1} / {totalSteps}
+          </span>
 
           <button
             id="dsa-btn-speed"
             onClick={() => setSpeed((s) => (s === 1 ? 1.5 : s === 1.5 ? 2 : 1))}
+            title="Adjust Speed"
           >
             {speed}x
           </button>

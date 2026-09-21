@@ -3,92 +3,93 @@ import { Myfooter } from "./Myfooter.jsx";
 import ProfileLogo from "./ProfileLogo.jsx";
 import { useEffect, useState } from "react";
 import useUserdetail from "./Userdetail.jsx";
+import "./Layout.css";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 function Layout() {
-    const [myuserd, setmyuserd] = useState(null);
-    const navigate = useNavigate();
-    const {userdata} = useUserdetail();
+  const [myuserd, setmyuserd] = useState(null);
+  const navigate = useNavigate();
+  const { userdata } = useUserdetail();
+const {theme}  =useTheme()
+  
 
-   useEffect(() => {
-        try {
-          
-            if (!userdata) {
-                navigate("/signup");
-                return;
-            }
+  // Listen for theme toggles made on Login, Signup, or Profile page
+  
 
-            const userdetail = userdata;
+  useEffect(() => {
+    try {
+      if (!userdata) {
+        navigate("/signup");
+        return;
+      }
 
-            if (!userdetail?.name) {
-                navigate("/signup");
-                return;
-            }
+      const userdetail = userdata;
 
-            const myusername = userdetail?.name
-                .split(" ")
-                .map((word) => word[0])
-                .join("")
-                .toUpperCase();
-                function Myuserset(){
-                    setmyuserd(myusername);
-                }
-                Myuserset();
+      if (!userdetail?.name) {
+        navigate("/signup");
+        return;
+      }
 
+      const myusername = userdetail?.name
+        .split(" ")
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase();
 
-        } catch (error) {
-            console.error("Error reading user details:", error.message);
-            navigate("/signup");
-        }
-    }, [navigate, userdata]);
+      setmyuserd(myusername);
+    } catch (error) {
+      console.error("Error reading user details:", error.message);
+      navigate("/signup");
+    }
+  }, [navigate, userdata]);
 
+  return (
+    <div id="layout-app-root" data-theme={theme}>
+      <header id="mylayout">
+        <nav>
+          <ul>
+            <li>
+              <h1>
+                <Link to="/">AAFPS</Link>
+              </h1>
+            </li>
 
-    return (
-        <>
-            <header id="mylayout">
-                <nav>
-                    <ul>
-                        <li>
-                            <h1>
-                                <Link to="/">AAFPS</Link>
-                            </h1>
-                        </li>
+            <li>
+              <NavLink to="/home">Home</NavLink>
+            </li>
 
-                        <li>
-                            <NavLink to="/home">Home</NavLink>
-                        </li>
+            <li>
+              <NavLink to="/problems">Problems</NavLink>
+            </li>
 
-                        <li>
-                            <NavLink to="/problems">Problems</NavLink>
-                        </li>
+            <li>
+              <NavLink to="/ai">AI</NavLink>
+            </li>
 
-                        <li>
-                            <NavLink to="/ai">AI</NavLink>
-                        </li>
+            {!userdata ? (
+              <li>
+                <NavLink to="/signup">Sign Up</NavLink>
+              </li>
+            ) : (
+              <li>
+                <Link to="/profile">
+                  <ProfileLogo Name={myuserd} />
+                </Link>
+              </li>
+            )}
+          </ul>
+        </nav>
+      </header>
 
-                        {!userdata ? (
-                            <li>
-                                <NavLink to="/signup">Sign Up</NavLink>
-                            </li>
-                        ) : (
-                            <li>
-                                <Link to="/profile">
-                                    <ProfileLogo Name={myuserd} />
-                                </Link>
-                            </li>
-                        )}
-                    </ul>
-                </nav>
-            </header>
+      <main id="layout-main-outlet">
+        <Outlet />
+      </main>
 
-            <main>
-                <Outlet />
-            </main>
-
-            <footer>
-                <Myfooter />
-            </footer>
-        </>
-    );
+      <footer>
+        <Myfooter />
+      </footer>
+    </div>
+  );
 }
 
 export default Layout;

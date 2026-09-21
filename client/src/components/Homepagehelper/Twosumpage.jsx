@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./Twosum.module.css";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function TwoSumVisualizer() {
   const array = [-5, -2, 1, 4, 7, 9];
@@ -11,6 +12,9 @@ export default function TwoSumVisualizer() {
   const [stepText, setStepText] = useState("Initializing algorithm...");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isDone, setIsDone] = useState(false);
+
+  // Sync theme with aafps_theme via Context
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (isDone) return;
@@ -67,7 +71,7 @@ export default function TwoSumVisualizer() {
   const currentSum = array[leftIdx] + array[rightIdx];
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-theme={theme}>
       {/* Top Metric Bar */}
       <div className={styles.metricsBar}>
         <div className={styles.metricPill}>
@@ -115,7 +119,7 @@ export default function TwoSumVisualizer() {
 
             return (
               <div key={idx} className={styles.cellCarrier}>
-                {/* Pointer Label Lane above elements */}
+                {/* Pointer Label Lane */}
                 <div className={styles.pointerLane}>
                   {isLeft && <span className={styles.pointerBadgeLeft}>L ➔ [{idx}]</span>}
                   {isRight && <span className={styles.pointerBadgeRight}>R ➔ [{idx}]</span>}

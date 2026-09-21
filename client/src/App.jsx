@@ -1,15 +1,11 @@
-
+import { ThemeProvider } from "./context/ThemeProvider.jsx";
 import FrontRoute from "./Routes/FrontRoute";
-// import AnimateLayout from "./components/Animation/Animatelayout";
+
 function App(){
   return(<>
-  
+  <ThemeProvider>
       <FrontRoute/>
-    {/* <AnimateLayout/> */}
-
-      
- 
-    
+  </ThemeProvider>
   </>)
 }
 export default App;

@@ -1,13 +1,17 @@
 import { useState } from "react";
+import { useTheme } from "../../context/ThemeContext.jsx";
 import "./Sidebar.css";
 
-export default function Sidebar({ questions, activeProblemId, onSelectProblem }) {
+export default function Sidebar({ questions = [], activeProblemId, onSelectProblem }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [openTopics, setOpenTopics] = useState({ "Array & Hash Table": true });
   const [isOpen, setIsOpen] = useState(false);
 
+  // Sync theme with aafps_theme via Context
+  const { theme } = useTheme();
+
   // Group questions by topic
-  const grouped = questions.reduce((acc, q) => {
+  const grouped = (questions || []).reduce((acc, q) => {
     acc[q.topic] = acc[q.topic] || [];
     acc[q.topic].push(q);
     return acc;
@@ -29,13 +33,23 @@ export default function Sidebar({ questions, activeProblemId, onSelectProblem })
 
   return (
     <>
-      {/* Menu Button (Only Visible on Mobile via CSS) */}
-      <button 
-        className="sidebar-toggle-btn" 
+      {/* Mobile Toggle Button */}
+      <button
+        id="dsa-sb-toggle-btn"
+        data-theme={theme}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle Navigation Sidebar"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           {isOpen ? (
             <>
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -51,23 +65,28 @@ export default function Sidebar({ questions, activeProblemId, onSelectProblem })
         </svg>
       </button>
 
-      {/* Mobile Dark Overlay */}
+      {/* Mobile Backdrop */}
       {isOpen && (
-        <div 
-          className="sidebar-backdrop" 
-          onClick={() => setIsOpen(false)} 
+        <div
+          id="dsa-sb-backdrop"
+          onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Sidebar Panel */}
-      <aside className={`dsa-left-sidebar ${isOpen ? "is-open" : ""}`}>
-        <div className="brand-header">
-          <span className="brand-logo">AAFPS Visual</span>
-          <span className="brand-tag">step-by-step pattern animations</span>
+      <aside
+        id="dsa-sb-sidebar"
+        data-theme={theme}
+        data-is-open={isOpen ? "true" : "false"}
+      >
+        <div id="dsa-sb-brand-header">
+          <span id="dsa-sb-brand-logo">AAFPS Visual</span>
+          <span id="dsa-sb-brand-tag">step-by-step pattern animations</span>
         </div>
 
-        <div className="search-box">
+        <div id="dsa-sb-search-box">
           <input
+            id="dsa-sb-search-input"
             type="text"
             placeholder="Search... ⌘K"
             value={searchTerm}
@@ -75,7 +94,7 @@ export default function Sidebar({ questions, activeProblemId, onSelectProblem })
           />
         </div>
 
-        <div className="topic-accordion">
+        <div id="dsa-sb-topic-accordion">
           {Object.entries(grouped).map(([topic, items]) => {
             const matchingItems = filteredQuestions(items);
             if (matchingItems.length === 0) return null;
@@ -83,24 +102,35 @@ export default function Sidebar({ questions, activeProblemId, onSelectProblem })
             const isTopicOpen = openTopics[topic] || searchTerm.length > 0;
 
             return (
-              <div key={topic} className="topic-group">
-                <button className="topic-title" onClick={() => toggleTopic(topic)}>
-                  <span>{isTopicOpen ? "▾" : "▸"} {topic}</span>
-                  <span className="count-badge">({matchingItems.length})</span>
+              <div key={topic} id={`dsa-sb-group-${topic.replace(/\s+/g, "-").toLowerCase()}`}>
+                <button
+                  id={`dsa-sb-topic-btn-${topic.replace(/\s+/g, "-").toLowerCase()}`}
+                  className="dsa-sb-topic-title"
+                  onClick={() => toggleTopic(topic)}
+                >
+                  <span>
+                    {isTopicOpen ? "▾" : "▸"} {topic}
+                  </span>
+                  <span className="dsa-sb-count-badge">({matchingItems.length})</span>
                 </button>
 
                 {isTopicOpen && (
-                  <div className="question-list">
-                    {matchingItems.map((q) => (
-                      <div
-                        key={q.id}
-                        className={`question-item ${activeProblemId === q.id ? "selected" : ""}`}
-                        onClick={() => handleSelectProblem(q.id)}
-                      >
-                        <span className="q-name">{q.title}</span>
-                        <span className="q-desc">{q.algorithm}</span>
-                      </div>
-                    ))}
+                  <div className="dsa-sb-question-list">
+                    {matchingItems.map((q) => {
+                      const isSelected = activeProblemId === q.id;
+                      return (
+                        <div
+                          key={q.id}
+                          id={`dsa-sb-q-item-${q.id}`}
+                          className="dsa-sb-question-item"
+                          data-selected={isSelected ? "true" : "false"}
+                          onClick={() => handleSelectProblem(q.id)}
+                        >
+                          <span className="dsa-sb-q-name">{q.title}</span>
+                          <span className="dsa-sb-q-desc">{q.algorithm}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>

@@ -1,51 +1,103 @@
-/* Container & Base Styles */
+/* ============================================================
+   CONTAINER & THEME DEFINITIONS
+   ============================================================ */
 .container {
-  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
-  color: #e4e4e7;
   border-radius: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 24px;
+  padding: clamp(10px, 2.5vw, 20px);
   width: 100%;
-  max-width: 900px;
-  min-height: 100%; /* FIX: Replaced fixed 395px height to prevent mobile clipping */
+  max-width: 100%;
   height: auto;
   box-sizing: border-box;
-  gap: 20px;
+  gap: clamp(10px, 2vw, 16px);
   user-select: none;
   margin: 0 auto;
-}
-*::-webkit-scrollbar{
-  display: none;
+  overflow: hidden; /* Strict scrollbar suppression */
+  transition: background-color 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease;
 }
 
-/* Top Metric Pills Bar */
+/* Global scrollbar killer inside container */
+.container,
+.container * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.container *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Dark Theme (Obsidian) */
+.container[data-theme="dark"] {
+  background: radial-gradient(circle at 50% 0%, #171724 0%, #0c0c10 100%);
+  color: #e4e4e7;
+  --ts-pill-bg: rgba(24, 24, 32, 0.9);
+  --ts-pill-border: #272736;
+  --ts-card-bg: #121218;
+  --ts-card-border: #242430;
+  --ts-card-header: #8b8b99;
+  --ts-card-sub: #636374;
+  --ts-elem-bg: #181822;
+  --ts-elem-border: #2e2e40;
+  --ts-elem-text: #ffffff;
+  --ts-elem-idx: #717182;
+  --ts-ticker-bg: rgba(24, 24, 32, 0.9);
+  --ts-ticker-border: #272736;
+  --ts-ticker-color: #cbd5e1;
+}
+
+/* Light Theme (Daylight) */
+.container[data-theme="light"] {
+  background: radial-gradient(circle at 50% 0%, #f9f9fb 0%, #edf0f5 100%);
+  color: #18181b;
+  --ts-pill-bg: #ffffff;
+  --ts-pill-border: #e2e2e8;
+  --ts-card-bg: #ffffff;
+  --ts-card-border: #e2e2e8;
+  --ts-card-header: #52525b;
+  --ts-card-sub: #71717a;
+  --ts-elem-bg: #f4f4f7;
+  --ts-elem-border: #d4d4d8;
+  --ts-elem-text: #09090b;
+  --ts-elem-idx: #71717a;
+  --ts-ticker-bg: #ffffff;
+  --ts-ticker-border: #e2e2e8;
+  --ts-ticker-color: #334155;
+}
+
+/* ============================================================
+   TOP METRIC PILLS BAR
+   ============================================================ */
 .metricsBar {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: clamp(4px, 1vw, 8px);
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 840px;
+  box-sizing: border-box;
 }
 
 .metricPill {
-  background: rgba(24, 24, 32, 0.9);
-  border: 1.5px solid #272736;
-  color: #a1a1aa;
-  padding: 6px 16px;
+  background: var(--ts-pill-bg);
+  border: 1px solid var(--ts-pill-border);
+  color: inherit;
+  padding: 4px clamp(8px, 1.5vw, 14px);
   border-radius: 9999px;
-  font-size: 12px;
+  font-size: clamp(10px, 1.5vw, 12px);
   font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   white-space: nowrap;
+  transition: all 0.25s ease;
 }
 
 .metricTarget {
@@ -54,17 +106,17 @@
 
 .metricValLeft {
   color: #38bdf8;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: ui-monospace, monospace;
 }
 
 .metricValRight {
   color: #fb923c;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: ui-monospace, monospace;
 }
 
 .metricSum {
   color: #c084fc;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: ui-monospace, monospace;
 }
 
 .statusPending {
@@ -84,19 +136,22 @@
   color: #4ade80 !important;
 }
 
-/* Outer Card Container */
+/* ============================================================
+   OUTER STAGE CARD
+   ============================================================ */
 .stageCard {
   width: 100%;
-  max-width: 840px;
-  background: #121218;
-  border: 1.5px solid #242430;
+  background: var(--ts-card-bg);
+  border: 1.5px solid var(--ts-card-border);
   border-radius: 14px;
-  padding: 16px 20px;
+  padding: clamp(10px, 2vw, 16px);
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
+  overflow: hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .cardHeader {
@@ -104,33 +159,36 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  font-size: 11px;
+  font-size: clamp(9px, 1.5vw, 11px);
   font-weight: 800;
-  color: #8b8b99;
+  color: var(--ts-card-header);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #1c1c24;
+  letter-spacing: 0.6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ts-card-border);
+  box-sizing: border-box;
 }
 
 .cardSubtitle {
-  font-size: 11px;
+  font-size: clamp(9px, 1.5vw, 11px);
   font-weight: 500;
-  color: #636374;
+  color: var(--ts-card-sub);
   text-transform: none;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: ui-monospace, monospace;
 }
 
-/* Array Nodes Display */
+/* ============================================================
+   ARRAY NODES DISPLAY (NO SCROLL, FULL RESPONSIVE FIT)
+   ============================================================ */
 .arrayContainer {
   display: flex;
   align-items: flex-end;
-  justify-content: center;
-  gap: 16px;
-  padding: 16px 0;
+  justify-content: space-evenly;
+  gap: clamp(4px, 1.2vw, 14px);
+  padding: 8px 0;
   width: 100%;
-  overflow-x: auto;
-  scrollbar-width: thin;
+  overflow: hidden !important; /* No scrollbar */
+  box-sizing: border-box;
 }
 
 .cellCarrier {
@@ -138,190 +196,131 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  flex-shrink: 0;
+  flex: 1 1 0; /* Distributes 6 elements proportionally across width */
+  max-width: 68px;
+  min-width: 38px;
 }
 
 .pointerLane {
-  height: 28px;
+  height: clamp(20px, 3vw, 26px);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   width: 100%;
 }
 
 .pointerBadgeLeft,
 .pointerBadgeRight {
-  font-size: 10px;
+  font-size: clamp(7.5px, 1.2vw, 9.5px);
   font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-family: 'Times New Roman', Times, serif;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  padding: 1px clamp(3px, 0.8vw, 6px);
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   white-space: nowrap;
 }
 
 .pointerBadgeLeft {
   background: rgba(56, 189, 248, 0.2);
-  border: 1.5px solid #38bdf8;
-  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  color: #0284c7;
 }
 
 .pointerBadgeRight {
   background: rgba(251, 146, 60, 0.2);
-  border: 1.5px solid #fb923c;
+  border: 1px solid #fb923c;
+  color: #ea580c;
+}
+
+.container[data-theme="dark"] .pointerBadgeLeft {
+  color: #38bdf8;
+}
+
+.container[data-theme="dark"] .pointerBadgeRight {
   color: #fb923c;
 }
 
 /* Node Boxes */
 .element {
-  width: 76px;
-  height: 76px;
-  background: #181822;
-  border: 2px solid #2e2e40;
-  border-radius: 14px;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Retains perfect square */
+  background: var(--ts-elem-bg);
+  border: 1.5px solid var(--ts-elem-border);
+  border-radius: clamp(8px, 1.5vw, 12px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .elementVal {
-  font-size: 22px;
+  font-size: clamp(14px, 2.5vw, 20px);
   font-weight: 900;
-  color: #ffffff;
-  font-family: 'Times New Roman', Times, serif;
+  color: var(--ts-elem-text);
+  font-family: ui-monospace, monospace;
   line-height: 1;
 }
 
 .indexLabel {
-  font-size: 9px;
+  font-size: clamp(7px, 1.2vw, 8.5px);
   font-weight: 700;
-  color: #717182;
-  font-family: 'Times New Roman', Times, serif;
-  margin-top: 6px;
+  color: var(--ts-elem-idx);
+  font-family: ui-monospace, monospace;
+  margin-top: 3px;
 }
 
-/* Active State Highlights */
+/* Active Highlights */
 .elementLeftActive {
   border-color: #38bdf8 !important;
-  background: rgba(56, 189, 248, 0.14) !important;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  background: rgba(56, 189, 248, 0.16) !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
   transform: translateY(-2px);
 }
 
 .elementRightActive {
   border-color: #fb923c !important;
-  background: rgba(251, 146, 60, 0.14) !important;
-  box-shadow: 0 0 16px rgba(251, 146, 60, 0.4);
+  background: rgba(251, 146, 60, 0.16) !important;
+  box-shadow: 0 0 12px rgba(251, 146, 60, 0.4);
   transform: translateY(-2px);
 }
 
 .elementSuccess {
   border-color: #22c55e !important;
-  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.35) 0%, #13241b 90%) !important;
-  box-shadow: 0 0 24px rgba(34, 197, 94, 0.6) !important;
-  transform: scale(1.06);
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.35) 0%, rgba(34, 197, 94, 0.12) 90%) !important;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.5) !important;
+  transform: scale(1.05);
 }
 
 .elementSuccess .elementVal {
+  color: #16a34a !important;
+}
+
+.container[data-theme="dark"] .elementSuccess .elementVal {
   color: #4ade80 !important;
 }
 
-/* Ticker Box */
+/* ============================================================
+   TICKER BOX
+   ============================================================ */
 .ticker {
-  background: rgba(24, 24, 32, 0.9);
-  border: 1px solid #272736;
+  background: var(--ts-ticker-bg);
+  border: 1px solid var(--ts-ticker-border);
   border-radius: 8px;
-  padding: 10px 18px;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 13px;
-  color: #cbd5e1;
+  padding: 8px 14px;
+  font-family: ui-monospace, monospace;
+  font-size: clamp(10.5px, 1.6vw, 12.5px);
+  color: var(--ts-ticker-color);
   text-align: center;
-  max-width: 840px;
   width: 100%;
   box-sizing: border-box;
-}
-
-/* ============================================================
-   RESPONSIVE MEDIA QUERIES (Mobile, Tablet & Laptop)
-   ============================================================ */
-
-/* Mobile Devices & Small Screens (≤ 600px) */
-@media screen and (max-width: 600px) {
-  .container {
-    padding: 14px;
-    gap: 14px;
-    border-radius: 10px;
-  }
-
-  .metricsBar {
-    gap: 6px;
-  }
-
-  .metricPill {
-    padding: 4px 10px;
-    font-size: 10.5px;
-  }
-
-  .stageCard {
-    padding: 12px;
-    gap: 10px;
-    border-radius: 10px;
-  }
-
-  .arrayContainer {
-    justify-content: flex-start; /* Fallback to left-scroll if array exceeds viewport */
-    gap: 4px;
-    padding: 10px 0;
-  }
-
-  .element {
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-  }
-
-  .elementVal {
-    font-size: 16px;
-  }
-
-  .indexLabel {
-    font-size: 8px;
-    margin-top: 2px;
-  }
-
-  .pointerBadgeLeft,
-  .pointerBadgeRight {
-    font-size: 8.5px;
-    padding: 1px 5px;
-  }
-
-  .ticker {
-    font-size: 11px;
-    padding: 8px 12px;
-  }
-}
-
-/* Tablets (601px to 840px) */
-@media screen and (min-width: 601px) and (max-width: 840px) {
-  .container {
-    padding: 18px;
-  }
-
-  .arrayContainer {
-    gap: 12px;
-  }
-
-  .element {
-    width: 64px;
-    height: 64px;
-  }
-
-  .elementVal {
-    font-size: 18px;
-  }
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.4;
 }

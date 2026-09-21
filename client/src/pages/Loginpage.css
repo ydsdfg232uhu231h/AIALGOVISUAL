@@ -1,0 +1,209 @@
+/* ============================================================
+   CONTAINER & THEME DEFINITIONS
+   ============================================================ */
+#mylogin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease;
+  position: relative;
+}
+
+/* Dark Theme (Obsidian & Neon Orange Accent) */
+#mylogin[data-theme="dark"] {
+  background-color: #0b0b0e;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 115, 36, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 35%);
+  --login-form-bg: #121217;
+  --login-border: #22222a;
+  --login-text: #ffffff;
+  --login-input-bg: #171720;
+  --login-input-border: #2c2c38;
+  --login-btn-bg: #ffffff;
+  --login-btn-text: #0c0c10;
+  --login-btn-border: #44444f;
+  --login-toggle-bg: #161620;
+  --login-toggle-border: #272733;
+}
+
+/* Light Theme (Clean High-Contrast Daylight) */
+#mylogin[data-theme="light"] {
+  background-color: #f4f4f7;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 115, 36, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(56, 189, 248, 0.05) 0%, transparent 35%);
+  --login-form-bg: #ffffff;
+  --login-border: #e2e2e8;
+  --login-text: #09090b;
+  --login-input-bg: #f8fafc;
+  --login-input-border: #cbd5e1;
+  --login-btn-bg: #ff7324;
+  --login-btn-text: #0c0c10;
+  --login-btn-border: #d95d18;
+  --login-toggle-bg: #ffffff;
+  --login-toggle-border: #e2e2e8;
+}
+
+/* ============================================================
+   THEME TOGGLE PILL
+   ============================================================ */
+#login-theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: var(--login-toggle-bg);
+  border: 1.5px solid var(--login-toggle-border);
+  color: var(--login-text);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#login-theme-toggle:hover {
+  border-color: #ff7324;
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   LOGIN FORM CARD
+   ============================================================ */
+#mylogin form {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--login-form-bg);
+  border: 1.5px solid var(--login-border);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  padding: 36px 32px;
+  font-size: clamp(16px, 2.2vw, 26px);
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#mylogin form h1 {
+  color: var(--login-text);
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 800;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.5px;
+  word-break: break-word;
+}
+
+#mylogin form h3,
+#mylogin form h4,
+#mylogin form h5 {
+  font-size: 13px;
+  margin: 0 0 10px 0;
+  word-break: break-word;
+  font-family: ui-monospace, monospace;
+}
+
+#mylogin input {
+  width: 100%;
+  font-size: 15px;
+  color: var(--login-text);
+  background-color: var(--login-input-bg);
+  border: 1.5px solid var(--login-input-border);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+#mylogin input:focus {
+  border-color: #ff7324;
+}
+
+#mylogin input::placeholder {
+  color: #71717a;
+}
+
+/* ============================================================
+   BUTTONS BAR
+   ============================================================ */
+#lsbtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+#lsbtn button,
+#mylogin #lsbtn button {
+  flex: 1;
+  background: var(--login-btn-bg) !important;
+  color: var(--login-btn-text) !important;
+  border: none;
+  border-right: 4px solid var(--login-btn-border);
+  border-bottom: 4px solid var(--login-btn-border);
+  border-radius: 12px;
+  font-weight: 800;
+  padding: 12px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform 0.15s ease, border 0.15s ease, opacity 0.15s ease;
+}
+
+#lsbtn button:hover {
+  transform: translateY(-2px);
+  border-right: 2px solid var(--login-btn-border);
+  border-bottom: 2px solid var(--login-btn-border);
+}
+
+#lsbtn button:active {
+  transform: translateY(1px);
+  border-right: 0px transparent;
+  border-bottom: 0px transparent;
+}
+
+/* ============================================================
+   RESPONSIVE QUERIES
+   ============================================================ */
+@media (max-width: 600px) {
+  #login-theme-toggle {
+    top: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+  }
+
+  #mylogin form {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  #lsbtn {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #lsbtn button,
+  #mylogin #lsbtn button {
+    width: 100%;
+    padding: 12px;
+  }
+}

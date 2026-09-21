@@ -1,12 +1,17 @@
+import { useTheme } from "../context/ThemeContext";
 import "./Errorpage.css";
 
-function Errorpage({message}) {
-    
+function Errorpage({ message }) {
+  const { theme } = useTheme();
+
   return (
-    <div>
-        <h1 id="error">&#x26A0;{message|| "An error has occured!"}</h1>
+    <div id="error-container" data-theme={theme}>
+      <h1 id="error">
+        <span id="error-icon">&#x26A0;</span>
+        <span id="error-text">{message || "An error has occurred!"}</span>
+      </h1>
     </div>
-  )
+  );
 }
 
 export default Errorpage;
