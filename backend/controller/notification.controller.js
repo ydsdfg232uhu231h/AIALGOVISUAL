@@ -34,7 +34,7 @@ export async function notifyUser({
 }) {
   try {
     // Read and populate template
-    const templatePath = path.join(process.cwd(), "backend", "view", "notification.html");
+    const templatePath = path.join(__dirname, "../","view", "notification.html");
     
     if (!fs.existsSync(templatePath)) {
       throw new Error(`Template file not found at: ${templatePath}`);
