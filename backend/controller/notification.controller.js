@@ -1,6 +1,11 @@
 import nodemailer from "nodemailer";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+// Fix: __dirname doesn't exist in ES modules — reconstruct it manually
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // 1. Verify environment variables are loaded properly
 if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
@@ -18,6 +23,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Optional but recommended: verify connection/auth at startup
+transporter.verify((err, success) => {
+  if (err) {
+    console.error("[Nodemailer Verify Error]:", err);
+  } else {
+    console.log("[Nodemailer]: Server is ready to send messages");
+  }
+});
+
 const defaultSender = {
   email: process.env.GMAIL_USER,
   name: "AAFPS",
@@ -33,9 +47,13 @@ export async function notifyUser({
   text = "Welcome to AAFPS! We are excited to have you on board.",
 }) {
   try {
+    if (!userEmail) {
+      throw new Error("userEmail is required to send a notification.");
+    }
+
     // Read and populate template
-    const templatePath = path.join(__dirname, "../","view", "notification.html");
-    
+    const templatePath = path.join(__dirname, "..", "view", "notification.html");
+
     if (!fs.existsSync(templatePath)) {
       throw new Error(`Template file not found at: ${templatePath}`);
     }
@@ -79,7 +97,9 @@ export async function notifyUser({
       response: info.response,
     };
   } catch (error) {
-    console.error("[Nodemailer Error]: Failed to send email.", error);
+    console.error("[Nodemailer Error]: Failed to send email.", error.message);
+    if (error.code) console.error("[Nodemailer Error Code]:", error.code);
+    if (error.response) console.error("[Nodemailer Response]:", error.response);
     throw error;
   }
 }
