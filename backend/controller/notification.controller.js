@@ -1,12 +1,9 @@
 import nodemailer from "nodemailer";
 import fs from "fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-const templatePath = path.join(__dirname, "../", "view", "notification.html");
+const templatePath = path.join(process.cwd(), "backend", "view", "notification.html");
 
 let htmlContent = fs.readFileSync(templatePath, "utf-8");
 const transporter = nodemailer.createTransport({
