@@ -33,11 +33,23 @@ export async function updateUserProfileController(req, res) {
   try {
     const { email, name, handle, customAvatar, bio, targetGoal } = req.body;
 
+    // Construct an update object with only defined fields
+    const updateData = {};
+    if (name !== undefined) updateData.name = name;
+    if (handle !== undefined) updateData.handle = handle;
+    if (customAvatar !== undefined) updateData.customAvatar = customAvatar;
+    if (bio !== undefined) updateData.bio = bio;
+    if (targetGoal !== undefined) updateData.targetGoal = targetGoal;
+
     const user = await User.findOneAndUpdate(
       { email },
-      { $set: { name, handle, customAvatar, bio, targetGoal } },
-      { new: true }
+      { $set: updateData },
+      { new: true, runValidators: true }
     );
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
 
     return res.status(200).json({ success: true, user });
   } catch (error) {
