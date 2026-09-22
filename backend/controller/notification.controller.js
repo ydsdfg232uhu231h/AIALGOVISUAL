@@ -2,10 +2,7 @@ import nodemailer from "nodemailer";
 import fs from "fs";
 import path from "path";
 
-
-const templatePath = path.join(process.cwd(), "backend", "view", "notification.html");
-
-let htmlContent = fs.readFileSync(templatePath, "utf-8");
+// Initialize the Nodemailer transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -14,18 +11,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Default Sender
 const defaultSender = {
   email: process.env.GMAIL_USER,
   name: "AAFPS",
 };
 
 /**
- * Reusable MVC Notification Function with Rich HTML Template
- * @param {string} userEmail - Recipient's email address
- * @param {string} [userName] - Optional recipient name
- * @param {string} [subject] - Email subject
- * @param {string} [text] - Plain text fallback
+ * Reusable MVC Notification Function
  */
 export async function notifyUser({
   userEmail,
@@ -33,26 +25,35 @@ export async function notifyUser({
   subject = "Welcome to AAFPS - We're thrilled to have you!",
   text = "Welcome to AAFPS! We are excited to have you on board.",
 }) {
-  // Rich HTML Email Template
- 
-
-  const mailOptions = {
-    from: `"${defaultSender.name}" <${defaultSender.email}>`,
-    to: userName ? `"${userName}" <${userEmail}>` : userEmail,
-    subject: subject,
-    text: text,
-    html: htmlContent || undefined,
-    // CID Attachment embeds the local file into the email so Gmail renders it without needing external hosting
-    attachments: [
-      {
-        filename: "a1.png",
-        path: process.cwd() + "/images/a1.png", // Or adjust relative path: './images/a1.png'
-        cid: "aafps_logo", // Matches src="cid:aafps_logo" in the HTML template
-      },
-    ],
-  };
-
   try {
+    // 1. Resolve path and load HTML inside the function safely
+    const templatePath = path.join(process.cwd(), "backend", "view", "notification.html");
+    let htmlContent = fs.readFileSync(templatePath, "utf-8");
+
+    // 2. Replace placeholders in your HTML template (adjust keys to match your HTML, e.g. {{userName}})
+    htmlContent = htmlContent
+      .replace(/{{userName}}/g, userName)
+      .replace(/{{subject}}/g, subject)
+      .replace(/{{text}}/g, text);
+
+    // 3. Resolve attachment path cross-platform
+    const logoPath = path.join(process.cwd(), "images", "a1.png");
+
+    const mailOptions = {
+      from: `"${defaultSender.name}" <${defaultSender.email}>`,
+      to: userName ? `"${userName}" <${userEmail}>` : userEmail,
+      subject: subject,
+      text: text,
+      html: htmlContent,
+      attachments: [
+        {
+          filename: "a1.png",
+          path: logoPath,
+          cid: "aafps_logo", // Must match <img src="cid:aafps_logo" /> in your HTML
+        },
+      ],
+    };
+
     const info = await transporter.sendMail(mailOptions);
 
     const response = {
