@@ -44,7 +44,7 @@ export const handleLogin = async (req, res) => {
         });
 
         // Non-blocking notification dispatch
-        notifyUser({
+       await notifyUser({
             userEmail: user.email,
             userName: user.name,
             subject: "Security Alert: New Login to AAFPS",
