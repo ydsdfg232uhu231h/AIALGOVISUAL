@@ -29,17 +29,34 @@ export const verifyuser = async(req, res, next) => {
         );
     }
 }
+
+
 export async function updateUserProfileController(req, res) {
   try {
     const { email, name, handle, customAvatar, bio, targetGoal } = req.body;
 
-    // Construct an update object with only defined fields
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (handle !== undefined) updateData.handle = handle;
-    if (customAvatar !== undefined) updateData.customAvatar = customAvatar;
     if (bio !== undefined) updateData.bio = bio;
     if (targetGoal !== undefined) updateData.targetGoal = targetGoal;
+
+    // Option 1: User uploaded a file from device
+    if (req.file) {
+      updateData.customAvatar = {
+        url: "", // Clear URL if a file was uploaded
+        fileData: req.file.buffer,
+        contentType: req.file.mimetype,
+      };
+    } 
+    // Option 2: User provided a URL link
+    else if (customAvatar) {
+      updateData.customAvatar = {
+        url: customAvatar,
+        fileData: undefined, // Clear binary data if a URL is provided
+        contentType: undefined,
+      };
+    }
 
     const user = await User.findOneAndUpdate(
       { email },

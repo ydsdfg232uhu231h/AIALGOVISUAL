@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true, // Fixed spelling typo from "reqired"
+      required: true,
       unique: true,
       lowercase: true,
       trim: true,
@@ -39,12 +39,14 @@ const userSchema = new mongoose.Schema(
     handle: {
       type: String,
       unique: true,
-      sparse: true, // Allows null/missing handles without breaking unique index
+      sparse: true,
       trim: true,
     },
+    
     customAvatar: {
-      type: String,
-      default: "",
+      url: { type: String, default: "" },
+      fileData: { type: Buffer },
+      contentType: { type: String },
     },
     bio: {
       type: String,
@@ -57,10 +59,7 @@ const userSchema = new mongoose.Schema(
     },
     chats: [chatSchema],
   },
-  {
-    timestamps: true, // Recommended: adds createdAt and updatedAt fields automatically
-  }
+  { timestamps: true }
 );
-
 
 export default mongoose.model("User", userSchema);
