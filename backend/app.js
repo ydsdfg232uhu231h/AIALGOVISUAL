@@ -18,8 +18,8 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   'https://aialgovisual.onrender.com',
 ].filter(Boolean);
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static(distPath));
 
 
