@@ -43,22 +43,24 @@ export const handleLogin = async (req, res) => {
             path: "/",
         });
 
-        // Non-blocking notification dispatch
-       // Non-blocking fire-and-forget notification with additional context
-notifyUser({
-  userEmail: user.email,
-  userName: user.name,
-  subject: "Security Alert: New Login to AAFPS",
-  text: `Hello ${user.name},\n\nWe detected a new sign-in to your AAFPS account.\n\nIf this was you, no action is needed. If you did not log in, please reset your password immediately.`,
-  // Consider passing extra context if your helper supports it:
-  // time: new Date().toISOString(),
-  // ipAddress: req.ip,
-}).catch(err => console.error("Mailtrap Background Email Error:", err));
-        return res.status(200).json({
-            message: `Login Successful`,
-            email: user.email,
-            name: user.name,
-        });
+        try {
+  // Await the function so the event loop waits for Gmail to accept the message
+  await notifyUser({
+    userEmail: user.email,
+    userName: user.name,
+    subject: "Security Alert: New Login to AAFPS",
+    text: `Hello ${user.name},\n\nWe detected a new sign-in to your AAFPS account.\n\nIf this was you, no action is needed. If you did not log in, please reset your password immediately.`,
+  });
+} catch (err) {
+  // Log the error, but don't prevent the user from logging in
+  console.error("Background Email Error:", err);
+}
+
+return res.status(200).json({
+  message: "Login Successful",
+  email: user.email,
+  name: user.name,
+});
 
     } catch (error) {
         return res.status(500).json({
