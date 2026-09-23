@@ -4,6 +4,7 @@ node_modules
 backend/.env
 backend/client/.env
 client/.env
+client/dist
 
 
 dist
