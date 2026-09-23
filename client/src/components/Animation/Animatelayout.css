@@ -343,18 +343,54 @@
   font-weight: 700;
 }
 
+/* ============================================================
+   DETAILED CONCEPT EXPLANATION PANEL (PURE ID SELECTORS)
+   ============================================================ */
 #dsa-explanation-block {
-  padding: 16px;
-  font-size: 13px;
+  padding: 18px 20px;
+  font-size: 13.5px;
   color: var(--dsa-text);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-y: auto;
+  flex: 1;
+  box-sizing: border-box;
 }
 
-#dsa-explanation-text {
+#dsa-explanation-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+[id^="dsa-exp-para-"] {
+  margin: 0;
+  color: var(--dsa-text);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+[id^="dsa-exp-ul-"] {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--dsa-text);
+}
+
+[id^="dsa-exp-li-"] {
+  line-height: 1.55;
+}
+
+#dsa-explanation-empty {
+  color: var(--dsa-muted);
+  font-style: italic;
   margin: 0;
 }
 
+/* ============================================================
+   VARIABLE STATE TABLE
+   ============================================================ */
 #dsa-state-table {
   padding: 8px 14px;
   overflow-y: auto;

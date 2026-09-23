@@ -8,20 +8,12 @@
   "spaceComplexity": "O(max(n, m))",
   "oneLinerQuestion": "Add two numbers represented by reversed linked lists and return the sum as a linked list.",
   "url": "https://leetcode.com/problems/add-two-numbers/",
-  "explanation": "We traverse both linked lists node by node, summing corresponding digits along with any carry from the previous position. We create new nodes for the ones digit of each sum and propagate the carry to the next iteration, effectively simulating column-by-column addition in O(max(N, M)) time.",
+  "explanation": "Problem Intuition: You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, meaning the head points directly to the least significant place value (10^0 / ones place). This reversal is a major advantage: it allows us to simulate elementary grade-school addition directly from left to right without reversing or pre-scanning the lists.\n\n- Step 1: Pointer & Dummy Head Initialization — We allocate a sentinel 'dummy' node (e.g. Node(0)) and initialize a movable pointer 'curr = dummy'. A dummy head eliminates edge-case checks for empty head assignment when inserting the first digit. We also initialize an integer variable 'carry = 0'.\n\n- Step 2: Concurrent Traversal & Padding — We traverse list 1 and list 2 simultaneously using a while loop condition (l1 || l2 || carry). If one list has fewer digits than the other, its exhausted place values are safely padded with 0: val1 = l1 ? l1.val : 0 and val2 = l2 ? l2.val : 0.\n\n- Step 3: Column Sum & Place-Value Extraction — At each column, the cumulative total is sum = val1 + val2 + carry. Because each linked list node can only hold a single base-10 digit (0 to 9), we extract the new node's value via modulo arithmetic: newDigit = sum % 10. We append a new node with this digit via curr.next = Node(newDigit) and shift curr = curr.next.\n\n- Step 4: Carry Propagation — The overflow carry passed to the next significant digit is computed using integer division: carry = Math.floor(sum / 10). Because the maximum possible sum of two single digits plus carry is 9 + 9 + 1 = 19, the carry value will strictly evaluate to either 0 or 1 at any iteration.\n\n- Step 5: Terminal Carry Resolution — A critical edge case occurs when both lists reach null simultaneously but carry remains 1 (e.g., 50 + 50 = 100, or 99 + 1 = 100). The loop condition (carry > 0) guarantees one final node containing value 1 is appended at the tail before terminating.\n\n- Complexity & Memory Guarantees — Time Complexity: O(max(N, M)) where N and M are the lengths of l1 and l2, executing at most max(N, M) + 1 iterations. Space Complexity: O(max(N, M)) auxiliary space required to allocate and return the newly formed result linked list.",
   "pseudoCode": "FUNCTION addTwoNumbers(l1, l2):\n    dummy = NEW Node(0), curr = dummy, carry = 0\n    WHILE l1 OR l2 OR carry DO:\n        val1 = l1 ? l1.val : 0\n        val2 = l2 ? l2.val : 0\n        sum = val1 + val2 + carry\n        carry = sum / 10\n        curr.next = NEW Node(sum % 10)\n        curr = curr.next\n        IF l1 THEN l1 = l1.next\n        IF l2 THEN l2 = l2.next\n    END WHILE\n    RETURN dummy.next\nEND FUNCTION",
   "renderType": "linked_list",
   "initialData": {
-    "l1": [
-      2,
-      4,
-      3
-    ],
-    "l2": [
-      5,
-      6,
-      4
-    ]
+    "l1": [2, 4, 3],
+    "l2": [5, 6, 4]
   },
   "steps": [
     {
@@ -33,16 +25,8 @@
         "sum": 0,
         "currVal": 0
       },
-      "l1": [
-        2,
-        4,
-        3
-      ],
-      "l2": [
-        5,
-        6,
-        4
-      ],
+      "l1": [2, 4, 3],
+      "l2": [5, 6, 4],
       "resultList": [],
       "l1Idx": 0,
       "l2Idx": 0,
@@ -59,19 +43,9 @@
         "sum": 7,
         "digit": 7
       },
-      "l1": [
-        2,
-        4,
-        3
-      ],
-      "l2": [
-        5,
-        6,
-        4
-      ],
-      "resultList": [
-        7
-      ],
+      "l1": [2, 4, 3],
+      "l2": [5, 6, 4],
+      "resultList": [7],
       "l1Idx": 0,
       "l2Idx": 0,
       "output": null
@@ -87,20 +61,9 @@
         "sum": 10,
         "digit": 0
       },
-      "l1": [
-        2,
-        4,
-        3
-      ],
-      "l2": [
-        5,
-        6,
-        4
-      ],
-      "resultList": [
-        7,
-        0
-      ],
+      "l1": [2, 4, 3],
+      "l2": [5, 6, 4],
+      "resultList": [7, 0],
       "l1Idx": 1,
       "l2Idx": 1,
       "output": null
@@ -116,21 +79,9 @@
         "sum": 8,
         "digit": 8
       },
-      "l1": [
-        2,
-        4,
-        3
-      ],
-      "l2": [
-        5,
-        6,
-        4
-      ],
-      "resultList": [
-        7,
-        0,
-        8
-      ],
+      "l1": [2, 4, 3],
+      "l2": [5, 6, 4],
+      "resultList": [7, 0, 8],
       "l1Idx": 2,
       "l2Idx": 2,
       "output": null
@@ -143,21 +94,9 @@
         "status": "COMPLETED",
         "result": "[7 -> 0 -> 8]"
       },
-      "l1": [
-        2,
-        4,
-        3
-      ],
-      "l2": [
-        5,
-        6,
-        4
-      ],
-      "resultList": [
-        7,
-        0,
-        8
-      ],
+      "l1": [2, 4, 3],
+      "l2": [5, 6, 4],
+      "resultList": [7, 0, 8],
       "l1Idx": 3,
       "l2Idx": 3,
       "output": {

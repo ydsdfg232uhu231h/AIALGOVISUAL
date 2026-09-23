@@ -294,11 +294,16 @@
 }
 
 #p21-callout-val-text {
-  font-size: 17px;
+  font-size: 15px;
   color: #ffffff;
-  font-weight: 900;
-  margin: 2px 0;
-  font-family: 'Times New Roman', Times, serif;
+  font-weight: 700;
+  margin: 4px 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 #p21-callout-detail-text {

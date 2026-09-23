@@ -4,17 +4,75 @@ import Sidebar from "./Sidebar";
 import { problemRegistry } from "./registry";
 import { useTheme } from "../../context/ThemeContext";
 
+// Declared outside of render so React preserves identity and prevents remounting
+const DefaultCanvas = () => null;
+
+/**
+ * Renders multi-paragraph explanation blocks using solely unique IDs
+ */
+function FormattedExplanation({ content }) {
+  if (!content) {
+    return <p id="dsa-explanation-empty">No detailed explanation provided for this problem.</p>;
+  }
+
+  // If explanation is an array of paragraphs
+  if (Array.isArray(content)) {
+    return (
+      <div id="dsa-explanation-body">
+        {content.map((paragraph, idx) => (
+          <p key={`dsa-exp-para-${idx}`} id={`dsa-exp-para-${idx}`}>
+            {paragraph}
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+  // If explanation is a string, split by double-newlines
+  const paragraphs = String(content).split(/\n\s*\n/);
+
+  return (
+    <div id="dsa-explanation-body">
+      {paragraphs.map((para, idx) => {
+        const trimmed = para.trim();
+        // Check if paragraph is a bullet list
+        if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+          const listItems = trimmed.split(/\n/).map((line) => line.replace(/^[-*]\s*/, ""));
+          return (
+            <ul key={`dsa-exp-ul-${idx}`} id={`dsa-exp-ul-${idx}`}>
+              {listItems.map((item, itemIdx) => (
+                <li key={`dsa-exp-li-${idx}-${itemIdx}`} id={`dsa-exp-li-${idx}-${itemIdx}`}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          );
+        }
+
+        return (
+          <p key={`dsa-exp-para-${idx}`} id={`dsa-exp-para-${idx}`}>
+            {trimmed}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function AnimateLayout() {
   const [activeProblemId, setActiveProblemId] = useState(1);
   const currentProblem = problemRegistry[activeProblemId] || problemRegistry[1] || {};
-  const { Component: VisualCanvas = () => null, data: problemData = {} } = currentProblem;
+
+  // Safe destructuring using the outside-declared fallback component
+  const VisualCanvas = currentProblem.Component || DefaultCanvas;
+  const problemData = currentProblem.data || {};
+
   const buttonref = useRef(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [activeTab, setActiveTab] = useState("pseudo"); // "pseudo" or "explanation"
 
-  // Sync theme with aafps_theme via Context
   const { theme } = useTheme();
 
   const steps = problemData.steps || [];
@@ -28,7 +86,7 @@ export default function AnimateLayout() {
     buttonref.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [activeProblemId]);
 
-  // Unified dynamic timer: respects step-specific dwellMs and global speed
+  // Unified dynamic timer respecting dwellMs and speed multiplier
   useEffect(() => {
     if (!isPlaying) return;
 
@@ -112,14 +170,16 @@ export default function AnimateLayout() {
                     Concept
                   </button>
                 </div>
-                <a
-                  id="dsa-btn-ref"
-                  href={problemData.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LeetCode
-                </a>
+                {problemData.url && (
+                  <a
+                    id="dsa-btn-ref"
+                    href={problemData.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    LeetCode ↗
+                  </a>
+                )}
               </div>
 
               {activeTab === "pseudo" ? (
@@ -137,7 +197,7 @@ export default function AnimateLayout() {
                 </pre>
               ) : (
                 <div id="dsa-explanation-block">
-                  <p id="dsa-explanation-text">{problemData.explanation}</p>
+                  <FormattedExplanation content={problemData.explanation} />
                 </div>
               )}
             </div>
