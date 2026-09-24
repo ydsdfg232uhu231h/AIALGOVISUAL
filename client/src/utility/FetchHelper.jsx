@@ -44,7 +44,6 @@ export async function getUserChats() {
 }
 
 export async function deletechatmessages() {
-    const url = window.location.origin;
     const response = await fetch(`${url}/api/v1/chat/delete`, {
         method: "DELETE",
         credentials: "include"
@@ -88,7 +87,7 @@ export async function updateUserProfile(profileData) {
 
   let response;
   try {
-    response = await fetch(`${url}/api/v1/auth/profile`, {
+    response = await fetch(`${url}/api/v1/user/profile`, {
       method: "PUT",
       credentials: "include",
       // CRITICAL: Do NOT set Content-Type header when sending FormData!
@@ -128,4 +127,17 @@ export async function updateUserProfile(profileData) {
   }
 
   return data || {};
+}
+
+export async function Activeserver() {
+    const response = await fetch(`${url}/api/v1/user/`, {
+        method: "GET",
+        credentials: "include"
+    });
+   
+    if (!response.ok) {
+        return;
+    }
+    const userActive = await response.json();
+    console.log(userActive);
 }

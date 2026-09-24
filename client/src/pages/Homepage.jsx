@@ -4,13 +4,16 @@ import TwoSumVisualizer from "../components/Homepagehelper/Twosumpage.jsx";
 import Swim from "../components/Homepagehelper/Cases.jsx";
 import "./Homepage.css";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { Activeserver } from "../utility/FetchHelper.jsx";
+import { useEffect } from "react";
 
 function Homepage() {
   const navigate = useNavigate();
-
-  // Sync theme with localStorage 'aafps_theme'
+  const Timer = 14*60*1000;
   const { theme } = useTheme();
-  
+  useEffect(()=> {
+    setInterval(Activeserver,Timer);
+  },[]);
   
 
   function handleDSAClick({ a }) {

@@ -1,6 +1,6 @@
 import User from "../model/user.js";
 export function userswelcome(req, res) {
-    res.end("Welcome user");
+    return res.status(200).send("Welcome user");
 }
 export const verifyuser = async (req, res, next) => {
     try {
