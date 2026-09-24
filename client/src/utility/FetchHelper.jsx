@@ -139,5 +139,5 @@ export async function Activeserver() {
         return;
     }
     const userActive = await response.json();
-    console.log(userActive);
+    // console.log(userActive);
 }
