@@ -2,13 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Profilepage.css";
 import { useTheme } from "../context/ThemeContext";
-import { logoutuser, updateUserProfile } from "../utility/FetchHelper";
+import useFetcher from "../utility/FetchHelper";
 import useUserdetail, { notifyAuthChange } from "../components/Userdetail";
 
 export default function Profilepage() {
   const { theme, toggleTheme } = useTheme();
   const { userdata, refetchUser } = useUserdetail();
-
+  const { logoutuser, updateUserProfile } = useFetcher();
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("aafps_user_profile");
     if (saved) {
@@ -194,17 +194,15 @@ export default function Profilepage() {
     const email = userdata?.email;
     localStorage.removeItem("userdetail");
     localStorage.removeItem("aafps_user_profile");
-    notifyAuthChange();
+   
 
     try {
       await logoutuser({ email });
+      notifyAuthChange();
+      await refetchUser();
     } catch (error) {
       console.error("Logout error:", error);
-    } finally {
-      if (typeof refetchUser === "function") {
-        refetchUser();
-      }
-    }
+    } 
   };
 
   const startEditProfile = () => {

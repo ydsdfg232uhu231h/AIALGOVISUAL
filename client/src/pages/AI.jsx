@@ -1,7 +1,7 @@
 import style from "./AI.module.css";
 import { IoSend } from "react-icons/io5";
 import { FaUserAlt, FaRobot } from "react-icons/fa";
-import { deletechatmessages, getUserChats, sendChatsrequest } from "../utility/FetchHelper.jsx";
+import useFetcher from "../utility/FetchHelper.jsx";
 import { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 import useUserdetail from "../components/Userdetail.jsx";
@@ -15,7 +15,7 @@ function AI() {
   const [chatmessage, setchatmessage] = useState([]);
   const buttonref = useRef(null);
   const btnref = useRef(null);
-
+  const { deletechatmessages, getUserChats, sendChatsrequest } = useFetcher();
   // Synchronize with aafps_theme in localStorage
  const { theme} = useTheme();
 

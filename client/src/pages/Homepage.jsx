@@ -4,15 +4,17 @@ import TwoSumVisualizer from "../components/Homepagehelper/Twosumpage.jsx";
 import Swim from "../components/Homepagehelper/Cases.jsx";
 import "./Homepage.css";
 import { useTheme } from "../context/ThemeContext.jsx";
-import { Activeserver } from "../utility/FetchHelper.jsx";
+import useFetcher from "../utility/FetchHelper.jsx";
 import { useEffect } from "react";
 
 function Homepage() {
   const navigate = useNavigate();
-  const Timer = 14*60*1000;
   const { theme } = useTheme();
+  const { Activeserver } = useFetcher();
   useEffect(()=> {
-    setInterval(Activeserver,Timer);
+    const Timer = 14*60*1000;
+    const interval  = setInterval(Activeserver,Timer);
+    return ()=> clearInterval(interval);
   },[]);
   
 

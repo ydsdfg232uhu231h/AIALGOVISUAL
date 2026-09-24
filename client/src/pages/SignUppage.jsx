@@ -4,21 +4,16 @@ import Success from "../components/Success";
 import Loading from "../components/Loading";
 import { useTheme } from "../context/ThemeContext";
 import "./Loginpage.css";
+import useFetcher from "../utility/FetchHelper";
 
 const initialErrors = { name: "", email: "", password: "", message: "" };
-
 function SignUppage() {
   const [showsuc, setsuc] = useState(null);
   const [signerror, setsignerror] = useState(initialErrors);
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  // Sync theme with localStorage 'aafps_theme'
-
-  // Listen for theme changes across pages/tabs
- 
-
+  const {Signupfetchuser} = useFetcher();
   
-  // Safely manage redirect countdown after registration
   useEffect(() => {
     if (!showsuc) return;
 
@@ -37,18 +32,9 @@ function SignUppage() {
     const formvalue = Object.fromEntries(data);
 
     try {
-      const url = window.location.origin;
-      const response = await fetch(`${url}/api/v1/auth/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(formvalue),
-      });
-
+      
+      const response = await Signupfetchuser({formvalue});
       const mydata = await response.json();
-
       if (!mydata.errors) {
         if (response.status === 409) {
           return setsignerror((prev) => ({ ...prev, message: mydata.message }));

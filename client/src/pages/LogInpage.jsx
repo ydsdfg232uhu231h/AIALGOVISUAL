@@ -5,6 +5,7 @@ import useUserdetail, { notifyAuthChange } from "../components/Userdetail";
 import { useTheme } from "../context/ThemeContext";
 import Loading from "../components/Loading";
 import "./Loginpage.css";
+import useFetcher from "../utility/FetchHelper";
 
 const initialErrors = { email: "", password: "", message: "" };
 
@@ -14,7 +15,7 @@ function LogInpage() {
   const [logerror, setlogerror] = useState(initialErrors);
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
- 
+  const { Loginfetchuser} = useFetcher();
   useEffect(() => {
     if (!showsuc) return;
 
@@ -33,16 +34,7 @@ function LogInpage() {
     const formvalue = Object.fromEntries(data);
 
     try {
-      const url = window.location.origin;
-      const response = await fetch(`${url}/api/v1/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(formvalue),
-      });
-
+     const response =await Loginfetchuser({formvalue});
       const mydata = await response.json();
 
       if (response.ok && response.status === 200) {
@@ -72,9 +64,10 @@ function LogInpage() {
       }
     } catch (error) {
       console.error("Login error:", error);
+      const response = await Loginfetchuser();
       setlogerror((prev) => ({
         ...prev,
-        message: "Network error. Please try again later.",
+        message: response.message,
       }));
     }
   }
