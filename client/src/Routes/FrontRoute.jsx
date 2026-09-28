@@ -43,7 +43,6 @@ function FrontRoute() {
                     path: "/login",
                     element: <LogInpage />
 
-
                 },
                 {
                     path: "/signup", element: <SignUppage />

@@ -7,7 +7,7 @@ import { FaTrashCan } from "react-icons/fa6";
 import useUserdetail from "../components/Userdetail.jsx";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "../context/ThemeContext.jsx";
-
+import Loading from "../components/Loading.jsx";
 function AI() {
   const { userdata } = useUserdetail();
   const name = userdata?.name;
@@ -104,7 +104,10 @@ function AI() {
                 <ReactMarkdown>{mydata.content}</ReactMarkdown>
               </div>
             ) : (
+              <>
               <p>{mydata.content}</p>
+              <Loading/>
+              </>
             )}
           </hgroup>
         ))}

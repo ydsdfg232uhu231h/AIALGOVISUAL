@@ -15,6 +15,7 @@ export default function Profilepage() {
       try {
         return JSON.parse(saved);
       } catch (e) {
+        console.log(e);
         return null;
       }
     }
