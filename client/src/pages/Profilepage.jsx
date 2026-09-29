@@ -38,6 +38,30 @@ export default function Profilepage() {
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(seed)}`;
   };
 
+  // Helper: Parse avatar whether it is a URL, Buffer/Base64 object, or local preview
+  const getAvatarSrc = (avatarObj, fallbackHandle) => {
+    if (!avatarObj) return getAvatarForHandle(fallbackHandle);
+    if (typeof avatarObj === "string") {
+      return avatarObj.trim() !== "" ? avatarObj : getAvatarForHandle(fallbackHandle);
+    }
+    // If stored as MongoDB Buffer object ({ url, fileData, contentType })
+    if (avatarObj.url) return avatarObj.url;
+    if (avatarObj.fileData && avatarObj.contentType) {
+      // Convert Buffer data to Base64 image src string
+      const base64String =
+        typeof avatarObj.fileData === "string"
+          ? avatarObj.fileData
+          : btoa(
+              new Uint8Array(avatarObj.fileData?.data || avatarObj.fileData).reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                ""
+              )
+            );
+      return `data:${avatarObj.contentType};base64,${base64String}`;
+    }
+    return getAvatarForHandle(fallbackHandle);
+  };
+
   const currentHandle =
     userdata?.handle || user?.handle || displayName.toLowerCase().replace(/\s+/g, "_");
 
@@ -49,7 +73,10 @@ export default function Profilepage() {
     email: userEmail,
     handle: currentHandle,
     customAvatar: savedCustomAvatar,
-    avatarUrlInput: savedCustomAvatar.startsWith("http") ? savedCustomAvatar : "",
+    avatarUrlInput:
+      typeof savedCustomAvatar === "string" && savedCustomAvatar.startsWith("http")
+        ? savedCustomAvatar
+        : savedCustomAvatar?.url || "",
     bio: userdata?.bio || user?.bio || "",
     targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
   });
@@ -67,9 +94,10 @@ export default function Profilepage() {
         handle: userdata.handle || prev.handle,
         customAvatar:
           userdata.customAvatar !== undefined ? userdata.customAvatar : prev.customAvatar,
-        avatarUrlInput: userdata.customAvatar?.startsWith("http")
-          ? userdata.customAvatar
-          : prev.avatarUrlInput,
+        avatarUrlInput:
+          typeof userdata.customAvatar === "string" && userdata.customAvatar.startsWith("http")
+            ? userdata.customAvatar
+            : userdata.customAvatar?.url || prev.avatarUrlInput,
         bio: userdata.bio || prev.bio,
         targetGoal: userdata.targetGoal || prev.targetGoal,
       }));
@@ -103,7 +131,7 @@ export default function Profilepage() {
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setAvatarFile(file); // Raw file for Multer
+      setAvatarFile(file); // File object for Multer
       const previewUrl = URL.createObjectURL(file);
       setFormData((prev) => ({
         ...prev,
@@ -155,16 +183,17 @@ export default function Profilepage() {
     );
     formPayload.append("targetGoal", formData.targetGoal);
 
-    // If an image file was selected, send it under field "avatarFile"
+    // If an image file was selected from device, append under field "customAvatar"
     if (avatarFile) {
-      formPayload.append("avatarFile", avatarFile);
+      formPayload.append("customAvatar", avatarFile);
     } else {
-      // Send string URL or empty string (to clear or rely on handle bot)
-      formPayload.append(
-        "customAvatar",
+      // Append link or empty string
+      const urlValue =
         formData.avatarUrlInput.trim() ||
-          (formData.customAvatar.startsWith("blob:") ? "" : formData.customAvatar.trim())
-      );
+        (typeof formData.customAvatar === "string" && !formData.customAvatar.startsWith("blob:")
+          ? formData.customAvatar.trim()
+          : "");
+      formPayload.append("customAvatar", urlValue);
     }
 
     try {
@@ -195,7 +224,6 @@ export default function Profilepage() {
     const email = userdata?.email;
     localStorage.removeItem("userdetail");
     localStorage.removeItem("aafps_user_profile");
-   
 
     try {
       await logoutuser({ email });
@@ -203,7 +231,7 @@ export default function Profilepage() {
       await refetchUser();
     } catch (error) {
       console.error("Logout error:", error);
-    } 
+    }
   };
 
   const startEditProfile = () => {
@@ -214,7 +242,10 @@ export default function Profilepage() {
       email: userEmail,
       handle: currentHandle,
       customAvatar: currentCustom,
-      avatarUrlInput: currentCustom.startsWith("http") ? currentCustom : "",
+      avatarUrlInput:
+        typeof currentCustom === "string" && currentCustom.startsWith("http")
+          ? currentCustom
+          : currentCustom?.url || "",
       bio: userdata?.bio || user?.bio || "Algorithm problem solver mastering concepts visually.",
       targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
     });
@@ -236,11 +267,15 @@ export default function Profilepage() {
     setTodos(todos.filter((t) => t.id !== id));
   };
 
-  const activeAvatar =
-    userdata?.customAvatar || user?.customAvatar || getAvatarForHandle(currentHandle);
+  const activeAvatar = getAvatarSrc(
+    userdata?.customAvatar || user?.customAvatar,
+    currentHandle
+  );
 
   const previewAvatar =
-    formData.customAvatar || getAvatarForHandle(formData.handle);
+    typeof formData.customAvatar === "string" && formData.customAvatar.startsWith("blob:")
+      ? formData.customAvatar
+      : getAvatarSrc(formData.customAvatar, formData.handle);
 
   return (
     <div id="aafps-prof-root" data-theme={theme}>
@@ -261,7 +296,6 @@ export default function Profilepage() {
           <div id="aafps-prof-hero-banner" />
           <div id="aafps-prof-hero-body">
             <div id="aafps-prof-identity">
-              {/* Click avatar directly to open Edit dialog */}
               <div
                 id="aafps-prof-avatar-wrap"
                 onClick={startEditProfile}
