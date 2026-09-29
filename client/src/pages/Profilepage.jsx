@@ -15,7 +15,7 @@ export default function Profilepage() {
       try {
         return JSON.parse(saved);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         return null;
       }
     }
@@ -26,7 +26,7 @@ export default function Profilepage() {
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef(null);
 
-  // Raw file object for Multer upload
+  // File object sent to Multer as req.file
   const [avatarFile, setAvatarFile] = useState(null);
 
   const displayName = userdata?.name || user?.name || "Anonymous User";
@@ -38,26 +38,10 @@ export default function Profilepage() {
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(seed)}`;
   };
 
-  // Helper: Parse avatar whether it is a URL, Buffer/Base64 object, or local preview
-  const getAvatarSrc = (avatarObj, fallbackHandle) => {
-    if (!avatarObj) return getAvatarForHandle(fallbackHandle);
-    if (typeof avatarObj === "string") {
-      return avatarObj.trim() !== "" ? avatarObj : getAvatarForHandle(fallbackHandle);
-    }
-    // If stored as MongoDB Buffer object ({ url, fileData, contentType })
-    if (avatarObj.url) return avatarObj.url;
-    if (avatarObj.fileData && avatarObj.contentType) {
-      // Convert Buffer data to Base64 image src string
-      const base64String =
-        typeof avatarObj.fileData === "string"
-          ? avatarObj.fileData
-          : btoa(
-              new Uint8Array(avatarObj.fileData?.data || avatarObj.fileData).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
-              )
-            );
-      return `data:${avatarObj.contentType};base64,${base64String}`;
+  // Helper: Parse avatar string (Data URI, URL, or fallback handle)
+  const getAvatarSrc = (avatarStr, fallbackHandle) => {
+    if (typeof avatarStr === "string" && avatarStr.trim() !== "") {
+      return avatarStr.trim();
     }
     return getAvatarForHandle(fallbackHandle);
   };
@@ -76,12 +60,12 @@ export default function Profilepage() {
     avatarUrlInput:
       typeof savedCustomAvatar === "string" && savedCustomAvatar.startsWith("http")
         ? savedCustomAvatar
-        : savedCustomAvatar?.url || "",
+        : "",
     bio: userdata?.bio || user?.bio || "",
     targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
   });
 
-  // Keep state synced when server data loads/updates
+  // Keep state synced when server data updates
   useEffect(() => {
     if (userdata) {
       setUser(userdata);
@@ -92,19 +76,18 @@ export default function Profilepage() {
         name: userdata.name || prev.name,
         email: userdata.email || prev.email,
         handle: userdata.handle || prev.handle,
-        customAvatar:
-          userdata.customAvatar !== undefined ? userdata.customAvatar : prev.customAvatar,
+        customAvatar: userdata.customAvatar !== undefined ? userdata.customAvatar : prev.customAvatar,
         avatarUrlInput:
           typeof userdata.customAvatar === "string" && userdata.customAvatar.startsWith("http")
             ? userdata.customAvatar
-            : userdata.customAvatar?.url || prev.avatarUrlInput,
+            : prev.avatarUrlInput,
         bio: userdata.bio || prev.bio,
         targetGoal: userdata.targetGoal || prev.targetGoal,
       }));
     }
   }, [userdata]);
 
-  // Todo list
+  // To-Do list state
   const [todos, setTodos] = useState(() => {
     const saved = localStorage.getItem("aafps_user_todos");
     if (saved) {
@@ -127,11 +110,11 @@ export default function Profilepage() {
     localStorage.setItem("aafps_user_todos", JSON.stringify(todos));
   }, [todos]);
 
-  // Handle local device image selection
+  // Handle local image file pick
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setAvatarFile(file); // File object for Multer
+      setAvatarFile(file);
       const previewUrl = URL.createObjectURL(file);
       setFormData((prev) => ({
         ...prev,
@@ -141,14 +124,15 @@ export default function Profilepage() {
     }
   };
 
-  // Handle URL link input
+  // Handle URL string input
   const handleUrlChange = (e) => {
     const urlVal = e.target.value;
     setAvatarFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
     setFormData((prev) => ({
       ...prev,
       avatarUrlInput: urlVal,
-      customAvatar: urlVal.trim() !== "" ? urlVal.trim() : "",
+      customAvatar: urlVal.trim(),
     }));
   };
 
@@ -163,7 +147,7 @@ export default function Profilepage() {
     }));
   };
 
-  // Save profile with Multer-ready FormData
+  // Save profile with FormData sent to backend
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     setIsSaving(true);
@@ -177,30 +161,26 @@ export default function Profilepage() {
     formPayload.append("email", userEmail);
     formPayload.append("name", resolvedName);
     formPayload.append("handle", resolvedHandle);
-    formPayload.append(
-      "bio",
-      formData.bio.trim() || "Algorithm problem solver mastering concepts visually."
-    );
+    formPayload.append("bio", formData.bio.trim() || "Algorithm problem solver mastering concepts visually.");
     formPayload.append("targetGoal", formData.targetGoal);
 
-    // If an image file was selected from device, append under field "customAvatar"
+    // If a file was uploaded from device, attach under field name "customAvatar"
     if (avatarFile) {
       formPayload.append("customAvatar", avatarFile);
     } else {
-      // Append link or empty string
-      const urlValue =
-        formData.avatarUrlInput.trim() ||
-        (typeof formData.customAvatar === "string" && !formData.customAvatar.startsWith("blob:")
+      // Send URL string or empty string to reset
+      const finalAvatarStr =
+        typeof formData.customAvatar === "string" && !formData.customAvatar.startsWith("blob:")
           ? formData.customAvatar.trim()
-          : "");
-      formPayload.append("customAvatar", urlValue);
+          : "";
+      formPayload.append("customAvatar", finalAvatarStr);
     }
 
     try {
       const res = await updateUserProfile(formPayload);
       const updatedData = res.user || res;
 
-      // Update both React state and localStorage with MongoDB data
+      // Update state and localStorage with backend updatedUser
       setUser(updatedData);
       localStorage.setItem("aafps_user_profile", JSON.stringify(updatedData));
       localStorage.setItem("userdetail", JSON.stringify(updatedData));
@@ -245,7 +225,7 @@ export default function Profilepage() {
       avatarUrlInput:
         typeof currentCustom === "string" && currentCustom.startsWith("http")
           ? currentCustom
-          : currentCustom?.url || "",
+          : "",
       bio: userdata?.bio || user?.bio || "Algorithm problem solver mastering concepts visually.",
       targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
     });
@@ -264,7 +244,7 @@ export default function Profilepage() {
   };
 
   const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((t) => t.id !== id));
+    setTodos(todos.filter((t) => t.id === id));
   };
 
   const activeAvatar = getAvatarSrc(
@@ -279,7 +259,7 @@ export default function Profilepage() {
 
   return (
     <div id="aafps-prof-root" data-theme={theme}>
-      {/* Top Floating Controls */}
+      {/* Navigation Controls */}
       <div id="aafps-prof-nav-bar">
         <button id="aafps-prof-btn-theme" onClick={toggleTheme} title="Toggle Day / Night">
           {theme === "dark" ? "☀️ Day Mode" : "🌙 Night Mode"}
@@ -289,9 +269,9 @@ export default function Profilepage() {
         </button>
       </div>
 
-      {/* Main Profile View */}
+      {/* Main Container */}
       <div id="aafps-prof-container">
-        {/* Hero Banner Card */}
+        {/* Profile Card */}
         <div id="aafps-prof-hero-card">
           <div id="aafps-prof-hero-banner" />
           <div id="aafps-prof-hero-body">
@@ -345,7 +325,7 @@ export default function Profilepage() {
           </div>
         </div>
 
-        {/* Metrics Row */}
+        {/* Metrics Grid */}
         <div id="aafps-prof-kpi-grid">
           <div id="aafps-prof-kpi-card-streak">
             <div id="aafps-prof-kpi-icon-streak">🔥</div>
@@ -396,7 +376,7 @@ export default function Profilepage() {
             <input
               id="aafps-prof-todo-text-input"
               type="text"
-              placeholder="Add a problem or revision goal (e.g. Master Binary Search on LeetCode 875)..."
+              placeholder="Add a problem or revision goal..."
               value={newTodoText}
               onChange={(e) => setNewTodoText(e.target.value)}
             />
@@ -465,11 +445,11 @@ export default function Profilepage() {
             >
               <h2 id="aafps-prof-modal-title">Edit Your Profile</h2>
               <p id="aafps-prof-modal-sub">
-                Click your photo to pick a new file, paste an image link, or use the handle bot.
+                Upload a photo, paste an image URL, or reset to the default avatar bot.
               </p>
 
               <form id="aafps-prof-form" onSubmit={handleSaveProfile}>
-                {/* Avatar Preview & Direct Click Upload */}
+                {/* Avatar Preview & Choice Input */}
                 <div id="aafps-prof-avatar-edit-box">
                   <div
                     id="aafps-prof-preview-img-wrap"
@@ -534,7 +514,7 @@ export default function Profilepage() {
                   />
                 </div>
 
-                {/* Unchangeable Email */}
+                {/* Email (Disabled) */}
                 <div id="aafps-prof-form-group-email">
                   <label id="aafps-prof-form-label-email">
                     Email Address <span style={{ opacity: 0.6 }}>(Read-Only)</span>
@@ -545,7 +525,6 @@ export default function Profilepage() {
                     disabled
                     readOnly
                     value={userEmail}
-                    title="Email cannot be changed"
                   />
                 </div>
 
@@ -580,7 +559,7 @@ export default function Profilepage() {
                   />
                 </div>
 
-                {/* Focus */}
+                {/* Focus Target */}
                 <div id="aafps-prof-form-group-target">
                   <label id="aafps-prof-form-label-target">Target Topic Focus</label>
                   <select
@@ -595,7 +574,7 @@ export default function Profilepage() {
                   </select>
                 </div>
 
-                {/* Modal Buttons */}
+                {/* Actions */}
                 <div id="aafps-prof-modal-actions">
                   <button
                     id="aafps-prof-btn-cancel"
