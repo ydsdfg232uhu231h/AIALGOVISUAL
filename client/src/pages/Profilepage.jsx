@@ -165,16 +165,18 @@ export default function Profilepage() {
     formPayload.append("targetGoal", formData.targetGoal);
 
     // If a file was uploaded from device, attach under field name "customAvatar"
-    if (avatarFile) {
-      formPayload.append("customAvatar", avatarFile);
-    } else {
-      // Send URL string or empty string to reset
-      const finalAvatarStr =
-        typeof formData.customAvatar === "string" && !formData.customAvatar.startsWith("blob:")
-          ? formData.customAvatar.trim()
-          : "";
-      formPayload.append("customAvatar", finalAvatarStr);
-    }
+    // In Profilepage.jsx inside handleSaveProfile:
+
+if (avatarFile) {
+  // Field name must match upload.single("avatarFile") in middleware
+  formPayload.append("avatarFile", avatarFile); 
+} else {
+  const finalAvatarStr =
+    typeof formData.customAvatar === "string" && !formData.customAvatar.startsWith("blob:")
+      ? formData.customAvatar.trim()
+      : "";
+  formPayload.append("customAvatar", finalAvatarStr);
+}
 
     try {
       const res = await updateUserProfile(formPayload);
