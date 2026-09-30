@@ -40,44 +40,48 @@ export const verifyuser = async (req, res, next) => {
 
 export async function updateUserProfileController(req, res) {
   try {
-    const { email, name, handle, bio, targetGoal, customAvatar } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ success: false, message: "Email is required." });
-    }
+    const { email, name, handle, customAvatar, bio, targetGoal } = req.body;
 
     const updateData = {};
-    if (name !== undefined) updateData.name = name.trim();
-    if (handle !== undefined) updateData.handle = handle.trim();
-    if (bio !== undefined) updateData.bio = bio.trim();
+    if (name !== undefined) updateData.name = name;
+    if (handle !== undefined) updateData.handle = handle;
+    if (bio !== undefined) updateData.bio = bio;
     if (targetGoal !== undefined) updateData.targetGoal = targetGoal;
 
-    // Handle file from Multer (convert memory buffer to base64 Data URI)
+    // Case 1: File Uploaded from local device
     if (req.file) {
-      const base64Str = req.file.buffer.toString("base64");
-      updateData.customAvatar = `data:${req.file.mimetype};base64,${base64Str}`;
-    } else if (customAvatar !== undefined) {
-      updateData.customAvatar = customAvatar.trim();
+      updateData.customAvatar = {
+        url: "",
+        fileData: req.file.buffer,
+        contentType: req.file.mimetype,
+      };
+    } 
+    // Case 2: URL Link Provided or string cleared
+    else if (customAvatar !== undefined) {
+      if (typeof customAvatar === "string" && customAvatar.trim() !== "") {
+        updateData.customAvatar = {
+          url: customAvatar.trim(),
+          fileData: undefined,
+          contentType: undefined,
+        };
+      } else {
+        // Reset/clear avatar
+        updateData.customAvatar = { url: "", fileData: undefined, contentType: undefined };
+      }
     }
 
     const user = await User.findOneAndUpdate(
       { email },
       { $set: updateData },
-      { returnDocument: "after", runValidators: true }
+      { new: true, runValidators: true }
     );
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found." });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     return res.status(200).json({ success: true, user });
   } catch (error) {
-    console.error("Profile update error:", error);
-    return res.status(500).json({ 
-      success: false, 
-      message: error.message || "Internal server error updating profile"
-    });
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
-
-

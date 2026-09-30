@@ -9,13 +9,14 @@ export default function Profilepage() {
   const { theme, toggleTheme } = useTheme();
   const { userdata, refetchUser } = useUserdetail();
   const { logoutuser, updateUserProfile } = useFetcher();
+
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("aafps_user_profile");
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         return null;
       }
     }
@@ -34,8 +35,31 @@ export default function Profilepage() {
 
   // Helper: auto-generate DiceBear Bottts avatar from handle seed
   const getAvatarForHandle = (handleStr) => {
-    const seed = (handleStr || displayName).toLowerCase().replace(/\s+/g, "_");
+    const seed = String(handleStr || displayName).toLowerCase().replace(/\s+/g, "_");
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(seed)}`;
+  };
+
+  // Helper: Parse avatar whether it is a URL, Buffer/Base64 object, or local preview
+  const getAvatarSrc = (avatarObj, fallbackHandle) => {
+    if (!avatarObj) return getAvatarForHandle(fallbackHandle);
+    if (typeof avatarObj === "string") {
+      return avatarObj.trim() !== "" ? avatarObj : getAvatarForHandle(fallbackHandle);
+    }
+    // If stored as MongoDB Buffer object ({ url, fileData, contentType })
+    if (avatarObj.url) return avatarObj.url;
+    if (avatarObj.fileData && avatarObj.contentType) {
+      const base64String =
+        typeof avatarObj.fileData === "string"
+          ? avatarObj.fileData
+          : btoa(
+              new Uint8Array(avatarObj.fileData?.data || avatarObj.fileData).reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                ""
+              )
+            );
+      return `data:${avatarObj.contentType};base64,${base64String}`;
+    }
+    return getAvatarForHandle(fallbackHandle);
   };
 
   const currentHandle =
@@ -49,7 +73,10 @@ export default function Profilepage() {
     email: userEmail,
     handle: currentHandle,
     customAvatar: savedCustomAvatar,
-    avatarUrlInput: savedCustomAvatar.startsWith("http") ? savedCustomAvatar : "",
+    avatarUrlInput:
+      typeof savedCustomAvatar === "string" && savedCustomAvatar.startsWith("http")
+        ? savedCustomAvatar
+        : savedCustomAvatar?.url || "",
     bio: userdata?.bio || user?.bio || "",
     targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
   });
@@ -67,9 +94,10 @@ export default function Profilepage() {
         handle: userdata.handle || prev.handle,
         customAvatar:
           userdata.customAvatar !== undefined ? userdata.customAvatar : prev.customAvatar,
-        avatarUrlInput: userdata.customAvatar?.startsWith("http")
-          ? userdata.customAvatar
-          : prev.avatarUrlInput,
+        avatarUrlInput:
+          typeof userdata.customAvatar === "string" && userdata.customAvatar.startsWith("http")
+            ? userdata.customAvatar
+            : userdata.customAvatar?.url || prev.avatarUrlInput,
         bio: userdata.bio || prev.bio,
         targetGoal: userdata.targetGoal || prev.targetGoal,
       }));
@@ -99,12 +127,75 @@ export default function Profilepage() {
     localStorage.setItem("aafps_user_todos", JSON.stringify(todos));
   }, [todos]);
 
-  // Handle local device image selection
-  const handleFileUpload = (e) => {
+  // Client-side resizing utility to safely stay within limits
+  const compressImage = (file) => {
+    return new Promise((resolve) => {
+      // If smaller than 1.5MB, send as-is
+      if (file.size <= 1.5 * 1024 * 1024) {
+        resolve(file);
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const compressedFile = new File([blob], file.name, {
+                  type: "image/jpeg",
+                  lastModified: Date.now(),
+                });
+                resolve(compressedFile);
+              } else {
+                resolve(file);
+              }
+            },
+            "image/jpeg",
+            0.85
+          );
+        };
+      };
+    });
+  };
+
+  // Handle local device image selection (up to 10MB allowed)
+  const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setAvatarFile(file); // Raw file for Multer
-      const previewUrl = URL.createObjectURL(file);
+      if (file.size > 10 * 1024 * 1024) {
+        alert("File size exceeds 10MB limit. Please choose a smaller photo.");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+
+      const readyFile = await compressImage(file);
+      setAvatarFile(readyFile);
+      const previewUrl = URL.createObjectURL(readyFile);
       setFormData((prev) => ({
         ...prev,
         customAvatar: previewUrl,
@@ -155,23 +246,23 @@ export default function Profilepage() {
     );
     formPayload.append("targetGoal", formData.targetGoal);
 
-    // If an image file was selected, send it under field "avatarFile"
+    // If an image file was selected from device, append under field "avatarFile" (matches Multer)
     if (avatarFile) {
       formPayload.append("avatarFile", avatarFile);
     } else {
-      // Send string URL or empty string (to clear or rely on handle bot)
-      formPayload.append(
-        "customAvatar",
+      // Send URL link or empty string if cleared
+      const urlValue =
         formData.avatarUrlInput.trim() ||
-          (formData.customAvatar.startsWith("blob:") ? "" : formData.customAvatar.trim())
-      );
+        (typeof formData.customAvatar === "string" && !formData.customAvatar.startsWith("blob:")
+          ? formData.customAvatar.trim()
+          : "");
+      formPayload.append("customAvatar", urlValue);
     }
 
     try {
       const res = await updateUserProfile(formPayload);
       const updatedData = res.user || res;
 
-      // Update both React state and localStorage with MongoDB data
       setUser(updatedData);
       localStorage.setItem("aafps_user_profile", JSON.stringify(updatedData));
       localStorage.setItem("userdetail", JSON.stringify(updatedData));
@@ -195,7 +286,6 @@ export default function Profilepage() {
     const email = userdata?.email;
     localStorage.removeItem("userdetail");
     localStorage.removeItem("aafps_user_profile");
-   
 
     try {
       await logoutuser({ email });
@@ -203,7 +293,7 @@ export default function Profilepage() {
       await refetchUser();
     } catch (error) {
       console.error("Logout error:", error);
-    } 
+    }
   };
 
   const startEditProfile = () => {
@@ -214,7 +304,10 @@ export default function Profilepage() {
       email: userEmail,
       handle: currentHandle,
       customAvatar: currentCustom,
-      avatarUrlInput: currentCustom.startsWith("http") ? currentCustom : "",
+      avatarUrlInput:
+        typeof currentCustom === "string" && currentCustom.startsWith("http")
+          ? currentCustom
+          : currentCustom?.url || "",
       bio: userdata?.bio || user?.bio || "Algorithm problem solver mastering concepts visually.",
       targetGoal: userdata?.targetGoal || user?.targetGoal || "Dynamic Programming & Graphs",
     });
@@ -236,11 +329,15 @@ export default function Profilepage() {
     setTodos(todos.filter((t) => t.id !== id));
   };
 
-  const activeAvatar =
-    userdata?.customAvatar || user?.customAvatar || getAvatarForHandle(currentHandle);
+  const activeAvatar = getAvatarSrc(
+    userdata?.customAvatar || user?.customAvatar,
+    currentHandle
+  );
 
   const previewAvatar =
-    formData.customAvatar || getAvatarForHandle(formData.handle);
+    typeof formData.customAvatar === "string" && formData.customAvatar.startsWith("blob:")
+      ? formData.customAvatar
+      : getAvatarSrc(formData.customAvatar, formData.handle);
 
   return (
     <div id="aafps-prof-root" data-theme={theme}>
@@ -261,7 +358,6 @@ export default function Profilepage() {
           <div id="aafps-prof-hero-banner" />
           <div id="aafps-prof-hero-body">
             <div id="aafps-prof-identity">
-              {/* Click avatar directly to open Edit dialog */}
               <div
                 id="aafps-prof-avatar-wrap"
                 onClick={startEditProfile}
@@ -561,7 +657,7 @@ export default function Profilepage() {
                   </select>
                 </div>
 
-                {/* Modal Buttons */}
+                {/* Modal Actions */}
                 <div id="aafps-prof-modal-actions">
                   <button
                     id="aafps-prof-btn-cancel"

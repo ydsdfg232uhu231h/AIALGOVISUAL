@@ -106,7 +106,6 @@ function AI() {
             ) : (
               <>
               <p>{mydata.content}</p>
-              <Loading/>
               </>
             )}
           </hgroup>

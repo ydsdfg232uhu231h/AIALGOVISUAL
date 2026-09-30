@@ -83,52 +83,20 @@ export default function useFetcher() {
 
 
 
-    async function updateUserProfile(profileData) {
-        const isFormData = profileData instanceof FormData;
+    async function updateUserProfile(formPayload) {
+  const response = await fetch(`${url}/api/v1/user/profile`, {
+    method: "PUT",
+    // DO NOT set 'Content-Type': 'application/json' or 'multipart/form-data' here!
+    // The browser automatically attaches boundary headers for FormData.
+    body: formPayload, 
+  });
 
-        let response;
-        try {
-            response = await fetch(`${url}/api/v1/user/profile`, {
-                method: "PUT",
-                credentials: "include",
-                // CRITICAL: Do NOT set Content-Type header when sending FormData!
-                headers: isFormData ? {} : { "Content-Type": "application/json" },
-                body: isFormData ? profileData : JSON.stringify(profileData),
-            });
-        } catch (networkErr) {
-            // Handles offline / connection refused / DNS errors
-            throw new Error(networkErr.message || "Network request failed. Is the server running?", { cause: networkErr });
-        }
-
-        // Check if response is JSON
-        const contentType = response.headers.get("content-type") || "";
-        let data = null;
-
-        if (contentType.includes("application/json")) {
-            try {
-                data = await response.json();
-            } catch {
-                data = null;
-            }
-        } else {
-            // If Express returned an HTML 500/404 or text error
-            const textError = await response.text().catch(() => "");
-            if (!response.ok) {
-                throw new Error(`Server Error (${response.status}): ${textError || response.statusText}`);
-            }
-        }
-
-        if (!response.ok) {
-            const errorMsg =
-                (data && (data.message || data.error)) ||
-                (typeof data?.cause === "string" ? data.cause : null) ||
-                `Request failed with status ${response.status}`;
-
-            throw new Error(errorMsg);
-        }
-
-        return data || {};
-    }
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to update profile");
+  }
+  return data;
+}
 
     async function Activeserver() {
         const response = await fetch(`${url}/api/v1/user/`, {
