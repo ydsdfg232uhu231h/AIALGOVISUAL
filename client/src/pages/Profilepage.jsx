@@ -39,29 +39,6 @@ export default function Profilepage() {
     return `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(seed)}`;
   };
 
-  // Helper: Parse avatar whether it is a URL, Buffer/Base64 object, or local preview
-  const getAvatarSrc = (avatarObj, fallbackHandle) => {
-    if (!avatarObj) return getAvatarForHandle(fallbackHandle);
-    if (typeof avatarObj === "string") {
-      return avatarObj.trim() !== "" ? avatarObj : getAvatarForHandle(fallbackHandle);
-    }
-    // If stored as MongoDB Buffer object ({ url, fileData, contentType })
-    if (avatarObj.url) return avatarObj.url;
-    if (avatarObj.fileData && avatarObj.contentType) {
-      const base64String =
-        typeof avatarObj.fileData === "string"
-          ? avatarObj.fileData
-          : btoa(
-              new Uint8Array(avatarObj.fileData?.data || avatarObj.fileData).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
-              )
-            );
-      return `data:${avatarObj.contentType};base64,${base64String}`;
-    }
-    return getAvatarForHandle(fallbackHandle);
-  };
-
   const currentHandle =
     userdata?.handle || user?.handle || displayName.toLowerCase().replace(/\s+/g, "_");
 
@@ -187,15 +164,8 @@ export default function Profilepage() {
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        alert("File size exceeds 10MB limit. Please choose a smaller photo.");
-        if (fileInputRef.current) fileInputRef.current.value = "";
-        return;
-      }
-
-      const readyFile = await compressImage(file);
-      setAvatarFile(readyFile);
-      const previewUrl = URL.createObjectURL(readyFile);
+      setAvatarFile(file); // Raw file for Multer
+      const previewUrl = URL.createObjectURL(file);
       setFormData((prev) => ({
         ...prev,
         customAvatar: previewUrl,
@@ -246,12 +216,13 @@ export default function Profilepage() {
     );
     formPayload.append("targetGoal", formData.targetGoal);
 
-    // If an image file was selected from device, append under field "avatarFile" (matches Multer)
+    // If an image file was selected, send it under field "avatarFile"
     if (avatarFile) {
-      formPayload.append("avatarFile", avatarFile);
+      formPayload.append("customAvatar", avatarFile);
     } else {
-      // Send URL link or empty string if cleared
-      const urlValue =
+      // Send string URL or empty string (to clear or rely on handle bot)
+      formPayload.append(
+        "customAvatar",
         formData.avatarUrlInput.trim() ||
         (typeof formData.customAvatar === "string" && !formData.customAvatar.startsWith("blob:")
           ? formData.customAvatar.trim()
